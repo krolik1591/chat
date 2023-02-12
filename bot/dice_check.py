@@ -1,14 +1,31 @@
+from enum import Enum
 from typing import List
 
 
-def get_combo_text(dice_value: int) -> List[str]:
-    values = ["BAR", "виноград", "лимон", "семь"]
+class Dice(Enum):
+    BAR = "➖"
+    GRAPES = "🍇"
+    LEMON = "🍋"
+    SEVEN = "7️⃣"
 
-    return [values[(dice_value - 1) // i % 4] for i in (1, 4, 16)]
+
+dices = [Dice.BAR, Dice.GRAPES, Dice.LEMON, Dice.SEVEN]
+
+REWARDS = [
+    # DICE | COUNT | REWARD
+    (Dice.SEVEN, 3, 20),
+    (Dice.GRAPES, 3, 10),
+    (Dice.LEMON, 3, 5),
+    (Dice.BAR, 3, 3),
+    (Dice.SEVEN, 2, 1),
+    (Dice.GRAPES, 2, 0.5),
+    (Dice.LEMON, 2, 0.25),
+    (Dice.BAR, 2, 0.25),
+]
 
 
 def get_coefficient(dice_value: int) -> float:
-    result = get_combo_text(dice_value)
+    result = parse_dice(dice_value)
 
     def is_two_items(x):
         return result.count(x) == 2 and result[1] == x
@@ -16,24 +33,23 @@ def get_coefficient(dice_value: int) -> float:
     def is_three_items(x):
         return result.count(x) == 3
 
-    if is_three_items('семь'):
-        return 20
-    if is_three_items('виноград'):
-        return 10
-    if is_three_items('лимон'):
-        return 5
-    if is_three_items('BAR'):
-        return 3
+    for dice, count, reward in REWARDS:
+        if count == 3 and is_three_items(dice):
+            return reward
+        if count == 2 and is_two_items(dice):
+            return reward
 
-    if is_two_items('семь'):
-        return 1
-    if is_two_items('виноград'):
-        return 0.5
-    if is_two_items('лимон') or is_two_items('BAR'):
-        return 0.25
     return 0
 
 
+def parse_dice(dice_value: int) -> List[Dice]:
+    dice_value -= 1
+    return [
+        dices[dice_value // i % 4]
+        for i in (1, 4, 16)
+    ]
+
+
 if __name__ == '__main__':
-    for i in range(1, 65):
-        print(i, get_combo_text(i))
+    for dice_val in range(1, 65):
+        print(dice_val, parse_dice(dice_val))
