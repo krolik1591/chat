@@ -11,7 +11,7 @@ flags = {"throttling_key": "spin"}
 router = Router()
 
 
-@router.callback_query(text=["bet_play"])
+@router.callback_query(text=["game_play"])
 async def casino_play(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     user_balance = user_data.get("balance", START_POINTS)

@@ -3,7 +3,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import START_POINTS, MIN_BET, MAX_BET
-from bot.keyboards import inline_keyboard
+from bot.menus.game_menus import get_game_menu
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -15,7 +15,7 @@ async def cmd_start(message: Message, state: FSMContext):
     user_balance = user_data.get("balance", START_POINTS)
     user_bet = user_data.get("bet", MIN_BET)
 
-    text, keyboard = get_bet_text_and_keyboard(user_bet, user_balance)
+    text, keyboard = get_game_menu(user_bet, user_balance)
     msg = await message.answer(text, keyboard)
     await state.update_data(balance=user_balance, bet=user_bet, last_msg_id=msg.message_id)
 
@@ -47,7 +47,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(bet=new_user_bet)
 
-    text, keyboard = get_bet_text_and_keyboard(new_user_bet, user_balance)
+    text, keyboard = get_game_menu(new_user_bet, user_balance)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
@@ -73,32 +73,17 @@ async def bet_change_text(message: Message, state: FSMContext):
 
     await state.update_data(bet=new_user_bet)
 
-    text, keyboard = get_bet_text_and_keyboard(new_user_bet, user_balance)
+    text, keyboard = get_game_menu(new_user_bet, user_balance)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
 
 
 @router.callback_query(text=["end_money"])
 async def demo_money(call: types.CallbackQuery, state: FSMContext):
-    user_data = await state.get_data()
-    user_balance = user_data.get('balance')
-
-    if user_balance != 0:
-        await call.answer('Не обманюй')
-        return
-
     await state.update_data(balance=START_POINTS)
     await call.answer('Людяність відновлена')
 
     await cmd_start(call.message, state)
     await call.message.delete()
-
-
-def get_bet_text_and_keyboard(bet, balance):
-    text = f'Ваші гроши: {balance}\n\n' \
-           'Обери розмір ставки:'
-
-    is_enough_money = bet > balance > MIN_BET
-    return text, inline_keyboard(bet, is_enough_money)
 
 
 def normalize_bet(bet, balance):
