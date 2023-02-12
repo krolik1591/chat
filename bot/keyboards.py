@@ -16,6 +16,7 @@ def inline_keyboard(bet, not_enough_money):
             InlineKeyboardButton(text='Назад', callback_data="bet_back"),
             InlineKeyboardButton(text='Грати', callback_data="bet_play")
         ]]
+
     if not_enough_money:
         keyboard.insert(0, [InlineKeyboardButton(text='Віддай гроші', callback_data="end_money")])
 
