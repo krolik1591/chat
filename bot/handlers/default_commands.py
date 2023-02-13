@@ -16,7 +16,7 @@ async def cmd_start(message: Message, state: FSMContext):
     user_bet = user_data.get("bet", MIN_BET)
 
     text, keyboard = get_game_menu(user_bet, user_balance)
-    msg = await message.answer(text, keyboard)
+    msg = await message.answer(text, reply_markup=keyboard)
     await state.update_data(balance=user_balance, bet=user_bet, last_msg_id=msg.message_id)
 
 
