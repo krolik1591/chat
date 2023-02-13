@@ -4,6 +4,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.const import THROTTLE_TIME_SPIN, MIN_BET, START_POINTS
+from bot.menus.game_menus import get_game_menu
 from bot.utils.dice_check import get_coefficient
 from bot.handlers.default_commands import cmd_start
 
@@ -38,4 +39,5 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send new game menu
-    await cmd_start(call.message, state)
+    text, keyboard = get_game_menu(user_balance, user_balance)
+    msg = await call.message.answer(text, reply_markup=keyboard)
