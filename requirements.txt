@@ -3,3 +3,6 @@ aiogram==3.0.0b2
 cachetools~=5.0.0
 aioredis~=2.0.0
 python-dotenv==0.19.2
+aiohttp~=3.8.3
+pydantic~=1.10.4
+ton~=0.26
