@@ -3,7 +3,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import START_POINTS, MIN_BET, MAX_BET
-from bot.menus.game_menus import get_game_menu
+from bot.menus import get_game_menu
 
 router = Router()
 

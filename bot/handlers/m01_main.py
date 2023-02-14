@@ -3,7 +3,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import START_POINTS
-from bot.menus.main_menu import main_menu
+from bot.menus import main_menu
 
 flags = {"throttling_key": "default"}
 router = Router()

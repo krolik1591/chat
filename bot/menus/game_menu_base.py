@@ -4,7 +4,7 @@ from bot.const import MIN_BET
 from bot.texts import DEFAULT_BALANCE_TEXT, DEMO_FUNDS_ICON, DEFAULT_PLAY_TEXT
 
 
-def base_game_menu(
+def game_menu_base(
         balance, bet,
         text=DEFAULT_BALANCE_TEXT,
         btns_before_bet=[],

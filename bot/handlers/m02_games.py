@@ -2,8 +2,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.const import START_POINTS, MIN_BET
-from bot.menus.game_choice_menu import game_choice_menu
-from bot.menus.game_menus import get_game_menu
+from bot.menus import game_choice_menu, get_game_menu
 
 router = Router()
 
