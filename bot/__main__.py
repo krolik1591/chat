@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher, F, types
 from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
 from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 
+from bot.db import first_start
 from bot.utils.config_reader import config
 from bot.handlers import default_commands, spin
 from bot.middlewares.throttling import ThrottlingMiddleware
@@ -31,7 +32,10 @@ async def main():
 
     await set_bot_commands(bot)
 
+    await first_start()
+
     try:
+        print("me:", await bot.get_me())
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
         await bot.session.close()
