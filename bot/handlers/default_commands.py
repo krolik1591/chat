@@ -31,26 +31,6 @@ async def all_games(call: types.CallbackQuery, state: FSMContext):
     msg = await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.callback_query(text=["main_menu"])
-async def back_to_main(call: types.CallbackQuery, state: FSMContext):
-    user_data = await state.get_data()
-    user_bet = user_data.get('bet', MIN_BET)
-    user_balance = user_data.get('balance', START_POINTS)
-
-    text, keyboard = main_menu(user_balance, user_balance)
-    msg = await call.message.edit_text(text, reply_markup=keyboard)
-
-
-@router.message(commands="start", flags=flags)
-async def cmd_start(message: Message, state: FSMContext):
-    user_data = await state.get_data()
-    user_balance = user_data.get("balance", START_POINTS)
-    user_bet = user_data.get("bet", MIN_BET)
-
-    text, keyboard = main_menu(user_balance, user_balance)
-    msg = await message.answer(text, reply_markup=keyboard)
-
-
 @router.callback_query(text=["bet_minus", "bet_plus", "bet_min", "bet_max", "bet_x2"])
 async def bet_change(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
