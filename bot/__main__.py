@@ -6,8 +6,8 @@ from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
 from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 
 from bot.db import first_start
+from bot.handlers import routers
 from bot.utils.config_reader import config
-from bot.handlers import games, play_dice
 from bot.middlewares.throttling import ThrottlingMiddleware
 
 
@@ -25,8 +25,8 @@ async def main():
 
     dp.message.filter(F.chat.type == "private")  # only private chats allowed
 
-    dp.include_router(default_commands.router)
-    dp.include_router(spin.router)
+    for router in routers:
+        dp.include_router(router)
 
     dp.message.middleware(ThrottlingMiddleware())
 

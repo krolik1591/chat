@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.const import START_POINTS
-from bot.handlers.main import cmd_start
+from bot.handlers.m01_main import cmd_start
 
 router = Router()
 
