@@ -6,7 +6,6 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from bot.const import THROTTLE_TIME_SPIN, MIN_BET, START_POINTS
 from bot.menus.game_menus import get_game_menu
 from bot.utils.dice_check import get_coefficient
-from bot.handlers.default_commands import cmd_start
 
 flags = {"throttling_key": "spin"}
 router = Router()

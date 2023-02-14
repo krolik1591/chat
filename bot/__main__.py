@@ -7,7 +7,7 @@ from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 
 from bot.db import first_start
 from bot.utils.config_reader import config
-from bot.handlers import default_commands, spin
+from bot.handlers import games, play_dice
 from bot.middlewares.throttling import ThrottlingMiddleware
 
 
