@@ -1,27 +1,17 @@
 from peewee import *
-import peewee_async
-from ._async_sqlite import SqliteDatabase as AsyncSqliteDatabase
+from peewee_aio import Manager
 
-database = AsyncSqliteDatabase('db.sqlite3')
-objects = peewee_async.Manager(database)
-database.set_allow_sync(False)
+manager = Manager('aiosqlite:///db.sqlite3')
 
 
-def execute(query):
-    return objects.execute(query)
-
-
-class Token(Model):
-    token = CharField(unique=True)
+class Token(manager.Model):
+    token_id = CharField(primary_key=True)
     price = IntegerField()
     icon = CharField()
 
-    class Meta:
-        database = database
 
-
-class User(Model):
-    tg_id = BigIntegerField(unique=True)
+class User(manager.Model):
+    tg_id = BigIntegerField(primary_key=True)
     lang = CharField(default='en')
 
     timestamp_registered = DateTimeField()
@@ -29,20 +19,14 @@ class User(Model):
     timestamp_first_tx = DateTimeField(null=True)
     timestamp_last_tx = DateTimeField(null=True)
 
-    class Meta:
-        database = database
 
-
-class Balances(Model):
+class Balances(manager.Model):
     user = ForeignKeyField(User, backref='balances')
     token = ForeignKeyField(Token, backref='balances')
     amount = BigIntegerField(default=0)
 
-    class Meta:
-        database = database
 
-
-class Transactions(Model):
+class Transactions(manager.Model):
     user = ForeignKeyField(User, backref='transactions')
     token = ForeignKeyField(Token, backref='transactions')
     is_deposit = BooleanField()
@@ -51,11 +35,8 @@ class Transactions(Model):
     logical_time = BigIntegerField()
     amount = BigIntegerField()
 
-    class Meta:
-        database = database
 
-
-class GameLogs(Model):
+class GameLogs(manager.Model):
     user = ForeignKeyField(User, backref='game_logs')
     token = ForeignKeyField(Token, backref='game_logs')
     game = CharField()
@@ -63,6 +44,3 @@ class GameLogs(Model):
     bet = BigIntegerField()
     result = BigIntegerField()
     timestamp = DateTimeField()
-
-    class Meta:
-        database = database

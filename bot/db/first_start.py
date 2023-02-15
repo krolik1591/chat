@@ -1,15 +1,14 @@
-from .db import database, Token, User, Balances, Transactions, GameLogs, objects
+from .db import Token, User, Balances, Transactions, GameLogs, manager
 
 
 async def first_start():
-    with objects.allow_sync():
+    if Token.table_exists():
+        return
 
-        if Token.table_exists():
-            return
+    print("First start, creating tables...")
 
-        print("First start, creating tables...")
+    # await Token.create_table()
+    await manager.create_tables(Token, User, Balances, Transactions, GameLogs)
 
-        database.create_tables([Token, User, Balances, Transactions, GameLogs])
-
-        Token(token='demo', price=1, icon='🔥').save()
-        Token(token='ton', price=10, icon='🔥').save()
+    await Token.create(token_id='demo', price=1, icon='🔥')
+    await Token.create(token_id='ton', price=10, icon='🔥')
