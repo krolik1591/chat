@@ -8,3 +8,4 @@ pydantic~=1.10.4
 ton~=0.26
 peewee~=3.15.4
 aiosqlite~=0.18.0
+peewee_aio
