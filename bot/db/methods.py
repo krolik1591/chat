@@ -24,9 +24,9 @@ async def get_user_balances(user_id):
         .where(Balances.user_id == user_id)
 
 
-async def get_last_transaction(tg_id):
-    return await Transactions.select(fn.Max(Transactions.logical_time)) \
-        .where(Transactions.user_id == tg_id).scalar()
+async def get_last_transaction(tg_id, token_id):
+    return await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.logical_time)) \
+        .where(Transactions.user_id == tg_id, Transactions.token_id == token_id)
 
 
 async def get_user_lang(tg_id):
@@ -51,18 +51,21 @@ if __name__ == "__main__":
 
     async def test():
         await first_start()
+        # for i in await get_last_transaction(2, 'demo'):
+        #     print(i.tx_hash, i.logical_time)
+        # print(await get_last_transaction(1, 'ton'))
         # await create_new_user(2)
         # await set_user_lang(1, 'ua')
-        print(await get_user_lang(1))
+        # print(await get_user_lang(1))
         # await set_user_last_active(1)
         # await insert_game_log(3, 'demo', 'PEREMOGA', 33, 1, 'EQAwmioWn9M2qqbtUPjPFY50-0NENZFL2D5Kr_xu8nG5Qswm')
         # print(await get_last_transaction(3))
-        # await add_new_transaction(4, 'demo', 500, 500, 500,
-        #                           'EQAwmioWn9M2qqbtUPjPFY50-0NENZFL2D5Kr_xu8nG5Qswm',
-        #                           'EQAwmioWn9M2qqbtUPjPFY50-0NENZFL2D5Kr_xu8nG5Qswm')
-        hui = await get_user_balances(3)
-        for i in hui:
-            print(i.token.icon, i.amount, i.user.lang)
+        # await add_new_transaction(1, 'ton', 32, 1488, 53,
+        #                           'kar',
+        #                           'poop')
+        # hui = await get_user_balances(3)
+        # for i in hui:
+        #     print(i.token.icon, i.amount, i.user.lang)
 
 
     import asyncio
