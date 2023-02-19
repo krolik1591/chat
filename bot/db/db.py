@@ -1,7 +1,10 @@
+import pathlib
+
 from peewee import *
 from peewee_aio import Manager
 
-manager = Manager('aiosqlite:///db.sqlite3')
+path = pathlib.Path(__file__).parent/'db.sqlite3'
+manager = Manager(f'aiosqlite:///{path}')
 
 
 class Token(manager.Model):
@@ -16,8 +19,6 @@ class User(manager.Model):
 
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
-    timestamp_first_tx = DateTimeField(null=True)
-    timestamp_last_tx = DateTimeField(null=True)
 
 
 class Balances(manager.Model):
