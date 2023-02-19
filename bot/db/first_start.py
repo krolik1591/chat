@@ -12,3 +12,4 @@ async def first_start():
 
     await Token.create(token_id='demo', price=1, icon='🔥')
     await Token.create(token_id='ton', price=10, icon='🔥')
+
