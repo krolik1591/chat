@@ -4,14 +4,14 @@ import shutil
 
 from ton import TonlibClient
 
+
 class Wallets:
-    def __init__(self, wallet_seed: str, config='https://ton-blockchain.github.io/testnet-global.config.json'):
+    def __init__(self, wallet_seed: str, config='https://ton.org/testnet-global.config.json'):
         self.wallet_seed = wallet_seed
         self.client = TonlibClient(config=config)
-        TonlibClient.enable_unaudited_binaries()
 
     async def init(self):
-        await self.client.init_tonlib()
+        await self.client.init_tonlib(cdll_path='./libtonlibjson.so.0.5')
 
     async def get_wallet(self, wallet_id: int):
         return await self.client.import_wallet(self.wallet_seed, wallet_id=wallet_id)
