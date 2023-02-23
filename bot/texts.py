@@ -2,7 +2,8 @@
 
 DEFAULT_BALANCE_TEXT = 'Ваші гроши: {balance}\n\nОбери розмір ставки:'
 
-MENU_TEXT = 'Баланс: {main_balance}\nДемо: {demo_balance}\nПоїхали?'
+MENU_TEXT = 'Баланс:\n{balances}\nПоїхали?'
+BALANCE_TEXT = '{icon}{name}: {amount}'
 
 DEMO_FUNDS_ICON = '🍬'
 TON_FUNDS_ICON = '🍭'

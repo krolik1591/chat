@@ -12,6 +12,9 @@ class Token(manager.Model):
     price = IntegerField()
     icon = CharField()
 
+    def __str__(self):
+        return f'TOKEN: {self.icon} {self.name}; {self.price=}, {self.id=}'
+
 
 class User(manager.Model):
     tg_id = BigIntegerField(primary_key=True)
@@ -19,6 +22,9 @@ class User(manager.Model):
 
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
+
+    def __str__(self):
+        return f'USER: {self.tg_id}; {self.lang=}'
 
 
 class Balances(manager.Model):
@@ -31,6 +37,9 @@ class Balances(manager.Model):
             (("user_id", "token_id"), True),
         )
 
+    def __str__(self):
+        return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.id}'
+
 
 class Transactions(manager.Model):
     user = ForeignKeyField(User, backref='transactions')
@@ -41,6 +50,9 @@ class Transactions(manager.Model):
     logical_time = BigIntegerField()
     amount = BigIntegerField()
 
+    def __str__(self):
+        return f'TRANSACTION: {self.user_id=}, {self.token_id=}, {self.tx_hash=}, {self.amount=}'
+
 
 class GameLogs(manager.Model):
     user = ForeignKeyField(User, backref='game_logs')
@@ -50,3 +62,6 @@ class GameLogs(manager.Model):
     bet = BigIntegerField()
     result = BigIntegerField()
     timestamp = DateTimeField()
+
+    def __str__(self):
+        return f'GAMELOG: {self.user_id=} {self.token_id=} {self.bet=} {self.result=} {self.timestamp=}'

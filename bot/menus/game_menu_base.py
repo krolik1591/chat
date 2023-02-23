@@ -6,18 +6,17 @@ from bot.texts import DEFAULT_BALANCE_TEXT, DEMO_FUNDS_ICON, DEFAULT_PLAY_TEXT
 
 
 def game_menu_base(
-        balances: dict, bet,
+        balance, bet,
         text=DEFAULT_BALANCE_TEXT,
         btns_before_bet=[],
         btns_after_bet=[],
-        funds_icon=DEMO_FUNDS_ICON,
+        token_icon=DEMO_FUNDS_ICON,
         play_text=DEFAULT_PLAY_TEXT,
 ):
-    balances_text = '\n'.join([balance_text(i) for i in balances.values()])
-    text = text.format(balances=balances_text, bet=bet)
+    text = text.format(balance=balance, bet=bet)
 
-    add_replenish_btn = bet > balances['demo']['amount'] > MIN_BET
-    kb = _keyboard(bet, btns_before_bet, btns_after_bet, funds_icon, play_text, add_replenish_btn)
+    add_replenish_btn = bet > balance > MIN_BET
+    kb = _keyboard(bet, btns_before_bet, btns_after_bet, token_icon, play_text, add_replenish_btn)
 
     return text, kb
 
@@ -25,7 +24,7 @@ def game_menu_base(
 def _keyboard(
         bet,
         btns_before_bet, btns_after_bet,
-        funds_icon, play_text,
+        token_icon, play_text,
         add_replenish_btn
 ):
     kb = [
@@ -33,7 +32,7 @@ def _keyboard(
         *btns_before_bet,
         [
             InlineKeyboardButton(text='-', callback_data="bet_minus"),
-            InlineKeyboardButton(text=f'{bet}{funds_icon}', callback_data="withdraw"),
+            InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="withdraw"),
             InlineKeyboardButton(text='+', callback_data="bet_plus")
         ],
         [

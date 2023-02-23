@@ -16,6 +16,7 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     user_balance = user_data.get("balance", START_POINTS)
     user_bet = user_data.get('bet', MIN_BET)
+    token_icon = user_data.get('token_icon')
 
     if user_bet > user_balance:
         await call.message.answer("Ставка більше балансу ")
@@ -38,5 +39,5 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send new game menu
-    text, keyboard = get_game_menu(user_balance, user_balance)
+    text, keyboard = get_game_menu(user_balance, user_balance, token_icon)
     msg = await call.message.answer(text, reply_markup=keyboard)
