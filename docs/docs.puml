@@ -1,0 +1,63 @@
+@startuml
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+
+entity users {
+    #user_id
+    username
+    date_register
+    date_last_active
+}
+
+entity tokens {
+    #token_id
+    name
+    icon
+    price
+}
+
+entity gameLogs {
+    ~user_id
+    ~token_id
+
+    game_name
+    game_info
+    bet
+    result
+    timestamp
+}
+
+entity cryptoTx {
+    ~user_id
+    ~token_id
+
+    tx_hash
+    tx_time
+
+    tx_address
+    tx_amount
+}
+
+
+entity balances {
+    ~user_id
+    ~token_id
+
+    amount
+}
+
+
+users --{ balances
+tokens --{ balances
+
+users --{ gameLogs
+tokens -- gameLogs
+
+users --{ cryptoTx
+tokens -- cryptoTx
+
+@enduml
