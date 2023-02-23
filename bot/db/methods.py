@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from peewee import fn
+from peewee import fn, JOIN
 
 from bot.db import first_start
 from bot.db.db import Balances, User, Token, Transactions, GameLogs
@@ -9,12 +9,6 @@ from bot.db.db import Balances, User, Token, Transactions, GameLogs
 async def create_new_user(tg_id):
     return await User.create(tg_id=tg_id, timestamp_registered=datetime.utcnow(),
                              timestamp_last_active=datetime.utcnow())
-
-
-async def add_new_transaction(user_id, token_id, is_deposit, logical_time, amount, tx_address, tx_hash):
-    return await Transactions.create(user_id=user_id, token_id=token_id, is_deposit=is_deposit,
-                                     logical_time=logical_time, amount=amount,
-                                     tx_address=tx_address, tx_hash=tx_hash)
 
 
 async def get_user_balances(user_id):
@@ -26,6 +20,22 @@ async def get_user_balances(user_id):
         i['name']: {**i, 'amount': i['amount'] or 0}  # replace `amount` field, set 0 instead None
         for i in result
     }
+
+
+async def add_new_transaction(user_id, token_id, is_deposit, logical_time, amount, tx_address, tx_hash):
+    return await Transactions.create(user_id=user_id, token_id=token_id, is_deposit=is_deposit,
+                                     logical_time=logical_time, amount=amount,
+                                     tx_address=tx_address, tx_hash=tx_hash)
+
+
+async def deposit_token(tg_id, token_id, amount):
+    return await Balances \
+        .insert(user_id=tg_id, token_id=token_id, amount=amount) \
+        .on_conflict(
+            conflict_target = (Balances.user_id, Balances.token_id),
+            preserve = (Balances.user_id, Balances.token_id),
+            update={Balances.amount: Balances.amount + amount}
+        )
 
 
 async def get_last_transaction(tg_id, token_id):

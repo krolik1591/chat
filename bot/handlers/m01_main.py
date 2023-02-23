@@ -26,9 +26,7 @@ async def cmd_start(message: Message, state: FSMContext):
 
 @router.callback_query(text=["main_menu"])
 async def back_to_main(call: types.CallbackQuery, state: FSMContext):
-    user_data = await state.get_data()
-    user_balance = user_data.get('balance', START_POINTS)
-
-    text, keyboard = main_menu(user_balance, user_balance)
+    balances = await db.get_user_balances(call.from_user.id)
+    text, keyboard = main_menu(balances)
     await call.message.edit_text(text, reply_markup=keyboard)
 

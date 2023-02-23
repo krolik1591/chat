@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from bot.texts import MENU_TEXT
+from bot.texts import MENU_TEXT, BALANCE_TEXT
 
 
 def main_menu(balances: dict):
@@ -10,6 +10,12 @@ def main_menu(balances: dict):
     kb = _keyboard()
 
     return text, kb
+
+
+def balance_text(item):
+    name = item['name'].upper()  # todo use i18n to name
+    return BALANCE_TEXT.format(
+        icon=item['icon'], name=name, amount=item['amount'])
 
 
 def _keyboard():

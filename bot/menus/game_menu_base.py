@@ -1,20 +1,22 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.const import MIN_BET
+from bot.menus.main_menu import balance_text
 from bot.texts import DEFAULT_BALANCE_TEXT, DEMO_FUNDS_ICON, DEFAULT_PLAY_TEXT
 
 
 def game_menu_base(
-        balance, bet,
+        balances: dict, bet,
         text=DEFAULT_BALANCE_TEXT,
         btns_before_bet=[],
         btns_after_bet=[],
         funds_icon=DEMO_FUNDS_ICON,
         play_text=DEFAULT_PLAY_TEXT,
 ):
-    text = text.format(balance=balance, bet=bet)
+    balances_text = '\n'.join([balance_text(i) for i in balances.values()])
+    text = text.format(balances=balances_text, bet=bet)
 
-    add_replenish_btn = bet > balance > MIN_BET
+    add_replenish_btn = bet > balances['demo']['amount'] > MIN_BET
     kb = _keyboard(bet, btns_before_bet, btns_after_bet, funds_icon, play_text, add_replenish_btn)
 
     return text, kb

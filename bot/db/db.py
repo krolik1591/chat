@@ -8,7 +8,7 @@ manager = Manager(f'aiosqlite:///{path}')
 
 
 class Token(manager.Model):
-    token_id = CharField(primary_key=True)
+    name = CharField()
     price = IntegerField()
     icon = CharField()
 
@@ -25,6 +25,11 @@ class Balances(manager.Model):
     user = ForeignKeyField(User, backref='balances')
     token = ForeignKeyField(Token, backref='balances')
     amount = BigIntegerField(default=0)
+
+    class Meta:
+        indexes = (
+            (("user_id", "token_id"), True),
+        )
 
 
 class Transactions(manager.Model):
