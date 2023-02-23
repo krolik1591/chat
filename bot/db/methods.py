@@ -18,10 +18,14 @@ async def add_new_transaction(user_id, token_id, is_deposit, logical_time, amoun
 
 
 async def get_user_balances(user_id):
-    return await Balances.select(Balances.amount, Token.icon, Token.price, User.lang) \
-        .join(Token).switch(Balances) \
-        .join(User) \
-        .where(Balances.user_id == user_id)
+    result = await Token.select(Balances.amount or 0, Token.icon, Token.name) \
+        .join(Balances, JOIN.LEFT_OUTER).switch(Balances) \
+        .where((Balances.user_id == user_id) | (Balances.user_id.is_null(True))).dicts()
+
+    return {
+        i['name']: {**i, 'amount': i['amount'] or 0}  # replace `amount` field, set 0 instead None
+        for i in result
+    }
 
 
 async def get_last_transaction(tg_id, token_id):
@@ -31,7 +35,10 @@ async def get_last_transaction(tg_id, token_id):
 
 async def get_user_lang(tg_id):
     user_lang = await User.select(User.lang).where(User.tg_id == tg_id)
+    if not user_lang:
+        raise ValueError
     return user_lang[0].lang
+
 
 
 async def set_user_lang(tg_id, new_lang):
@@ -48,24 +55,12 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 
 
 if __name__ == "__main__":
-
     async def test():
         await first_start()
-        # for i in await get_last_transaction(2, 'demo'):
-        #     print(i.tx_hash, i.logical_time)
-        # print(await get_last_transaction(1, 'ton'))
-        # await create_new_user(2)
-        # await set_user_lang(1, 'ua')
-        # print(await get_user_lang(1))
-        # await set_user_last_active(1)
-        # await insert_game_log(3, 'demo', 'PEREMOGA', 33, 1, 'EQAwmioWn9M2qqbtUPjPFY50-0NENZFL2D5Kr_xu8nG5Qswm')
-        # print(await get_last_transaction(3))
-        # await add_new_transaction(1, 'ton', 32, 1488, 53,
-        #                           'kar',
-        #                           'poop')
-        # hui = await get_user_balances(3)
-        # for i in hui:
-        #     print(i.token.icon, i.amount, i.user.lang)
+
+        x = await get_user_balances(4)
+        print(len(x))
+        # print(await deposit_token(4, 1, 228))
 
 
     import asyncio

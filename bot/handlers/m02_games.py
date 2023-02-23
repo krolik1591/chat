@@ -1,6 +1,8 @@
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.types import Message
 
+import bot.db.methods as db
 from bot.const import START_POINTS, MIN_BET
 from bot.menus import game_choice_menu, get_game_menu
 
@@ -11,9 +13,10 @@ router = Router()
 async def all_games(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     user_bet = user_data.get('bet', MIN_BET)
-    user_balance = user_data.get('balance', START_POINTS)
 
-    text, keyboard = game_choice_menu(user_balance, user_balance)
+    balances = await db.get_user_balances(call.from_user.id)
+
+    text, keyboard = game_choice_menu(balances)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

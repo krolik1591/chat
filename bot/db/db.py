@@ -3,7 +3,7 @@ import pathlib
 from peewee import *
 from peewee_aio import Manager
 
-path = pathlib.Path(__file__).parent/'db.sqlite3'
+path = pathlib.Path(__file__).parent / 'db' / 'db.sqlite3'
 manager = Manager(f'aiosqlite:///{path}')
 
 

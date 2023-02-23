@@ -8,8 +8,7 @@ services:
         env_file:
             -   .env
 #        volumes:
-#            # Путь к .env файлу с настройками
-#            - "/home/user/casino-bot-redis/.env:/app/.env"
+#            - "./db:/app/bot/db"
         depends_on:
             - redis
     redis:
