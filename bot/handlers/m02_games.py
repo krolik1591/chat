@@ -25,7 +25,8 @@ async def all_games(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(text=["casino", "random_cube", "basket", "darts", "football", "cuefa", "bowling", "mine"])
 async def choice_main_or_demo_balance(call: types.CallbackQuery, state: FSMContext):
     tokens = await db.get_tokens()
-    text, keyboard = main_or_demo_balance(tokens)
+    balances = await db.get_user_balances(call.from_user.id)
+    text, keyboard = main_or_demo_balance(tokens, balances)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

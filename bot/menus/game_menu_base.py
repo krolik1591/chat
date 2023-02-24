@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.const import MIN_BET
@@ -21,83 +23,34 @@ def game_menu_base(
     return text, kb
 
 
-# def _keyboard(
-#         bet,
-#         btns_before_bet, btns_after_bet,
-#         token_icon, play_text,
-#         add_replenish_btn
-# ):
-#     kb = [
-#         print(*([] if add_replenish_btn else _btn_replenish())),
-#         *btns_before_bet,
-#         [
-#             InlineKeyboardButton(text='-', callback_data="bet_minus"),
-#             InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="withdraw"),
-#             InlineKeyboardButton(text='+', callback_data="bet_plus")
-#         ],
-#         [
-#             InlineKeyboardButton(text='Мін.', callback_data="bet_min"),
-#             InlineKeyboardButton(text='Подвоїти', callback_data="bet_x2"),
-#             InlineKeyboardButton(text='Макс.', callback_data="bet_max")
-#         ],
-#         *btns_after_bet,
-#         [
-#             InlineKeyboardButton(text='Назад', callback_data="casino"),
-#             InlineKeyboardButton(text=play_text, callback_data="game_play")
-#         ]
-#     ]
-#
-#     return InlineKeyboardMarkup(inline_keyboard=kb)
-#
-#
-# def _btn_replenish():
-#     return [InlineKeyboardButton(text='Віддай гроші', callback_data="end_money")]
-
 def _keyboard(
         bet,
         btns_before_bet, btns_after_bet,
         token_icon, play_text,
         add_replenish_btn
 ):
-    if add_replenish_btn:
-        kb = [
-            *btns_before_bet,
-            [
-                InlineKeyboardButton(text='-', callback_data="bet_minus"),
-                InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="withdraw"),
-                InlineKeyboardButton(text='+', callback_data="bet_plus")
-            ],
-            [
-                InlineKeyboardButton(text='Мін.', callback_data="bet_min"),
-                InlineKeyboardButton(text='Подвоїти', callback_data="bet_x2"),
-                InlineKeyboardButton(text='Макс.', callback_data="bet_max")
-            ],
-            *btns_after_bet,
-            [
-                InlineKeyboardButton(text='Назад', callback_data="casino"),
-                InlineKeyboardButton(text=play_text, callback_data="game_play")
-            ]
+    kb = [
+        *([] if add_replenish_btn else _btn_replenish()),
+        *btns_before_bet,
+        [
+            InlineKeyboardButton(text='-', callback_data="bet_minus"),
+            InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="withdraw"),
+            InlineKeyboardButton(text='+', callback_data="bet_plus")
+        ],
+        [
+            InlineKeyboardButton(text='Мін.', callback_data="bet_min"),
+            InlineKeyboardButton(text='Подвоїти', callback_data="bet_x2"),
+            InlineKeyboardButton(text='Макс.', callback_data="bet_max")
+        ],
+        *btns_after_bet,
+        [
+            InlineKeyboardButton(text='Назад', callback_data="casino"),
+            InlineKeyboardButton(text=play_text, callback_data="game_play")
         ]
-        return InlineKeyboardMarkup(inline_keyboard=kb)
-    else:
-        kb = [
-            [InlineKeyboardButton(text='Дай грошей', callback_data="end_money")],
-            *btns_before_bet,
-            [
-                InlineKeyboardButton(text='-', callback_data="bet_minus"),
-                InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="withdraw"),
-                InlineKeyboardButton(text='+', callback_data="bet_plus")
-            ],
-            [
-                InlineKeyboardButton(text='Мін.', callback_data="bet_min"),
-                InlineKeyboardButton(text='Подвоїти', callback_data="bet_x2"),
-                InlineKeyboardButton(text='Макс.', callback_data="bet_max")
-            ],
-            *btns_after_bet,
-            [
-                InlineKeyboardButton(text='Назад', callback_data="casino"),
-                InlineKeyboardButton(text=play_text, callback_data="game_play")
-            ]
-        ]
+    ]
 
-        return InlineKeyboardMarkup(inline_keyboard=kb)
+    return InlineKeyboardMarkup(inline_keyboard=kb)
+
+
+def _btn_replenish():
+    return [[InlineKeyboardButton(text='Дай гроші', callback_data="end_money")]]
