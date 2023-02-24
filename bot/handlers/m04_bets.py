@@ -13,7 +13,6 @@ router = Router()
 async def bet_change(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     user_bet = user_data.get('bet', MIN_BET)
-    # user_balance = user_data.get('balance', START_POINTS)
     token_id = user_data.get('token_id')
     user_balance = await get_user_balance(call.from_user.id, token_id)
     token_icon = user_data.get('token_icon')
@@ -72,6 +71,6 @@ async def bet_change_text(message: Message, state: FSMContext):
 
 
 def normalize_bet(bet, balance):
-    bet = max(bet, MIN_BET)
     bet = min(bet, MAX_BET, balance)
+    bet = max(bet, MIN_BET)
     return bet
