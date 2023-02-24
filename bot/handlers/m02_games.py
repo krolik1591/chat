@@ -26,6 +26,9 @@ async def all_games(call: types.CallbackQuery, state: FSMContext):
 async def choice_main_or_demo_balance(call: types.CallbackQuery, state: FSMContext):
     tokens = await db.get_tokens()
     balances = await db.get_user_balances(call.from_user.id)
+
+    await state.update_data(game=call.data)
+
     text, keyboard = main_or_demo_balance(tokens, balances)
     await call.message.edit_text(text, reply_markup=keyboard)
 

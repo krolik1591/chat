@@ -20,12 +20,15 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     user_bet = user_data.get('bet', MIN_BET)
     token_icon = user_data.get('token_icon')
     token_id = user_data.get('token_id')
+    game = user_data['game']
+
 
     user_balance = await db.get_user_balance(call.from_user.id, token_id)
 
     if user_bet > user_balance:
         await call.message.answer("Ставка більше балансу ")
         return
+
 
     # Send dice
     msg = await call.message.answer_dice(emoji="🎰")
@@ -44,11 +47,11 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
         else f"Вы выиграли {score_change} очков!"
     await call.message.edit_text(text=win_or_lose_text)
 
+
     # Send new game menu
     text, keyboard = get_game_menu(user_bet, user_balance, token_icon)
-    msg = await call.message.answer(text, reply_markup=keyboard)
+    await call.message.answer(text, reply_markup=keyboard)
 
-
-
-
-    # await db.insert_game_log(call.from_user.id, token_id, game_info=1, user_bet, result, game)
+    game_info = {"dice_result": msg.dice.value}
+    await db.insert_game_log(call.from_user.id, token_id, game=game,
+                             game_info=game_info, bet=user_bet, result=score_change)
