@@ -45,5 +45,5 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send new game menu
-    text, keyboard = get_game_menu(user_balance, user_balance, token_icon)
+    text, keyboard = get_game_menu(user_bet, user_balance, token_icon)
     msg = await call.message.answer(text, reply_markup=keyboard)

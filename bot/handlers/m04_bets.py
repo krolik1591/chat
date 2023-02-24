@@ -3,6 +3,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import START_POINTS, MIN_BET, MAX_BET
+from bot.db.methods import get_user_balance
 from bot.menus import get_game_menu
 
 router = Router()
@@ -12,7 +13,9 @@ router = Router()
 async def bet_change(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     user_bet = user_data.get('bet', MIN_BET)
-    user_balance = user_data.get('balance', START_POINTS)
+    # user_balance = user_data.get('balance', START_POINTS)
+    token_id = user_data.get('token_id')
+    user_balance = await get_user_balance(call.from_user.id, token_id)
     token_icon = user_data.get('token_icon')
 
     if call.data == 'bet_minus':
@@ -50,8 +53,10 @@ async def bet_change_text(message: Message, state: FSMContext):
 
     user_data = await state.get_data()
     last_msg = user_data.get('last_msg_id')
-    user_balance = user_data.get('balance', START_POINTS)
+    # user_balance = user_data.get('balance', START_POINTS)
     user_bet = user_data.get('bet', MIN_BET)
+    token_id = user_data.get('token_id')
+    user_balance = await get_user_balance(message.from_user.id, token_id)
 
     if last_msg is None:
         return
