@@ -1,30 +1,50 @@
+from pprint import pprint
+
+from peewee import fn, JOIN
+
 from bot.db import first_start
+from bot.db.db import Balances, User, Token, Transactions, GameLogs
 
 
+async def tabl1():
+    res = await GameLogs.select(
+        fn.DATE(GameLogs.timestamp).alias('date'),
+        GameLogs.token_id,
+        fn.SUM(GameLogs.result).alias('total_win'),
+        fn.SUM(GameLogs.bet).alias('total_bet'),
+        fn.GROUP_CONCAT(fn.DISTINCT(GameLogs.user_id)).alias('users_id'),
+        fn.GROUP_CONCAT(fn.DISTINCT(User.username)).alias('users')
+    ).join(User, on=(User.tg_id == GameLogs.user_id)) \
+        .group_by(fn.DATE(GameLogs.timestamp), GameLogs.token_id).dicts()
+
+    # todo total_bet - total_win
+
+    return res
 
 
+async def tabl2():
+    result = await User.select(
+        User.tg_id, User.username, User.timestamp_registered, GameLogs.token_id,
+        fn.Sum(GameLogs.result).alias('total_win'),
+        fn.Sum(GameLogs.bet).alias('total_lose'),
+        Balances.amount
+    ) \
+        .join(GameLogs, JOIN.INNER, on=(User.tg_id == GameLogs.user_id)).switch(GameLogs) \
+        .join(Balances, JOIN.LEFT_OUTER,
+              on=((Balances.user_id == GameLogs.user_id) & (Balances.token_id == GameLogs.token_id))) \
+        .group_by(GameLogs.user_id, GameLogs.token_id).dicts()
+
+    # todo total_bet - total_win
 
 
-
-
-
-
-
-
-
-
-
-
+    return result
 
 
 if __name__ == "__main__":
     async def test():
         await first_start()
-        # await update_user_balance(357108179, 1, 500)
-        # a = await get_token_by_id(2)
-        # print(a)
-        # print(await get_user_balance(4, 1))
-        # x = await get_user_balances(4)
+        res = await tabl2()
+        pprint(res)
 
 
     import asyncio
