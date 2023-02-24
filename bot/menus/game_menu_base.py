@@ -81,6 +81,7 @@ def _keyboard(
         return InlineKeyboardMarkup(inline_keyboard=kb)
     else:
         kb = [
+            [InlineKeyboardButton(text='Дай грошей', callback_data="end_money")],
             *btns_before_bet,
             [
                 InlineKeyboardButton(text='-', callback_data="bet_minus"),
@@ -96,8 +97,7 @@ def _keyboard(
             [
                 InlineKeyboardButton(text='Назад', callback_data="casino"),
                 InlineKeyboardButton(text=play_text, callback_data="game_play")
-            ],
-            [InlineKeyboardButton(text='Дай грошей', callback_data="end_money")]
+            ]
         ]
 
         return InlineKeyboardMarkup(inline_keyboard=kb)
