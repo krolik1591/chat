@@ -18,6 +18,7 @@ class Token(manager.Model):
 
 class User(manager.Model):
     tg_id = BigIntegerField(primary_key=True)
+    username = CharField(default='')
     lang = CharField(default='en')
 
     timestamp_registered = DateTimeField()

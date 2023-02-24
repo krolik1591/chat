@@ -16,6 +16,7 @@ async def cmd_start(message: Message, state: FSMContext):
         await db.get_user_lang(message.from_user.id)
     except ValueError:
         await db.create_new_user(message.from_user.id)
+        await db.update_username(message.from_user.id, message.from_user.username)
         await db.deposit_token(message.from_user.id, 1, START_POINTS)  # add demo
 
     balances = await db.get_user_balances(message.from_user.id)

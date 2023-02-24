@@ -11,6 +11,10 @@ async def create_new_user(tg_id):
                              timestamp_last_active=datetime.utcnow())
 
 
+async def update_username(tg_id, username):
+    return await User.update({User.username: username}).where(User.tg_id == tg_id)
+
+
 async def get_user_balances(user_id):
     result = await Token.select(Balances.amount, Token.icon, Token.name) \
         .join(Balances, JOIN.LEFT_OUTER).switch(Balances) \
@@ -30,7 +34,8 @@ async def get_user_balance(user_id, token_id):
 
 
 async def update_user_balance(user_id, token_id, new_balance):
-    return await Balances.replace(user_id=user_id, token_id=token_id, amount=new_balance)
+    return await Balances.update({Balances.amount: new_balance}). \
+        where(Balances.user_id == user_id, Balances.token_id == token_id)
 
 
 async def get_tokens():
@@ -85,7 +90,7 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-        # await update_user_balance(357108179, 1, 1000)
+        # await update_user_balance(357108179, 1, 500)
         # a = await get_token_by_id(2)
         # print(a)
         # print(await get_user_balance(4, 1))
