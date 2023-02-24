@@ -42,7 +42,7 @@ def _keyboard(
         ],
         *btns_after_bet,
         [
-            InlineKeyboardButton(text='Назад', callback_data="all_games"),
+            InlineKeyboardButton(text='Назад', callback_data="casino"),
             InlineKeyboardButton(text=play_text, callback_data="game_play")
         ]
     ]

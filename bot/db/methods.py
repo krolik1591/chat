@@ -29,6 +29,10 @@ async def get_user_balance(user_id, token_id):
     return result[0].amount
 
 
+async def update_user_balance(user_id, token_id, new_balance):
+    return await Balances.replace(user_id=user_id, token_id=token_id, amount=new_balance)
+
+
 async def get_tokens():
     return await Token.select()
 
@@ -81,8 +85,9 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-        a = await get_token_by_id(2)
-        print(a)
+        # await update_user_balance(357108179, 1, 1000)
+        # a = await get_token_by_id(2)
+        # print(a)
         # print(await get_user_balance(4, 1))
         # x = await get_user_balances(4)
 
