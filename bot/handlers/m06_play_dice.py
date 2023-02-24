@@ -14,8 +14,9 @@ router = Router()
 
 @router.callback_query(text=["game_play"])
 async def casino_play(call: types.CallbackQuery, state: FSMContext):
+    await db.set_user_last_active(call.from_user.id)
+
     user_data = await state.get_data()
-    # user_balance = user_data.get("balance", START_POINTS)
     user_bet = user_data.get('bet', MIN_BET)
     token_icon = user_data.get('token_icon')
     token_id = user_data.get('token_id')
@@ -33,7 +34,6 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     # Parse dice result
     score_change = get_coefficient(msg.dice.value) * user_bet
     user_balance += score_change - user_bet
-    # await state.update_data(balance=user_balance)
 
     await db.update_user_balance(call.from_user.id, token_id, user_balance)
 
@@ -47,3 +47,8 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     # Send new game menu
     text, keyboard = get_game_menu(user_bet, user_balance, token_icon)
     msg = await call.message.answer(text, reply_markup=keyboard)
+
+
+
+
+    # await db.insert_game_log(call.from_user.id, token_id, game_info=1, user_bet, result, game)
