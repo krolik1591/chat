@@ -7,9 +7,8 @@ services:
         stop_signal: SIGINT
         env_file:
             -   .env
-#        volumes:
-#            # Путь к .env файлу с настройками
-#            - "/home/user/casino-bot-redis/.env:/app/.env"
+        volumes:
+            - "./db:/app/db"
         depends_on:
             - redis
     redis:
