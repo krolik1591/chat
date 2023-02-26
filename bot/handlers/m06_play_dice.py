@@ -26,7 +26,7 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     user_balance = await db.get_user_balance(call.from_user.id, token_id)
 
     if user_bet > user_balance:
-        await call.message.answer("Ставка більше балансу ")
+        await call.answer("Ставка більше балансу", show_alert=True)
         return
 
 
