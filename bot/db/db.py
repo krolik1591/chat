@@ -3,8 +3,9 @@ import pathlib
 from peewee import *
 from peewee_aio import Manager
 
-path = pathlib.Path(__file__).parent / 'db' / 'db.sqlite3'
-manager = Manager(f'aiosqlite:///{path}')
+# app/db/db.sqlite3
+path = pathlib.Path(__file__).parent.parent.parent / 'db' / 'db.sqlite3'
+manager = Manager(f'aiosqlite:////{path}')
 
 
 class Token(manager.Model):
