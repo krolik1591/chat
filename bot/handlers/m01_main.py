@@ -37,7 +37,7 @@ async def ton(message: Message, state: FSMContext):
     wallets = Wallets(wallet_seed="water wish artist boss random burst entry assault size "
                                   "february equal inner satoshi wire camp reason throw "
                                   "allow chapter dose gym jungle vibrant truth")
-
+    await wallets.init()
     wallet = await wallets.get_wallet(message.from_user.id)
 
     await message.answer(wallet.address)
