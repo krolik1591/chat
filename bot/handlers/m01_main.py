@@ -5,6 +5,7 @@ from aiogram.types import Message
 import bot.db.methods as db
 from bot.const import START_POINTS
 from bot.menus import main_menu
+from bot.ton.wallets import Wallets
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -31,3 +32,12 @@ async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = main_menu(balances)
     await call.message.edit_text(text, reply_markup=keyboard)
 
+@router.message(commands="ton", flags=flags)
+async def ton(message: Message, state: FSMContext):
+    wallets = Wallets(wallet_seed="water wish artist boss random burst entry assault size "
+                                  "february equal inner satoshi wire camp reason throw "
+                                  "allow chapter dose gym jungle vibrant truth")
+
+    wallet = await wallets.get_wallet(message.from_user.id)
+
+    await message.answer(wallet.address)
