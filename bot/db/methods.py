@@ -64,8 +64,9 @@ async def add_new_transaction(user_id, token_id, is_deposit, logical_time, amoun
 
 
 async def get_last_transaction(tg_id, token_id):
-    return await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.logical_time)) \
+    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.logical_time)) \
         .where(Transactions.user_id == tg_id, Transactions.token_id == token_id)
+    return result[0]
 
 
 async def get_user_lang(tg_id):

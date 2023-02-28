@@ -46,7 +46,10 @@ class Balances(manager.Model):
 class Transactions(manager.Model):
     user = ForeignKeyField(User, backref='transactions')
     token = ForeignKeyField(Token, backref='transactions')
-    is_deposit = BooleanField()
+    tx_type = SmallIntegerField()
+    # 1) tx_address = адреса з якої поповнюють; tx_type = 1
+    # 2) tx_address = похуй ; tx_type = 2
+    # 3) tx_address = адреса на яку виводимо гроши; tx_type = 3
     tx_address = CharField()
     tx_hash = CharField()
     logical_time = BigIntegerField()

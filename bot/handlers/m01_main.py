@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
@@ -5,7 +7,8 @@ from aiogram.types import Message
 import bot.db.methods as db
 from bot.const import START_POINTS
 from bot.menus import main_menu
-from bot.ton.wallets import Wallets
+from bot.ton.api import Api
+# from bot.ton.wallets import Wallets
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -39,5 +42,18 @@ async def ton(message: Message, state: FSMContext):
                                   "allow chapter dose gym jungle vibrant truth")
     await wallets.init()
     wallet = await wallets.get_wallet(message.from_user.id)
-
+    #wallet.get_balance, wallet.get_transaction
     await message.answer(wallet.address)
+
+
+@router.message(commands="ton_check", flags=flags)
+async def ton_check(message: Message, state: FSMContext):
+    #todo 2 arg token to .env, 24 words tuda je, 1 arg toje
+    api = Api('https://testnet.toncenter.com/api/v2' ,'621699dde4b908a9d5c98ab16a887e9348ed3a05afe44a32bf8e6244f7a2bde0')
+    last_tx = await db.get_last_transaction(message.from_user.id, 2)
+    res = await api.get_address_transactions('EQDLmQypksMNktrdskBEiSF_9oxvwxVIS1IO__K4IqTczUco',
+                                       last_tx.tx_hash, last_tx.logical_time)
+
+    #todo закинуть на баланс юзеру, сохранить эту транзу. проверить, что пришло с кошелька юзера (destination == 1 arg)
+    #+с кошеля юзера закинуть (ВСЕ ДЕНЬГИ) на мастер кошель (wallets.py transfer).
+    pprint(res)
