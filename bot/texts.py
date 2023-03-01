@@ -4,6 +4,7 @@ DEFAULT_BALANCE_TEXT = 'Ваші гроши: {balance}\n\nОбери розмі�
 
 MENU_TEXT = 'Баланс:\n{balances}\nПоїхали?'
 BALANCE_TEXT = '{icon}{name}: {amount}'
+DEPOSIT_MENU_TEXT = 'Мій гаманець \n\nБаланс: \n\n{balances} \n\nКурс: #todo'
 
 DEMO_FUNDS_ICON = '🍬'
 TON_FUNDS_ICON = '🍭'

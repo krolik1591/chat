@@ -5,6 +5,7 @@ from peewee_aio import Manager
 
 # app/db/db.sqlite3
 path = pathlib.Path(__file__).parent.parent.parent / 'db' / 'db.sqlite3'
+print(path)
 manager = Manager(f'aiosqlite:////{path}')
 
 
