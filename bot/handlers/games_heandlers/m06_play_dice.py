@@ -36,9 +36,11 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
 
     # Parse dice result
     score_change = get_coefficient(msg.dice.value) * user_bet
-    user_balance += score_change - user_bet
+    user_win = score_change - user_bet
 
-    await db.update_user_balance(call.from_user.id, token_id, user_balance)
+    await db.update_user_balance(call.from_user.id, token_id, user_win)
+    await state.update_data(user_balance=user_balance + score_change)
+    user_balance = await db.get_user_balance(call.from_user.id, token_id)
 
     await sleep(THROTTLE_TIME_SPIN)
 

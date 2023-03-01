@@ -57,8 +57,8 @@ async def deposit_token(tg_id, token_id, amount):
     )
 
 
-async def add_new_transaction(user_id, token_id, is_deposit, logical_time, amount, tx_address, tx_hash):
-    return await Transactions.create(user_id=user_id, token_id=token_id, is_deposit=is_deposit,
+async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time):
+    return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                      logical_time=logical_time, amount=amount,
                                      tx_address=tx_address, tx_hash=tx_hash)
 

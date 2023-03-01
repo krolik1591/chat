@@ -49,5 +49,5 @@ async def choice_token(call: types.CallbackQuery, state: FSMContext):
 
     user_balance = await db.get_user_balance(call.from_user.id, token_id)
 
-    text, keyboard = get_game_menu(user_bet, user_balance, token_icon=token.icon)
+    text, keyboard = get_game_menu(user_bet, user_balance, token.icon)
     await call.message.edit_text(text, reply_markup=keyboard)
