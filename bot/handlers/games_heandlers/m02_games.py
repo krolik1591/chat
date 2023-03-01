@@ -1,12 +1,11 @@
 from aiogram import Router, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
-from aiogram.types import Message
 
 import bot.db.methods as db
-from bot.const import START_POINTS, MIN_BET
+from bot.const import MIN_BET
 from bot.menus import game_choice_menu, get_game_menu
-from bot.menus.main_or_demo_balance_menu import main_or_demo_balance
+from bot.menus.game_menus.main_or_demo_balance_menu import main_or_demo_balance
 
 router = Router()
 

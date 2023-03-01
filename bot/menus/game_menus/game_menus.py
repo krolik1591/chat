@@ -1,5 +1,5 @@
 from bot import texts
-from .game_menu_base import game_menu_base
+from bot.menus.game_menus.game_menu_base import game_menu_base
 
 
 def get_game_menu(bet, balances, token_icon, game_mode=None):
