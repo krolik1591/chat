@@ -14,4 +14,4 @@ def get_game_menu(bet, balances, token_icon, game_mode=None):
         return game_menu_base(balances, bet, token_icon=token_icon,
                               play_text=texts.DARTS_PLAY_TEXT)
 
-    return game_menu_base(balances, bet)
+    return game_menu_base(balances, bet, token_icon=token_icon)
