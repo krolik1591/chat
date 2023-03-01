@@ -14,7 +14,7 @@ async def tabl1():
         fn.SUM(GameLogs.bet).alias('total_bet'),
         fn.GROUP_CONCAT(fn.DISTINCT(GameLogs.user_id)).alias('users_id'),
         fn.GROUP_CONCAT(fn.DISTINCT(User.username)).alias('users')
-    ).join(User, on=(User.tg_id == GameLogs.user_id)) \
+    ).join(User, on=(User.user_id == GameLogs.user_id)) \
         .group_by(fn.DATE(GameLogs.timestamp), GameLogs.token_id).dicts()
 
     # todo total_bet - total_win
@@ -24,12 +24,12 @@ async def tabl1():
 
 async def tabl2():
     result = await User.select(
-        User.tg_id, User.username, User.timestamp_registered, GameLogs.token_id,
+        User.user_id, User.username, User.timestamp_registered, GameLogs.token_id,
         fn.Sum(GameLogs.result).alias('total_win'),
         fn.Sum(GameLogs.bet).alias('total_lose'),
         Balances.amount
     ) \
-        .join(GameLogs, JOIN.INNER, on=(User.tg_id == GameLogs.user_id)).switch(GameLogs) \
+        .join(GameLogs, JOIN.INNER, on=(User.user_id == GameLogs.user_id)).switch(GameLogs) \
         .join(Balances, JOIN.LEFT_OUTER,
               on=((Balances.user_id == GameLogs.user_id) & (Balances.token_id == GameLogs.token_id))) \
         .group_by(GameLogs.user_id, GameLogs.token_id).dicts()

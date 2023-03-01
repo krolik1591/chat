@@ -10,6 +10,7 @@ manager = Manager(f'aiosqlite:////{path}')
 
 
 class Token(manager.Model):
+    token_id = BigIntegerField(primary_key=True)
     name = CharField()
     price = IntegerField()
     icon = CharField()
@@ -19,7 +20,7 @@ class Token(manager.Model):
 
 
 class User(manager.Model):
-    tg_id = BigIntegerField(primary_key=True)
+    user_id = BigIntegerField(primary_key=True)
     username = CharField(default='')
     lang = CharField(default='en')
 
@@ -27,10 +28,11 @@ class User(manager.Model):
     timestamp_last_active = DateTimeField()
 
     def __str__(self):
-        return f'USER: {self.tg_id}; {self.lang=}'
+        return f'USER: {self.user_id}; {self.lang=}'
 
 
-class Balances(manager.Model):
+class Balance(manager.Model):
+    balance_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='balances')
     token = ForeignKeyField(Token, backref='balances')
     amount = BigIntegerField(default=0)
@@ -44,7 +46,8 @@ class Balances(manager.Model):
         return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.id}'
 
 
-class Transactions(manager.Model):
+class Transaction(manager.Model):
+    transaction_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='transactions')
     token = ForeignKeyField(Token, backref='transactions')
     tx_type = SmallIntegerField()
@@ -60,7 +63,8 @@ class Transactions(manager.Model):
         return f'TRANSACTION: {self.user_id=}, {self.token_id=}, {self.tx_hash=}, {self.amount=}'
 
 
-class GameLogs(manager.Model):
+class GameLog(manager.Model):
+    gamelog_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='game_logs')
     token = ForeignKeyField(Token, backref='game_logs')
     game = CharField()

@@ -13,7 +13,7 @@ async def create_new_user(tg_id):
 
 
 async def update_username(tg_id, username):
-    return await User.update({User.username: username}).where(User.tg_id == tg_id)
+    return await User.update({User.username: username}).where(User.user_id == tg_id)
 
 
 async def get_user_balances(user_id):
@@ -70,18 +70,18 @@ async def get_last_transaction(tg_id, token_id):
 
 
 async def get_user_lang(tg_id):
-    user_lang = await User.select(User.lang).where(User.tg_id == tg_id)
+    user_lang = await User.select(User.lang).where(User.user_id == tg_id)
     if not user_lang:
         raise ValueError
     return user_lang[0].lang
 
 
 async def set_user_lang(tg_id, new_lang):
-    return await User.update({User.lang: new_lang}).where(User.tg_id == tg_id)
+    return await User.update({User.lang: new_lang}).where(User.user_id == tg_id)
 
 
 async def set_user_last_active(tg_id):
-    return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.tg_id == tg_id)
+    return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
 
 
 async def insert_game_log(user_id, token_id, game_info, bet, result, game):
