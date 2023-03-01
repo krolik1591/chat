@@ -35,7 +35,7 @@ async def get_user_balance(user_id, token_id):
 
 
 async def update_user_balance(user_id, token_id, new_balance):
-    return await Balances.update({Balances.amount: new_balance}). \
+    return await Balances.update({Balances.amount: Balances.amount + new_balance}). \
         where(Balances.user_id == user_id, Balances.token_id == token_id)
 
 
@@ -101,6 +101,7 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
+
         # await update_user_balance(357108179, 1, 500)
         # a = await get_token_by_id(2)
         # print(a)
