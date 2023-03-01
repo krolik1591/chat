@@ -16,7 +16,7 @@ class Token(manager.Model):
     icon = CharField()
 
     def __str__(self):
-        return f'TOKEN: {self.icon} {self.name}; {self.price=}, {self.id=}'
+        return f'TOKEN: {self.icon} {self.name}; {self.price=}, {self.token_id=}'
 
 
 class User(manager.Model):
@@ -43,7 +43,7 @@ class Balance(manager.Model):
         )
 
     def __str__(self):
-        return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.id}'
+        return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.balance_id}'
 
 
 class Transaction(manager.Model):

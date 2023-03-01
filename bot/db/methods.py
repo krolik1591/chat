@@ -4,11 +4,11 @@ from datetime import datetime
 from peewee import fn, JOIN
 
 from bot.db import first_start
-from bot.db.db import Balances, User, Token, Transactions, GameLogs
+from bot.db.db import Balance, User, Token, Transaction, GameLog
 
 
-async def create_new_user(tg_id):
-    return await User.create(tg_id=tg_id, timestamp_registered=datetime.utcnow(),
+async def create_new_user(tg_id, username):
+    return await User.create(user_id=tg_id, username=username, timestamp_registered=datetime.utcnow(),
                              timestamp_last_active=datetime.utcnow())
 
 
@@ -17,9 +17,9 @@ async def update_username(tg_id, username):
 
 
 async def get_user_balances(user_id):
-    result = await Token.select(Balances.amount, Token.icon, Token.name) \
-        .join(Balances, JOIN.LEFT_OUTER).switch(Balances) \
-        .where((Balances.user_id == user_id) | (Balances.user_id.is_null(True))).dicts()
+    result = await Token.select(Balance.amount, Token.icon, Token.name) \
+        .join(Balance, JOIN.LEFT_OUTER).switch(Balance) \
+        .where((Balance.user_id == user_id) | (Balance.user_id.is_null(True))).dicts()
 
     return {
         i['name']: {**i, 'amount': i['amount'] or 0}  # replace `amount` field, set 0 instead None
@@ -28,15 +28,15 @@ async def get_user_balances(user_id):
 
 
 async def get_user_balance(user_id, token_id):
-    result = await Balances.select(Balances.amount).where(Balances.user_id == user_id, Balances.token_id == token_id)
+    result = await Balance.select(Balance.amount).where(Balance.user_id == user_id, Balance.token_id == token_id)
     if not result:
         return 0
     return result[0].amount
 
 
 async def update_user_balance(user_id, token_id, new_balance):
-    return await Balances.update({Balances.amount: Balances.amount + new_balance}). \
-        where(Balances.user_id == user_id, Balances.token_id == token_id)
+    return await Balance.update({Balance.amount: Balance.amount + new_balance}). \
+        where(Balance.user_id == user_id, Balance.token_id == token_id)
 
 
 async def get_tokens():
@@ -44,28 +44,28 @@ async def get_tokens():
 
 
 async def get_token_by_id(token_id):
-    return await Token.select().where(Token.id == token_id).first()
+    return await Token.select().where(Token.token_id == token_id).first()
 
 
 async def deposit_token(tg_id, token_id, amount):
-    return await Balances \
+    return await Balance \
         .insert(user_id=tg_id, token_id=token_id, amount=amount) \
         .on_conflict(
-        conflict_target=(Balances.user_id, Balances.token_id),
-        preserve=(Balances.user_id, Balances.token_id),
-        update={Balances.amount: Balances.amount + amount}
+        conflict_target=(Balance.user_id, Balance.token_id),
+        preserve=(Balance.user_id, Balance.token_id),
+        update={Balance.amount: Balance.amount + amount}
     )
 
 
 async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time):
-    return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
-                                     logical_time=logical_time, amount=amount,
-                                     tx_address=tx_address, tx_hash=tx_hash)
+    return await Transaction.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
+                                    logical_time=logical_time, amount=amount,
+                                    tx_address=tx_address, tx_hash=tx_hash)
 
 
 async def get_last_transaction(tg_id, token_id):
-    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.logical_time)) \
-        .where(Transactions.user_id == tg_id, Transactions.token_id == token_id)
+    result = await Transaction.select(Transaction.tx_hash, fn.Max(Transaction.logical_time)) \
+        .where(Transaction.user_id == tg_id, Transaction.token_id == token_id)
     return result[0]
 
 
@@ -93,9 +93,9 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
     # cuefa: {cuefa_bet: rock or paper or scissors}
     game_info = json.dumps(game_info)
 
-    return await GameLogs.create(user_id=user_id, token_id=token_id,
-                                 game=game, game_info=game_info,
-                                 bet=bet, result=result, timestamp=datetime.utcnow())
+    return await GameLog.create(user_id=user_id, token_id=token_id,
+                                game=game, game_info=game_info,
+                                bet=bet, result=result, timestamp=datetime.utcnow())
 
 
 if __name__ == "__main__":

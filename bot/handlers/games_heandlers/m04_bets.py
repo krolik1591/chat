@@ -4,7 +4,7 @@ from aiogram.types import Message
 
 from bot.const import START_POINTS, MIN_BET, MAX_BET
 from bot.db.methods import get_user_balance
-from bot.menus import get_game_menu
+from bot.menus.game_menus.game_menus import get_game_menu
 
 router = Router()
 

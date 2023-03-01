@@ -4,7 +4,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.const import THROTTLE_TIME_SPIN, MIN_BET, START_POINTS
-from bot.menus.game_menus import get_game_menu
+from bot.menus.game_menus.game_menus import get_game_menu
 from bot.utils.dice_check import get_coefficient
 import bot.db.methods as db
 

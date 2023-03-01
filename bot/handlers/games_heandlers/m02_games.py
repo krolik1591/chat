@@ -4,7 +4,8 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 import bot.db.methods as db
 from bot.const import MIN_BET
-from bot.menus import game_choice_menu, get_game_menu
+from bot.menus import game_choice_menu
+from bot.menus.game_menus.game_menus import get_game_menu
 from bot.menus.game_menus.main_or_demo_balance_menu import main_or_demo_balance
 
 router = Router()

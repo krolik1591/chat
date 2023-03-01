@@ -8,7 +8,6 @@ from aiogram.types import Message
 
 import bot.db.methods as db
 from bot.menus.deposit_menus.replenish_menu import replenish_menu
-from bot.texts import PRICE
 from bot.ton.api import Api
 from bot.ton.wallets import Wallets
 
@@ -38,8 +37,10 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
     res = await api.get_address_transactions('EQDLmQypksMNktrdskBEiSF_9oxvwxVIS1IO__K4IqTczUco',
                                              last_tx.tx_hash, last_tx.logical_time)
     pprint(res[-1])
+    token = await db.get_token_by_id(2)
+    print(token.price)
+    amount = int(res[-1]['in_msg']['value']) / 1e9 * token.price
 
-    amount = res[-1]['in_msg']['value'] / 1e9 * PRICE
     token_id = 2
     tx_type = 1
     tx_address = res[-1]['in_msg']['source']

@@ -6,7 +6,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.const import START_POINTS, MIN_BET
 from bot.db.methods import update_user_balance, get_user_balance, add_new_transaction
-from bot.menus import get_game_menu
+from bot.menus.game_menus.game_menus import get_game_menu
 
 router = Router()
 
