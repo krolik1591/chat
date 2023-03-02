@@ -2,8 +2,8 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.const import START_POINTS, MIN_BET, MAX_BET
-from bot.db.methods import get_user_balance
+from bot.const import MAX_BET, MIN_BET
+from bot.db.methods import get_token_by_id, get_user_balance
 from bot.menus.game_menus.game_menus import get_game_menu
 
 router = Router()
@@ -52,10 +52,10 @@ async def bet_change_text(message: Message, state: FSMContext):
 
     user_data = await state.get_data()
     last_msg = user_data.get('last_msg_id')
-    # user_balance = user_data.get('balance', START_POINTS)
     user_bet = user_data.get('bet', MIN_BET)
     token_id = user_data.get('token_id')
     user_balance = await get_user_balance(message.from_user.id, token_id)
+    token = await get_token_by_id(token_id)
 
     if last_msg is None:
         return
@@ -66,7 +66,7 @@ async def bet_change_text(message: Message, state: FSMContext):
 
     await state.update_data(bet=new_user_bet)
 
-    text, keyboard = get_game_menu(new_user_bet, user_balance)
+    text, keyboard = get_game_menu(new_user_bet, user_balance, token.icon)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
 
 
