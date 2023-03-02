@@ -4,11 +4,12 @@ import shutil
 
 from ton import TonlibClient
 
-
 libpath = pathlib.Path(__file__).parent / 'libtonlibjson.so.0.5'
 
+wallets = None
+
 class Wallets:
-    def __init__(self, wallet_seed: str, config='https://ton.org/testnet-global.config.json'):
+    def __init__(self, wallet_seed: str, config):
         self.wallet_seed = wallet_seed
         self.client = TonlibClient(config=config)
 
@@ -24,10 +25,18 @@ class Wallets:
         return await sender_wallet.transfer(to_address, amount)
 
 
+async def create_wallets(wallet_seed, config='https://ton.org/testnet-global.config.json'):
+    print('HI FROM WALLETS SUKA')
+    global wallets
+    wallets = Wallets(wallet_seed, config)
+    await wallets.init()
+    return wallets
+
+
 if __name__ == "__main__":
     wallets = Wallets(wallet_seed="water wish artist boss random burst entry assault size "
-                                 "february equal inner satoshi wire camp reason throw "
-                                 "allow chapter dose gym jungle vibrant truth")
+                                  "february equal inner satoshi wire camp reason throw "
+                                  "allow chapter dose gym jungle vibrant truth")
 
 
     async def test():
@@ -36,7 +45,9 @@ if __name__ == "__main__":
         # wallets.transfer(1, 'EQAwmioWn9M2qqbtUPjPFY50-0NENZFL2D5Kr_xu8nG5Qswm', 1000)
         print(wallet.address)
 
+
     import asyncio
+
     asyncio.run(test())
 
     file_to_rem = pathlib.Path("./.keystore")
