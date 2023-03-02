@@ -7,20 +7,20 @@ from bot.texts import DEPOSIT_MENU_TEXT, MENU_TEXT, REPLENISH_MENU_TEXT
 def replenish_menu(wallet_address):
     print(wallet_address)
     text = REPLENISH_MENU_TEXT.format(wallet_address=wallet_address)
-    kb = _keyboard()
+    kb = _keyboard(wallet_address)
 
     return text, kb
 
 
-def _keyboard():
+def _keyboard(wallet_address):
     kb = [
         [
             InlineKeyboardButton(text='Відкрити Tonkeeper',
-                                 url="https://app.tonkeeper.com/transfer/EQC5hQd4Icr36z0GD2vlrJIFZzHGa7TWK66rMwxnVI8TQuU0")
+                                 url=f"https://app.tonkeeper.com/transfer/{wallet_address}")
         ],
         [
-            InlineKeyboardButton(text='Відкрити TonHub',
-                                 url="https://app.tonkeeper.com/transfer/EQC5hQd4Icr36z0GD2vlrJIFZzHGa7TWK66rMwxnVI8TQuU0")
+            InlineKeyboardButton(text='Todo link',
+                                 url=f"https://app.tonkeeper.com/transfer/{wallet_address}")
         ],
         [
             InlineKeyboardButton(text='Мій гаманець', callback_data="deposit"),
