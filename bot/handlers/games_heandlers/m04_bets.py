@@ -46,9 +46,10 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
 async def bet_change_text(message: Message, state: FSMContext):
     await message.delete()
     try:
-        new_user_bet = int(message.text)
+        new_user_bet = float(message.text)
     except ValueError:
         return
+    new_user_bet = round(new_user_bet, 5)
 
     user_data = await state.get_data()
     last_msg = user_data.get('last_msg_id')

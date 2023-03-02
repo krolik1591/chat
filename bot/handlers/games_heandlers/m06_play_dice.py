@@ -36,10 +36,9 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
 
     # Parse dice result
     score_change = get_coefficient(msg.dice.value) * user_bet
-    user_win = score_change - user_bet
+    user_win = float(round(score_change - user_bet, 5))
 
     await db.update_user_balance(call.from_user.id, token_id, user_win)
-    await state.update_data(user_balance=user_balance + score_change)
     user_balance = await db.get_user_balance(call.from_user.id, token_id)
 
     await sleep(THROTTLE_TIME_SPIN)
@@ -52,7 +51,10 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
 
     # Send new game menu
     text, keyboard = get_game_menu(user_bet, user_balance, token_icon)
-    await call.message.answer(text, reply_markup=keyboard)
+    msg_ = await call.message.answer(text, reply_markup=keyboard)
+    await state.update_data(last_msg_id=msg_.message_id)
+
+
 
     game_info = {"dice_result": msg.dice.value}
     await db.insert_game_log(call.from_user.id, token_id, game=game,

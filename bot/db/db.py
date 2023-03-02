@@ -35,7 +35,7 @@ class Balance(manager.Model):
     balance_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='balances')
     token = ForeignKeyField(Token, backref='balances')
-    amount = BigIntegerField(default=0)
+    amount = DecimalField(default=0)
 
     class Meta:
         indexes = (
