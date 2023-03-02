@@ -35,7 +35,7 @@ async def get_user_balance(user_id, token_id):
 
 
 async def update_user_balance(user_id, token_id, new_balance):
-    return await Balance.update({Balance.amount: Balance.amount + new_balance}). \
+    return await Balance.update({Balance.amount: fn.ROUND(Balance.amount + new_balance, 5)}). \
         where(Balance.user_id == user_id, Balance.token_id == token_id)
 
 

@@ -12,9 +12,9 @@ router = Router()
 @router.callback_query(text=["bet_minus", "bet_plus", "bet_min", "bet_max", "bet_x2"])
 async def bet_change(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
-    user_bet = user_data.get('bet', MIN_BET)
+    user_bet = float(user_data.get('bet', MIN_BET))
     token_id = user_data.get('token_id')
-    user_balance = await get_user_balance(call.from_user.id, token_id)
+    user_balance = float(await get_user_balance(call.from_user.id, token_id))
     token_icon = user_data.get('token_icon')
 
     if call.data == 'bet_minus':
@@ -74,4 +74,4 @@ async def bet_change_text(message: Message, state: FSMContext):
 def normalize_bet(bet, balance):
     bet = min(bet, MAX_BET, balance)
     bet = max(bet, MIN_BET)
-    return bet
+    return float(round(bet, 5))
