@@ -17,7 +17,7 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
     await db.set_user_last_active(call.from_user.id)
 
     user_data = await state.get_data()
-    user_bet = user_data.get('bet', MIN_BET)
+    user_bet = float(user_data.get('bet', MIN_BET))
     token_icon = user_data.get('token_icon')
     token_id = user_data.get('token_id')
     game = user_data['game']
