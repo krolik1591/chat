@@ -9,9 +9,9 @@ libpath = pathlib.Path(__file__).parent / 'libtonlibjson.so.0.5'
 wallets = None
 
 class Wallets:
-    def __init__(self, wallet_seed: str, config):
+    def __init__(self, wallet_seed: str, config, ls_index):
         self.wallet_seed = wallet_seed
-        self.client = TonlibClient(config=config)
+        self.client = TonlibClient(config=config, ls_index=ls_index)
 
     async def init(self):
         await self.client.init_tonlib(cdll_path=libpath)
@@ -34,15 +34,25 @@ async def create_wallets(wallet_seed, config='https://ton.org/testnet-global.con
 
 
 if __name__ == "__main__":
-    wallets = Wallets(wallet_seed="water wish artist boss random burst entry assault size "
-                                  "february equal inner satoshi wire camp reason throw "
-                                  "allow chapter dose gym jungle vibrant truth")
+
+
 
 
     async def test():
-        await wallets.init()
-        wallet = await wallets.get_wallet(1)
-        # wallets.transfer(1, 'EQAwmioWn9M2qqbtUPjPFY50-0NENZFL2D5Kr_xu8nG5Qswm', 1000)
+        for i in range(32):
+            wallets = Wallets(wallet_seed="water wish artist boss random burst entry assault size "
+                                          "february equal inner satoshi wire camp reason throw "
+                                          "allow chapter dose gym jungle vibrant truth",config='https://ton.org/testnet-global.config.json', ls_index=i)
+            await wallets.init()
+            wallet = await wallets.get_wallet(357108179)
+
+            try:
+                await wallet.get_transactions(1677618345, 'p0V7nfdmNjmhFcd5uxqWwH+pghYdTGQvp2tYVhKTErc=')
+            except:
+                print(i, 'is not working')
+                pass
+
+
         print(wallet.address)
 
 
