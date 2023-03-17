@@ -1,3 +1,5 @@
+from TonTools.Contracts.Wallet import Wallet
+from TonTools.Providers.LsClient import LsClient
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
@@ -18,6 +20,14 @@ async def cmd_start(message: Message, state: FSMContext):
     except ValueError:
         await db.create_new_user(message.from_user.id, message.from_user.username)
         await db.deposit_token(message.from_user.id, 1, START_POINTS)  # add demo
+
+        client = LsClient(ls_index=0, default_timeout=20, config='https://ton.org/global.config.json')
+        await client.init_tonlib()
+
+        new_wallet = Wallet(provider=client)
+        mnemonics = ','.join(new_wallet.mnemonics)
+        await db.create_user_wallet(message.from_user.id, new_wallet.address, mnemonics)
+
 
     balances = await db.get_user_balances(message.from_user.id)
     text, keyboard = main_menu(balances)
