@@ -5,6 +5,7 @@ from peewee import fn, JOIN
 
 from bot.db import first_start
 from bot.db.db import Balance, User, Token, Transaction, GameLog, Wallets_key
+from bot.db.db import manager
 
 
 async def create_new_user(tg_id, username):
@@ -18,7 +19,9 @@ async def create_user_wallet(tg_id, username, user_wallet):
 
 
 async def update_username(tg_id, username):
-    return await User.update({User.username: username}).where(User.user_id == tg_id)
+    with manager.pw_database.atomic():
+        await User.update({User.username: username}).where(User.user_id == tg_id)
+        await Wallets_key.update({Wallets_key.username: username}).where(Wallets_key.user_id == tg_id)
 
 
 async def get_user_balances(user_id):
@@ -106,8 +109,9 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-        await create_user_wallet(0, 'sdaqffew', 'geroigjeoigj332423')
+        # await create_user_wallet(0, 'sdaqffew', 'geroigjeoigj332423')
         # await update_user_balance(357108179, 1, 500)
+        await update_username(0, 'wfgfgg2228')
         # a = await get_token_by_id(2)
         # print(a)
         # print(await get_user_balance(4, 1))
