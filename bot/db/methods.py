@@ -4,12 +4,17 @@ from datetime import datetime
 from peewee import fn, JOIN
 
 from bot.db import first_start
-from bot.db.db import Balance, User, Token, Transaction, GameLog
+from bot.db.db import Balance, User, Token, Transaction, GameLog, Wallets_key
 
 
 async def create_new_user(tg_id, username):
     return await User.create(user_id=tg_id, username=username, timestamp_registered=datetime.utcnow(),
                              timestamp_last_active=datetime.utcnow())
+
+
+
+async def create_user_wallet(tg_id, username, user_wallet):
+    return await Wallets_key.create(user_id = tg_id, username = username, user_wallet = user_wallet)
 
 
 async def update_username(tg_id, username):
@@ -101,7 +106,7 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-
+        await create_user_wallet(0, 'sdaqffew', 'geroigjeoigj332423')
         # await update_user_balance(357108179, 1, 500)
         # a = await get_token_by_id(2)
         # print(a)
