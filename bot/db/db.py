@@ -8,6 +8,17 @@ path = pathlib.Path(__file__).parent.parent.parent / 'db' / 'db.sqlite3'
 print(path)
 manager = Manager(f'aiosqlite:////{path}')
 
+class Wallets_(manager.Model):
+    wallets_id = BigIntegerField(primary_key=True)
+    user_id = IntegerField()
+    username = CharField()
+    user_wallet = CharField()
+
+
+    def __str__(self):
+        return f'Wallets_: {self.user_id} {self.username} {self.user_wallet}'
+
+
 
 class Token(manager.Model):
     token_id = BigIntegerField(primary_key=True)
