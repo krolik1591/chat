@@ -1,3 +1,6 @@
+from pprint import pprint
+
+from TonTools import *
 from TonTools.Contracts.Wallet import Wallet
 from TonTools.Providers.LsClient import LsClient
 from aiogram import Router, types
@@ -6,8 +9,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from bot.db.methods import create_user_wallet, get_user_wallet
 from bot.menus.deposit_menus.replenish_menu import replenish_menu
 
-
-
+from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -15,7 +17,6 @@ router = Router()
 
 @router.callback_query(text=["replenish"])
 async def replenish(call: types.CallbackQuery, state: FSMContext):
-
     user_wallet = await get_user_wallet(call.from_user.id)
 
     text, keyboard = replenish_menu(user_wallet.address)
@@ -25,11 +26,28 @@ async def replenish(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(text=["ton_check"])
 async def ton_check(call: types.CallbackQuery, state: FSMContext):
     # todo 2 arg token to .env, 24 words tuda je, 1 arg toje
+    master_wallet_seed = config.wallet_seed.split(' ')
+    master_wallet = Wallet(provider=state.bot.ton_client, mnemonics=master_wallet_seed)
 
-    client = LsClient(ls_index=0, default_timeout=20, config='https://ton.org/global.config.json')
-    await client.init_tonlib()
+    user_wallet_info = await get_user_wallet(call.from_user.id)
+    user_mnemonic = user_wallet_info.mnemonic.split(',')
+    print(user_mnemonic)
 
-    new_wallet = Wallet(provider=client)
+    my_wallet = Wallet(provider=state.bot.ton_client, mnemonics=user_mnemonic)
+    user_init_condition = await my_wallet.get_state()
+    if user_init_condition == 'uninitialized':
+        print('мінус 13 центів сучара')
+        await my_wallet.deploy()
+
+    mw_init_condition = await master_wallet.get_state()
+    if mw_init_condition == 'uninitialized':
+        print('mw not inited')
+        non_bounceable_master_wallet_address = Address(master_wallet.address).to_string(True, True, False)
+        await my_wallet.transfer_ton(destination_address=non_bounceable_master_wallet_address, amount=0.02)
+        await master_wallet.deploy()
+
+    x = await my_wallet.get_transactions()
+    pprint(x[0])
     # print(new_wallet.address)
 
     # wallets = state.bot.wallets

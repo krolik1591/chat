@@ -21,10 +21,8 @@ async def cmd_start(message: Message, state: FSMContext):
         await db.create_new_user(message.from_user.id, message.from_user.username)
         await db.deposit_token(message.from_user.id, 1, START_POINTS)  # add demo
 
-        client = LsClient(ls_index=0, default_timeout=20, config='https://ton.org/global.config.json')
-        await client.init_tonlib()
 
-        new_wallet = Wallet(provider=client)
+        new_wallet = Wallet(provider=state.bot.ton_client)
         mnemonics = ','.join(new_wallet.mnemonics)
         await db.create_user_wallet(message.from_user.id, new_wallet.address, mnemonics)
 

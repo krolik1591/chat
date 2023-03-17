@@ -7,7 +7,7 @@ from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 
 from bot.db import first_start
 from bot.handlers import routers
-# from bot.ton.wallets import create_wallets
+from bot.ton.wallets import create_wallets
 from bot.utils.config_reader import config
 from bot.middlewares.throttling import ThrottlingMiddleware
 
@@ -35,7 +35,7 @@ async def main():
 
     await first_start()
 
-    # bot.wallets = await create_wallets(config.wallet_seed)
+    bot.ton_client = await create_wallets()
 
     try:
         print("me:", await bot.get_me())
