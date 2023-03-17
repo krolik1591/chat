@@ -13,15 +13,16 @@ async def create_new_user(tg_id, username):
                              timestamp_last_active=datetime.utcnow())
 
 
-
-async def create_user_wallet(tg_id, username, user_wallet):
-    return await Wallets_key.create(user_id = tg_id, username = username, user_wallet = user_wallet)
+async def create_user_wallet(tg_id, address, mnemonic):
+    return await Wallets_key.create(user_id=tg_id, mnemonic=mnemonic, address=address)
 
 
 async def update_username(tg_id, username):
-    with manager.pw_database.atomic():
-        await User.update({User.username: username}).where(User.user_id == tg_id)
-        await Wallets_key.update({Wallets_key.username: username}).where(Wallets_key.user_id == tg_id)
+    return await User.update({User.username: username}).where(User.user_id == tg_id)
+
+
+async def get_user_wallet(tg_id):
+    return await Wallets_key.select().where(Wallets_key.user_id == tg_id).first()
 
 
 async def get_user_balances(user_id):
@@ -109,9 +110,10 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-        # await create_user_wallet(0, 'sdaqffew', 'geroigjeoigj332423')
+        # await create_user_wallet(52165, 'f3fgghhhhb43', ['geroigjeoigj332423', 'fefg', 'wdqgf343'])
         # await update_user_balance(357108179, 1, 500)
-        await update_username(0, 'wfgfgg2228')
+        hui = await get_user_wallet(357108179)
+        print(hui.address)
         # a = await get_token_by_id(2)
         # print(a)
         # print(await get_user_balance(4, 1))

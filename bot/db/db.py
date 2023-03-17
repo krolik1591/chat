@@ -11,12 +11,12 @@ manager = Manager(f'aiosqlite:////{path}')
 class Wallets_key(manager.Model):
     wallets_key_id = BigIntegerField(primary_key=True)
     user_id = IntegerField()
-    username = CharField()
-    user_wallet = CharField()
+    address = CharField()
+    mnemonic = CharField()
 
 
     def __str__(self):
-        return f'Wallets_: {self.user_id} {self.username} {self.user_wallet}'
+        return f'Wallets_: {self.user_id} {self.mnemonic} {self.address}'
 
 
 
