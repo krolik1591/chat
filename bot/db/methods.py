@@ -66,10 +66,10 @@ async def deposit_token(tg_id, token_id, amount):
     )
 
 
-async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time):
+async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):
     return await Transaction.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                     logical_time=logical_time, amount=amount,
-                                    tx_address=tx_address, tx_hash=tx_hash)
+                                    tx_address=tx_address, tx_hash=tx_hash, utime=utime)
 
 
 async def get_last_transaction(tg_id, token_id):
@@ -112,8 +112,9 @@ if __name__ == "__main__":
         await first_start()
         # await create_user_wallet(52165, 'f3fgghhhhb43', ['geroigjeoigj332423', 'fefg', 'wdqgf343'])
         # await update_user_balance(357108179, 1, 500)
-        hui = await get_user_wallet(357108179)
-        print(hui.address)
+        # await add_new_transaction(357108179, 2, 421, 1, 'EQB6wcEi1boFa7ktm0LKx4_g3sJvzaFy8Dl9ax_nAiJrp4CN', 'f4ggrgerg44f', 161165165)
+        x = await get_last_transaction(357108179, 2)
+        print(x)
         # a = await get_token_by_id(2)
         # print(a)
         # print(await get_user_balance(4, 1))

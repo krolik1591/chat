@@ -68,6 +68,7 @@ class Transaction(manager.Model):
     tx_address = CharField()
     tx_hash = CharField()
     logical_time = BigIntegerField()
+    utime = BigIntegerField()
     amount = BigIntegerField()
 
     def __str__(self):
