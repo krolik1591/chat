@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 import ton
@@ -13,21 +14,21 @@ from time import monotonic as timer
 TOKEN_ID = 2
 
 
+# оптимизация: сортировать пользователей по последней активности
 async def watch_txs(ton_wrapper: TonWrapper):
+    async def find_new_user_tx_(user_):
+        try:
+            await find_new_user_tx(ton_wrapper, user_)
+
+        except ton.tonlibjson.TonlibError as ex:
+            logging.exception('TonLib error')
+
     while True:
-        print('WATCH SUKA')
-        start = timer()  # remember when the loop starts
-        interval = 10  # 1 iteration per 10 sec
-        for _ in range(1):
-            all_users_wallet = await get_all_users()
-            try:
-                for user in all_users_wallet:
-                    await find_new_user_tx(ton_wrapper, user)
+        all_users_wallet = await get_all_users()
+        coros = [find_new_user_tx_(user) for user in all_users_wallet]
+        await asyncio.gather(*coros)
 
-                    time.sleep(interval - timer() % interval)
-
-            except ton.tonlibjson.TonlibError as ex:
-                logging.exception('TonLib error')
+        await asyncio.sleep(10)
 
 
 async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key):
@@ -47,7 +48,6 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key):
             last_tx_lt=last_tx_from_blockchain.lt,
             last_tx_hash=last_tx_from_blockchain.hash,
             first_tx_hash=last_tx_from_db.tx_hash)
-
 
         token = await get_token_by_id(TOKEN_ID)
 
