@@ -1,8 +1,11 @@
 import pathlib
+from pprint import pprint
 
 from TonTools import *
 from ton.tl.functions import Raw_GetTransactions
 from ton.tl.types import Internal_TransactionId
+
+from bot.db import methods as db, first_start
 
 libpath = pathlib.Path(__file__).parent / 'libtonlibjson.so.0.5'
 
@@ -22,7 +25,7 @@ class TonWrapper(LsClient):
                                        first_tx_lt=0, first_tx_hash=None, include_first_tx=False,
                                        limit=float('Infinity')):
 
-        account = await self.find_account(address)
+        account = await self.find_account(address, preload_state=False)
         # all_txs = await account.get_transactions()
         all_txs = await self._get_account_transactions(account, last_tx_lt, last_tx_hash,
                                                        first_tx_lt, first_tx_hash, include_first_tx, limit)
@@ -91,12 +94,46 @@ class TonWrapper(LsClient):
 
 if __name__ == '__main__':
     async def test():
+        # як зрозуміти шо в юзера є нова транза
+
+        await first_start()
         ton_wrapper = await TonWrapper.create()
 
         account = await ton_wrapper.find_account('EQDM703pKa70fP1G9MTNHt40hMekSRuMTmM6pmcizl49xnOr')
-        print(await ton_wrapper._get_account_transactions(account))
 
+        last_tx_from_blockchain = account.state.last_transaction_id
+
+        last_tx_from_db = await db.get_last_transaction(1, 2)  # типу беремо з бд
+
+        # last_tx_from_db.tx_hash зараз None.  спробуй розкоментити шось з цього шоб отримати інший результат
+
+        # last_tx_from_db.tx_hash = 'piMvJgACp7qH6HqWFC3m3Vlv2vuQiMv7q93s4DpFd68='  # нема нових
+        # last_tx_from_db.tx_hash = 'Cp1TXEm3Pw05UZJjB5Xk6ZaHIrVn5VUL4CBRdrbuVeE='  # є одна нова
+
+
+        if last_tx_from_blockchain.hash != last_tx_from_db.tx_hash:
+            print("NEW TX!")
+            # добуваємо нові транзи
+
+            pprint(await ton_wrapper.get_account_transactions(
+                account.address,
+                last_tx_lt=last_tx_from_blockchain.lt,
+                last_tx_hash=last_tx_from_blockchain.hash,
+                first_tx_hash=last_tx_from_db.tx_hash)
+                   )
+        else:
+            print("NO NEW TX :(")
         await ton_wrapper.tonlib_wrapper.close()
+
+
+    async def test2():
+        # як юзати get_account_transactions
+        ton_wrapper = await TonWrapper.create()
+        print('---------Всі транзи кошелю---------')
+        pprint(await ton_wrapper.get_account_transactions('EQDM703pKa70fP1G9MTNHt40hMekSRuMTmM6pmcizl49xnOr'))
+        print('---------Транзи починаючі з тої де кошель перевів 100000 на мастер воллет (не включно) ---------')
+        pprint(await ton_wrapper.get_account_transactions('EQDM703pKa70fP1G9MTNHt40hMekSRuMTmM6pmcizl49xnOr',
+                                                          first_tx_lt=36181412000001))
 
 
     asyncio.run(test())
