@@ -59,6 +59,8 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
     last_tx_from_db = await get_last_transaction(call.from_user.id, TOKEN_ID)
     print(last_tx_from_db.logical_time)
 
+
+    # todo replace with ton_client.get_account_transactions
     account = await ton_client.find_account(user_wallet.address)
     all_tx = await account.get_transactions(last_tx_from_db.logical_time, last_tx_from_db.tx_hash)
 
@@ -106,7 +108,7 @@ async def process_tx(outer_tx, token, user_id, master_wallet, user_wallet):
 
         print(f"SAVE TX {tx_type=} {tx_lt=}")
         with manager.pw_database.atomic():
-            await deposit_token(user_id, token.token_id, amount)
+            await deposit_token(user_id, token.token_id, amount)  # todo only if tx_type == 1
             await add_new_transaction(
                 user_id, token.token_id, value_nano_ton,
                 tx_type, tx_address, tx_hash, logical_time=tx_lt, utime=outer_tx.utime)
