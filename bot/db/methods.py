@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from pprint import pprint
 
 from peewee import fn, JOIN
 
@@ -16,6 +17,10 @@ async def create_new_user(tg_id, username):
 async def create_user_wallet(tg_id, address, mnemonic):
     return await Wallets_key.create(user_id=tg_id, mnemonic=mnemonic, address=address)
 
+
+async def get_all_users():
+    users = await Wallets_key.select(Wallets_key.user_id, Wallets_key.address)
+    return {user.user_id: user.address for user in users}
 
 async def update_username(tg_id, username):
     return await User.update({User.username: username}).where(User.user_id == tg_id)
@@ -110,15 +115,8 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-        # await create_user_wallet(52165, 'f3fgghhhhb43', ['geroigjeoigj332423', 'fefg', 'wdqgf343'])
-        # await update_user_balance(357108179, 1, 500)
-        # await add_new_transaction(357108179, 2, 421, 1, 'EQB6wcEi1boFa7ktm0LKx4_g3sJvzaFy8Dl9ax_nAiJrp4CN', 'f4ggrgerg44f', 161165165)
-        x = await get_last_transaction(357108179, 2)
-        print(x)
-        # a = await get_token_by_id(2)
-        # print(a)
-        # print(await get_user_balance(4, 1))
-        # x = await get_user_balances(4)
+        print(await get_all_users())
+
 
 
     import asyncio
