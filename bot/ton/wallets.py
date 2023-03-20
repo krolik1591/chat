@@ -12,9 +12,15 @@ libpath = pathlib.Path(__file__).parent / 'libtonlibjson.so.0.5'
 
 class TonWrapper(LsClient):
 
-    @classmethod
-    async def create(cls, config='https://ton.org/global.config.json', **kwargs):
-        ton_wrapper = cls(config=config, default_timeout=10, **kwargs)
+    def __init__(self, ls_index=0, config='https://ton.org/global-config.json', keystore=None, workchain_id=0,
+                 verbosity_level=0, default_timeout=10, addresses_form='user_friendly', master_wallet_mnemon=None):
+        super().__init__(ls_index, config, keystore, workchain_id, verbosity_level, default_timeout, addresses_form)
+        master_wallet_seed = master_wallet_mnemon.split(' ')
+        self.master_wallet = Wallet(provider=self, mnemonics=master_wallet_seed)
+
+    @staticmethod
+    async def create(config='https://ton.org/global.config.json', master_wallet_mnemon=None, **kwargs):
+        ton_wrapper = TonWrapper(config=config, default_timeout=10, master_wallet_mnemon=master_wallet_mnemon, **kwargs)
         await ton_wrapper.init_tonlib(cdll_path=libpath)
         return ton_wrapper
 

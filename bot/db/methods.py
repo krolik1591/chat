@@ -19,8 +19,8 @@ async def create_user_wallet(tg_id, address, mnemonic):
 
 
 async def get_all_users():
-    users = await Wallets_key.select(Wallets_key.user_id, Wallets_key.address)
-    return {user.user_id: user.address for user in users}
+    return await Wallets_key.select(Wallets_key.user_id, Wallets_key.address, Wallets_key.mnemonic)
+
 
 async def update_username(tg_id, username):
     return await User.update({User.username: username}).where(User.user_id == tg_id)
@@ -67,7 +67,7 @@ async def deposit_token(tg_id, token_id, amount):
         .on_conflict(
         conflict_target=(Balance.user_id, Balance.token_id),
         preserve=(Balance.user_id, Balance.token_id),
-        update={Balance.amount: Balance.amount + amount}
+        update=({Balance.amount: fn.ROUND(Balance.amount + amount, 5)})
     )
 
 
@@ -115,7 +115,8 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-        print(await get_all_users())
+        x = await get_all_users()
+        print(x[0].user_id)
 
 
 
