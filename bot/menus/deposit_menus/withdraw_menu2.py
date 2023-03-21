@@ -1,11 +1,11 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.menus.main_menu import balance_text
-from bot.texts import DEPOSIT_MENU_TEXT, MENU_TEXT, REPLENISH_MENU_TEXT, WITHDRAW_MENU_TEXT1
+from bot.texts import DEPOSIT_MENU_TEXT, MENU_TEXT, REPLENISH_MENU_TEXT, WITHDRAW_MENU_TEXT1, WITHDRAW_MENU_TEXT2
 
 
-def withdraw_menu_amount():
-    text = WITHDRAW_MENU_TEXT1.format()
+def withdraw_menu_address():
+    text = WITHDRAW_MENU_TEXT2.format()
     kb = _keyboard()
 
     return text, kb
@@ -14,7 +14,7 @@ def withdraw_menu_amount():
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text='Мій гаманець', callback_data="deposit")
+            InlineKeyboardButton(text='Назад', callback_data="withdraw")
         ]
     ]
 

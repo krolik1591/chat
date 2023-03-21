@@ -4,8 +4,7 @@ from TonTools.Providers.LsClient import LsClient
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
-from bot.db.methods import get_last_transaction, \
-    get_token_by_id, get_user_wallet
+from bot.db.methods import get_user_wallet
 from bot.menus.deposit_menus.replenish_menu import replenish_menu
 from bot.utils.config_reader import config
 
