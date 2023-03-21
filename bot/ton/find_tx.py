@@ -2,23 +2,30 @@ import asyncio
 import logging
 
 import ton
+
 from bot.db.db import Wallets_key
 from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id
+from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.ton.wallets import TonWrapper
 from bot.db.db import manager
 from bot.db import methods as db
+from aiogram.dispatcher.fsm.context import FSMContext
+
 
 import time
 from time import monotonic as timer
+
+import requests
+
 
 TOKEN_ID = 2
 
 
 # оптимизация: сортировать пользователей по последней активности
-async def watch_txs(ton_wrapper: TonWrapper):
+async def watch_txs(ton_wrapper: TonWrapper, bot):
     async def find_new_user_tx_(user_):
         try:
-            await find_new_user_tx(ton_wrapper, user_)
+            await find_new_user_tx(ton_wrapper, user_, bot)
 
         except ton.tonlibjson.TonlibError as ex:
             logging.exception('TonLib error')
@@ -31,7 +38,7 @@ async def watch_txs(ton_wrapper: TonWrapper):
         await asyncio.sleep(10)
 
 
-async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key):
+async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
     master_address = ton_wrapper.master_wallet.address
     account = await ton_wrapper.find_account(user.address)
 
@@ -52,19 +59,21 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key):
         token = await get_token_by_id(TOKEN_ID)
 
         for tx in new_tx:
-            await process_tx(tx, token, user.user_id, master_address, user.address)
+            await process_tx(tx, token, user.user_id, master_address, user.address, bot)
 
     else:
         print("NO NEW TX :(")
 
 
-async def process_tx(tx, token, user_id, master_address, user_address):
+async def process_tx(tx, token, user_id, master_address, user_address, bot):
     # поповнення рахунку для поповнення
     if tx['destination'] == user_address:
         tx_type = 1
         tx_address = tx['source']
-
         amount = int(tx['value']) / 1e9 * token.price
+
+        await successful_replenish(bot, amount, user_id)
+
         with manager.pw_database.atomic():
             await db.deposit_token(user_id, token.token_id, amount)
             await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
@@ -91,3 +100,11 @@ async def process_tx(tx, token, user_id, master_address, user_address):
 
     else:
         raise AssertionError('This should not happen')
+
+
+async def successful_replenish(bot, amount, user_id):
+    amount = round(amount, 2)
+    text, keyboard = successful_replenish_menu(amount)
+
+    await bot.send_message(user_id, text, reply_markup=keyboard)
+

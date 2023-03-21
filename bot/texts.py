@@ -9,6 +9,8 @@ DEPOSIT_MENU_TEXT = 'Мій гаманець \n\nБаланс: \n\n{balances} \n
 REPLENISH_MENU_TEXT = 'Поповнити Toncoin\n\nПереведіть Toncoin на свою депозитну адресу в The Open Network – TON\n\n' \
                       'Адреса:\n<code>{wallet_address}</code>'
 
+SUCCESSFUL_REPLENISH_MENU = 'Баланс успішно поповнений на {amount}!\n\nВдалих спінів, друже 😉'
+
 DEMO_FUNDS_ICON = '🍬'
 TON_FUNDS_ICON = '🍭'
 
