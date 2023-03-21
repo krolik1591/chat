@@ -15,7 +15,7 @@ def _keyboard():
     kb = [
 
         [
-            InlineKeyboardButton(text='ОК', callback_data="wtfOK")
+            InlineKeyboardButton(text='ОК', callback_data="delete_replenish_message")
         ]
     ]
 
