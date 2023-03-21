@@ -26,7 +26,6 @@ async def cmd_start(message: Message, state: FSMContext):
         mnemonics = ','.join(new_wallet.mnemonics)
         await db.create_user_wallet(message.from_user.id, new_wallet.address, mnemonics)
 
-
     balances = await db.get_user_balances(message.from_user.id)
     text, keyboard = main_menu(balances)
     msg = await message.answer(text, reply_markup=keyboard)
@@ -38,7 +37,6 @@ async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     balances = await db.get_user_balances(call.from_user.id)
     text, keyboard = main_menu(balances)
     await call.message.edit_text(text, reply_markup=keyboard)
-
 
 
 @router.callback_query(text=["deposit"])
