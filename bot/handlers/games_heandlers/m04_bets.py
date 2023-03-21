@@ -74,4 +74,4 @@ async def bet_change_text(message: Message, state: FSMContext):
 def normalize_bet(bet, balance):
     bet = min(bet, MAX_BET, balance)
     bet = max(bet, MIN_BET)
-    return float(round(bet, 5))
+    return float(round(bet, 2))

@@ -14,8 +14,10 @@ def main_menu(balances: dict):
 
 def balance_text(item):
     name = item['name'].upper()  # todo use i18n to name
+    amount = item['amount']
+    round_amount = round(amount, 2)
     return BALANCE_TEXT.format(
-        icon=item['icon'], name=name, amount=item['amount'])
+        icon=item['icon'], name=name, amount=round_amount)
 
 
 def _keyboard():

@@ -3,6 +3,7 @@ from bot.menus.game_menus.game_menu_base import game_menu_base
 
 
 def get_game_menu(bet, balances, token_icon, game_mode=None):
+    balances = round(balances, 2)
 
     if game_mode == "SLOTS":
         return game_menu_base(balances, bet, token_icon=token_icon,
