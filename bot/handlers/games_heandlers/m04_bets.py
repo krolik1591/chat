@@ -2,6 +2,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
+from bot.class_for_state import Choosen_message
 from bot.const import MAX_BET, MIN_BET
 from bot.db.methods import get_token_by_id, get_user_balance
 from bot.menus.game_menus.game_menus import get_game_menu
@@ -42,7 +43,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.message()
+@router.message(state=Choosen_message.choosing_bet)
 async def bet_change_text(message: Message, state: FSMContext):
     await message.delete()
     try:

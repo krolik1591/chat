@@ -1,15 +1,9 @@
-from TonTools import *
-from TonTools.Contracts.Wallet import Wallet
-from TonTools.Providers.LsClient import LsClient
 from aiogram import Router, types
-from aiogram.types import Message
 from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.types import Message
 
-from bot.db.methods import get_last_transaction, \
-    get_token_by_id, get_user_wallet
-from bot.menus.deposit_menus.replenish_menu import replenish_menu
+from bot.class_for_state import Choosen_message
 from bot.menus.deposit_menus.withdraw_menu1 import withdraw_menu
-from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -21,7 +15,9 @@ async def withdraw(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = withdraw_menu()
     await call.message.edit_text(text, reply_markup=keyboard)
 
-@router.message()
+    await state.set_state(Choosen_message.choosing_withdraw_amount)
+
+@router.message(state=Choosen_message.choosing_withdraw_amount)
 async def withdraw_user_text(message: Message, state: FSMContext):
     await message.delete()
     try:

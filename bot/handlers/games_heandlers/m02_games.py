@@ -4,6 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 import bot.db.methods as db
 from bot.const import MIN_BET
+from bot.handlers.games_heandlers.m04_bets import Choosen_message
 from bot.menus import game_choice_menu
 from bot.menus.game_menus.game_menus import get_game_menu
 from bot.menus.game_menus.main_or_demo_balance_menu import main_or_demo_balance
@@ -51,3 +52,5 @@ async def choice_token(call: types.CallbackQuery, state: FSMContext):
 
     text, keyboard = get_game_menu(user_bet, user_balance, token.icon)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+    await state.set_state(Choosen_message.choosing_bet)
