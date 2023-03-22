@@ -39,10 +39,8 @@ async def withdraw_user_text(message: Message, state: FSMContext):
     TOKEN_ID = 2
     user_balance = await get_user_balance(message.from_user.id, TOKEN_ID)
 
-    if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW:
-        err = 2  # user balance < MIN_WITHDRAW
-        if round_user_withdraw < MIN_WITHDRAW:
-            err = 1  # round_user_withdraw < MIN_WITHDRAW
+    if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
+        err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
         text, keyboard = withdraw_menu_err(err)
         await message.answer(text, reply_markup=keyboard)
         return
@@ -81,6 +79,33 @@ async def withdraw_user_address(message: Message, state: FSMContext):
 
     text, keyboard = withdraw_menu_check(user_withdraw_amount, user_withdraw_address.to_string())
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
+    await state.set_state(Choosen_message.withdraw_amount_approve)
+
+
+@router.message(state=Choosen_message.withdraw_amount_approve)
+async def withdraw_user_amount_approve(message: Message, state: FSMContext):
+    await message.delete()
+    try:
+        user_withdraw = float(message.text)
+    except ValueError:
+        return
+    round_user_withdraw = round(user_withdraw, 2)
+
+    TOKEN_ID = 2
+    user_balance = await get_user_balance(message.from_user.id, TOKEN_ID)
+
+    if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
+        err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
+        text, keyboard = withdraw_menu_err(err)
+        await message.answer(text, reply_markup=keyboard)
+        return
+
+    await state.update_data(user_withdraw_amount=round_user_withdraw)
+    last_msg = (await state.get_data()).get('last_msg_id')
+    user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
+
+    text, keyboard = withdraw_menu_check(round_user_withdraw, user_withdraw_address)
+    await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
 
 
 @router.callback_query(text=["approve"])
@@ -88,3 +113,14 @@ async def replenish_to_user(call: types.CallbackQuery, state: FSMContext):
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+
+async def check_user_withdraw_amount_err(user_balance, round_user_withdraw):
+    err = 0
+    if user_balance < MIN_WITHDRAW:
+        err = 2
+    if round_user_withdraw < MIN_WITHDRAW:
+        err = 1
+    if round_user_withdraw > user_balance:
+        err = 5
+    return err
