@@ -1,12 +1,11 @@
 from TonTools import *
 from TonTools.Contracts.Wallet import Wallet
-from TonTools.Providers.LsClient import LsClient
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db.methods import get_user_wallet
 from bot.menus.deposit_menus.replenish_menu import replenish_menu
-from bot.utils.config_reader import config
+from bot.ton.wallets import TonWrapper
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -45,10 +44,9 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
 
 
 async def prepare_wallets_to_work(state, user_id):
-    ton_client: LsClient = state.bot.ton_client
+    ton_client: TonWrapper = state.bot.ton_client
 
-    master_wallet_seed = config.wallet_seed.split(' ')
-    master_wallet = Wallet(provider=ton_client, mnemonics=master_wallet_seed)
+    master_wallet = ton_client.master_wallet
 
     user_wallet_info = await get_user_wallet(user_id)
     user_mnemonic = user_wallet_info.mnemonic.split(',')

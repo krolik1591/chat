@@ -5,7 +5,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import MIN_WITHDRAW
-from bot.db.methods import get_user_balance
+from bot.db.methods import get_token_by_id, get_user_balance
 from bot.handlers.states import Choosen_message
 from bot.menus.deposit_menus.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu1 import withdraw_menu_amount
@@ -113,7 +113,13 @@ async def replenish_to_user(call: types.CallbackQuery, state: FSMContext):
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
 
-    await withdraw_cash_to_user(state, call.from_user.id, user_withdraw_address)
+    TOKEN_ID = 2
+    token = await get_token_by_id(TOKEN_ID)
+    ton_amount = user_withdraw_amount / token.price
+
+    master_wallet = state.bot.ton_client.master_wallet
+
+    await withdraw_cash_to_user(master_wallet, user_withdraw_address, ton_amount)
 
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)

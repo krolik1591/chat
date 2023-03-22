@@ -71,10 +71,14 @@ async def deposit_token(tg_id, token_id, amount):
     )
 
 
-async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):
+async def update_withdraw_state(tx_hash):
+    return await Transaction.update({Transaction.withdraw_state: True}).where(Transaction.tx_hash == tx_hash)
+
+
+async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime, *, withdraw_state=False):
     return await Transaction.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                     logical_time=logical_time, amount=amount,
-                                    tx_address=tx_address, tx_hash=tx_hash, utime=utime)
+                                    tx_address=tx_address, tx_hash=tx_hash, utime=utime, withdraw_state=withdraw_state)
 
 
 async def get_last_transaction(tg_id, token_id):
@@ -115,8 +119,8 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         await first_start()
-        x = await get_all_users()
-        print(x[0].user_id)
+        # await add_new_transaction(228322, 3, 45641560, 9, 'cfvervrbgrtbr4ergb', 'fwgvrgbvgb43b5rbhr5', 46814651658146, 5651656)
+        await update_withdraw_state('fwgvrgbvgb43b5rbhr5')
 
 
 

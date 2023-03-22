@@ -2,22 +2,13 @@ import asyncio
 import logging
 
 import ton
+from TonTools.Contracts.Wallet import Wallet
 
-from bot.db.db import Wallets_key
-from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id
-from bot.handlers.deposit_heandlers.d01_replenish import prepare_wallets_to_work
+from bot.db import methods as db
+from bot.db.db import Wallets_key, manager
+from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id, get_user_wallet
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.ton.wallets import TonWrapper
-from bot.db.db import manager
-from bot.db import methods as db
-from aiogram.dispatcher.fsm.context import FSMContext
-
-
-import time
-from time import monotonic as timer
-
-import requests
-
 
 TOKEN_ID = 2
 
@@ -43,6 +34,9 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
     master_address = ton_wrapper.master_wallet.address
     account = await ton_wrapper.find_account(user.address)
 
+    user_mnemonic = user.mnemonic.split(',')
+    user_wallet = Wallet(provider=ton_wrapper, mnemonics=user_mnemonic)
+
     last_tx_from_blockchain = account.state.last_transaction_id
 
     last_tx_from_db = await get_last_transaction(user.user_id, TOKEN_ID)  # типу беремо з бд
@@ -60,19 +54,20 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
         token = await get_token_by_id(TOKEN_ID)
 
         for tx in new_tx:
-            await process_tx(tx, token, user.user_id, master_address, user.address, bot, account)
+            await process_tx(tx, token, user.user_id, master_address, user.address, bot, user_wallet)
 
     else:
         print("NO NEW TX :(")
 
 
-async def process_tx(tx, token, user_id, master_address, user_address, bot, user_account):
+async def process_tx(tx, token, user_id, master_address, user_address, bot, user_wallet):
     # поповнення рахунку для поповнення
     if tx['destination'] == user_address:
 
         tx_type = 1
         tx_address = tx['source']
         amount = int(tx['value']) / 1e9 * token.price
+        ton_amount = int(tx['value']) / 1e9
 
         await successful_replenish(bot, amount, user_id)
 
@@ -82,8 +77,9 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
                                          logical_time=tx['tx_lt'], utime=tx['utime'])
 
         # одразу відправляємо отримані гроші на мастер воллет
-        # await user_wallet.transfer_ton(master_wallet.address, 0, send_mode=128) # так надо  # todo
-        # await user_account.transfer(master_address, 0, send_mode=128)
+        print('tut pracue')
+        await user_wallet.transfer_ton(master_address, amount=500_000_000, send_mode=128)
+
 
     # переказ з юзер воллету на мастер воллет
     elif tx['source'] == user_address and tx['destination'] == master_address:
@@ -92,13 +88,13 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
                                      logical_time=tx['tx_lt'], utime=tx['utime'])
 
-
-    # переказ з мастер воллету на юзер воллет
-    elif tx['source'] == master_address and tx['destination'] == user_address:
-        tx_type = 3
-        tx_address = user_address
-        await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
-                                     logical_time=tx['tx_lt'], utime=tx['utime'])
+    # Вася все хуйня перероблюй
+    # # переказ з мастер воллету на юзер воллет
+    # elif tx['source'] == master_address and tx['destination'] == user_address:
+    #     tx_type = 3
+    #     tx_address = user_address
+    #     await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
+    #                                  logical_time=tx['tx_lt'], utime=tx['utime'])
 
 
     else:
