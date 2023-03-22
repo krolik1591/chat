@@ -1,17 +1,16 @@
+import tonsdk.utils
+from TonTools import Address
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.class_for_state import Choosen_message
 from bot.const import MIN_WITHDRAW
 from bot.db.methods import get_user_balance
+from bot.handlers.states import Choosen_message
 from bot.menus.deposit_menus.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu2 import withdraw_menu_address
 from bot.menus.deposit_menus.withdraw_menu3 import withdraw_menu_check
 from bot.menus.deposit_menus.withdraw_menu_err import withdraw_menu_err
-from bot.texts import WITHDRAW_MENU_TEXT1_1, WITHDRAW_MENU_TEXT1_2
-from TonTools import Address
-import tonsdk.utils
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -24,10 +23,10 @@ async def withdraw(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(last_msg_id=call.message.message_id)
 
-    await state.set_state(Choosen_message.choosing_withdraw_amount)
+    await state.set_state(Choosen_message.withdraw_amount)
 
 
-@router.message(state=Choosen_message.choosing_withdraw_amount)
+@router.message(state=Choosen_message.withdraw_amount)
 async def withdraw_user_text(message: Message, state: FSMContext):
     await message.delete()
     try:
@@ -54,10 +53,10 @@ async def withdraw_user_text(message: Message, state: FSMContext):
 
     text, keyboard = withdraw_menu_address()  # enter address
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
-    await state.set_state(Choosen_message.choosing_withdraw_address)
+    await state.set_state(Choosen_message.withdraw_address)
 
 
-@router.message(state=Choosen_message.choosing_withdraw_address)
+@router.message(state=Choosen_message.withdraw_address)
 async def withdraw_user_address(message: Message, state: FSMContext):
     await message.delete()
     try:
@@ -90,4 +89,4 @@ async def replenish_to_user(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(last_msg_id=call.message.message_id)
 
-    await state.set_state(Choosen_message.choosing_withdraw_amount)
+    await state.set_state(Choosen_message.withdraw_amount)

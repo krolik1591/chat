@@ -1,20 +1,18 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.menus.main_menu import balance_text
-from bot.texts import DEPOSIT_MENU_TEXT, MENU_TEXT, REPLENISH_MENU_TEXT, WITHDRAW_MENU_TEXT1, WITHDRAW_MENU_TEXT1_1, \
-    WITHDRAW_MENU_TEXT1_2, WITHDRAW_MENU_TEXT1_3, WITHDRAW_MENU_TEXT1_4, WITHDRAW_MENU_TEXT2
+from bot.texts import WITHDRAW_ERR1, WITHDRAW_ERR2, \
+    WITHDRAW_ERR3, WITHDRAW_ERR4
 
 
 def withdraw_menu_err(err):
-    print(err)
     if err == 1:
-        text = WITHDRAW_MENU_TEXT1_1.format()
+        text = WITHDRAW_ERR1.format()   # round_user_withdraw < MIN_WITHDRAW
     elif err == 2:
-        text = WITHDRAW_MENU_TEXT1_2.format()
+        text = WITHDRAW_ERR2.format()   # user balance < MIN_WITHDRAW
     elif err == 3:
-        text = WITHDRAW_MENU_TEXT1_3.format()
+        text = WITHDRAW_ERR3.format()   # test.net address
     elif err == 4:
-        text = WITHDRAW_MENU_TEXT1_4.format()
+        text = WITHDRAW_ERR4.format()   # incorrect address
 
     kb = _keyboard()
 
