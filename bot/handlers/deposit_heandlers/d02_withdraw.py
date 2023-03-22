@@ -7,6 +7,7 @@ from aiogram.types import Message
 from bot.const import MIN_WITHDRAW
 from bot.db.methods import get_user_balance
 from bot.handlers.states import Choosen_message
+from bot.menus.deposit_menus.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu2 import withdraw_menu_address
 from bot.menus.deposit_menus.withdraw_menu3 import withdraw_menu_check
@@ -84,9 +85,6 @@ async def withdraw_user_address(message: Message, state: FSMContext):
 
 @router.callback_query(text=["approve"])
 async def replenish_to_user(call: types.CallbackQuery, state: FSMContext):
-    text, keyboard = withdraw_menu_amount()
+    user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
+    text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
-
-    await state.update_data(last_msg_id=call.message.message_id)
-
-    await state.set_state(Choosen_message.withdraw_amount)

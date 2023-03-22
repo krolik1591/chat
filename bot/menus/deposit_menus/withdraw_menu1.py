@@ -1,7 +1,6 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.menus.main_menu import balance_text
-from bot.texts import DEPOSIT_MENU_TEXT, MENU_TEXT, REPLENISH_MENU_TEXT, WITHDRAW_MENU_TEXT1
+from bot.texts import WITHDRAW_MENU_TEXT1
 
 
 def withdraw_menu_amount():
