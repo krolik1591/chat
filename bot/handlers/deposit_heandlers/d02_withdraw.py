@@ -12,6 +12,7 @@ from bot.menus.deposit_menus.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu2 import withdraw_menu_address
 from bot.menus.deposit_menus.withdraw_menu3 import withdraw_menu_check
 from bot.menus.deposit_menus.withdraw_menu_err import withdraw_menu_err
+from bot.ton.withdraw_cash import withdraw_cash_to_user
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -72,9 +73,8 @@ async def withdraw_user_address(message: Message, state: FSMContext):
         await message.answer(text, reply_markup=keyboard)
         return
 
-    user_data = await state.get_data()
-    user_withdraw_amount = user_data.get('user_withdraw_amount')
-    last_msg = user_data.get('last_msg_id')
+    user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
+    last_msg = (await state.get_data()).get('last_msg_id')
     await state.update_data(user_withdraw_address=user_withdraw_address.to_string())
 
     text, keyboard = withdraw_menu_check(user_withdraw_amount, user_withdraw_address.to_string())
@@ -111,6 +111,10 @@ async def withdraw_user_amount_approve(message: Message, state: FSMContext):
 @router.callback_query(text=["approve"])
 async def replenish_to_user(call: types.CallbackQuery, state: FSMContext):
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
+    user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
+
+    await withdraw_cash_to_user(state, call.from_user.id, user_withdraw_address)
+
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 

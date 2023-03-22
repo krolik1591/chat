@@ -5,6 +5,7 @@ import ton
 
 from bot.db.db import Wallets_key
 from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id
+from bot.handlers.deposit_heandlers.d01_replenish import prepare_wallets_to_work
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.ton.wallets import TonWrapper
 from bot.db.db import manager
@@ -59,15 +60,16 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
         token = await get_token_by_id(TOKEN_ID)
 
         for tx in new_tx:
-            await process_tx(tx, token, user.user_id, master_address, user.address, bot)
+            await process_tx(tx, token, user.user_id, master_address, user.address, bot, account)
 
     else:
         print("NO NEW TX :(")
 
 
-async def process_tx(tx, token, user_id, master_address, user_address, bot):
+async def process_tx(tx, token, user_id, master_address, user_address, bot, user_account):
     # поповнення рахунку для поповнення
     if tx['destination'] == user_address:
+
         tx_type = 1
         tx_address = tx['source']
         amount = int(tx['value']) / 1e9 * token.price
@@ -81,6 +83,7 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot):
 
         # одразу відправляємо отримані гроші на мастер воллет
         # await user_wallet.transfer_ton(master_wallet.address, 0, send_mode=128) # так надо  # todo
+        # await user_account.transfer(master_address, 0, send_mode=128)
 
     # переказ з юзер воллету на мастер воллет
     elif tx['source'] == user_address and tx['destination'] == master_address:
