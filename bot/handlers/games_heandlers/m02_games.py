@@ -53,4 +53,4 @@ async def choice_token(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = get_game_menu(user_bet, user_balance, token.icon)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    await state.set_state(Choosen_message.choosing_bet)
+    await state.set_state(Choosen_message.bet)

@@ -42,6 +42,8 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
         await user_wallet.transfer_ton(destination_address=non_bounceable_master_wallet_address, amount=0.02)
         await master_wallet.deploy()
 
+    print(user_init_condition, mw_init_condition)
+
 
 async def prepare_wallets_to_work(state, user_id):
     ton_client: TonWrapper = state.bot.ton_client
