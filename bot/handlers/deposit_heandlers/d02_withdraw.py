@@ -119,10 +119,10 @@ async def replenish_to_user(call: types.CallbackQuery, state: FSMContext):
 
     master_wallet = state.bot.ton_client.master_wallet
 
-    await withdraw_cash_to_user(master_wallet, user_withdraw_address, ton_amount)
-
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+    await withdraw_cash_to_user(master_wallet, user_withdraw_address, ton_amount, call.from_user.id, token, state)
 
 
 async def check_user_withdraw_amount_err(user_balance, round_user_withdraw):

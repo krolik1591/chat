@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.texts import WITHDRAW_ERR1, WITHDRAW_ERR2, \
-    WITHDRAW_ERR3, WITHDRAW_ERR4, WITHDRAW_ERR5
+    WITHDRAW_ERR3, WITHDRAW_ERR4, WITHDRAW_ERR5, WITHDRAW_ERR6
 
 
 def withdraw_menu_err(err):
@@ -15,6 +15,9 @@ def withdraw_menu_err(err):
         text = WITHDRAW_ERR4.format()   # incorrect address
     elif err == 5:
         text = WITHDRAW_ERR5.format()   # round_user_withdraw > user_balance
+    elif err == 6:
+        text = WITHDRAW_ERR6.format()   # end money on master wallet
+
 
 
     kb = _keyboard()
