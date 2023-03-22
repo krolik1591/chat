@@ -27,15 +27,8 @@ async def del_replenish_message(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(text=["ton_check"])
 async def ton_check(call: types.CallbackQuery, state: FSMContext):
-    ton_client: LsClient = state.bot.ton_client
+    master_wallet, user_wallet = await prepare_wallets_to_work(state, call.from_user.id)
 
-    master_wallet_seed = config.wallet_seed.split(' ')
-    master_wallet = Wallet(provider=ton_client, mnemonics=master_wallet_seed)
-
-    user_wallet_info = await get_user_wallet(call.from_user.id)
-    user_mnemonic = user_wallet_info.mnemonic.split(',')
-
-    user_wallet = Wallet(provider=ton_client, mnemonics=user_mnemonic)
     user_init_condition = await user_wallet.get_state()
 
     if user_init_condition == 'uninitialized':
@@ -49,3 +42,16 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
         non_bounceable_master_wallet_address = Address(master_wallet.address).to_string(True, True, False)
         await user_wallet.transfer_ton(destination_address=non_bounceable_master_wallet_address, amount=0.02)
         await master_wallet.deploy()
+
+
+async def prepare_wallets_to_work(state, user_id):
+    ton_client: LsClient = state.bot.ton_client
+
+    master_wallet_seed = config.wallet_seed.split(' ')
+    master_wallet = Wallet(provider=ton_client, mnemonics=master_wallet_seed)
+
+    user_wallet_info = await get_user_wallet(user_id)
+    user_mnemonic = user_wallet_info.mnemonic.split(',')
+    user_wallet = Wallet(provider=ton_client, mnemonics=user_mnemonic)
+
+    return master_wallet, user_wallet
