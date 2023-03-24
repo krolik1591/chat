@@ -15,7 +15,7 @@ def withdraw_menu_check(user_withdraw_amount, user_withdraw_address, token_price
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text='Підтвердити', callback_data="approve")
+            InlineKeyboardButton(text='✅ Підтвердити', callback_data="approve")
         ],
         [
             InlineKeyboardButton(text='Назад', callback_data="withdraw")

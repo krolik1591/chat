@@ -42,5 +42,9 @@ async def back_to_main(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(text=["deposit"])
 async def deposit_menus(call: types.CallbackQuery, state: FSMContext):
     balances = await db.get_user_balances(call.from_user.id)
-    text, keyboard = deposit_menu(balances)
+
+    TOKEN_ID = 2
+    token = await db.get_token_by_id(TOKEN_ID)
+
+    text, keyboard = deposit_menu(balances, token.price)
     await call.message.edit_text(text, reply_markup=keyboard)

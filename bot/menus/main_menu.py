@@ -23,17 +23,17 @@ def balance_text(item):
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text='Ігри', callback_data="all_games"),
+            InlineKeyboardButton(text='🎲 Ігри', callback_data="all_games"),
         ],
         [
-            InlineKeyboardButton(text='Депозит', callback_data="deposit")
+            InlineKeyboardButton(text='💎 Депозит', callback_data="deposit")
         ],
         [
-            InlineKeyboardButton(text='Налаштування', callback_data="settings")
+            InlineKeyboardButton(text='⚙️ Налаштування', callback_data="settings")
         ],
         [
-            InlineKeyboardButton(text='Підтримка', callback_data="support"),
-            InlineKeyboardButton(text='Реклама', callback_data="spam")
+            InlineKeyboardButton(text='📢 Реклама', callback_data="spam"),
+            InlineKeyboardButton(text='💬 Підтримка', callback_data="support")
         ]
     ]
 
