@@ -73,11 +73,14 @@ async def withdraw_user_address(message: Message, state: FSMContext):
         await message.answer(text, reply_markup=keyboard)
         return
 
+    TOKEN_ID = 2
+    token = await get_token_by_id(TOKEN_ID)
+
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     last_msg = (await state.get_data()).get('last_msg_id')
     await state.update_data(user_withdraw_address=user_withdraw_address.to_string())
 
-    text, keyboard = withdraw_menu_check(user_withdraw_amount, user_withdraw_address.to_string())
+    text, keyboard = withdraw_menu_check(user_withdraw_amount, user_withdraw_address.to_string(), token.price)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
     await state.set_state(Choosen_message.withdraw_amount_approve)
 
@@ -92,6 +95,7 @@ async def withdraw_user_amount_approve(message: Message, state: FSMContext):
     round_user_withdraw = round(user_withdraw, 2)
 
     TOKEN_ID = 2
+    token = await get_token_by_id(TOKEN_ID)
     user_balance = await get_user_balance(message.from_user.id, TOKEN_ID)
 
     if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
@@ -104,7 +108,7 @@ async def withdraw_user_amount_approve(message: Message, state: FSMContext):
     last_msg = (await state.get_data()).get('last_msg_id')
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
 
-    text, keyboard = withdraw_menu_check(round_user_withdraw, user_withdraw_address)
+    text, keyboard = withdraw_menu_check(round_user_withdraw, user_withdraw_address, token.price)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
 
 

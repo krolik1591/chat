@@ -83,7 +83,7 @@ async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx
 
 async def get_last_transaction(tg_id, token_id):
     result = await Transaction.select(Transaction.tx_hash, fn.Max(Transaction.utime)) \
-        .where(Transaction.user_id == tg_id, Transaction.token_id == token_id)
+        .where(Transaction.user_id == tg_id, Transaction.token_id == token_id, Transaction.tx_type != 3)
     return result[0]
 
 
