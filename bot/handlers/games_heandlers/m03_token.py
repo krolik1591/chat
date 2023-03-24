@@ -21,7 +21,7 @@ async def replenish_demo_balance(call: types.CallbackQuery, state: FSMContext):
     token_icon = user_data.get('token_icon')
     user_balance = await get_user_balance(call.from_user.id, 1)
 
-    text, keyboard = get_game_menu(user_bet, user_balance, token_icon)
+    text, keyboard = get_game_menu(user_bet, user_balance, token_icon, DEMO_TOKEN)
     await call.message.edit_text(text, reply_markup=keyboard)
 
     await add_new_transaction(call.from_user.id, DEMO_TOKEN, 500, int(time.time()), START_POINTS, 'demo_address', 'demo_hash', int(time.time()))

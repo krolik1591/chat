@@ -39,7 +39,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(bet=new_user_bet)
 
-    text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon)
+    text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
