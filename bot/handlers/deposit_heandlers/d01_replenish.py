@@ -26,10 +26,15 @@ async def del_replenish_message(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(text=["ton_check"])
 async def ton_check(call: types.CallbackQuery, state: FSMContext):
-    master_wallet, user_wallet = await prepare_wallets_to_work(state, call.from_user.id)
+    ton_client: TonWrapper = state.bot.ton_client
+
+    master_wallet = ton_client.master_wallet
+
+    user_wallet_info = await get_user_wallet(call.from_user.id)
+    user_mnemonic = user_wallet_info.mnemonic.split(',')
+    user_wallet = Wallet(provider=ton_client, mnemonics=user_mnemonic)
 
     user_init_condition = await user_wallet.get_state()
-
     if user_init_condition == 'uninitialized':
         # todo if balance < 13 centiv:  fuck off
         print('мінус 13 центів сучара')
@@ -46,16 +51,3 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
 
     mw_balance = await master_wallet.get_balance()
     print('mw balance', mw_balance)
-
-
-
-async def prepare_wallets_to_work(state, user_id):
-    ton_client: TonWrapper = state.bot.ton_client
-
-    master_wallet = ton_client.master_wallet
-
-    user_wallet_info = await get_user_wallet(user_id)
-    user_mnemonic = user_wallet_info.mnemonic.split(',')
-    user_wallet = Wallet(provider=ton_client, mnemonics=user_mnemonic)
-
-    return master_wallet, user_wallet

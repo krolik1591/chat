@@ -7,11 +7,11 @@ from aiogram.types import Message
 from bot.const import MIN_WITHDRAW
 from bot.db.methods import get_token_by_id, get_user_balance
 from bot.handlers.states import Choosen_message
-from bot.menus.deposit_menus.withdraw_approve_menu import withdraw_approve_menu
-from bot.menus.deposit_menus.withdraw_menu1 import withdraw_menu_amount
-from bot.menus.deposit_menus.withdraw_menu2 import withdraw_menu_address
-from bot.menus.deposit_menus.withdraw_menu3 import withdraw_menu_check
-from bot.menus.deposit_menus.withdraw_menu_err import withdraw_menu_err
+from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
+from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_amount
+from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
+from bot.menus.deposit_menus.withdraw_menu.withdraw_menu3 import withdraw_menu_check
+from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 
 flags = {"throttling_key": "default"}
@@ -113,7 +113,7 @@ async def withdraw_user_amount_approve(message: Message, state: FSMContext):
 
 
 @router.callback_query(text=["approve"])
-async def replenish_to_user(call: types.CallbackQuery, state: FSMContext):
+async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
 

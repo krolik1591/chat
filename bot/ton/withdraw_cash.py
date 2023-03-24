@@ -1,5 +1,5 @@
-from bot.menus.deposit_menus.withdraw_condition_menu import withdraw_condition_menu
-from bot.menus.deposit_menus.withdraw_menu_err import withdraw_menu_err
+from bot.menus.deposit_menus.withdraw_menu.withdraw_condition_menu import withdraw_condition_menu
+from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
 from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 

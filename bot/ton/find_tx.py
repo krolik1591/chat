@@ -7,7 +7,7 @@ from TonTools.Contracts.Wallet import Wallet
 from bot.const import INIT_PAY_TON
 from bot.db import methods as db
 from bot.db.db import Wallets_key, manager
-from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id, get_user_wallet
+from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id
 from bot.menus.deposit_menus.init_menu import init_menu
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.ton.wallets import TonWrapper
@@ -69,22 +69,14 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         tx_type = 1
         tx_address = tx['source']
         amount = int(tx['value']) / 1e9 * token.price
-        ton_amount = int(tx['value']) / 1e9
+        nano_ton_amount = int(tx['value'])
 
         user_init_condition = await user_wallet.get_state()
         if user_init_condition == 'uninitialized':
-            if int(tx['value']) < 14000000:
-                text, keyboard = init_menu(False, INIT_PAY_TON)
-                await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
+            inited = await init_user_wallet(nano_ton_amount, bot, user_id, user_wallet)
+            nano_ton_amount -= INIT_PAY_TON * 1e9
 
-            else:
-                await user_wallet.deploy()
-                print('мінус 13 центів сучара')
-                amount -= INIT_PAY_TON
-                text, keyboard = init_menu(True, INIT_PAY_TON)
-                await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
-
-        await successful_replenish(bot, amount, user_id)
+        await successful_deposit(bot, amount, user_id)
 
         with manager.pw_database.atomic():
             await db.deposit_token(user_id, token.token_id, amount)
@@ -107,8 +99,22 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         raise AssertionError('This should not happen')
 
 
-async def successful_replenish(bot, amount, user_id):
+async def successful_deposit(bot, amount, user_id):
     amount = round(amount, 2)
     text, keyboard = successful_replenish_menu(amount)
 
     await bot.send_message(user_id, text, reply_markup=keyboard)
+
+
+async def init_user_wallet(tx_value, bot, user_id, user_wallet):
+    if tx_value < INIT_PAY_TON * 1e9:
+        text, keyboard = init_menu(False, INIT_PAY_TON)
+        await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
+        return False
+
+    else:
+        await user_wallet.deploy()
+        print('мінус 13 центів сучара')
+        text, keyboard = init_menu(True, INIT_PAY_TON)
+        await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
+        return True
