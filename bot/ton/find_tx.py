@@ -81,6 +81,8 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
                 await user_wallet.deploy()
                 print('мінус 13 центів сучара')
                 amount -= INIT_PAY_TON
+                text, keyboard = init_menu(True, INIT_PAY_TON)
+                await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
 
         await successful_replenish(bot, amount, user_id)
 

@@ -44,6 +44,10 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
 
     print(user_init_condition, mw_init_condition)
 
+    mw_balance = await master_wallet.get_balance()
+    print('mw balance', mw_balance)
+
+
 
 async def prepare_wallets_to_work(state, user_id):
     ton_client: TonWrapper = state.bot.ton_client
