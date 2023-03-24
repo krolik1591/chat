@@ -4,9 +4,11 @@ import logging
 import ton
 from TonTools.Contracts.Wallet import Wallet
 
+from bot.const import INIT_PAY_TON
 from bot.db import methods as db
 from bot.db.db import Wallets_key, manager
 from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id, get_user_wallet
+from bot.menus.deposit_menus.init_menu import init_menu
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.ton.wallets import TonWrapper
 
@@ -69,6 +71,17 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         amount = int(tx['value']) / 1e9 * token.price
         ton_amount = int(tx['value']) / 1e9
 
+        user_init_condition = await user_wallet.get_state()
+        if user_init_condition == 'uninitialized':
+            if int(tx['value']) < 14000000:
+                text, keyboard = init_menu(False, INIT_PAY_TON)
+                await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
+
+            else:
+                await user_wallet.deploy()
+                print('мінус 13 центів сучара')
+                amount -= INIT_PAY_TON
+
         await successful_replenish(bot, amount, user_id)
 
         with manager.pw_database.atomic():
@@ -88,15 +101,6 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
                                      logical_time=tx['tx_lt'], utime=tx['utime'])
 
-    # Вася все хуйня перероблюй
-    # # переказ з мастер воллету на юзер воллет
-    # elif tx['source'] == master_address and tx['destination'] == user_address:
-    #     tx_type = 3
-    #     tx_address = user_address
-    #     await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
-    #                                  logical_time=tx['tx_lt'], utime=tx['utime'])
-
-
     else:
         raise AssertionError('This should not happen')
 
@@ -106,4 +110,3 @@ async def successful_replenish(bot, amount, user_id):
     text, keyboard = successful_replenish_menu(amount)
 
     await bot.send_message(user_id, text, reply_markup=keyboard)
-

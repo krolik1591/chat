@@ -1,12 +1,13 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from bot.const import INIT_PAY_TON
 from bot.menus.main_menu import balance_text
-from bot.texts import DEPOSIT_MENU_TEXT, MENU_TEXT
+from bot.texts import DEPOSIT_MENU_TEXT
 
 
 def deposit_menu(balances: dict, token_price):
     balances_text = '\n'.join([balance_text(i) for i in balances.values()])
-    text = DEPOSIT_MENU_TEXT.format(balances=balances_text, token_price=token_price)
+    text = DEPOSIT_MENU_TEXT.format(balances=balances_text, token_price=token_price, init_pay_ton=INIT_PAY_TON)
     kb = _keyboard()
 
     return text, kb
