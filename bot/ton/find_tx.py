@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+import aiogram
 import ton
 from TonTools.Contracts.Wallet import Wallet
 
@@ -53,6 +54,9 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
             last_tx_hash=last_tx_from_blockchain.hash,
             first_tx_hash=last_tx_from_db.tx_hash)
 
+        if len(new_tx) == 0:
+            print('fake alarm, its deploy-tx')
+
         token = await get_token_by_id(TOKEN_ID)
 
         for tx in new_tx:
@@ -85,8 +89,10 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
 
         # одразу відправляємо отримані гроші на мастер воллет
         print('tut pracue')
-        await user_wallet.transfer_ton(master_address, amount=500_000_000, send_mode=128)
-
+        try:
+            await user_wallet.transfer_ton(master_address, amount=500_000_000, send_mode=128)
+        except:
+            print(f'cant transfer cause wallet not inited (юзер: {user_id} бомж лох дєб нема 0.014 на рахунку)')
 
     # переказ з юзер воллету на мастер воллет
     elif tx['source'] == user_address and tx['destination'] == master_address:
@@ -109,12 +115,12 @@ async def successful_deposit(bot, amount, user_id):
 async def init_user_wallet(tx_value, bot, user_id, user_wallet):
     if tx_value < INIT_PAY_TON * 1e9:
         text, keyboard = init_menu(False, INIT_PAY_TON)
-        await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
+        await bot.send_message(user_id, text, reply_markup=keyboard)
         return False
 
     else:
         await user_wallet.deploy()
-        print('мінус 13 центів сучара')
+        print('мінус 14 центів сучара')
         text, keyboard = init_menu(True, INIT_PAY_TON)
-        await bot.send_message(text, reply_markup=keyboard, chat_id=user_id)
+        await bot.send_message(user_id, text, reply_markup=keyboard)
         return True
