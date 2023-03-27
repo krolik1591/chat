@@ -78,6 +78,8 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         user_init_condition = await user_wallet.get_state()
         if user_init_condition == 'uninitialized':
             inited = await init_user_wallet(nano_ton_amount, bot, user_id, user_wallet)
+            if inited:
+                await asyncio.sleep(30)
             nano_ton_amount -= INIT_PAY_TON * 1e9
 
         await successful_deposit(bot, amount, user_id)
