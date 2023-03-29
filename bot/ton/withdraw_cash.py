@@ -17,7 +17,7 @@ async def withdraw_cash_to_user(master_wallet, user_withdraw_address, withdraw_a
         withdraw_condition = await process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton, user_id,
                                                        token, master_wallet.address)
 
-        text, keyboard = withdraw_condition_menu(withdraw_condition)  # not enough money on master wallet
+        text, keyboard = withdraw_condition_menu(withdraw_condition)    # transfer money approve
         await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)
 
     else:

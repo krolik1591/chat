@@ -35,7 +35,7 @@ PAYMENT_DENIED = '❌ Гроші не зараховані, треба щось 
 
 
 
-DEMO_FUNDS_ICON = ''
+DEMO_FUNDS_ICON = '🐠'
 TON_FUNDS_ICON = '🍭'
 
 DEFAULT_PLAY_TEXT = 'Грати'
