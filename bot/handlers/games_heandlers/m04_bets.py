@@ -15,7 +15,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
     user_bet = float(user_data.get(BET, MIN_BET))
     token_id = user_data.get(TOKEN_ID)
-    user_balance = float(await get_user_balance(call.from_user.id, token_id))
+    user_balance = await get_user_balance(call.from_user.id, token_id)
     token_icon = user_data.get(TOKEN_ICON)
 
     if call.data == 'bet_minus':
@@ -38,7 +38,6 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
         return
 
     await state.update_data(**{BET: new_user_bet})
-
 
     text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id)
     await call.message.edit_text(text, reply_markup=keyboard)
