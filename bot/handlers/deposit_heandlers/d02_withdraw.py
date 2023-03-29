@@ -6,7 +6,7 @@ from aiogram.types import Message
 
 from bot.const import MIN_WITHDRAW
 from bot.db.methods import get_token_by_id, get_user_balance
-from bot.handlers.states import Choosen_message
+from bot.handlers.states import Choosen_message, LAST_MSG_ID
 from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
@@ -47,7 +47,7 @@ async def withdraw_user_text(message: Message, state: FSMContext):
         return
 
     user_data = await state.get_data()
-    last_msg = user_data.get('last_msg_id')
+    last_msg = user_data.get(LAST_MSG_ID)
 
     await state.update_data(user_withdraw_amount=round_user_withdraw)
 
@@ -77,7 +77,7 @@ async def withdraw_user_address(message: Message, state: FSMContext):
     token = await get_token_by_id(TOKEN_ID)
 
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
-    last_msg = (await state.get_data()).get('last_msg_id')
+    last_msg = (await state.get_data()).get(LAST_MSG_ID)
     await state.update_data(user_withdraw_address=user_withdraw_address.to_string())
 
     text, keyboard = withdraw_menu_check(user_withdraw_amount, user_withdraw_address.to_string(), token.price)
@@ -105,7 +105,7 @@ async def withdraw_user_amount_approve(message: Message, state: FSMContext):
         return
 
     await state.update_data(user_withdraw_amount=round_user_withdraw)
-    last_msg = (await state.get_data()).get('last_msg_id')
+    last_msg = (await state.get_data()).get(LAST_MSG_ID)
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
 
     text, keyboard = withdraw_menu_check(round_user_withdraw, user_withdraw_address, token.price)
