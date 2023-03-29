@@ -12,7 +12,7 @@ async def process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton,
     withdraw_amount_nano = withdraw_amount_ton * 1e9
 
     ton_client: TonWrapper = state.bot.ton_client
-    all_tx = await ton_client.get_transactions('EQAImWwEUvtB93Te5Ifui0Ni-cU8SRnoaWD2qhWKh_XZfYTn')
+    all_tx = await ton_client.get_transactions(master_wallet_address)
     for tx in all_tx:
         for out_msg in tx.out_msgs:
             if out_msg.destination == user_withdraw_address and out_msg.source == master_wallet_address and int(out_msg.value) == int(withdraw_amount_nano):
