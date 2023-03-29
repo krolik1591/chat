@@ -1,7 +1,6 @@
 import asyncio
 import logging
 
-import aiogram
 import ton
 from TonTools.Contracts.Wallet import Wallet
 
@@ -73,18 +72,20 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         tx_type = 1
         tx_address = tx['source']
         amount = int(tx['value']) / 1e9 * token.price
-        nano_ton_amount = int(tx['value'])
 
         user_init_condition = await user_wallet.get_state()
+        inited = None
         if user_init_condition == 'uninitialized':
-            inited = await init_user_wallet(nano_ton_amount, bot, user_id, user_wallet)
+            inited = await init_user_wallet(bot, user_id, user_wallet)
             if inited:
                 await asyncio.sleep(30)
-            nano_ton_amount -= INIT_PAY_TON * 1e9
 
         await successful_deposit(bot, amount, user_id)
 
         with manager.pw_database.atomic():
+            if inited:
+                amount -= INIT_PAY_TON * token.price
+
             await db.deposit_token(user_id, token.token_id, amount)
             await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
                                          logical_time=tx['tx_lt'], utime=tx['utime'])
@@ -94,7 +95,7 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         try:
             await user_wallet.transfer_ton(master_address, amount=500_000_000, send_mode=128)
         except:
-            print(f'cant transfer cause wallet not inited (юзер: {user_id} бомж лох дєб нема 0.014 на рахунку)')
+            logging.exception(f'cant transfer cause wallet not inited (юзер: {user_id} бомж лох дєб нема 0.014 на рахунку)')
 
     # переказ з юзер воллету на мастер воллет
     elif tx['source'] == user_address and tx['destination'] == master_address:
@@ -114,15 +115,19 @@ async def successful_deposit(bot, amount, user_id):
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
-async def init_user_wallet(tx_value, bot, user_id, user_wallet):
-    if tx_value < INIT_PAY_TON * 1e9:
-        text, keyboard = init_menu(False, INIT_PAY_TON)
-        await bot.send_message(user_id, text, reply_markup=keyboard)
-        return False
-
-    else:
+async def init_user_wallet(bot, user_id, user_wallet):
+    user_wallet_nano = await user_wallet.get_balance()
+    user_wallet_ton = user_wallet_nano / 1e9
+    print('uw bal, init_pay_ton', user_wallet_ton, INIT_PAY_TON)
+    if user_wallet_ton > INIT_PAY_TON:
         await user_wallet.deploy()
         print('мінус 14 центів сучара')
         text, keyboard = init_menu(True, INIT_PAY_TON)
         await bot.send_message(user_id, text, reply_markup=keyboard)
         return True
+
+    else:
+        print()
+        text, keyboard = init_menu(False, INIT_PAY_TON)
+        await bot.send_message(user_id, text, reply_markup=keyboard)
+        return False

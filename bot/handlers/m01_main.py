@@ -20,7 +20,7 @@ async def cmd_start(message: Message, state: FSMContext):
     except ValueError:
         await db.create_new_user(message.from_user.id, message.from_user.username)
         await db.deposit_token(message.from_user.id, 1, START_POINTS)  # add demo
-
+        await db.deposit_token(message.from_user.id, 2, 0)  # add ton
 
         new_wallet = Wallet(provider=state.bot.ton_client)
         mnemonics = ','.join(new_wallet.mnemonics)
