@@ -35,7 +35,7 @@ def _keyboard(
         *btns_before_bet,
         [
             InlineKeyboardButton(text='-', callback_data="bet_minus"),
-            InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="withdraw"),
+            InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="bet_token_icon"),
             InlineKeyboardButton(text='+', callback_data="bet_plus")
         ],
         [
