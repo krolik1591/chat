@@ -1,27 +1,46 @@
+from bot.db.methods import get_user_balances, update_user_balance
+from bot.menus import main_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_condition_menu import withdraw_condition_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
 from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 
 async def withdraw_cash_to_user(master_wallet, user_withdraw_address, withdraw_amount_ton, user_id, token, state):
+    withdraw_amount_price = withdraw_amount_ton * token.price
+    await update_user_balance(user_id, token.token_id, -withdraw_amount_price)
+
     master_balance_nano = await master_wallet.get_balance()
     master_balance_ton = master_balance_nano / 1e9
-    print(master_balance_ton, withdraw_amount_ton)
-    print('mw address', master_wallet.address)
 
     if master_balance_ton > withdraw_amount_ton:
-
-        transfer_application = await master_wallet.transfer_ton(user_withdraw_address, withdraw_amount_ton)
-        print('transfer_application:', transfer_application)
+        await master_wallet.transfer_ton(user_withdraw_address, withdraw_amount_ton)
 
         withdraw_condition = await process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton, user_id,
-                                                       token, master_wallet.address)
+                                                       master_wallet.address)
 
-        text, keyboard = withdraw_condition_menu(withdraw_condition)    # transfer money approve
-        await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)
+        await withdraw_approve(withdraw_condition, state, user_id, token, withdraw_amount_price)
 
     else:
-        last_msg = (await state.get_data()).get('last_msg_id')
+        await update_user_balance(user_id, token.token_id, withdraw_amount_price)
 
-        text, keyboard = withdraw_menu_err(6)  # not enough money on master wallet
-        await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=user_id, message_id=last_msg)
+        await withdraw_denied(user_id, state)
+
+
+async def withdraw_approve(withdraw_condition, state, user_id, token, withdraw_amount_price):
+    if withdraw_condition:
+        text, keyboard = withdraw_condition_menu(withdraw_condition)  # transfer money approve
+        await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)
+    else:
+        await update_user_balance(user_id, token.token_id, withdraw_amount_price)
+        text, keyboard = withdraw_condition_menu(withdraw_condition)
+        await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)
+
+
+async def withdraw_denied(user_id, state):
+    balances = await get_user_balances(user_id)
+    text_menu, keyboard = main_menu(balances)
+    last_msg = (await state.get_data()).get('last_msg_id')
+    await state.bot.edit_message_text(text_menu, chat_id=user_id, reply_markup=keyboard, message_id=last_msg)
+
+    text_err, keyboard = withdraw_menu_err(6)  # not enough money on master wallet
+    await state.bot.send_message(user_id, text_err, reply_markup=keyboard)

@@ -5,10 +5,9 @@ from bot.db.methods import add_new_transaction, update_user_balance
 from bot.ton.wallets import TonWrapper
 
 
-async def process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton, user_id, token, master_wallet_address):
-    await asyncio.sleep(20)
+async def process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton, user_id, master_wallet_address):
+    await asyncio.sleep(25)
 
-    withdraw_amount_price = -(withdraw_amount_ton * token.price)
     withdraw_amount_nano = withdraw_amount_ton * 1e9
 
     ton_client: TonWrapper = state.bot.ton_client
@@ -20,6 +19,5 @@ async def process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton,
                     await add_new_transaction(user_id, token_id=2, amount=withdraw_amount_nano, tx_type=3,
                                               tx_address=user_withdraw_address, tx_hash=tx.hash,
                                               logical_time=tx.lt, utime=tx.utime)
-                    await update_user_balance(user_id, token.token_id, withdraw_amount_price)
                     return True
     return False
