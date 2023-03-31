@@ -8,17 +8,20 @@ class Dice(Enum):
     LEMON = "🍋"
     SEVEN = "7️⃣"
 
+    def __str__(self):
+        return self.value
+
 
 dices = [Dice.BAR, Dice.GRAPES, Dice.LEMON, Dice.SEVEN]
 
 REWARDS = [
     # DICE | COUNT | REWARD
-    (Dice.SEVEN, 3, 20),
+    (Dice.SEVEN, 3, 15),
     (Dice.GRAPES, 3, 10),
     (Dice.LEMON, 3, 5),
     (Dice.BAR, 3, 3),
     (Dice.SEVEN, 2, 1),
-    (Dice.GRAPES, 2, 0.5),
+    (Dice.GRAPES, 2, 0.25),
     (Dice.LEMON, 2, 0.25),
     (Dice.BAR, 2, 0.25),
 ]
@@ -28,7 +31,7 @@ def get_coefficient(dice_value: int) -> float:
     result = parse_dice(dice_value)
 
     def is_two_items(x):
-        return result.count(x) == 2 and result[1] == x
+        return result.count(x) == 2  # and result[1] == x
 
     def is_three_items(x):
         return result.count(x) == 3
@@ -52,4 +55,4 @@ def parse_dice(dice_value: int) -> List[Dice]:
 
 if __name__ == '__main__':
     for dice_val in range(1, 65):
-        print(dice_val, parse_dice(dice_val))
+        print(dice_val, ''.join([str(i) for i in parse_dice(dice_val)]), get_coefficient(dice_val), sep='\t')
