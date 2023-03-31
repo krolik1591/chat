@@ -54,5 +54,9 @@ def parse_dice(dice_value: int) -> List[Dice]:
 
 
 if __name__ == '__main__':
+    print('{')
     for dice_val in range(1, 65):
-        print(dice_val, ''.join([str(i) for i in parse_dice(dice_val)]), get_coefficient(dice_val), sep='\t')
+        human_readable = ''.join([str(i) for i in parse_dice(dice_val)])
+        coef = get_coefficient(dice_val)
+        print(f"    {dice_val}: {coef},  \t# {human_readable}")
+    print('}')
