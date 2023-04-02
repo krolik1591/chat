@@ -7,6 +7,8 @@ from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 
 from bot.db import first_start
 from bot.handlers import routers
+from bot.ton.find_tx import watch_txs
+from bot.ton.wallets import TonWrapper
 from bot.utils.config_reader import config
 from bot.middlewares.throttling import ThrottlingMiddleware
 
@@ -33,6 +35,10 @@ async def main():
     await set_bot_commands(bot)
 
     await first_start()
+
+    bot.ton_client = await TonWrapper.create(master_wallet_mnemon=config.wallet_seed)
+
+    asyncio.create_task(watch_txs(bot.ton_client, bot))
 
     try:
         print("me:", await bot.get_me())

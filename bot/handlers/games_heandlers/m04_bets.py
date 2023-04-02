@@ -2,9 +2,10 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.const import START_POINTS, MIN_BET, MAX_BET
-from bot.db.methods import get_user_balance
-from bot.menus import get_game_menu
+from bot.const import MAX_BET, MIN_BET
+from bot.db.methods import get_token_by_id, get_user_balance
+from bot.handlers.states import BET, Choosen_message, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
+from bot.menus.game_menus.game_menus import get_game_menu
 
 router = Router()
 
@@ -12,10 +13,10 @@ router = Router()
 @router.callback_query(text=["bet_minus", "bet_plus", "bet_min", "bet_max", "bet_x2"])
 async def bet_change(call: types.CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
-    user_bet = user_data.get('bet', MIN_BET)
-    token_id = user_data.get('token_id')
+    user_bet = float(user_data.get(BET, MIN_BET))
+    token_id = user_data.get(TOKEN_ID)
     user_balance = await get_user_balance(call.from_user.id, token_id)
-    token_icon = user_data.get('token_icon')
+    token_icon = user_data.get(TOKEN_ICON)
 
     if call.data == 'bet_minus':
         new_user_bet = user_bet - MIN_BET
@@ -36,26 +37,28 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
         await call.answer()
         return
 
-    await state.update_data(bet=new_user_bet)
+    await state.update_data(**{BET: new_user_bet})
 
-    text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon)
+    text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.message()
+@router.message(state=Choosen_message.bet)
 async def bet_change_text(message: Message, state: FSMContext):
+    print('bet change')
     await message.delete()
     try:
-        new_user_bet = int(message.text)
+        new_user_bet = float(message.text)
     except ValueError:
         return
+    new_user_bet = round(new_user_bet, 5)
 
     user_data = await state.get_data()
-    last_msg = user_data.get('last_msg_id')
-    # user_balance = user_data.get('balance', START_POINTS)
-    user_bet = user_data.get('bet', MIN_BET)
-    token_id = user_data.get('token_id')
+    last_msg = user_data.get(LAST_MSG_ID)
+    user_bet = user_data.get(BET, MIN_BET)
+    token_id = user_data.get(TOKEN_ID)
     user_balance = await get_user_balance(message.from_user.id, token_id)
+    token = await get_token_by_id(token_id)
 
     if last_msg is None:
         return
@@ -64,13 +67,13 @@ async def bet_change_text(message: Message, state: FSMContext):
     if new_user_bet == user_bet:
         return
 
-    await state.update_data(bet=new_user_bet)
+    await state.update_data(**{BET: new_user_bet})
 
-    text, keyboard = get_game_menu(new_user_bet, user_balance)
+    text, keyboard = get_game_menu(new_user_bet, user_balance, token.icon, token_id)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
 
 
 def normalize_bet(bet, balance):
     bet = min(bet, MAX_BET, balance)
     bet = max(bet, MIN_BET)
-    return bet
+    return float(round(bet, 2))

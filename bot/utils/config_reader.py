@@ -7,6 +7,13 @@ class Settings(BaseSettings):
     bot_token: SecretStr
     fsm_mode: str
     redis: Optional[RedisDsn]
+    wallet_seed: str
+
+    @validator("wallet_seed")
+    def wallet_seed_check(cls, v: str):
+        if v.count(' ') != 23:
+            raise ValueError("Incorrect wallet_seed. Need 24 words.")
+        return v
 
     @validator("fsm_mode")
     def fsm_type_check(cls, v):

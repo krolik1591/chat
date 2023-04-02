@@ -1,43 +1,145 @@
-import os
 import pathlib
-import shutil
+from pprint import pprint
 
-from ton import TonlibClient
+from TonTools import *
+from ton.tl.functions import Raw_GetTransactions
+from ton.tl.types import Internal_TransactionId
 
+from bot.db import methods as db, first_start
 
 libpath = pathlib.Path(__file__).parent / 'libtonlibjson.so.0.5'
 
-class Wallets:
-    def __init__(self, wallet_seed: str, config='https://ton.org/testnet-global.config.json'):
-        self.wallet_seed = wallet_seed
-        self.client = TonlibClient(config=config)
 
-    async def init(self):
-        await self.client.init_tonlib(cdll_path=libpath)
+class TonWrapper(LsClient):
 
-    async def get_wallet(self, wallet_id: int):
-        return await self.client.import_wallet(self.wallet_seed, wallet_id=wallet_id)
+    def __init__(self, ls_index=0, config='https://ton.org/global-config.json', keystore=None, workchain_id=0,
+                 verbosity_level=0, default_timeout=10, addresses_form='user_friendly', master_wallet_mnemon=None):
+        super().__init__(ls_index, config, keystore, workchain_id, verbosity_level, default_timeout, addresses_form)
+        master_wallet_seed = master_wallet_mnemon.split(' ')
+        self.master_wallet = Wallet(provider=self, mnemonics=master_wallet_seed)
 
-    async def transfer(self, wallet_id: int, to_address: str, amount: int):
-        sender_wallet = await self.get_wallet(wallet_id)
+    @staticmethod
+    async def create(config='https://ton.org/global.config.json', master_wallet_mnemon=None, **kwargs):
+        ton_wrapper = TonWrapper(config=config, default_timeout=10, master_wallet_mnemon=master_wallet_mnemon, **kwargs)
+        await ton_wrapper.init_tonlib(cdll_path=libpath)
+        return ton_wrapper
 
-        return await sender_wallet.transfer(to_address, amount)
+    # account tx
+
+    async def get_account_transactions(self, address,
+                                       last_tx_lt=None, last_tx_hash=None,
+                                       first_tx_lt=0, first_tx_hash=None, include_first_tx=False,
+                                       limit=float('Infinity')):
+
+        account = await self.find_account(address, preload_state=False)
+        # all_txs = await account.get_transactions()
+        all_txs = await self._get_account_transactions(account, last_tx_lt, last_tx_hash,
+                                                       first_tx_lt, first_tx_hash, include_first_tx, limit)
+
+        results = []
+
+        for outer_tx in all_txs:
+            inners_txs = outer_tx.out_msgs + ([outer_tx.in_msg] if hasattr(outer_tx, 'in_msg') else [])
+
+            for tx in inners_txs:
+                res = {
+                    "destination": tx.destination.account_address,
+                    "source": tx.source.account_address,
+                    "tx_hash": outer_tx.transaction_id.hash,
+                    "tx_lt": outer_tx.transaction_id.lt,
+                    "utime": outer_tx.utime,
+                    "value": tx.value,
+                }
+                if res['source'] == '':
+                    continue
+                results.append(res)
+
+        return results
+
+    async def _get_account_transactions(self, account: Account,
+                                        last_tx_lt=None, last_tx_hash=None,
+                                        first_tx_lt=0, first_tx_hash=None, include_first_tx=False,
+                                        limit=float('Infinity')):
+        """
+        Return account transactions from newest to oldest
+         If `last_tx_lt` AND `last_tx_hash` provided - it will be newest tx in returned list (included)
+         If `first_tx_lt` OR `first_tx_hash` provided - it will be oldest tx in returned list (included if `include_first_tx` is True)
+        """
+        if last_tx_lt is None or last_tx_hash is None:
+            state = await account.get_state(force=True)
+            tx_id = Internal_TransactionId(state.last_transaction_id.lt, state.last_transaction_id.hash)
+        else:
+            tx_id = Internal_TransactionId(last_tx_lt, last_tx_hash)
+
+        results = []
+
+        while True:
+            request = Raw_GetTransactions(account.account_address, tx_id)
+            raw_transactions = await self.tonlib_wrapper.execute(request)
+
+            for tx in raw_transactions.transactions:
+                if int(tx.transaction_id.lt) <= first_tx_lt or tx.transaction_id.hash == first_tx_hash:
+                    # reached oldest tx, break loop
+                    if include_first_tx:
+                        results.append(tx)
+                    return results
+
+                results.append(tx)
+
+                if len(results) >= limit:
+                    return results
+
+            if not hasattr(raw_transactions, "previous_transaction_id"):
+                break
+            tx_id = raw_transactions.previous_transaction_id
+            if int(tx_id.lt) == 0:
+                break
+
+        return results
 
 
-if __name__ == "__main__":
-    wallets = Wallets(wallet_seed="water wish artist boss random burst entry assault size "
-                                 "february equal inner satoshi wire camp reason throw "
-                                 "allow chapter dose gym jungle vibrant truth")
-
-
+if __name__ == '__main__':
     async def test():
-        await wallets.init()
-        wallet = await wallets.get_wallet(1)
-        # wallets.transfer(1, 'EQAwmioWn9M2qqbtUPjPFY50-0NENZFL2D5Kr_xu8nG5Qswm', 1000)
-        print(wallet.address)
+        # як зрозуміти шо в юзера є нова транза
 
-    import asyncio
+        await first_start()
+        ton_wrapper = await TonWrapper.create()
+
+        account = await ton_wrapper.find_account('EQDM703pKa70fP1G9MTNHt40hMekSRuMTmM6pmcizl49xnOr')
+
+        last_tx_from_blockchain = account.state.last_transaction_id
+
+        last_tx_from_db = await db.get_last_transaction(1, 2)  # типу беремо з бд
+
+        # last_tx_from_db.tx_hash зараз None.  спробуй розкоментити шось з цього шоб отримати інший результат
+
+        # last_tx_from_db.tx_hash = 'piMvJgACp7qH6HqWFC3m3Vlv2vuQiMv7q93s4DpFd68='  # нема нових
+        # last_tx_from_db.tx_hash = 'Cp1TXEm3Pw05UZJjB5Xk6ZaHIrVn5VUL4CBRdrbuVeE='  # є одна нова
+
+
+        if last_tx_from_blockchain.hash != last_tx_from_db.tx_hash:
+            print("NEW TX!")
+            # добуваємо нові транзи
+
+            pprint(await ton_wrapper.get_account_transactions(
+                account.address,
+                last_tx_lt=last_tx_from_blockchain.lt,
+                last_tx_hash=last_tx_from_blockchain.hash,
+                first_tx_hash=last_tx_from_db.tx_hash)
+                   )
+        else:
+            print("NO NEW TX :(")
+        await ton_wrapper.tonlib_wrapper.close()
+
+
+    async def test2():
+        # як юзати get_account_transactions
+        ton_wrapper = await TonWrapper.create()
+        print('---------Всі транзи кошелю---------')
+        pprint(await ton_wrapper.get_account_transactions('EQDM703pKa70fP1G9MTNHt40hMekSRuMTmM6pmcizl49xnOr'))
+        print('---------Транзи починаючі з тої де кошель перевів 100000 на мастер воллет (не включно) ---------')
+        pprint(await ton_wrapper.get_account_transactions('EQDM703pKa70fP1G9MTNHt40hMekSRuMTmM6pmcizl49xnOr',
+                                                          first_tx_lt=36181412000001))
+
+
     asyncio.run(test())
-
-    file_to_rem = pathlib.Path("./.keystore")
-    shutil.rmtree(file_to_rem)

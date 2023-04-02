@@ -18,7 +18,7 @@ def main_or_demo_balance(tokens, balances: dict):
 def _keyboard(tokens):
 
     tokens_buttons = [
-        [InlineKeyboardButton(text=f"{token.icon}{token.name}", callback_data=f"token_{token.id}")]
+        [InlineKeyboardButton(text=f"{token.icon}{token.name}", callback_data=f"token_{token.token_id}")]
         for token in tokens
     ]
 
