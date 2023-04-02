@@ -14,24 +14,26 @@ def main_menu(balances: dict):
 
 def balance_text(item):
     name = item['name'].upper()  # todo use i18n to name
+    amount = item['amount']
+    round_amount = round(amount, 2)
     return BALANCE_TEXT.format(
-        icon=item['icon'], name=name, amount=item['amount'])
+        icon=item['icon'], name=name, amount=round_amount)
 
 
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text='Ігри', callback_data="all_games"),
+            InlineKeyboardButton(text='🎲 Ігри', callback_data="all_games"),
         ],
         [
-            InlineKeyboardButton(text='Депозит', callback_data="deposit")
+            InlineKeyboardButton(text='💎 Депозит', callback_data="deposit")
         ],
         [
-            InlineKeyboardButton(text='Налаштування', callback_data="settings")
+            InlineKeyboardButton(text='⚙️ Налаштування', callback_data="settings")
         ],
         [
-            InlineKeyboardButton(text='Підтримка', callback_data="support"),
-            InlineKeyboardButton(text='Реклама', callback_data="spam")
+            InlineKeyboardButton(text='📢 Реклама', callback_data="spam"),
+            InlineKeyboardButton(text='💬 Підтримка', callback_data="support")
         ]
     ]
 

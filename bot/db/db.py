@@ -5,20 +5,33 @@ from peewee_aio import Manager
 
 # app/db/db.sqlite3
 path = pathlib.Path(__file__).parent.parent.parent / 'db' / 'db.sqlite3'
+print(path)
 manager = Manager(f'aiosqlite:////{path}')
+
+class Wallets_key(manager.Model):
+    wallets_key_id = BigIntegerField(primary_key=True)
+    user_id = IntegerField()
+    address = CharField()
+    mnemonic = CharField()
+
+
+    def __str__(self):
+        return f'Wallets_: {self.user_id} {self.mnemonic} {self.address}'
+
 
 
 class Token(manager.Model):
+    token_id = BigIntegerField(primary_key=True)
     name = CharField()
     price = IntegerField()
     icon = CharField()
 
     def __str__(self):
-        return f'TOKEN: {self.icon} {self.name}; {self.price=}, {self.id=}'
+        return f'TOKEN: {self.icon} {self.name}; {self.price=}, {self.token_id=}'
 
 
 class User(manager.Model):
-    tg_id = BigIntegerField(primary_key=True)
+    user_id = BigIntegerField(primary_key=True)
     username = CharField(default='')
     lang = CharField(default='en')
 
@@ -26,13 +39,14 @@ class User(manager.Model):
     timestamp_last_active = DateTimeField()
 
     def __str__(self):
-        return f'USER: {self.tg_id}; {self.lang=}'
+        return f'USER: {self.user_id}; {self.lang=}'
 
 
-class Balances(manager.Model):
+class Balance(manager.Model):
+    balance_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='balances')
     token = ForeignKeyField(Token, backref='balances')
-    amount = BigIntegerField(default=0)
+    amount = DecimalField(default=0)
 
     class Meta:
         indexes = (
@@ -40,23 +54,30 @@ class Balances(manager.Model):
         )
 
     def __str__(self):
-        return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.id}'
+        return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.balance_id}'
 
 
-class Transactions(manager.Model):
+class Transaction(manager.Model):
+    transaction_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='transactions')
     token = ForeignKeyField(Token, backref='transactions')
-    is_deposit = BooleanField()
+    tx_type = SmallIntegerField()
+    # 1) tx_address = адреса з якої поповнюють; tx_type = 1
+    # 2) tx_address = похуй ; tx_type = 2
+    # 3) tx_address = адреса на яку виводимо гроши; tx_type = 3
     tx_address = CharField()
     tx_hash = CharField()
     logical_time = BigIntegerField()
+    utime = BigIntegerField()
     amount = BigIntegerField()
+    withdraw_state = BooleanField()
 
     def __str__(self):
         return f'TRANSACTION: {self.user_id=}, {self.token_id=}, {self.tx_hash=}, {self.amount=}'
 
 
-class GameLogs(manager.Model):
+class GameLog(manager.Model):
+    gamelog_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='game_logs')
     token = ForeignKeyField(Token, backref='game_logs')
     game = CharField()
