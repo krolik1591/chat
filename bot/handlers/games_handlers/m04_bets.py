@@ -4,7 +4,7 @@ from aiogram.types import Message
 
 from bot.const import CHANGE_BET, MAX_BET, MIN_BET
 from bot.db.methods import get_token_by_id, get_user_balance
-from bot.handlers.states import BET, Choosen_message, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
+from bot.handlers.states import BET, Choosen_message, GAME, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
 from bot.menus.game_menus.game_menus import get_game_menu
 
 router = Router()
@@ -17,6 +17,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
     token_id = user_data.get(TOKEN_ID)
     user_balance = await get_user_balance(call.from_user.id, token_id)
     token_icon = user_data.get(TOKEN_ICON)
+    game = user_data.get(GAME)
 
     if call.data == 'bet_minus':
         new_user_bet = user_bet - CHANGE_BET
@@ -39,8 +40,39 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(**{BET: new_user_bet})
 
-    text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id)
+    if game == 'cube_change_bet':
+        text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id, game,
+                                       which_game='back_to_cube_menu')
+        await call.message.edit_text(text, reply_markup=keyboard)
+        return
+
+    text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id, game)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+
+@router.callback_query(text=["cube_change_bet", "back_to_cube_menu"])
+async def bet_change(call: types.CallbackQuery, state: FSMContext):
+    print(call.data)
+    user_data = await state.get_data()
+    user_bet = float(user_data.get(BET, MIN_BET))
+    token_id = user_data.get(TOKEN_ID)
+    user_balance = await get_user_balance(call.from_user.id, token_id)
+    token_icon = user_data.get(TOKEN_ICON)
+    game = user_data.get(GAME)
+
+    if call.data == "cube_change_bet":
+        game = "cube_change_bet"
+        text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
+        await call.message.edit_text(text, reply_markup=keyboard)
+        await state.update_data(game="cube_change_bet")
+        return
+
+    if call.data == "back_to_cube_menu":
+        game = 'random_cube'
+        text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
+        await call.message.edit_text(text, reply_markup=keyboard)
+        await state.update_data(game='random_cube')
+        return
 
 
 @router.message(state=Choosen_message.bet)

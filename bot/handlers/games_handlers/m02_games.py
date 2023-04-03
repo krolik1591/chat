@@ -35,7 +35,6 @@ async def choice_main_or_demo_balance(call: types.CallbackQuery, state: FSMConte
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-
 @router.callback_query(Text(text_startswith='token_'))
 async def choice_token(call: types.CallbackQuery, state: FSMContext):
     token_id = int(call.data.removeprefix('token_'))
@@ -53,7 +52,7 @@ async def choice_token(call: types.CallbackQuery, state: FSMContext):
     game = user_data.get(GAME)
     user_balance = await db.get_user_balance(call.from_user.id, token_id)
 
-    text, keyboard = get_game_menu(user_bet, user_balance, token.icon, token.token_id, game_mode=game)
+    text, keyboard = get_game_menu(user_bet, user_balance, token.icon, token.token_id, game)
     await call.message.edit_text(text, reply_markup=keyboard)
 
     await state.set_state(Choosen_message.bet)

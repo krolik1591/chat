@@ -4,11 +4,11 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.const import MIN_BET
 from bot.menus.main_menu import balance_text
-from bot.texts import DEFAULT_BALANCE_TEXT, DEMO_FUNDS_ICON, DEFAULT_PLAY_TEXT
+from bot.texts import CUBE_BACK_TEXT, DEFAULT_BALANCE_TEXT, DEMO_FUNDS_ICON, DEFAULT_PLAY_TEXT
 
 
 def game_menu_base(
-        balance, bet, token_id,
+        balance, bet, token_id, which_game,
         text=DEFAULT_BALANCE_TEXT,
         btns_before_bet=[],
         btns_after_bet=[],
@@ -18,7 +18,7 @@ def game_menu_base(
     text = text.format(balance=balance, bet=bet)
 
     add_replenish_btn = bet <= balance >= MIN_BET
-    kb = _keyboard(bet, btns_before_bet, btns_after_bet, token_icon, play_text, add_replenish_btn, token_id)
+    kb = _keyboard(bet, btns_before_bet, btns_after_bet, token_icon, play_text, add_replenish_btn, token_id, which_game)
 
     return text, kb
 
@@ -27,7 +27,7 @@ def _keyboard(
         bet,
         btns_before_bet, btns_after_bet,
         token_icon, play_text,
-        add_replenish_btn, token_id
+        add_replenish_btn, token_id, which_game
 ):
     kb = [
 
@@ -45,7 +45,7 @@ def _keyboard(
         ],
         *btns_after_bet,
         [
-            InlineKeyboardButton(text='Назад', callback_data="casino"),
+            InlineKeyboardButton(text='Назад', callback_data=which_game),
             InlineKeyboardButton(text=play_text, callback_data="game_play")
         ]
     ]

@@ -48,7 +48,7 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
         await call.message.edit_text(text=win_or_lose_text)
 
         # Send new game menu
-        text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id)
+        text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
         msg_ = await call.message.answer(text, reply_markup=keyboard)
         await state.update_data(**{LAST_MSG_ID: msg.message_id})
 
@@ -56,7 +56,7 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
         await db.insert_game_log(call.from_user.id, token_id, game=game,
                                  game_info=game_info, bet=user_bet, result=score_change)
 
-    if game == "random_cube":
 
+    if game == "random_cube":
         msg = await call.message.answer_dice(emoji="🎲")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
