@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.const import MAX_BET, MIN_BET
+from bot.const import CHANGE_BET, MAX_BET, MIN_BET
 from bot.db.methods import get_token_by_id, get_user_balance
 from bot.handlers.states import BET, Choosen_message, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
 from bot.menus.game_menus.game_menus import get_game_menu
@@ -19,9 +19,9 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
     token_icon = user_data.get(TOKEN_ICON)
 
     if call.data == 'bet_minus':
-        new_user_bet = user_bet - MIN_BET
+        new_user_bet = user_bet - CHANGE_BET
     elif call.data == 'bet_plus':
-        new_user_bet = user_bet + MIN_BET
+        new_user_bet = user_bet + CHANGE_BET
     elif call.data == 'bet_min':
         new_user_bet = MIN_BET
     elif call.data == 'bet_max':
