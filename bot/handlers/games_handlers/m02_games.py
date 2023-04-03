@@ -4,7 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 import bot.db.methods as db
 from bot.const import MIN_BET
-from bot.handlers.games_heandlers.m04_bets import Choosen_message
+from bot.handlers.games_handlers.m04_bets import Choosen_message
 from bot.handlers.states import BET, GAME, TOKEN_ICON, TOKEN_ID
 from bot.menus import game_choice_menu
 from bot.menus.game_menus.game_menus import get_game_menu
