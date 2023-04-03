@@ -48,11 +48,12 @@ async def choice_token(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{TOKEN_ID: token_id, TOKEN_ICON: token.icon})
 
     user_data = await state.get_data()
-    user_bet = user_data.get(BET, MIN_BET)
 
+    user_bet = user_data.get(BET, MIN_BET)
+    game = user_data.get(GAME)
     user_balance = await db.get_user_balance(call.from_user.id, token_id)
 
-    text, keyboard = get_game_menu(user_bet, user_balance, token.icon, token.token_id)
+    text, keyboard = get_game_menu(user_bet, user_balance, token.icon, token.token_id, game_mode=game)
     await call.message.edit_text(text, reply_markup=keyboard)
 
     await state.set_state(Choosen_message.bet)
