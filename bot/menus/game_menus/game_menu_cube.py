@@ -37,21 +37,21 @@ def _keyboard(
             InlineKeyboardButton(text=f'⚙️ Сума ставки • {bet}{token_icon}', callback_data="game_cube_change_bet"),
         ],
         [
-            InlineKeyboardButton(text='1', callback_data="bet_minus"),
-            InlineKeyboardButton(text='2', callback_data="bet_token_icon"),
-            InlineKeyboardButton(text='3', callback_data="bet_plus"),
-            InlineKeyboardButton(text='4', callback_data="bet_minus"),
-            InlineKeyboardButton(text='5', callback_data="bet_token_icon"),
-            InlineKeyboardButton(text='6', callback_data="bet_minus")
+            InlineKeyboardButton(text='1', callback_data="cube_1"),
+            InlineKeyboardButton(text='2', callback_data="cube_2"),
+            InlineKeyboardButton(text='3', callback_data="cube_3"),
+            InlineKeyboardButton(text='4', callback_data="cube_4"),
+            InlineKeyboardButton(text='5', callback_data="cube_5"),
+            InlineKeyboardButton(text='6', callback_data="cube_6")
         ],
         [
-            InlineKeyboardButton(text='1-2', callback_data="bet_min"),
-            InlineKeyboardButton(text='3-4', callback_data="bet_x2"),
-            InlineKeyboardButton(text='5-6', callback_data="bet_max")
+            InlineKeyboardButton(text='1-2', callback_data="cube_12"),
+            InlineKeyboardButton(text='3-4', callback_data="cube_34"),
+            InlineKeyboardButton(text='5-6', callback_data="cube_56")
         ],
         [
-            InlineKeyboardButton(text='Парне', callback_data="casino"),
-            InlineKeyboardButton(text='Непарне', callback_data="game_play")
+            InlineKeyboardButton(text='Парне', callback_data="cube_246"),
+            InlineKeyboardButton(text='Непарне', callback_data="cube_135")
         ],
         *btns_after_bet,
         [
