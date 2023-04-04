@@ -56,7 +56,6 @@ async def casino_play(call: types.CallbackQuery, state: FSMContext):
         await db.insert_game_log(call.from_user.id, token_id, game=game,
                                  game_info=game_info, bet=user_bet, result=score_change)
 
-
     if game == "random_cube":
         msg = await call.message.answer_dice(emoji="🎲")
         await call.message.edit_text(text=DICE_ROLL_TEXT)

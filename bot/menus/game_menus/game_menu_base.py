@@ -1,10 +1,9 @@
-from pprint import pprint
-
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from bot.const import MIN_BET
-from bot.menus.main_menu import balance_text
-from bot.texts import CUBE_BACK_TEXT, DEFAULT_BALANCE_TEXT, DEMO_FUNDS_ICON, DEFAULT_PLAY_TEXT
+from bot.texts import DEFAULT_BALANCE_TEXT, DEFAULT_PLAY_TEXT, DEMO_FUNDS_ICON
 
 
 def game_menu_base(
