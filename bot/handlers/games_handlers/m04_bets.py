@@ -1,14 +1,13 @@
+from math import floor
+
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
-from aiogram.dispatcher.filters import Text
-
 
 from bot.const import CHANGE_BET, MAX_BET, MIN_BET
 from bot.db.methods import get_token_by_id, get_user_balance
-from bot.handlers.states import BET, CUBE_BET, Choosen_message, GAME, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
+from bot.handlers.states import BET, Choosen_message, GAME, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
 from bot.menus.game_menus.game_menus import get_game_menu
-
 
 router = Router()
 
@@ -47,14 +46,8 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.callback_query(Text(text_startswith='cube_'))
-async def cube_bet(call: types.CallbackQuery, state: FSMContext):
-    await state.update_data(**{CUBE_BET: call.data.removeprefix('cube_')})
-
-
 @router.message(state=Choosen_message.bet)
 async def bet_change_text(message: Message, state: FSMContext):
-    print('bet change')
     await message.delete()
     try:
         new_user_bet = float(message.text)
@@ -69,6 +62,9 @@ async def bet_change_text(message: Message, state: FSMContext):
     game = user_data.get(GAME)
     user_balance = await get_user_balance(message.from_user.id, token_id)
     token = await get_token_by_id(token_id)
+
+    print(game, 'from bets')
+    print(last_msg)
 
     if last_msg is None:
         return
