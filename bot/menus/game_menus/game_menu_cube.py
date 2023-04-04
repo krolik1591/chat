@@ -8,7 +8,7 @@ from bot.texts import DEFAULT_BALANCE_TEXT, DEMO_FUNDS_ICON, DEFAULT_PLAY_TEXT
 
 
 def game_menu_cube(
-        balance, bet, token_id, which_game,
+        balance, bet, token_id,
         text=DEFAULT_BALANCE_TEXT,
         btns_before_bet=[],
         btns_after_bet=[],
@@ -34,7 +34,7 @@ def _keyboard(
         *([] if add_replenish_btn else _btn_replenish(token_id)),
         *btns_before_bet,
         [
-            InlineKeyboardButton(text=f'⚙️ Сума ставки • {bet}{token_icon}', callback_data="cube_change_bet"),
+            InlineKeyboardButton(text=f'⚙️ Сума ставки • {bet}{token_icon}', callback_data="game_cube_change_bet"),
         ],
         [
             InlineKeyboardButton(text='1', callback_data="bet_minus"),

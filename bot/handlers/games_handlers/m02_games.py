@@ -24,7 +24,7 @@ async def all_games(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.callback_query(text=["casino", "random_cube", "basket", "darts", "football", "cuefa", "bowling", "mine"])
+@router.callback_query(text=["casino", "cube_menu", "basket", "darts", "football", "cuefa", "bowling", "mine"])
 async def choice_main_or_demo_balance(call: types.CallbackQuery, state: FSMContext):
     tokens = await db.get_tokens()
     balances = await db.get_user_balances(call.from_user.id)
@@ -56,3 +56,24 @@ async def choice_token(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
     await state.set_state(Choosen_message.bet)
+
+
+@router.callback_query(text=["game_cube_change_bet", "cube_menu_return"])
+async def game_cube_change_bet(call: types.CallbackQuery, state: FSMContext):
+    await state.update_data(game="game_cube_change_bet")
+
+    user_data = await state.get_data()
+    user_bet = float(user_data.get(BET, MIN_BET))
+    token_id = user_data.get(TOKEN_ID)
+    user_balance = await db.get_user_balance(call.from_user.id, token_id)
+    token_icon = user_data.get(TOKEN_ICON)
+    game = user_data.get(GAME)
+
+    if call.data == "cube_menu_return":
+        game = 'cube_menu'
+        text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
+        await call.message.edit_text(text, reply_markup=keyboard)
+        return
+
+    text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
+    await call.message.edit_text(text, reply_markup=keyboard)

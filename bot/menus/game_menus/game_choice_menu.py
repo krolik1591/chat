@@ -16,7 +16,7 @@ def _keyboard():
     kb = [
         [
             InlineKeyboardButton(text='Слоти', callback_data="casino"),
-            InlineKeyboardButton(text='Кубік', callback_data="random_cube")
+            InlineKeyboardButton(text='Кубік', callback_data="cube_menu")
         ],
         [
             InlineKeyboardButton(text='Баскет', callback_data="basket"),

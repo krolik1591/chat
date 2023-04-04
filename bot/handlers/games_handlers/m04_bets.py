@@ -40,39 +40,8 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(**{BET: new_user_bet})
 
-    if game == 'cube_change_bet':
-        text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id, game,
-                                       which_game='back_to_cube_menu')
-        await call.message.edit_text(text, reply_markup=keyboard)
-        return
-
     text, keyboard = get_game_menu(new_user_bet, user_balance, token_icon, token_id, game)
     await call.message.edit_text(text, reply_markup=keyboard)
-
-
-@router.callback_query(text=["cube_change_bet", "back_to_cube_menu"])
-async def bet_change(call: types.CallbackQuery, state: FSMContext):
-    print(call.data)
-    user_data = await state.get_data()
-    user_bet = float(user_data.get(BET, MIN_BET))
-    token_id = user_data.get(TOKEN_ID)
-    user_balance = await get_user_balance(call.from_user.id, token_id)
-    token_icon = user_data.get(TOKEN_ICON)
-    game = user_data.get(GAME)
-
-    if call.data == "cube_change_bet":
-        game = "cube_change_bet"
-        text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
-        await call.message.edit_text(text, reply_markup=keyboard)
-        await state.update_data(game="cube_change_bet")
-        return
-
-    if call.data == "back_to_cube_menu":
-        game = 'random_cube'
-        text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
-        await call.message.edit_text(text, reply_markup=keyboard)
-        await state.update_data(game='random_cube')
-        return
 
 
 @router.message(state=Choosen_message.bet)
@@ -89,6 +58,7 @@ async def bet_change_text(message: Message, state: FSMContext):
     last_msg = user_data.get(LAST_MSG_ID)
     user_bet = user_data.get(BET, MIN_BET)
     token_id = user_data.get(TOKEN_ID)
+    game = user_data.get(GAME)
     user_balance = await get_user_balance(message.from_user.id, token_id)
     token = await get_token_by_id(token_id)
 
@@ -101,7 +71,7 @@ async def bet_change_text(message: Message, state: FSMContext):
 
     await state.update_data(**{BET: new_user_bet})
 
-    text, keyboard = get_game_menu(new_user_bet, user_balance, token.icon, token_id)
+    text, keyboard = get_game_menu(new_user_bet, user_balance, token.icon, token_id, game)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
 
 
