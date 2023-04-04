@@ -1,10 +1,11 @@
 from bot import texts
 from bot.menus.game_menus.game_menu_base import game_menu_base
 from bot.menus.game_menus.game_menu_cube import game_menu_cube
+from bot.utils.rounding import round_down
 
 
 def get_game_menu(bet, balances, token_icon, token_id, game_mode=None):
-    balances = round(balances, 2)
+    balances = round_down(balances, 2)
 
     if game_mode == "casino":
         return game_menu_base(balances, bet, token_icon=token_icon, token_id=token_id,

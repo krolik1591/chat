@@ -17,7 +17,7 @@ def game_menu_cube(
 ):
     text = text.format(balance=balance, bet=bet)
 
-    add_replenish_btn = bet <= balance >= MIN_BET
+    add_replenish_btn = balance < MIN_BET
     kb = _keyboard(bet, btns_before_bet, btns_after_bet, token_icon, play_text, add_replenish_btn, token_id)
 
     return text, kb
@@ -31,7 +31,7 @@ def _keyboard(
 ):
     kb = [
 
-        *([] if add_replenish_btn else _btn_replenish(token_id)),
+        *(_btn_replenish(token_id) if add_replenish_btn else []),
         *btns_before_bet,
         [
             InlineKeyboardButton(text=f'⚙️ Сума ставки • {bet}{token_icon}', callback_data="game_cube_change_bet"),
