@@ -4,8 +4,9 @@ from aiogram.types import Message
 
 from bot.const import CHANGE_BET, MAX_BET, MIN_BET
 from bot.handlers.context import Context
-from bot.handlers.states import BET, LAST_MSG_ID, Menu
+from bot.handlers.states import Menu, StateKeys
 from bot.menus.game_menus import bet_menus
+from bot.utils.rounding import round_down
 
 router = Router()
 
@@ -17,7 +18,7 @@ async def bet_menu(context: Context, msg_id=None):
     if msg_id is None:
         bet_msg = await context.fsm_context.bot.send_message(
             chat_id=context.user_id, text=text, reply_markup=keyboard)
-        await context.fsm_context.update_data(**{LAST_MSG_ID: bet_msg.message_id})
+        await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: bet_msg.message_id})
     else:
         await context.fsm_context.bot.edit_message_text(
             chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
@@ -56,7 +57,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
         await call.answer()
         return
 
-    await state.update_data(**{BET: new_user_bet})
+    await state.update_data(**{StateKeys.BET: new_user_bet})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
     await bet_menu(context, msg_id=call.message.message_id)
@@ -82,7 +83,7 @@ async def bet_change_text(message: Message, state: FSMContext):
     if new_user_bet == user_bet:
         return
 
-    await state.update_data(**{BET: new_user_bet})
+    await state.update_data(**{StateKeys.BET: new_user_bet})
 
     context = await Context.from_fsm_context(message.from_user.id, state)
     await bet_menu(context, msg_id=context.last_msg_id)

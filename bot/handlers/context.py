@@ -1,8 +1,8 @@
 from aiogram.dispatcher.fsm.context import FSMContext
 
-from bot.const import MIN_BET
-from bot.handlers.states import BET, GAME, GAME_SETTINGS, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
 import bot.db.methods as db
+from bot.const import MIN_BET
+from bot.handlers.states import StateKeys
 
 
 class Context:
@@ -11,7 +11,7 @@ class Context:
     async def from_fsm_context(user_id, fsm_context: FSMContext):
         state = await fsm_context.get_data()
 
-        token_id = state.get(TOKEN_ID)
+        token_id = state.get(StateKeys.TOKEN_ID)
         balance = None
         if token_id:
             balance = await db.get_user_balance(user_id, token_id)
@@ -26,26 +26,26 @@ class Context:
 
     @property
     def last_msg_id(self):
-        return self.state.get(LAST_MSG_ID)
+        return self.state.get(StateKeys.LAST_MSG_ID)
 
     @property
     def bet(self):
-        return float(self.state.get(BET, MIN_BET))
+        return float(self.state.get(StateKeys.BET, MIN_BET))
 
     @property
     def token(self):
-        token_id =  self.state.get(TOKEN_ID)
+        token_id =  self.state.get(StateKeys.TOKEN_ID)
         if not token_id:
             return None
-        return Token(token_id, self.state[TOKEN_ICON])
+        return Token(token_id, self.state[StateKeys.TOKEN_ICON])
 
     @property
     def game(self):
-        return self.state.get(GAME)
+        return self.state.get(StateKeys.GAME)
 
     @property
     def game_settings(self):
-        return self.state.get(GAME_SETTINGS)
+        return self.state.get(StateKeys.GAME_SETTINGS)
 
 
 class Token:

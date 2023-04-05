@@ -4,7 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m05_bets import bet_menu
-from bot.handlers.states import GAME_SETTINGS, LAST_MSG_ID
+from bot.handlers.states import StateKeys
 from bot.menus.game_menus.cube_settings import cube_settings
 
 router = Router()
@@ -18,7 +18,7 @@ async def settings_menu(context: Context, msg_id=None):
         if msg_id is None:
             settings_msg = await context.fsm_context.bot.send_message(
                 chat_id=context.user_id, text=text, reply_markup=keyboard)
-            await context.fsm_context.update_data(**{LAST_MSG_ID: settings_msg.message_id})
+            await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: settings_msg.message_id})
         else:
             await context.fsm_context.bot.edit_message_text(
                 chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
@@ -36,10 +36,10 @@ async def show_settings(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(text_startswith='set_game_settings_'))
 async def set_settings(call: types.CallbackQuery, state: FSMContext):
     new_settings = call.data.removeprefix('set_game_settings_')
-    if (await state.get_data()).get(GAME_SETTINGS) == new_settings:
+    if (await state.get_data()).get(StateKeys.GAME_SETTINGS) == new_settings:
         await call.answer()
         return
 
-    await state.update_data(**{GAME_SETTINGS: new_settings})
+    await state.update_data(**{StateKeys.GAME_SETTINGS: new_settings})
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=call.message.message_id)

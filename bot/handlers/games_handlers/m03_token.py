@@ -10,7 +10,7 @@ from bot.db.methods import add_new_transaction, update_user_balance
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.games_handlers.m05_bets import bet_menu
-from bot.handlers.states import TOKEN_ICON, TOKEN_ID
+from bot.handlers.states import StateKeys
 from bot.menus.game_menus.main_or_demo_balance_menu import main_or_demo_balance
 
 router = Router()
@@ -36,7 +36,7 @@ async def tokens_show(call: types.CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(Text(text_startswith='set_token_'))
-async def choice_token(call: types.CallbackQuery, state: FSMContext):
+async def set_token(call: types.CallbackQuery, state: FSMContext):
     token_id = int(call.data.removeprefix('set_token_'))
     try:
         token = await db.get_token_by_id(token_id)
@@ -44,7 +44,7 @@ async def choice_token(call: types.CallbackQuery, state: FSMContext):
         # todo. integrity error; move user to start
         return
 
-    await state.update_data(**{TOKEN_ID: token_id, TOKEN_ICON: token.icon})
+    await state.update_data(**{StateKeys.TOKEN_ID: token_id, StateKeys.TOKEN_ICON: token.icon})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=call.message.message_id)
@@ -62,4 +62,6 @@ async def replenish_demo_balance(call: types.CallbackQuery, state: FSMContext):
     await add_new_transaction(call.from_user.id, DEMO_TOKEN, 500, int(time.time()), START_POINTS, 'demo_address',
                               'demo_hash', int(time.time()))
 
+    # context with updated balance
+    context = await Context.from_fsm_context(call.from_user.id, state)
     await bet_menu(context, msg_id=call.message.message_id)

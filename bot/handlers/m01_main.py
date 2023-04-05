@@ -1,12 +1,11 @@
 from TonTools.Contracts.Wallet import Wallet
-from TonTools.Providers.LsClient import LsClient
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 import bot.db.methods as db
 from bot.const import START_POINTS
-from bot.handlers.states import LAST_MSG_ID
+from bot.handlers.states import StateKeys
 from bot.menus import main_menu
 from bot.menus.deposit_menus.deposit_menu import deposit_menu
 
@@ -31,7 +30,7 @@ async def cmd_start(message: Message, state: FSMContext):
     text, keyboard = main_menu(balances)
     msg = await message.answer(text, reply_markup=keyboard)
 
-    await state.update_data(**{LAST_MSG_ID: msg.message_id})
+    await state.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
 
 
 @router.callback_query(text=["main_menu"])
