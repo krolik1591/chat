@@ -13,20 +13,16 @@ def game_menu_base(
 ):
     text = text.format(balance=balance, bet=bet)
 
-    add_replenish_btn = balance < MIN_BET
-    kb = _keyboard(bet, token_icon, play_text, add_replenish_btn, token_id, back_to)
+    add_replenish_btn = token_id == 1 and balance < MIN_BET
+    kb = _keyboard(bet, token_icon, play_text, add_replenish_btn, back_to)
 
     return text, kb
 
 
-def _keyboard(
-        bet,
-        token_icon, play_text,
-        add_replenish_btn, token_id, back_to
-):
+def _keyboard(bet, token_icon, play_text, add_replenish_btn, back_to):
     kb = [
 
-        *(_btn_replenish(token_id) if add_replenish_btn else []),
+        *(_btn_replenish() if add_replenish_btn else []),
         [
             InlineKeyboardButton(text='-', callback_data="bet_minus"),
             InlineKeyboardButton(text=f'{bet}{token_icon}', callback_data="bet_token_icon"),
@@ -46,7 +42,5 @@ def _keyboard(
     return InlineKeyboardMarkup(inline_keyboard=kb)
 
 
-def _btn_replenish(token_id):
-    if token_id != 1:
-        return []
+def _btn_replenish():
     return [[InlineKeyboardButton(text='Дай гроші', callback_data="end_money")]]
