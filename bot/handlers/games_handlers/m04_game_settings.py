@@ -12,8 +12,9 @@ router = Router()
 
 async def settings_menu(context: Context, msg_id=None):
     print(context.game)
-    if context.game == "CUBE":
-        text, keyboard = cube_settings(context.game_settings, context.balance)
+    if context.game == Games.CUBE:
+
+        text, keyboard = cube_settings(context.game_settings, context.balance, context.bet, context.token.icon)
 
         if msg_id is None:
             settings_msg = await context.fsm_context.bot.send_message(

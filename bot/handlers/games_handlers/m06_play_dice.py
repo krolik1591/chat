@@ -32,7 +32,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
 
         # Parse dice result
         coef = get_coefficient(dice_msg.dice.value)
-        await process_dice(call, context, coef, dice_msg)
+        await process_dice(call, context, coef, dice_msg, state)
 
     if context.game == "CUBE":
         if context.game_settings is None:
@@ -45,10 +45,10 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
         coef = get_coefficient_cube(dice_msg.dice.value, context.game_settings)
-        await process_dice(call, context, coef, dice_msg)
+        await process_dice(call, context, coef, dice_msg, state)
 
 
-async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_msg: types.Message):
+async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_msg: types.Message, state):
     token_id = context.token.id
 
     score_change = round_down((coef * context.bet), 5)
@@ -71,4 +71,5 @@ async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_m
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send settings menu
+    context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=None)
