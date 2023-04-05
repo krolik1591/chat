@@ -1,5 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from bot.handlers.states import Games
 from bot.menus.main_menu import balance_text
 from bot.texts import MENU_TEXT
 
@@ -12,27 +13,35 @@ def game_choice_menu(balances: dict):
     return text, kb
 
 
+GAMES = [
+    [Games.CASINO, Games.CUBE],
+    [Games.BASKET, Games.DARTS],
+    [Games.BOWLING, Games.FOOTBALL],
+    [Games.MINES, Games.CUEFA],
+]
+
+# todo i18n
+GAME_NAMES = {
+    Games.CASINO: "Слоти",
+    Games.CUBE: "Кубік",
+    Games.BASKET: "Баскет",
+    Games.DARTS: "Дартс",
+    Games.BOWLING: "Боулінг",
+    Games.FOOTBALL: "Футбол",
+    Games.MINES: "Міни",
+    Games.CUEFA: "Цу-Е-Фа",
+}
+
+
 def _keyboard():
+    games = [[
+        InlineKeyboardButton(text=GAME_NAMES[game_key], callback_data="set_game_" + game_key)
+        for game_key in row
+    ] for row in GAMES]
+
     kb = [
-        [
-            InlineKeyboardButton(text='Слоти', callback_data="CASINO"),
-            InlineKeyboardButton(text='Кубік', callback_data="CUBE")
-        ],
-        [
-            InlineKeyboardButton(text='Баскет', callback_data="BASKET"),
-            InlineKeyboardButton(text='Дартс', callback_data="DARTS")
-        ],
-        [
-            InlineKeyboardButton(text='Боулінг', callback_data="BOWLING"),
-            InlineKeyboardButton(text='Футбол', callback_data="FOOTBALL")
-        ],
-        [
-            InlineKeyboardButton(text='Міни', callback_data="MINES"),
-            InlineKeyboardButton(text='Цу-Е-Фа', callback_data="CUEFA")
-        ],
-        [
-            InlineKeyboardButton(text='Назад', callback_data="main_menu")
-        ]
+        *games,
+        [InlineKeyboardButton(text='Назад', callback_data="main_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)

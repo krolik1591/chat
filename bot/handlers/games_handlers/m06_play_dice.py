@@ -7,6 +7,7 @@ import bot.db.methods as db
 from bot.const import THROTTLE_TIME_SPIN
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
+from bot.handlers.states import Games
 from bot.texts import DICE_ROLL_TEXT, LOSE_TEXT, WIN_TEXT
 from bot.utils.dice_check import get_coefficient
 from bot.utils.dice_check_cube import get_coefficient_cube
@@ -25,7 +26,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await call.answer("Ставка більше балансу", show_alert=True)
         return
 
-    if context.game == 'CASINO':
+    if context.game == Games.CASINO:
         # Send dice
         dice_msg = await call.message.answer_dice(emoji="🎰")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
@@ -34,7 +35,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         coef = get_coefficient(dice_msg.dice.value)
         await process_dice(call, context, coef, dice_msg, state)
 
-    if context.game == "CUBE":
+    if context.game == Games.CUBE:
         if context.game_settings is None:
             await call.answer("❌ You have not chosen an outcome for a bet")
             # text, keyboard = game_menu_err(1)  # user doesnt choice bet

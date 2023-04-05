@@ -15,3 +15,14 @@ class StateKeys:
     TOKEN_ICON = 'token_icon'
     GAME = 'game'
     GAME_SETTINGS = 'game_settings'
+
+
+class Games:
+    CASINO = 'CASINO'
+    CUBE = 'CUBE'
+    BASKET = 'BASKET'
+    BOWLING = 'BOWLING'
+    DARTS = 'DARTS'
+    FOOTBALL = 'FOOTBALL'
+    CUEFA = 'CUEFA'
+    MINES = 'MINES'

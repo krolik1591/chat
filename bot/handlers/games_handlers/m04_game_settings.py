@@ -4,7 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m05_bets import bet_menu
-from bot.handlers.states import StateKeys
+from bot.handlers.states import Games, StateKeys
 from bot.menus.game_menus.cube_settings import cube_settings
 
 router = Router()
