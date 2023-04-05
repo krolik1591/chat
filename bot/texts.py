@@ -1,6 +1,6 @@
 # TODO i18n
 
-DEFAULT_BALANCE_TEXT = 'Ваші гроши: {balance}\n\nОбери розмір ставки:'
+DEFAULT_BALANCE_TEXT = 'Ваші гроши: <b>{balance}</b>\n\nОбери розмір ставки:'
 
 MENU_TEXT = '💵 Баланс:\n\n{balances}\n\nПоїхали?'
 BALANCE_TEXT = '{icon}{name}: <b>{amount}</b>'
@@ -40,8 +40,8 @@ WIN_TEXT = 'Перемога! Ізі + {score_change} {token_icon}'
 GAME_ERR1 = '❌ Не обраний результат ставки!'
 
 
-CUBE_SETTINGS_TEXT = "Demo: 9984.37 🍬 \n\n Send a bet amount and choose the outcome:"  # todo
-
+CUBE_SETTINGS_TEXT = "Баланс: <b>{balance}</b> {token_icon} \n\nОбери суму ставки та на що ставиш:"
+CUBE_BET_BUTTON = "⚙️ Сума ставки • {bet} {token_icon}"
 
 
 DEMO_FUNDS_ICON = '🐠'

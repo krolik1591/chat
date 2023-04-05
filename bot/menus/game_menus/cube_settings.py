@@ -1,11 +1,11 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.texts import CUBE_PLAY_TEXT, CUBE_SETTINGS_TEXT
+from bot.texts import CUBE_BET_BUTTON, CUBE_PLAY_TEXT, CUBE_SETTINGS_TEXT
 
 
-def cube_settings(selected_setting, balance):
-    text = CUBE_SETTINGS_TEXT.format(balance=balance)
-    bet_text = "TODO"
+def cube_settings(selected_setting, balance, bet, token_icon):
+    text = CUBE_SETTINGS_TEXT.format(balance=balance, token_icon=token_icon)
+    bet_text = CUBE_BET_BUTTON.format(bet=bet, token_icon=token_icon)
     kb = _keyboard(bet_text, selected_setting, play_text=CUBE_PLAY_TEXT)
 
     return text, kb
