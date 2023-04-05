@@ -1,7 +1,7 @@
 from aiogram.dispatcher.fsm.state import State, StatesGroup
 
 
-class Choosen_message(StatesGroup):
+class Menu(StatesGroup):
     bet = State()
     withdraw_amount = State()
     withdraw_amount_approve = State()
@@ -13,4 +13,7 @@ BET = 'bet'
 TOKEN_ID = 'token_id'
 TOKEN_ICON = 'token_icon'
 GAME = 'game'
+GAME_SETTINGS = 'game_settings'
+
+# todo replace with GAME_SETTINGS
 CUBE_BET = 'cube_bet'

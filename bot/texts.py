@@ -40,6 +40,10 @@ WIN_TEXT = 'Перемога! Ізі + {score_change} {token_icon}'
 GAME_ERR1 = '❌ Не обраний результат ставки!'
 
 
+CUBE_SETTINGS_TEXT = "Demo: 9984.37 🍬 \n\n Send a bet amount and choose the outcome:"  # todo
+
+
+
 DEMO_FUNDS_ICON = '🐠'
 TON_FUNDS_ICON = '💎'
 

@@ -1,10 +1,9 @@
 from bot import texts
-from bot.menus.game_menus.game_menu_base import game_menu_base
-from bot.menus.game_menus.game_menu_cube import game_menu_cube
+from bot.menus.game_menus.bet_menu import game_menu_base
 from bot.utils.rounding import round_down
 
 
-def get_game_menu(bet, balances, token_icon, token_id, game_mode=None):
+def bet_menu(bet, balances, token_icon, token_id, game_mode=None):
     balances = round_down(balances, 2)
 
     if game_mode == "casino":
@@ -16,11 +15,9 @@ def get_game_menu(bet, balances, token_icon, token_id, game_mode=None):
     if game_mode == "DARTS":
         return game_menu_base(balances, bet, token_icon=token_icon, token_id=token_id,
                               play_text=texts.DARTS_PLAY_TEXT)
-    if game_mode == "cube_menu":
-        return game_menu_cube(balances, bet, token_icon=token_icon, token_id=token_id,
-                              play_text=texts.CUBE_PLAY_TEXT)
-    if game_mode == "game_cube_change_bet":
+
+    if game_mode == "CUBE":
         return game_menu_base(balances, bet, token_icon=token_icon, token_id=token_id,
-                              play_text=texts.CUBE_PLAY_TEXT, back_to='cube_menu_return')
+                              play_text=texts.CUBE_PLAY_TEXT, back_to='game_settings')
 
     return game_menu_base(balances, bet, token_icon=token_icon, token_id=token_id)

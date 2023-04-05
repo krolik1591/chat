@@ -13,12 +13,10 @@ def main_or_demo_balance(tokens, balances: dict):
     return text, kb
 
 
-# InlineKeyboardButton(text='?', callback_data=str(i)) for i in range(5)
-
 def _keyboard(tokens):
 
     tokens_buttons = [
-        [InlineKeyboardButton(text=f"{token.icon}{token.name}", callback_data=f"token_{token.token_id}")]
+        [InlineKeyboardButton(text=f"{token.icon}{token.name}", callback_data=f"set_token_{token.token_id}")]
         for token in tokens
     ]
 

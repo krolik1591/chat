@@ -6,7 +6,7 @@ from aiogram.types import Message
 
 from bot.const import MIN_WITHDRAW
 from bot.db.methods import get_token_by_id, get_user_balance
-from bot.handlers.states import Choosen_message, LAST_MSG_ID
+from bot.handlers.states import Menu, LAST_MSG_ID
 from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
@@ -25,10 +25,10 @@ async def withdraw(call: types.CallbackQuery, state: FSMContext):
 
     await state.update_data(last_msg_id=call.message.message_id)
 
-    await state.set_state(Choosen_message.withdraw_amount)
+    await state.set_state(Menu.withdraw_amount)
 
 
-@router.message(state=Choosen_message.withdraw_amount)
+@router.message(state=Menu.withdraw_amount)
 async def withdraw_user_text(message: Message, state: FSMContext):
     await message.delete()
     try:
@@ -53,10 +53,10 @@ async def withdraw_user_text(message: Message, state: FSMContext):
 
     text, keyboard = withdraw_menu_address()  # enter address
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
-    await state.set_state(Choosen_message.withdraw_address)
+    await state.set_state(Menu.withdraw_address)
 
 
-@router.message(state=Choosen_message.withdraw_address)
+@router.message(state=Menu.withdraw_address)
 async def withdraw_user_address(message: Message, state: FSMContext):
     await message.delete()
     try:
@@ -82,10 +82,10 @@ async def withdraw_user_address(message: Message, state: FSMContext):
 
     text, keyboard = withdraw_menu_check(user_withdraw_amount, user_withdraw_address.to_string(), token.price)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
-    await state.set_state(Choosen_message.withdraw_amount_approve)
+    await state.set_state(Menu.withdraw_amount_approve)
 
 
-@router.message(state=Choosen_message.withdraw_amount_approve)
+@router.message(state=Menu.withdraw_amount_approve)
 async def withdraw_user_amount_approve(message: Message, state: FSMContext):
     await message.delete()
     try:

@@ -4,10 +4,9 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 import bot.db.methods as db
-from bot.const import MIN_BET, THROTTLE_TIME_SPIN
-from bot.handlers.states import BET, CUBE_BET, GAME, LAST_MSG_ID, TOKEN_ICON, TOKEN_ID
-from bot.menus.game_menus.game_menu_err import game_menu_err
-from bot.menus.game_menus.game_menus import get_game_menu
+from bot.const import THROTTLE_TIME_SPIN
+from bot.handlers.context import Context
+from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.texts import DICE_ROLL_TEXT, LOSE_TEXT, WIN_TEXT
 from bot.utils.dice_check import get_coefficient
 from bot.utils.dice_check_cube import get_coefficient_cube
@@ -20,61 +19,56 @@ router = Router()
 @router.callback_query(text=["game_play"])
 async def games_play(call: types.CallbackQuery, state: FSMContext):
     await db.set_user_last_active(call.from_user.id)
+    context = await Context.from_fsm_context(call.from_user.id, state)
 
-    user_data = await state.get_data()
-    user_bet = float(user_data.get(BET, MIN_BET))
-    token_icon = user_data.get(TOKEN_ICON)
-    token_id = user_data.get(TOKEN_ID)
-    game = user_data[GAME]
-    print(game, 'from play dice')
-
-    user_balance = await db.get_user_balance(call.from_user.id, token_id)
-    print(user_bet, user_balance)
-    if user_bet > user_balance:
+    if context.bet > context.balance:
         await call.answer("Ставка більше балансу", show_alert=True)
         return
 
-    if game == 'casino':
+    if context.game == 'CASINO':
         # Send dice
-        msg = await call.message.answer_dice(emoji="🎰")
+        dice_msg = await call.message.answer_dice(emoji="🎰")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
         # Parse dice result
-        score_change = round_down((get_coefficient(msg.dice.value) * user_bet), 5)
-        await process_dice(call, state, score_change, user_bet, token_id, token_icon, game, msg)
+        coef = get_coefficient(dice_msg.dice.value)
+        await process_dice(call, context, coef, dice_msg)
 
-    if game == "cube_menu" or game == "game_cube_change_bet":
-        user_bet_on = (await state.get_data()).get(CUBE_BET)
-        if user_bet_on is None:
-            text, keyboard = game_menu_err(1)   # user doesnt choice bet
-            await call.message.answer(text, reply_markup=keyboard)
+    if context.game == "CUBE":
+        if context.game_settings is None:
+            await call.answer("❌ You have not chosen an outcome for a bet")
+            # text, keyboard = game_menu_err(1)  # user doesnt choice bet
+            # await call.message.answer(text, reply_markup=keyboard)
             return
 
-        msg = await call.message.answer_dice(emoji="🎲")
+        dice_msg = await call.message.answer_dice(emoji="🎲")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-        score_change = round_down((get_coefficient_cube(msg.dice.value, user_bet_on) * user_bet), 5)
-        await process_dice(call, state, score_change, user_bet, token_id, token_icon, game, msg)
+        coef = get_coefficient_cube(dice_msg.dice.value, context.game_settings)
+        await process_dice(call, context, coef, dice_msg)
 
 
-async def process_dice(call, state, score_change, user_bet, token_id, token_icon, game, msg):
-    user_win = round_down(score_change - user_bet, 5)
+async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_msg: types.Message):
+    token_id = context.token.id
+
+    score_change = round_down((coef * context.bet), 5)
+    user_win = round_down(score_change - context.bet, 5)
+
+    # todo atomic db
+
     await db.update_user_balance(call.from_user.id, token_id, user_win)
     user_balance = await db.get_user_balance(call.from_user.id, token_id)
+
+    game_info = {"dice_result": dice_msg.dice.value}
+    await db.insert_game_log(call.from_user.id, token_id, game=context.game,
+                             game_info=game_info, bet=context.bet, result=score_change)
+
     await sleep(THROTTLE_TIME_SPIN)
 
     # Send result
     win_or_lose_text = LOSE_TEXT if score_change == 0 \
-        else WIN_TEXT.format(score_change=round(score_change, 2), token_icon=token_icon)
+        else WIN_TEXT.format(score_change=round(score_change, 2), token_icon=context.token.icon)
     await call.message.edit_text(text=win_or_lose_text)
 
-    # Send new game menu
-    text, keyboard = get_game_menu(user_bet, user_balance, token_icon, token_id, game)
-    msg_ = await call.message.answer(text, reply_markup=keyboard)
-    await state.update_data(**{LAST_MSG_ID: msg.message_id})
-    msg12 = (await state.get_data()).get(LAST_MSG_ID)
-    print(msg12, 'last from play dice')
-
-    game_info = {"dice_result": msg.dice.value}
-    await db.insert_game_log(call.from_user.id, token_id, game=game,
-                             game_info=game_info, bet=user_bet, result=score_change)
+    # Send settings menu
+    await settings_menu(context, msg_id=None)
