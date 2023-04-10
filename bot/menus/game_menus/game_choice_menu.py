@@ -22,14 +22,14 @@ GAMES = [
 
 # todo i18n
 GAME_NAMES = {
-    Games.CASINO: "Слоти",
-    Games.CUBE: "Кубік",
-    Games.BASKET: "Баскет",
-    Games.DARTS: "Дартс",
-    Games.BOWLING: "Боулінг",
-    Games.FOOTBALL: "Футбол",
-    Games.MINES: "Міни",
-    Games.CUEFA: "Цу-Е-Фа",
+    Games.CASINO: "🎰 Слоти",
+    Games.CUBE: "🎲 Кубік",
+    Games.BASKET: "🏀 Баскет",
+    Games.DARTS: "🎯 Дартс",
+    Games.BOWLING: "🎳 Боулінг",
+    Games.FOOTBALL: "⚽ Футбол️",
+    Games.MINES: "💣 Міни",
+    Games.CUEFA: "✌ Цу-Е-Фа️",
 }
 
 
