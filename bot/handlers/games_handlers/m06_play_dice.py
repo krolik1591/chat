@@ -9,7 +9,8 @@ from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.states import Games
 from bot.texts import DICE_ROLL_TEXT, LOSE_TEXT, WIN_TEXT
-from bot.utils.dice_check import get_coefficient
+from bot.utils.dice_check_basket import get_coefficient_basket
+from bot.utils.dice_check_casino import get_coefficient
 from bot.utils.dice_check_cube import get_coefficient_cube
 from bot.utils.rounding import round_down
 
@@ -46,6 +47,14 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
         coef = get_coefficient_cube(dice_msg.dice.value, context.game_settings)
+        await process_dice(call, context, coef, dice_msg, state)
+
+    if context.game == Games.BASKET:
+
+        dice_msg = await call.message.answer_dice(emoji="🏀")
+        await call.message.edit_text(text=DICE_ROLL_TEXT)
+
+        coef = get_coefficient_basket(dice_msg.dice.value)
         await process_dice(call, context, coef, dice_msg, state)
 
 
