@@ -15,7 +15,8 @@ from bot.utils.dice_check_games.dice_check_bowling import get_coefficient_bowlin
 from bot.utils.dice_check_games.dice_check_casino import get_coefficient
 from bot.utils.dice_check_games.dice_check_cube import get_coefficient_cube
 from bot.utils.dice_check_games.dice_check_darts import get_coefficient_darts
-from bot.utils.dice_check_games.dice_check_texts import basket_text, bowling_text, darts_text
+from bot.utils.dice_check_games.dice_check_football import get_coefficient_football
+from bot.utils.dice_check_games.dice_check_texts import basket_text, bowling_text, darts_text, football_text
 from bot.utils.rounding import round_down
 
 flags = {"throttling_key": "spin"}
@@ -54,7 +55,6 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await process_dice(call, context, coef, dice_msg, state)
 
     if context.game == Games.BASKET:
-
         dice_msg = await call.message.answer_dice(emoji="🏀")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
@@ -62,7 +62,6 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await process_dice(call, context, coef, dice_msg, state)
 
     if context.game == Games.DARTS:
-
         dice_msg = await call.message.answer_dice(emoji="🎯")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
@@ -70,11 +69,17 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await process_dice(call, context, coef, dice_msg, state)
 
     if context.game == Games.BOWLING:
-
         dice_msg = await call.message.answer_dice(emoji="🎳")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
         coef = get_coefficient_bowling(dice_msg.dice.value)
+        await process_dice(call, context, coef, dice_msg, state)
+
+    if context.game == Games.FOOTBALL:
+        dice_msg = await call.message.answer_dice(emoji="⚽️")
+        await call.message.edit_text(text=DICE_ROLL_TEXT)
+
+        coef = get_coefficient_football(dice_msg.dice.value)
         await process_dice(call, context, coef, dice_msg, state)
 
 
@@ -114,7 +119,8 @@ async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_m
                                       score_change=round_down(score_change, 2), token_icon=context.token.icon)
 
     if context.game == Games.FOOTBALL:
-        pass
+        win_or_lose_text = football_text(dice_msg.dice.value,
+                                        score_change=round_down(score_change, 2), token_icon=context.token.icon)
 
     await call.message.edit_text(text=win_or_lose_text)
 
