@@ -1,6 +1,26 @@
+from bot.handlers.states import Games
 from bot.texts import BASKET_TEXT_2, BASKET_TEXT_3, BASKET_TEXT_5, BOWLING_TEXT_4, BOWLING_TEXT_5, BOWLING_TEXT_6, \
     DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1, DARTS_OR_BOWLING_TEXT_2, DARTS_OR_BOWLING_TEXT_3, \
-    DARTS_TEXT_4, DARTS_TEXT_5_OR_BASKET_4, DARTS_TEXT_6, FOOTBALL_TEXT_LOSE, FOOTBALL_TEXT_WIN
+    DARTS_TEXT_4, DARTS_TEXT_5_OR_BASKET_4, DARTS_TEXT_6, FOOTBALL_TEXT_LOSE, FOOTBALL_TEXT_WIN, LOSE_TEXT, WIN_TEXT
+from bot.utils.rounding import round_down
+
+
+def game_text(context, score_change, dice_value):
+    if context.game == Games.CASINO and Games.CUBE:
+        return LOSE_TEXT if score_change == 0 \
+            else WIN_TEXT.format(score_change=score_change, token_icon=context.token.icon)
+
+    if context.game == Games.BASKET:
+        return basket_text(dice_value, score_change=score_change, token_icon=context.token.icon)
+
+    if context.game == Games.DARTS:
+        return darts_text(dice_value, score_change=score_change, token_icon=context.token.icon)
+
+    if context.game == Games.BOWLING:
+        return bowling_text(dice_value, score_change=score_change, token_icon=context.token.icon)
+
+    if context.game == Games.FOOTBALL:
+        return football_text(dice_value, score_change=score_change, token_icon=context.token.icon)
 
 
 def basket_text(dice_value, score_change, token_icon):
