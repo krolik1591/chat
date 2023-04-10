@@ -43,6 +43,12 @@ GAME_ERR1 = '❌ Не обраний результат ставки!'
 CUBE_SETTINGS_TEXT = "Баланс: <b>{balance}</b> {token_icon} \n\nОбери суму ставки та на що ставиш:"
 CUBE_BET_BUTTON = "⚙️ Сума ставки • {bet} {token_icon}"
 
+DARTS_TEXT_1 = '😐 Мимо'
+DARTS_TEXT_2 = '🙄 Іншого разу пощастить'
+DARTS_TEXT_3 = '😲 Гарна спроба'
+DARTS_TEXT_4 = '👌 <b>Непогано \n\n✅ Ви виграли {score_change}</b> {token_icon}'
+DARTS_TEXT_5 = '👌 <b>Гарне влучання \n\n✅ Ви виграли {score_change}</b> {token_icon}'
+DARTS_TEXT_6 = '🍎 <b>ПРЯМО В ЦІЛЬ! 🍏\n\n✅ Ви виграли {score_change}</b> {token_icon}'
 
 DEMO_FUNDS_ICON = '🐠'
 TON_FUNDS_ICON = '💎'

@@ -8,10 +8,13 @@ from bot.const import THROTTLE_TIME_SPIN
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.states import Games
-from bot.texts import DICE_ROLL_TEXT, LOSE_TEXT, WIN_TEXT
+from bot.texts import DARTS_TEXT_1, DARTS_TEXT_2, DARTS_TEXT_3, DARTS_TEXT_4, DARTS_TEXT_5, DARTS_TEXT_6, \
+    DICE_ROLL_TEXT, LOSE_TEXT, \
+    WIN_TEXT
 from bot.utils.dice_check_basket import get_coefficient_basket
 from bot.utils.dice_check_casino import get_coefficient
 from bot.utils.dice_check_cube import get_coefficient_cube
+from bot.utils.dice_check_darts import get_coefficient_darts
 from bot.utils.rounding import round_down
 
 flags = {"throttling_key": "spin"}
@@ -57,6 +60,14 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         coef = get_coefficient_basket(dice_msg.dice.value)
         await process_dice(call, context, coef, dice_msg, state)
 
+    if context.game == Games.DARTS:
+
+        dice_msg = await call.message.answer_dice(emoji="🎯")
+        await call.message.edit_text(text=DICE_ROLL_TEXT)
+
+        coef = get_coefficient_darts(dice_msg.dice.value)
+        await process_dice(call, context, coef, dice_msg, state)
+
 
 async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_msg: types.Message, state):
     token_id = context.token.id
@@ -76,10 +87,31 @@ async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_m
     await sleep(THROTTLE_TIME_SPIN)
 
     # Send result
-    win_or_lose_text = LOSE_TEXT if score_change == 0 \
-        else WIN_TEXT.format(score_change=round(score_change, 2), token_icon=context.token.icon)
+    win_or_lose_text = ''
+    if context.game == Games.DARTS:
+        win_or_lose_text = darts_text(dice_msg.dice.value,
+                                      score_change=round_down(score_change, 2), token_icon=context.token.icon)
+    else:
+        win_or_lose_text = LOSE_TEXT if score_change == 0 \
+            else WIN_TEXT.format(score_change=round_down(score_change, 2), token_icon=context.token.icon)
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send settings menu
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=None)
+
+
+def darts_text(dice_value, score_change, token_icon):
+    if dice_value == 1:
+        return DARTS_TEXT_1
+    if dice_value == 2:
+        return DARTS_TEXT_2
+    if dice_value == 3:
+        return DARTS_TEXT_3
+    if dice_value == 4:
+        return DARTS_TEXT_4.format(score_change=score_change, token_icon=token_icon)
+    if dice_value == 5:
+        return DARTS_TEXT_5.format(score_change=score_change, token_icon=token_icon)
+    if dice_value == 6:
+        return DARTS_TEXT_6.format(score_change=score_change, token_icon=token_icon)
+    return
