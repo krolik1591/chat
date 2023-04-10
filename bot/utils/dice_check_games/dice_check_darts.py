@@ -1,5 +1,4 @@
 def get_coefficient_darts(dice_value: int) -> float:
-    print(dice_value)
     if dice_value == 6:
         return 3
 
