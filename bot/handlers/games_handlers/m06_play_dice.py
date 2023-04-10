@@ -5,6 +5,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 import bot.db.methods as db
 from bot.const import THROTTLE_TIME_SPIN
+from bot.db.db import manager
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.states import Games
@@ -88,14 +89,12 @@ async def process_dice(call: types.CallbackQuery, context: Context, coefficient,
     score_change = round_down((coefficient * context.bet), 5)
     user_win = round_down(score_change - context.bet, 5)
 
-    # todo atomic db
-
-    await db.update_user_balance(call.from_user.id, token_id, user_win)
-    user_balance = await db.get_user_balance(call.from_user.id, token_id)
-
     game_info = {"dice_result": dice_msg.dice.value}
-    await db.insert_game_log(call.from_user.id, token_id, game=context.game,
-                             game_info=game_info, bet=context.bet, result=score_change)
+
+    with manager.pw_database.atomic():
+        await db.update_user_balance(call.from_user.id, token_id, user_win)
+        await db.insert_game_log(call.from_user.id, token_id, game=context.game,
+                                 game_info=game_info, bet=context.bet, result=score_change)
 
     await sleep(THROTTLE_TIME_SPIN)
 
