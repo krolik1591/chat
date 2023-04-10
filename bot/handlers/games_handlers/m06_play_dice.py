@@ -15,7 +15,7 @@ from bot.utils.dice_check_games.dice_check_bowling import get_coefficient_bowlin
 from bot.utils.dice_check_games.dice_check_casino import get_coefficient
 from bot.utils.dice_check_games.dice_check_cube import get_coefficient_cube
 from bot.utils.dice_check_games.dice_check_darts import get_coefficient_darts
-from bot.utils.dice_check_games.dice_check_texts import bowling_text, darts_text
+from bot.utils.dice_check_games.dice_check_texts import basket_text, bowling_text, darts_text
 from bot.utils.rounding import round_down
 
 flags = {"throttling_key": "spin"}
@@ -97,15 +97,24 @@ async def process_dice(call: types.CallbackQuery, context: Context, coef, dice_m
 
     # Send result
     win_or_lose_text = ''
+    if context.game == Games.CASINO and Games.CUBE:
+        win_or_lose_text = LOSE_TEXT if score_change == 0 \
+            else WIN_TEXT.format(score_change=round_down(score_change, 2), token_icon=context.token.icon)
+
+    if context.game == Games.BASKET:
+        win_or_lose_text = basket_text(dice_msg.dice.value,
+                                      score_change=round_down(score_change, 2), token_icon=context.token.icon)
+
     if context.game == Games.DARTS:
         win_or_lose_text = darts_text(dice_msg.dice.value,
                                       score_change=round_down(score_change, 2), token_icon=context.token.icon)
+
     if context.game == Games.BOWLING:
         win_or_lose_text = bowling_text(dice_msg.dice.value,
                                       score_change=round_down(score_change, 2), token_icon=context.token.icon)
-    else:
-        win_or_lose_text = LOSE_TEXT if score_change == 0 \
-            else WIN_TEXT.format(score_change=round_down(score_change, 2), token_icon=context.token.icon)
+
+    if context.game == Games.FOOTBALL:
+        pass
 
     await call.message.edit_text(text=win_or_lose_text)
 
