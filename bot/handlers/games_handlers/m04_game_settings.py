@@ -3,16 +3,16 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.handlers.context import Context
-from bot.handlers.games_handlers.m05_bets import bet_menu
-from bot.handlers.states import Games, StateKeys
+from bot.handlers.games_handlers.m05_bets import bet_change_state, bet_menu
+from bot.handlers.states import Games, Menu, StateKeys
 from bot.menus.game_menus.cube_settings import cube_settings
 
 router = Router()
 
 
 async def settings_menu(context: Context, msg_id=None):
-    print(context.game)
     if context.game == Games.CUBE:
+        await context.fsm_context.set_state(Menu.settings)
 
         text, keyboard = cube_settings(context.game_settings, context.balance, context.bet, context.token.icon)
 
@@ -44,3 +44,11 @@ async def set_settings(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.GAME_SETTINGS: new_settings})
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=call.message.message_id)
+
+
+@router.message(state=Menu.settings)
+async def bet_change_text_cube(message, state):
+    await bet_change_state(message, state)
+
+    context = await Context.from_fsm_context(message.from_user.id, state)
+    await settings_menu(context, msg_id=context.last_msg_id)

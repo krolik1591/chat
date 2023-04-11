@@ -4,8 +4,9 @@ from aiogram.types import Message
 
 from bot.const import CHANGE_BET, MAX_BET, MIN_BET
 from bot.handlers.context import Context
-from bot.handlers.states import Menu, StateKeys
+from bot.handlers.states import Games, Menu, StateKeys
 from bot.menus.game_menus import bet_menus
+from bot.menus.game_menus.cube_settings import cube_settings
 from bot.utils.rounding import round_down
 
 router = Router()
@@ -65,6 +66,13 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
 
 @router.message(state=Menu.bet)
 async def bet_change_text(message: Message, state: FSMContext):
+    await bet_change_state(message, state)
+
+    context = await Context.from_fsm_context(message.from_user.id, state)
+    await bet_menu(context, msg_id=context.last_msg_id)
+
+
+async def bet_change_state(message: Message, state: FSMContext):
     await message.delete()
     try:
         new_user_bet = float(message.text)
@@ -85,8 +93,8 @@ async def bet_change_text(message: Message, state: FSMContext):
 
     await state.update_data(**{StateKeys.BET: new_user_bet})
 
-    context = await Context.from_fsm_context(message.from_user.id, state)
-    await bet_menu(context, msg_id=context.last_msg_id)
+    # context = await Context.from_fsm_context(message.from_user.id, state)
+    # await bet_menu(context, msg_id=context.last_msg_id)
 
 
 def normalize_bet(bet, balance):
