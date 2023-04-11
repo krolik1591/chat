@@ -61,6 +61,11 @@ BASKET_TEXT_5 = '🤑 <b>ЧИСТЕ ВЛУЧАННЯ! 🤑\n\n✅ Ви вигр�
 FOOTBALL_TEXT_LOSE = '🙄 Відскочив...'
 FOOTBALL_TEXT_WIN = '🤑 <b>ГОООООООЛ! 🤑\n\n✅ Ви виграли {score_change}</b> {token_icon}'
 
+CUBE_TEXT_0 = '{dice_number_emoji}\n\n✅ Ви виграли {score_change} {token_icon}'
+CUBE_TEXT_1 = '{dice_number_emoji}\n\n🙄 На жаль, вам не пощастило'
+CUBE_TEXT_2 = '{dice_number_emoji}\n\n🤐 Дідько, знов не пощастило'
+CUBE_TEXT_3 = '{dice_number_emoji}\n\n🔥 Вже {cube_lose_streak} раз не щастить'
+
 DEMO_FUNDS_ICON = '🐠'
 TON_FUNDS_ICON = '💎'
 
