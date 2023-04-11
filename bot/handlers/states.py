@@ -16,6 +16,7 @@ class StateKeys:
     TOKEN_ICON = 'token_icon'
     GAME = 'game'
     GAME_SETTINGS = 'game_settings'
+    CUBE_LOSE_STREAK = 'cube_lose_streak'
 
 
 class Games:

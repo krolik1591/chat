@@ -8,7 +8,8 @@ from bot.const import THROTTLE_TIME_SPIN
 from bot.db.db import manager
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
-from bot.handlers.states import Games
+from bot.handlers.states import Games, StateKeys
+from bot.menus.game_menus.game_menu_err import game_menu_err
 from bot.texts import DICE_ROLL_TEXT
 from bot.utils.dice_check_games.dice_check_basket import get_coefficient_basket
 from bot.utils.dice_check_games.dice_check_bowling import get_coefficient_bowling
@@ -43,15 +44,22 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
 
     if context.game == Games.CUBE:
         if context.game_settings is None:
-            await call.answer("❌ You have not chosen an outcome for a bet")
-            # text, keyboard = game_menu_err(1)  # user doesnt choice bet
-            # await call.message.answer(text, reply_markup=keyboard)
+            # await call.answer("❌ Не обраний результат ставки!", show_alert=True)
+            text, keyboard = game_menu_err(1)  # user doesnt choice bet
+            await call.message.answer(text, reply_markup=keyboard)
             return
 
         dice_msg = await call.message.answer_dice(emoji="🎲")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
         coefficient = get_coefficient_cube(dice_msg.dice.value, context.game_settings)
+
+        current_streak = (await state.get_data()).get(StateKeys.CUBE_LOSE_STREAK, 0)
+        if coefficient == 0:
+            await state.update_data(**{StateKeys.CUBE_LOSE_STREAK: current_streak + 1})
+        else:
+            await state.update_data(**{StateKeys.CUBE_LOSE_STREAK: 0})
+
         await process_dice(call, context, coefficient, dice_msg, state)
 
     if context.game == Games.BASKET:
@@ -99,7 +107,9 @@ async def process_dice(call: types.CallbackQuery, context: Context, coefficient,
     await sleep(THROTTLE_TIME_SPIN)
 
     # Send result
-    win_or_lose_text = game_text(context, round_down(score_change, 2), dice_msg.dice.value)
+    cube_lose_streak = (await state.get_data()).get(StateKeys.CUBE_LOSE_STREAK)
+
+    win_or_lose_text = game_text(context, round_down(score_change, 2), dice_msg.dice.value, cube_lose_streak)
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send settings menu
