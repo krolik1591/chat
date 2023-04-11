@@ -3,6 +3,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 import bot.db.methods as db
 from bot.const import MIN_BET
 from bot.handlers.states import StateKeys
+from bot.utils.rounding import round_down
 
 
 class Context:
@@ -14,7 +15,8 @@ class Context:
         token_id = state.get(StateKeys.TOKEN_ID)
         balance = None
         if token_id:
-            balance = await db.get_user_balance(user_id, token_id)
+            _balance = await db.get_user_balance(user_id, token_id)
+            balance = round_down(_balance, 2)
 
         return Context(user_id, fsm_context, state, balance)
 
