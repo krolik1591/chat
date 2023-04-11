@@ -5,7 +5,7 @@ from bot.texts import BASKET_TEXT_2, BASKET_TEXT_3, BASKET_TEXT_5, BOWLING_TEXT_
 
 
 def game_text(context, score_change, dice_value):
-    if context.game == Games.CASINO and Games.CUBE:
+    if context.game == Games.CASINO or context.game == Games.CUBE:
         return LOSE_TEXT if score_change == 0 \
             else WIN_TEXT.format(score_change=score_change, token_icon=context.token.icon)
 

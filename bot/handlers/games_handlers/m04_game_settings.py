@@ -34,9 +34,9 @@ async def show_settings(call: types.CallbackQuery, state: FSMContext):
     await settings_menu(context, msg_id=call.message.message_id)
 
 
-@router.callback_query(Text(text_startswith='set_game_settings_'))
+@router.callback_query(Text(text_startswith='cube_game_settings_'))
 async def set_settings(call: types.CallbackQuery, state: FSMContext):
-    new_settings = call.data.removeprefix('set_game_settings_')
+    new_settings = call.data.removeprefix('cube_game_settings_')
     if (await state.get_data()).get(StateKeys.GAME_SETTINGS) == new_settings:
         await call.answer()
         return

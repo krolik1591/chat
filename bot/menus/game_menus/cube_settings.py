@@ -41,7 +41,7 @@ def _keyboard(bet_text, selected_setting, play_text):
         return name
 
     settings_btns = [[
-        InlineKeyboardButton(text=btn_text(key_name), callback_data="set_game_settings_" + key_name)
+        InlineKeyboardButton(text=btn_text(key_name), callback_data="cube_game_settings_" + key_name)
         for key_name in row
     ] for row in CUBE_VARIANTS]
 
