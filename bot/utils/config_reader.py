@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     fsm_mode: str
     redis: Optional[RedisDsn]
     wallet_seed: str
+    admin_chat_id: int
 
     @validator("wallet_seed")
     def wallet_seed_check(cls, v: str):

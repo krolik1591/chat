@@ -128,10 +128,10 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    if ton_amount > MAXIMUM_WITHDRAW:
-        context = await Context.from_fsm_context(call.from_user.id, state)
-        await process_titan_tx(call.from_user.id, call.from_user.username, ton_amount, context)
-        return
+    # if ton_amount > MAXIMUM_WITHDRAW:
+    #     context = await Context.from_fsm_context(call.from_user.id, state)
+    #     await process_titan_tx(call.from_user.id, call.from_user.username, ton_amount, context)
+    #     return
 
     await withdraw_cash_to_user(master_wallet, user_withdraw_address, ton_amount, call.from_user.id, token, state)
 
