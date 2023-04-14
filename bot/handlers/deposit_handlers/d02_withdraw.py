@@ -4,14 +4,16 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.const import MIN_WITHDRAW
+from bot.const import MAXIMUM_WITHDRAW, MIN_WITHDRAW
 from bot.db.methods import get_token_by_id, get_user_balance
+from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu3 import withdraw_menu_check
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
+from bot.titan_tx.process_titan_tx import process_titan_tx
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 
 flags = {"throttling_key": "default"}
@@ -125,6 +127,11 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
 
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+    if ton_amount > MAXIMUM_WITHDRAW:
+        context = await Context.from_fsm_context(call.from_user.id, state)
+        await process_titan_tx(call.from_user.id, call.from_user.username, ton_amount, context)
+        return
 
     await withdraw_cash_to_user(master_wallet, user_withdraw_address, ton_amount, call.from_user.id, token, state)
 

@@ -5,9 +5,11 @@ from aiogram.types import Message
 
 import bot.db.methods as db
 from bot.const import START_POINTS
+from bot.handlers.context import Context
 from bot.handlers.states import StateKeys
 from bot.menus import main_menu
 from bot.menus.deposit_menus.deposit_menu import deposit_menu
+from bot.titan_tx.process_titan_tx import process_titan_tx
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -49,3 +51,9 @@ async def deposit_menus(call: types.CallbackQuery, state: FSMContext):
 
     text, keyboard = deposit_menu(balances, token.price)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+
+@router.message(commands="admin", flags=flags)
+async def admin_menu(call: types.CallbackQuery, state: FSMContext):
+    pass
+
