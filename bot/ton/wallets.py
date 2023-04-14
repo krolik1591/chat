@@ -56,7 +56,7 @@ class TonWrapper(LsClient):
 
         return results
 
-    async def _get_account_transactions(self, account: Account,
+    async def _get_account_transactions(self, account,
                                         last_tx_lt=None, last_tx_hash=None,
                                         first_tx_lt=0, first_tx_hash=None, include_first_tx=False,
                                         limit=float('Infinity')):
