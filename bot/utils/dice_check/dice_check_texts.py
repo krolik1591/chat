@@ -27,25 +27,6 @@ def game_text(context, score_change, dice_value, cube_lose_streak):
         return football_text(dice_value, score_change=score_change, token_icon=context.token.icon)
 
 
-NUMBERS_EMOJI = {
-    1: '1️⃣ <b>- непарне</b>',
-    2: '2️⃣ <b>- парне</b>',
-    3: '3️⃣ <b>- непарне</b>',
-    4: '4️⃣ <b>- парне</b>',
-    5: '5️⃣ <b>- непарне</b>',
-    6: '6️⃣ <b>- парне</b>'
-}
-
-CUBE_TEXTS = {
-    0: CUBE_TEXT_0,
-    1: CUBE_TEXT_1,
-    2: CUBE_TEXT_2,
-    3: CUBE_TEXT_3,
-    4: CUBE_TEXT_3,
-    5: CUBE_TEXT_3,
-    6: CUBE_TEXT_3
-}
-
 BASKET_TEXTS = {
     1: DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1,
     2: BASKET_TEXT_2,
@@ -78,6 +59,25 @@ FOOTBALL_TEXTS = {
     3: FOOTBALL_TEXT_WIN,
     4: FOOTBALL_TEXT_WIN,
     5: FOOTBALL_TEXT_WIN
+}
+
+CUBE_TEXTS = {
+    0: CUBE_TEXT_0,
+    1: CUBE_TEXT_1,
+    2: CUBE_TEXT_2,
+    3: CUBE_TEXT_3,
+    4: CUBE_TEXT_3,
+    5: CUBE_TEXT_3,
+    6: CUBE_TEXT_3
+}
+
+NUMBERS_EMOJI = {
+    1: '1️⃣ <b>- непарне</b>',
+    2: '2️⃣ <b>- парне</b>',
+    3: '3️⃣ <b>- непарне</b>',
+    4: '4️⃣ <b>- парне</b>',
+    5: '5️⃣ <b>- непарне</b>',
+    6: '6️⃣ <b>- парне</b>'
 }
 
 

@@ -11,13 +11,11 @@ from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.states import Games, StateKeys
 from bot.menus.game_menus.game_menu_err import game_menu_err
 from bot.texts import DICE_ROLL_TEXT
-from bot.utils.dice_check_games.dice_check_basket import get_coefficient_basket
-from bot.utils.dice_check_games.dice_check_bowling import get_coefficient_bowling
-from bot.utils.dice_check_games.dice_check_casino import get_coefficient
-from bot.utils.dice_check_games.dice_check_cube import get_coefficient_cube
-from bot.utils.dice_check_games.dice_check_darts import get_coefficient_darts
-from bot.utils.dice_check_games.dice_check_football import get_coefficient_football
-from bot.utils.dice_check_games.dice_check_texts import game_text
+from bot.utils.dice_check.dice_check_casino import get_coefficient
+from bot.utils.dice_check.dice_check_games import get_coefficient_basket, get_coefficient_bowling, \
+    get_coefficient_cube, \
+    get_coefficient_darts, get_coefficient_football
+from bot.utils.dice_check.dice_check_texts import game_text
 from bot.utils.rounding import round_down
 
 flags = {"throttling_key": "spin"}

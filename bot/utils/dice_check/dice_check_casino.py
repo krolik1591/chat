@@ -1,6 +1,12 @@
 from enum import Enum
 from typing import List
 
+from bot.games_const import THREE_BAR, THREE_GRAPES, THREE_LEMON, THREE_SEVEN, TWO_BAR, TWO_GRAPES, TWO_LEMON, \
+    TWO_NEAR_BAR, \
+    TWO_NEAR_GRAPES, \
+    TWO_NEAR_LEMON, \
+    TWO_NEAR_SEVEN, TWO_SEVEN
+
 
 class Dice(Enum):
     BAR = "➖"
@@ -38,20 +44,20 @@ def three(x):
 
 
 REWARDS = {
-    three(Dice.SEVEN): 15,
-    three(Dice.GRAPES): 10,
-    three(Dice.LEMON): 5,
-    three(Dice.BAR): 3,
+    three(Dice.SEVEN): THREE_SEVEN,
+    three(Dice.GRAPES): THREE_GRAPES,
+    three(Dice.LEMON):THREE_LEMON,
+    three(Dice.BAR): THREE_BAR,
 
-    two_near(Dice.SEVEN): 1,
-    two_near(Dice.GRAPES): 0.5,
-    two_near(Dice.LEMON): 0.5,
-    two_near(Dice.BAR): 0.5,
+    two_near(Dice.SEVEN): TWO_NEAR_SEVEN,
+    two_near(Dice.GRAPES): TWO_NEAR_GRAPES,
+    two_near(Dice.LEMON): TWO_NEAR_LEMON,
+    two_near(Dice.BAR): TWO_NEAR_BAR,
 
-    two(Dice.SEVEN): 0.5,
-    two(Dice.GRAPES): 0.25,
-    two(Dice.LEMON): 0.25,
-    two(Dice.BAR): 0.25,
+    two(Dice.SEVEN): TWO_SEVEN,
+    two(Dice.GRAPES): TWO_GRAPES,
+    two(Dice.LEMON): TWO_LEMON,
+    two(Dice.BAR): TWO_BAR,
 }
 
 
@@ -61,12 +67,3 @@ def parse_dice(dice_value: int) -> List[Dice]:
         dices[dice_value // i % 4]
         for i in (1, 4, 16)
     ]
-
-
-if __name__ == '__main__':
-    print('{')
-    for dice_val in range(1, 65):
-        human_readable = ''.join([str(i) for i in parse_dice(dice_val)])
-        coef = get_coefficient(dice_val)
-        print(f"    {dice_val}: {coef},  \t# {human_readable}")
-    print('}')
