@@ -6,7 +6,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import MAXIMUM_WITHDRAW, MIN_WITHDRAW
-from bot.db.methods import get_titan_tx_by_id, get_token_by_id, get_user_balance
+from bot.db.methods import get_titan_tx_by_id, get_token_by_id, get_user_balance, update_withdraw_state
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
@@ -141,12 +141,13 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text(text_startswith='approve_titan_tx_'))
 async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
+    titan_tx_id = call.data.removeprefix('approve_titan_tx_')
+
+    await update_withdraw_state(titan_tx_id, 'approved')
     await state.bot.edit_message_text(
         f'{call.message.text} \n\n✅ Approve', chat_id=config.admin_chat_id, message_id=call.message.message_id)
 
-    titan_tx_id = call.data.removeprefix('approve_titan_tx_')
     titan_tx = await get_titan_tx_by_id(titan_tx_id)
-
     master_wallet = state.bot.ton_client.master_wallet
     TOKEN_ID = 2
     token = await get_token_by_id(TOKEN_ID)
@@ -157,10 +158,11 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text(text_startswith='denied_titan_tx_'))
 async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
-    decline_tx = call.data.removeprefix('denied_titan_tx_')
-
     await state.bot.edit_message_text(
         f'{call.message.text} \n\n❌ Denied', chat_id=config.admin_chat_id, message_id=call.message.message_id)
+
+    titan_tx_id = call.data.removeprefix('denied_titan_tx_')
+    await update_withdraw_state(titan_tx_id, 'rejected')
 
 
 async def check_user_withdraw_amount_err(user_balance, round_user_withdraw):

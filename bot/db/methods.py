@@ -71,19 +71,19 @@ async def deposit_token(tg_id, token_id, amount):
     )
 
 
-async def update_withdraw_state(tx_hash):
-    return await Transactions.update({Transactions.withdraw_state: True}).where(Transactions.tx_hash == tx_hash)
-
-
-async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime, *, withdraw_state=False):
+async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):
     return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                      logical_time=logical_time, amount=amount,
-                                     tx_address=tx_address, tx_hash=tx_hash, utime=utime, withdraw_state=withdraw_state)
+                                     tx_address=tx_address, tx_hash=tx_hash, utime=utime)
 
 
-async def add_new_titan_tx(user_id, token_id, nano_ton_amount, tx_address, utime):
+async def add_new_titan_tx(user_id, token_id, nano_ton_amount, tx_address, utime, *, withdraw_state='pending'):
     return await TitanTXs.create(user_id=user_id, token_id=token_id, amount=nano_ton_amount,
-                                 tx_address=tx_address, utime=utime)
+                                 tx_address=tx_address, utime=utime, withdraw_state=withdraw_state)
+
+
+async def update_withdraw_state(titan_tx_id, new_state):
+    return await TitanTXs.update({TitanTXs.withdraw_state: new_state}).where(TitanTXs.titanTXs_id == titan_tx_id)
 
 
 async def get_titan_tx_by_id(titan_tx_id):
@@ -130,8 +130,7 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         # await first_start()
-        x = await get_titan_tx_by_id(10)
-        print(x[0].user_id)
+        await update_withdraw_state(1, 'hui')
 
 
 

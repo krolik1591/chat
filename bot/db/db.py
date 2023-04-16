@@ -64,6 +64,7 @@ class TitanTXs(manager.Model):
     tx_address = CharField()
     utime = BigIntegerField()
     amount = BigIntegerField()
+    withdraw_state = CharField()
 
 
 class Transactions(manager.Model):
@@ -79,7 +80,6 @@ class Transactions(manager.Model):
     logical_time = BigIntegerField()
     utime = BigIntegerField()
     amount = BigIntegerField()
-    withdraw_state = BooleanField()
 
     def __str__(self):
         return f'TRANSACTION: {self.user_id=}, {self.token_id=}, {self.tx_hash=}, {self.amount=}'
