@@ -6,9 +6,11 @@ from bot.handlers.games_handlers.m04_game_settings import router as m05_game_set
 from bot.handlers.games_handlers.m05_bets import router as m04_bets_router
 from bot.handlers.games_handlers.m06_play_dice import router as m06_play_dice_router
 from .m01_main import router as m01_main_router
+from bot.handlers.deposit_handlers.d03_manual_withdraw import router as d03_manual_withdraw_router
 
 routers = [
     m01_main_router, m02_games_router, m03_token_router,
     m04_bets_router, m05_game_settings_router,
     m06_play_dice_router, d01_replenish_router, d02_withdraw_router,
+    d03_manual_withdraw_router,
 ]
