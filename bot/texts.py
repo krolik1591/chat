@@ -52,7 +52,8 @@ DARTS_TEXT_5_OR_BASKET_4 = '👌 <b>Гарне влучання \n\n✅ Ви в�
 DARTS_TEXT_6 = '🍎 <b>ПРЯМО В ЦІЛЬ! 🍏\n\n✅ Ви виграли {score_change}</b> {token_icon}'
 
 BOWLING_TEXT_4 = '🤐 Без коментарів...'
-BOWLING_TEXT_5 = '👌 <b>Гарне влучання \n\n✅ Ви виграли {score_change}</b> {token_icon}'
+# BOWLING_TEXT_5 = '👌 <b>Гарне влучання \n\n✅ Ви виграли {score_change}</b> {token_icon}'
+BOWLING_TEXT_5 = 'СТРАААЙ...\n\nА ні, здалося)'
 BOWLING_TEXT_6 = '🤑 <b>СТРАААЙК! 🤑\n\n✅ Ви виграли {score_change}</b> {token_icon}'
 
 BASKET_TEXT_2 = '😲 Майже влучив'
