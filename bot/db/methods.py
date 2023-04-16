@@ -81,8 +81,15 @@ async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx
                                      tx_address=tx_address, tx_hash=tx_hash, utime=utime, withdraw_state=withdraw_state)
 
 
-async def add_new_titan_tx(user_id, token_id, amount, tx_address, utime):
-    return await TitanTXs.create(user_id=user_id, token_id=token_id, amount=amount, tx_address=tx_address, utime=utime)
+async def add_new_titan_tx(user_id, token_id, nano_ton_amount, tx_address, utime):
+    return await TitanTXs.create(user_id=user_id, token_id=token_id, amount=nano_ton_amount,
+                                 tx_address=tx_address, utime=utime)
+
+
+async def get_titan_tx_by_id(titan_tx_id):
+    result = await TitanTXs.select(TitanTXs.tx_address, TitanTXs.amount, TitanTXs.user_id, TitanTXs.token_id)\
+        .where(TitanTXs.titanTXs_id == titan_tx_id)
+    return result[0]
 
 
 async def get_last_transaction(tg_id, token_id):
@@ -122,9 +129,9 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        await first_start()
-        # await add_new_transaction(228322, 3, 45641560, 9, 'cfvervrbgrtbr4ergb', 'fwgvrgbvgb43b5rbhr5', 46814651658146, 5651656)
-        await update_withdraw_state('fwgvrgbvgb43b5rbhr5')
+        # await first_start()
+        x = await get_titan_tx_by_id(10)
+        print(x[0].user_id)
 
 
 
