@@ -5,7 +5,7 @@ from pprint import pprint
 from peewee import fn, JOIN
 
 from bot.db import first_start
-from bot.db.db import Balance, User, Token, Transaction, GameLog, Wallets_key
+from bot.db.db import Balance, TitanTXs, User, Token, Transactions, GameLog, Wallets_key
 from bot.db.db import manager
 
 
@@ -72,18 +72,22 @@ async def deposit_token(tg_id, token_id, amount):
 
 
 async def update_withdraw_state(tx_hash):
-    return await Transaction.update({Transaction.withdraw_state: True}).where(Transaction.tx_hash == tx_hash)
+    return await Transactions.update({Transactions.withdraw_state: True}).where(Transactions.tx_hash == tx_hash)
 
 
 async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime, *, withdraw_state=False):
-    return await Transaction.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
-                                    logical_time=logical_time, amount=amount,
-                                    tx_address=tx_address, tx_hash=tx_hash, utime=utime, withdraw_state=withdraw_state)
+    return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
+                                     logical_time=logical_time, amount=amount,
+                                     tx_address=tx_address, tx_hash=tx_hash, utime=utime, withdraw_state=withdraw_state)
+
+
+async def add_new_titan_tx(user_id, token_id, amount, tx_address, utime):
+    return await TitanTXs.create(user_id=user_id, token_id=token_id, amount=amount, tx_address=tx_address, utime=utime)
 
 
 async def get_last_transaction(tg_id, token_id):
-    result = await Transaction.select(Transaction.tx_hash, fn.Max(Transaction.utime)) \
-        .where(Transaction.user_id == tg_id, Transaction.token_id == token_id, Transaction.tx_type != 3)
+    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime)) \
+        .where(Transactions.user_id == tg_id, Transactions.token_id == token_id, Transactions.tx_type != 3)
     return result[0]
 
 
