@@ -9,6 +9,7 @@ from bot.db.db import manager
 from bot.db.methods import get_titan_tx_by_id, get_token_by_id, update_user_balance, \
     update_withdraw_state
 from bot.handlers.context import Context
+from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
 from bot.middlewares.filters import FilterChatId
 from bot.ton.withdraw_cash import withdraw_cash_to_user
@@ -26,6 +27,9 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
     await update_withdraw_state(titan_tx_id, 'approved')
     await state.bot.edit_message_text(
         f'{call.message.text} \n\n✅ Approve', chat_id=config.admin_chat_id, message_id=call.message.message_id)
+
+    text, kb = successful_replenish_menu('successful_manual', titan_tx.amount / 10 ** 9 * titan_tx.price)
+    await state.bot.send_message(chat_id=titan_tx.user_id, text=text, reply_markup=kb)
 
     master_wallet = state.bot.ton_client.master_wallet
     TOKEN_ID = 2

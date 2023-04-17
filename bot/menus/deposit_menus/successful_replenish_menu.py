@@ -1,10 +1,16 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.texts import SUCCESSFUL_REPLENISH_MENU
+from bot.texts import ADMIN_APPROVE_TX, SUCCESSFUL_REPLENISH_MENU
 
 
-def successful_replenish_menu(amount):
-    text = SUCCESSFUL_REPLENISH_MENU.format(amount=amount)
+SUCCESSFUL_TEXT = {
+    'successful_classic': SUCCESSFUL_REPLENISH_MENU,
+    'successful_manual': ADMIN_APPROVE_TX
+}
+
+
+def successful_replenish_menu(text_, amount):
+    text = SUCCESSFUL_TEXT[text_].format(amount=amount)
     kb = _keyboard()
 
     return text, kb

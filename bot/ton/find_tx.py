@@ -110,7 +110,7 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
 
 async def successful_deposit(bot, amount, user_id):
     amount = round(amount, 2)
-    text, keyboard = successful_replenish_menu(amount)
+    text, keyboard = successful_replenish_menu('successful_classic', amount)
 
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
