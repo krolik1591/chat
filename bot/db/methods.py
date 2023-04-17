@@ -3,7 +3,7 @@ from datetime import date, datetime, time, timedelta
 
 from peewee import JOIN, fn
 
-from bot.db.db import Balance, GameLog, TitanTXs, Token, Transactions, User, Wallets_key
+from bot.db.db import Balance, GameLog, ManualTXs, Token, Transactions, User, Wallets_key
 
 
 async def create_new_user(tg_id, username):
@@ -84,17 +84,17 @@ async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx
                                      tx_address=tx_address, tx_hash=tx_hash, utime=utime)
 
 
-async def add_new_titan_tx(user_id, nano_ton_amount, token_id, price, tx_address, utime, *, withdraw_state='pending'):
-    return await TitanTXs.create(user_id=user_id, token_id=token_id, amount=nano_ton_amount, price=price,
-                                 tx_address=tx_address, utime=utime, withdraw_state=withdraw_state)
+async def add_new_manual_tx(user_id, nano_ton_amount, token_id, price, tx_address, utime, *, withdraw_state='pending'):
+    return await ManualTXs.create(user_id=user_id, token_id=token_id, amount=nano_ton_amount, price=price,
+                                  tx_address=tx_address, utime=utime, withdraw_state=withdraw_state)
 
 
 async def update_withdraw_state(titan_tx_id, new_state):
-    return await TitanTXs.update({TitanTXs.withdraw_state: new_state}).where(TitanTXs.titanTXs_id == titan_tx_id)
+    return await ManualTXs.update({ManualTXs.withdraw_state: new_state}).where(ManualTXs.ManualTXs_id == titan_tx_id)
 
 
-async def get_titan_tx_by_id(titan_tx_id):
-    result = await TitanTXs.select().where(TitanTXs.titanTXs_id == titan_tx_id)
+async def get_manual_tx_by_id(titan_tx_id):
+    result = await ManualTXs.select().where(ManualTXs.ManualTXs_id == titan_tx_id)
     return result[0]
 
 

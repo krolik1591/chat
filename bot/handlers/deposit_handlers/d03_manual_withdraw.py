@@ -6,7 +6,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.db.db import manager
-from bot.db.methods import get_titan_tx_by_id, get_token_by_id, update_user_balance, \
+from bot.db.methods import get_manual_tx_by_id, get_token_by_id, update_user_balance, \
     update_withdraw_state
 from bot.handlers.context import Context
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
@@ -19,10 +19,10 @@ flags = {"throttling_key": "default"}
 router = Router()
 
 
-@router.callback_query(Text(text_startswith='approve_titan_tx_'))
+@router.callback_query(Text(text_startswith='approve_manual_tx_'))
 async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
-    titan_tx_id = call.data.removeprefix('approve_titan_tx_')
-    titan_tx = await get_titan_tx_by_id(titan_tx_id)
+    titan_tx_id = call.data.removeprefix('approve_manual_tx_')
+    titan_tx = await get_manual_tx_by_id(titan_tx_id)
 
     await update_withdraw_state(titan_tx_id, 'approved')
     await state.bot.edit_message_text(
@@ -39,20 +39,20 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
                                 token, state)
 
 
-@router.callback_query(Text(text_startswith='denied_titan_tx_'))
+@router.callback_query(Text(text_startswith='denied_manual_tx_'))
 async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
     await state.bot.edit_message_text(
         f'{call.message.text} \n\n❌ Denied', chat_id=config.admin_chat_id, message_id=call.message.message_id)
 
-    titan_tx_id = call.data.removeprefix('denied_titan_tx_')
-    titan_tx = await get_titan_tx_by_id(titan_tx_id)
+    manual_tx_id = call.data.removeprefix('denied_manual_tx_')
+    manual_tx = await get_manual_tx_by_id(manual_tx_id)
 
     with manager.pw_database.atomic():
-        await update_withdraw_state(titan_tx_id, 'rejected')
-        await update_user_balance(titan_tx.user_id, titan_tx.token_id, titan_tx.amount / 10**9 * titan_tx.price)
+        await update_withdraw_state(manual_tx_id, 'rejected')
+        await update_user_balance(manual_tx.user_id, manual_tx.token_id, manual_tx.amount / 10**9 * manual_tx.price)
 
     text, kb = withdraw_menu_err(7)
-    await state.bot.send_message(chat_id=titan_tx.user_id, text=text, reply_markup=kb)
+    await state.bot.send_message(chat_id=manual_tx.user_id, text=text, reply_markup=kb)
 
 
 @router.message(lambda message: message.reply_to_message is not None, FilterChatId(), state='*',)

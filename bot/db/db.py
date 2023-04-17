@@ -57,11 +57,11 @@ class Balance(manager.Model):
         return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.balance_id}'
 
 
-class TitanTXs(manager.Model):
-    titanTXs_id = BigIntegerField(primary_key=True)
-    user = ForeignKeyField(User, backref='titanTXs')
+class ManualTXs(manager.Model):
+    ManualTXs_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='manualTXs')
     amount = BigIntegerField()
-    token = ForeignKeyField(Token, backref='titanTXs')
+    token = ForeignKeyField(Token, backref='manualTXs')
     price = IntegerField()
     tx_address = CharField()
     utime = BigIntegerField()

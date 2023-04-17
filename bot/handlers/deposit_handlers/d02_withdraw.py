@@ -14,7 +14,7 @@ from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_a
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu3 import withdraw_menu_check
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
-from bot.titan_tx.process_titan_tx import process_titan_tx
+from bot.manual_tx.process_titan_tx import process_titan_tx
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 
 flags = {"throttling_key": "default"}
@@ -139,7 +139,7 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     total_amount_price = user_daily_total_amount / 10**9 * token.price
 
     if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
-        text, keyboard = successful_replenish_menu('withdraw_daily_limit',
+        text, keyboard = withdraw_menu_err('withdraw_daily_limit',
                                                    MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
         await state.bot.send_message(chat_id=call.from_user.id, text=text, reply_markup=keyboard)
         print(MAXIMUM_WITHDRAW_DAILY, token.price, total_amount_price)
