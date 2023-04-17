@@ -49,15 +49,6 @@ async def withdraw_user_text(message: Message, state: FSMContext):
         await message.answer(text, reply_markup=keyboard)
         return
 
-    user_daily_total_amount = await get_user_daily_total_amount(message.from_user.id)
-    token = await get_token_by_id(TOKEN_ID)
-    total_amount_price = user_daily_total_amount / 10**9 * token.price
-    if total_amount_price + round_user_withdraw > MAXIMUM_WITHDRAW_DAILY * token.price:
-        text, keyboard = successful_replenish_menu('withdraw_daily_limit',
-                                                   MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
-        await state.bot.send_message(chat_id=message.chat.id, text=text, reply_markup=keyboard)
-        return
-
     user_data = await state.get_data()
     last_msg = user_data.get(StateKeys.LAST_MSG_ID)
 
@@ -139,6 +130,20 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
     if ton_amount > MAXIMUM_WITHDRAW:
+        context = await Context.from_fsm_context(call.from_user.id, state)
+        await process_titan_tx(call.from_user.id, call.from_user.username,
+                               ton_amount, context, token, user_withdraw_address)
+        return
+
+    user_daily_total_amount = await get_user_daily_total_amount(call.from_user.id)
+    total_amount_price = user_daily_total_amount / 10**9 * token.price
+
+    if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
+        text, keyboard = successful_replenish_menu('withdraw_daily_limit',
+                                                   MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
+        await state.bot.send_message(chat_id=call.from_user.id, text=text, reply_markup=keyboard)
+        print(MAXIMUM_WITHDRAW_DAILY, token.price, total_amount_price)
+
         context = await Context.from_fsm_context(call.from_user.id, state)
         await process_titan_tx(call.from_user.id, call.from_user.username,
                                ton_amount, context, token, user_withdraw_address)

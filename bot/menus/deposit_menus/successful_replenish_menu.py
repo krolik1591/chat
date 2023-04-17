@@ -1,6 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.texts import ADMIN_APPROVE_TX, SUCCESSFUL_REPLENISH_MENU, WITHDRAW_DAILY_LIMIT
+from bot.utils.rounding import round_down
 
 SUCCESSFUL_TEXT = {
     'successful_classic': SUCCESSFUL_REPLENISH_MENU,
@@ -10,6 +11,7 @@ SUCCESSFUL_TEXT = {
 
 
 def successful_replenish_menu(text_, amount):
+    amount = round_down(amount, 2)
     text = SUCCESSFUL_TEXT[text_].format(amount=amount)
     kb = _keyboard()
 
