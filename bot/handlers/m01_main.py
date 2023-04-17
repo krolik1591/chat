@@ -1,8 +1,5 @@
-from typing import Any
-
 from TonTools.Contracts.Wallet import Wallet
 from aiogram import F, Router, types
-from aiogram.dispatcher.filters import BaseFilter
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
@@ -11,21 +8,9 @@ from bot.const import START_POINTS
 from bot.handlers.states import StateKeys
 from bot.menus import main_menu
 from bot.menus.deposit_menus.deposit_menu import deposit_menu
-from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
 router = Router()
-
-
-# class MyFilter(BaseFilter):
-#     def __init__(self, **data: Any) -> None:
-#         super().__init__(**data)
-#
-#     # def __init__(self, my_text: str) -> None:
-#     #     self.my_text = my_text
-#
-#     async def __call__(self, message: Message) -> bool:
-#         return message.chat.id == config.admin_chat_id
 
 
 @router.message(F.chat.type == "private", commands="start", flags=flags)

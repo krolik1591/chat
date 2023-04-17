@@ -1,4 +1,3 @@
-from aiogram import F, Router, types
 import re
 
 from aiogram import Router, types
@@ -9,7 +8,9 @@ from aiogram.types import Message
 from bot.db.db import manager
 from bot.db.methods import get_titan_tx_by_id, get_token_by_id, update_user_balance, \
     update_withdraw_state
+from bot.handlers.context import Context
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
+from bot.middlewares.filters import FilterChatId
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 from bot.utils.config_reader import config
 
@@ -50,8 +51,9 @@ async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
     await state.bot.send_message(chat_id=titan_tx.user_id, text=text, reply_markup=kb)
 
 
-@router.message(lambda message: message.reply_to_message is not None, F.chat.id == config.admin_chat_id, state='*',)
-async def hui(message: Message, state):
-    print(message.reply_to_message.message_id,
-          message.reply_to_message.text)
-    print(message.text)
+@router.message(lambda message: message.reply_to_message is not None, FilterChatId(), state='*',)
+async def send_msg_from_admin_to_user(message: Message, state: FSMContext):
+    match = re.search(r"\(id:\s*(\d+)\)", message.reply_to_message.text)
+    user_id = match.group(1) if match else None
+
+    await state.bot.send_message(chat_id=user_id, text=message.text)
