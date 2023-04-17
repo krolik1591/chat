@@ -6,7 +6,6 @@ from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 async def withdraw_cash_to_user(master_wallet, user_withdraw_address, withdraw_amount_ton, user_id, token, state):
     withdraw_amount_price = withdraw_amount_ton * token.price
-    await update_user_balance(user_id, token.token_id, -withdraw_amount_price)
 
     master_balance_nano = await master_wallet.get_balance()
     master_balance_ton = master_balance_nano / 1e9
