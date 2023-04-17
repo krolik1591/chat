@@ -1,21 +1,34 @@
+from typing import Any
+
 from TonTools.Contracts.Wallet import Wallet
-from aiogram import Router, types
+from aiogram import F, Router, types
+from aiogram.dispatcher.filters import BaseFilter
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 import bot.db.methods as db
 from bot.const import START_POINTS
-from bot.handlers.context import Context
 from bot.handlers.states import StateKeys
 from bot.menus import main_menu
 from bot.menus.deposit_menus.deposit_menu import deposit_menu
-from bot.titan_tx.process_titan_tx import process_titan_tx
+from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
 router = Router()
 
 
-@router.message(commands="start", flags=flags)
+# class MyFilter(BaseFilter):
+#     def __init__(self, **data: Any) -> None:
+#         super().__init__(**data)
+#
+#     # def __init__(self, my_text: str) -> None:
+#     #     self.my_text = my_text
+#
+#     async def __call__(self, message: Message) -> bool:
+#         return message.chat.id == config.admin_chat_id
+
+
+@router.message(F.chat.type == "private", commands="start", flags=flags)
 async def cmd_start(message: Message, state: FSMContext):
     try:
         await db.get_user_lang(message.from_user.id)

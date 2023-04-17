@@ -25,7 +25,7 @@ async def main():
 
     dp = Dispatcher(storage=storage)
 
-    dp.message.filter(F.chat.type == "private")  # only private chats allowed
+    # dp.message.filter(F.chat.type == "private")  # only private chats allowed
 
     for router in routers:
         dp.include_router(router)

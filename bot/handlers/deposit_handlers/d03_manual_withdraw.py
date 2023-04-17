@@ -1,10 +1,12 @@
-from aiogram import Router, types
+from aiogram import F, Router, types
 import re
 
 from aiogram import Router, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.types import Message
 
+from bot.db.db import manager
 from bot.db.methods import get_titan_tx_by_id, get_token_by_id, update_user_balance, \
     update_withdraw_state
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
@@ -38,27 +40,18 @@ async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
         f'{call.message.text} \n\n❌ Denied', chat_id=config.admin_chat_id, message_id=call.message.message_id)
 
     titan_tx_id = call.data.removeprefix('denied_titan_tx_')
-    await update_withdraw_state(titan_tx_id, 'rejected')
+    titan_tx = await get_titan_tx_by_id(titan_tx_id)
 
-    text_ = call.message.text
-    user_id, token_id, amount, token_price = get_withdraw_user_info(text_)
-    await update_user_balance(user_id, token_id, amount * token_price)
+    with manager.pw_database.atomic():
+        await update_withdraw_state(titan_tx_id, 'rejected')
+        await update_user_balance(titan_tx.user_id, titan_tx.token_id, titan_tx.amount / 10**9 * titan_tx.price)
 
     text, kb = withdraw_menu_err(7)
-    await state.bot.send_message(chat_id=user_id, text=text, reply_markup=kb)
+    await state.bot.send_message(chat_id=titan_tx.user_id, text=text, reply_markup=kb)
 
 
-def get_withdraw_user_info(text):
-    match = re.search(r"\(id:\s*(\d+)\)", text)
-    user_id = match.group(1) if match else None
-
-    match = re.search(r"купу грошей:\s*([\d.]+)", text)
-    amount = match.group(1) if match else None
-
-    match = re.search(r"Token_id:\s*(\d+)", text)
-    token_id = match.group(1) if match else None
-
-    match = re.search(r"Token_price:\s*([\d.]+)", text)
-    token_price = match.group(1) if match else None
-
-    return int(user_id), int(token_id), float(amount), int(token_price)
+@router.message(lambda message: message.reply_to_message is not None, F.chat.id == config.admin_chat_id, state='*',)
+async def hui(message: Message, state):
+    print(message.reply_to_message.message_id,
+          message.reply_to_message.text)
+    print(message.text)
