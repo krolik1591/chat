@@ -8,6 +8,7 @@ from bot.const import START_POINTS
 from bot.handlers.states import StateKeys
 from bot.menus import main_menu
 from bot.menus.deposit_menus.deposit_menu import deposit_menu
+from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -52,6 +53,6 @@ async def deposit_menus(call: types.CallbackQuery, state: FSMContext):
 
 
 @router.message(commands="admin", flags=flags)
-async def admin_menu(call: types.CallbackQuery, state: FSMContext):
-    pass
-
+async def admin_menu(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    is_admin = str(user_id) in config.admin_ids
