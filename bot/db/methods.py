@@ -1,12 +1,9 @@
 import json
-from datetime import datetime
-from pprint import pprint
+from datetime import date, datetime, time, timedelta
 
-from peewee import fn, JOIN
+from peewee import JOIN, fn
 
-from bot.db import first_start
-from bot.db.db import Balance, TitanTXs, User, Token, Transactions, GameLog, Wallets_key
-from bot.db.db import manager
+from bot.db.db import Balance, GameLog, TitanTXs, Token, Transactions, User, Wallets_key
 
 
 async def create_new_user(tg_id, username):
@@ -51,6 +48,16 @@ async def get_user_balance(user_id, token_id):
 async def update_user_balance(user_id, token_id, new_balance):
     return await Balance.update({Balance.amount: fn.ROUND(Balance.amount + new_balance, 5)}). \
         where(Balance.user_id == user_id, Balance.token_id == token_id)
+
+
+async def get_user_daily_total_amount(user_id):
+    today_midnight = datetime.combine(datetime.today().date(), time())
+    next_day_midnight = today_midnight + timedelta(days=1)
+
+    result = await Transactions.select(fn.SUM(Transactions.amount)) \
+        .where(Transactions.user_id == user_id, Transactions.tx_type == 3,
+               Transactions.utime.between(today_midnight.timestamp(), next_day_midnight.timestamp()))
+    return result[0].amount if result[0].amount is not None else 0
 
 
 async def get_tokens():
@@ -129,9 +136,8 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         # await first_start()
-        x = await get_titan_tx_by_id(1)
-        print(x.amount)
-
+        x = await get_user_daily_total_amount(357108179)
+        print(x)
 
 
     import asyncio
