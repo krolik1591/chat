@@ -60,10 +60,11 @@ class Balance(manager.Model):
 class TitanTXs(manager.Model):
     titanTXs_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='titanTXs')
+    amount = BigIntegerField()
     token = ForeignKeyField(Token, backref='titanTXs')
+    price = IntegerField()
     tx_address = CharField()
     utime = BigIntegerField()
-    amount = BigIntegerField()
     withdraw_state = CharField()
 
 
