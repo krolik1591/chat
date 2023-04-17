@@ -1,11 +1,11 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.texts import ADMIN_APPROVE_TX, SUCCESSFUL_REPLENISH_MENU
-
+from bot.texts import ADMIN_APPROVE_TX, SUCCESSFUL_REPLENISH_MENU, WITHDRAW_DAILY_LIMIT
 
 SUCCESSFUL_TEXT = {
     'successful_classic': SUCCESSFUL_REPLENISH_MENU,
-    'successful_manual': ADMIN_APPROVE_TX
+    'successful_manual': ADMIN_APPROVE_TX,
+    'withdraw_daily_limit': WITHDRAW_DAILY_LIMIT
 }
 
 

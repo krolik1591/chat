@@ -4,10 +4,11 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.const import MAXIMUM_WITHDRAW, MIN_WITHDRAW
-from bot.db.methods import get_token_by_id, get_user_balance, update_user_balance
+from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
+from bot.db.methods import get_token_by_id, get_user_balance, get_user_daily_total_amount, update_user_balance
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
+from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
@@ -46,6 +47,15 @@ async def withdraw_user_text(message: Message, state: FSMContext):
         err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
         text, keyboard = withdraw_menu_err(err)
         await message.answer(text, reply_markup=keyboard)
+        return
+
+    user_daily_total_amount = await get_user_daily_total_amount(message.from_user.id)
+    token = await get_token_by_id(TOKEN_ID)
+    total_amount_price = user_daily_total_amount / 10**9 * token.price
+    if total_amount_price + round_user_withdraw > MAXIMUM_WITHDRAW_DAILY * token.price:
+        text, keyboard = successful_replenish_menu('withdraw_daily_limit',
+                                                   MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
+        await state.bot.send_message(chat_id=message.chat.id, text=text, reply_markup=keyboard)
         return
 
     user_data = await state.get_data()
