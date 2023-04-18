@@ -15,9 +15,11 @@ from bot.menus.game_menus.game_menu_err import game_menu_err
 router = Router()
 
 
-async def settings_menu(context: Context, msg_id=None, general_bet=0):
+async def settings_menu(context: Context, msg_id=None):
     if context.game == Games.CUBE:
         await context.fsm_context.set_state(Menu.settings)
+        general_bet = (await context.fsm_context.get_data()).get(StateKeys.GENERAL_BET) or 0
+        print(general_bet)
 
         text, keyboard = cube_settings(context.game_settings or [], context.balance, context.bet, context.token.icon,
                                        general_bet)
@@ -62,18 +64,8 @@ async def set_settings(call: types.CallbackQuery, state: FSMContext):
 
     general_bet = user_bet * len(context.game_settings)
 
-    token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
-    user_balance = await get_user_balance(call.from_user.id, token_id)
-    if general_bet > user_balance:
-        text, kb = game_menu_err('low_balance_big_wish')
-        await call.message.answer(text, reply_markup=kb)
-        old_game_settings = []
-        general_bet = 0
-        await state.update_data(**{StateKeys.GAME_SETTINGS: json.dumps(old_game_settings)})
-        context = await Context.from_fsm_context(call.from_user.id, state)
-
     await state.update_data(**{StateKeys.GENERAL_BET: general_bet})
-    await settings_menu(context, msg_id=call.message.message_id, general_bet=general_bet)
+    await settings_menu(context, msg_id=call.message.message_id)
 
 
 @router.message(state=Menu.settings)

@@ -24,6 +24,8 @@ router = Router()
 
 @router.callback_query(text=["game_play"])
 async def games_play(call: types.CallbackQuery, state: FSMContext):
+    await call.answer()
+
     await db.set_user_last_active(call.from_user.id)
     context = await Context.from_fsm_context(call.from_user.id, state)
 
@@ -41,6 +43,9 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await process_dice(call, context, coefficient, dice_msg, state)
 
     if context.game == Games.CUBE:
+        if await cube_check_bet(call, state):
+            return
+
         if context.game_settings is None or len(context.game_settings) == 0:
             text, keyboard = game_menu_err(1)  # user doesnt choice bet
             await call.message.answer(text, reply_markup=keyboard)
@@ -115,7 +120,17 @@ async def process_dice(call: types.CallbackQuery, context: Context, coefficient,
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send settings menu
-    general_bet = (await state.get_data()).get(StateKeys.GENERAL_BET)
-
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await settings_menu(context, msg_id=None, general_bet=general_bet)
+    await settings_menu(context, msg_id=None)
+
+
+async def cube_check_bet(call, state):
+    general_bet = (await state.get_data()).get(StateKeys.GENERAL_BET)
+    token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
+    user_balance = await db.get_user_balance(call.from_user.id, token_id)
+
+    if user_balance < general_bet:
+        text, kb = game_menu_err('low_balance_big_wish')
+        await state.bot.send_message(call.from_user.id, text, reply_markup=kb)
+
+    return user_balance < general_bet
