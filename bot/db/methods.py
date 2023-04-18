@@ -98,6 +98,16 @@ async def get_manual_tx_by_id(titan_tx_id):
     return result[0]
 
 
+async def get_last_manual_transaction(tg_id, token_id):
+    result = await ManualTXs.select(ManualTXs.ManualTXs_id, ManualTXs.withdraw_state, fn.Max(ManualTXs.utime)).where(
+        ManualTXs.user_id == tg_id, ManualTXs.token_id == token_id, ManualTXs.withdraw_state == 'pending').dicts()
+    # return {
+    #     i['ManualTXs_id']: {**i, 'withdraw_state': i['withdraw_state'] or 0}  # replace `amount` field, set 0 instead None
+    #     for i in result
+    # }
+    return result[0]
+
+
 async def get_last_transaction(tg_id, token_id):
     result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime)) \
         .where(Transactions.user_id == tg_id, Transactions.token_id == token_id, Transactions.tx_type != 3)
@@ -136,8 +146,8 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 if __name__ == "__main__":
     async def test():
         # await first_start()
-        x = await get_user_daily_total_amount(357108179)
-        print(x)
+        x = await get_last_manual_transaction(357108179, 2)
+        print(type(x['withdraw_state']))
 
 
     import asyncio
