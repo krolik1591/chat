@@ -46,7 +46,8 @@ GAME_ERR1 = '❌ Не обраний результат ставки!'
 CUBE_MULTIPLY_BET_ERR = '❌ Ставка більше балансу!'
 
 CUBE_SETTINGS_TEXT = "Баланс: <b>{balance}</b> {token_icon}\nСума усіх ставок: {general_bet} \n\nОбери суму ставки та на що ставиш:"
-CUBE_BET_BUTTON = "⚙️ Сума ставки • {bet} {token_icon}"
+CUBE_BET_BUTTON = "⚙️ Ставка • {bet} {token_icon}"
+RESET_BET = 'Обнуляємось'
 
 DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1 = '😐 Мимо'
 DARTS_OR_BOWLING_TEXT_2 = '🙄 Не пощастило'

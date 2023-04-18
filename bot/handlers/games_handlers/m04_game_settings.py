@@ -82,3 +82,14 @@ async def bet_change_text_cube(message, state):
 
     context = await Context.from_fsm_context(message.from_user.id, state)
     await settings_menu(context, msg_id=context.last_msg_id)
+
+
+@router.callback_query(text=['reset_bet'])
+async def cube_reset_bet(call: types.CallbackQuery, state: FSMContext):
+    await call.answer()
+
+    null_game_settings = json.dumps([])
+    await state.update_data(**{StateKeys.GAME_SETTINGS: null_game_settings})
+
+    context = await Context.from_fsm_context(call.from_user.id, state)
+    await settings_menu(context, msg_id=call.message.message_id)
