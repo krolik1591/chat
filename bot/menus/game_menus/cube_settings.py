@@ -36,8 +36,8 @@ CUBE_NAMES = {
 def _keyboard(bet_text, selected_setting, play_text):
     def btn_text(key_name):
         name = CUBE_NAMES[key_name]
-        if key_name == selected_setting:
-            return '*' + name + '*'
+        if key_name in selected_setting:
+            return '•' + name + '•'
         return name
 
     settings_btns = [[

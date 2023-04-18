@@ -1,3 +1,5 @@
+import json
+
 from aiogram.dispatcher.fsm.context import FSMContext
 
 import bot.db.methods as db
@@ -47,7 +49,10 @@ class Context:
 
     @property
     def game_settings(self):
-        return self.state.get(StateKeys.GAME_SETTINGS)
+        result = self.state.get(StateKeys.GAME_SETTINGS)
+        if result is None:
+            return None
+        return json.loads(result)
 
 
 class Token:

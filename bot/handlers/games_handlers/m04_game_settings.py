@@ -1,3 +1,5 @@
+import json
+
 from aiogram import Router, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
@@ -14,7 +16,7 @@ async def settings_menu(context: Context, msg_id=None):
     if context.game == Games.CUBE:
         await context.fsm_context.set_state(Menu.settings)
 
-        text, keyboard = cube_settings(context.game_settings, context.balance, context.bet, context.token.icon)
+        text, keyboard = cube_settings(context.game_settings or [], context.balance, context.bet, context.token.icon)
 
         if msg_id is None:
             settings_msg = await context.fsm_context.bot.send_message(
@@ -37,11 +39,16 @@ async def show_settings(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(text_startswith='cube_game_settings_'))
 async def set_settings(call: types.CallbackQuery, state: FSMContext):
     new_settings = call.data.removeprefix('cube_game_settings_')
-    if (await state.get_data()).get(StateKeys.GAME_SETTINGS) == new_settings:
-        await call.answer()
-        return
+    context = await Context.from_fsm_context(call.from_user.id, state)
+    old_game_settings: [str] = context.game_settings or []
 
-    await state.update_data(**{StateKeys.GAME_SETTINGS: new_settings})
+    if new_settings in old_game_settings:
+        old_game_settings.remove(new_settings)
+    else:
+        old_game_settings.append(new_settings)
+
+    await state.update_data(**{StateKeys.GAME_SETTINGS: json.dumps(old_game_settings)})
+
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=call.message.message_id)
 
