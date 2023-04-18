@@ -14,7 +14,8 @@ def game_choice_menu(balances: dict):
 
 
 GAMES = [
-    [Games.CASINO, Games.CUBE],
+    [Games.CASINO],
+    [Games.CUBE],
     [Games.BASKET, Games.DARTS],
     [Games.BOWLING, Games.FOOTBALL],
     [Games.MINES, Games.CUEFA],
