@@ -41,8 +41,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await process_dice(call, context, coefficient, dice_msg, state)
 
     if context.game == Games.CUBE:
-        if context.game_settings is None:
-            # await call.answer("❌ Не обраний результат ставки!", show_alert=True)
+        if context.game_settings is None or len(context.game_settings) == 0:
             text, keyboard = game_menu_err(1)  # user doesnt choice bet
             await call.message.answer(text, reply_markup=keyboard)
             return
@@ -93,7 +92,12 @@ async def process_dice(call: types.CallbackQuery, context: Context, coefficient,
     token_id = context.token.id
 
     score_change = round_down((coefficient * context.bet), 5)
-    user_win = round_down(score_change - context.bet, 5)
+
+    if context.game == Games.CUBE:
+        bets = len(context.game_settings)
+        user_win = round_down(score_change - context.bet * bets, 5)
+    else:
+        user_win = round_down(score_change - context.bet, 5)
 
     game_info = {"dice_result": dice_msg.dice.value}
 

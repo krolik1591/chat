@@ -4,6 +4,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
 
+from bot.const import MIN_BET
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m05_bets import bet_change_state, bet_menu
 from bot.handlers.states import Games, Menu, StateKeys
@@ -12,11 +13,12 @@ from bot.menus.game_menus.cube_settings import cube_settings
 router = Router()
 
 
-async def settings_menu(context: Context, msg_id=None):
+async def settings_menu(context: Context, msg_id=None, general_bet=0):
     if context.game == Games.CUBE:
         await context.fsm_context.set_state(Menu.settings)
 
-        text, keyboard = cube_settings(context.game_settings or [], context.balance, context.bet, context.token.icon)
+        text, keyboard = cube_settings(context.game_settings or [], context.balance, context.bet, context.token.icon,
+                                       general_bet)
 
         if msg_id is None:
             settings_msg = await context.fsm_context.bot.send_message(
@@ -50,7 +52,15 @@ async def set_settings(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.GAME_SETTINGS: json.dumps(old_game_settings)})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await settings_menu(context, msg_id=call.message.message_id)
+    user_bet = MIN_BET
+    state_bet = (await state.get_data()).get(StateKeys.BET)
+
+    if state_bet is not None:
+        user_bet = state_bet
+
+    general_bet = user_bet * len(context.game_settings)
+
+    await settings_menu(context, msg_id=call.message.message_id, general_bet=general_bet)
 
 
 @router.message(state=Menu.settings)

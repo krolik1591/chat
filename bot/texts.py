@@ -43,7 +43,7 @@ WIN_TEXT = 'Перемога! Ізі + {score_change} {token_icon}'
 
 GAME_ERR1 = '❌ Не обраний результат ставки!'
 
-CUBE_SETTINGS_TEXT = "Баланс: <b>{balance}</b> {token_icon} \n\nОбери суму ставки та на що ставиш:"
+CUBE_SETTINGS_TEXT = "Баланс: <b>{balance}</b> {token_icon}\nСума усіх ставок: {general_bet} \n\nОбери суму ставки та на що ставиш:"
 CUBE_BET_BUTTON = "⚙️ Сума ставки • {bet} {token_icon}"
 
 DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1 = '😐 Мимо'
