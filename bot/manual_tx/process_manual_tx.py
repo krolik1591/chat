@@ -9,7 +9,7 @@ from bot.menus.deposit_menus.withdraw_menu.withdraw_manual_tx_menu import proces
 from bot.utils.config_reader import config
 
 
-async def process_titan_tx(user_id, username, ton_amount, context, token, user_withdraw_address):
+async def process_manual_tx(user_id, username, ton_amount, context, token, user_withdraw_address):
     with manager.pw_database.atomic():
         new_tx = await add_new_manual_tx(user_id=user_id, nano_ton_amount=ton_amount * 10 ** 9, token_id=token.token_id,
                                          price=token.price, tx_address=user_withdraw_address, utime=int(time.time()))

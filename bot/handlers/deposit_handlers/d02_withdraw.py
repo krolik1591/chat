@@ -1,3 +1,5 @@
+import time
+
 import tonsdk.utils
 from TonTools import Address
 from aiogram import Router, types
@@ -5,7 +7,8 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
-from bot.db.methods import get_last_manual_transaction, get_token_by_id, get_user_balance, get_user_daily_total_amount, \
+from bot.db.methods import add_new_manual_tx, get_last_manual_transaction, get_token_by_id, get_user_balance, \
+    get_user_daily_total_amount, \
     update_user_balance
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
@@ -15,7 +18,7 @@ from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_a
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu3 import withdraw_menu_check
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
-from bot.manual_tx.process_titan_tx import process_titan_tx
+from bot.manual_tx.process_manual_tx import process_manual_tx
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 
 flags = {"throttling_key": "default"}
@@ -138,8 +141,8 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
 
     if ton_amount > MAXIMUM_WITHDRAW:
         context = await Context.from_fsm_context(call.from_user.id, state)
-        await process_titan_tx(call.from_user.id, call.from_user.username,
-                               ton_amount, context, token, user_withdraw_address)
+        await process_manual_tx(call.from_user.id, call.from_user.username,
+                                ton_amount, context, token, user_withdraw_address)
         return
 
     user_daily_total_amount = await get_user_daily_total_amount(call.from_user.id)
@@ -147,13 +150,12 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
 
     if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
         text, keyboard = withdraw_menu_err('withdraw_daily_limit',
-                                                   MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
+                                           MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
         await state.bot.send_message(chat_id=call.from_user.id, text=text, reply_markup=keyboard)
-        print(MAXIMUM_WITHDRAW_DAILY, token.price, total_amount_price)
 
-        context = await Context.from_fsm_context(call.from_user.id, state)
-        await process_titan_tx(call.from_user.id, call.from_user.username,
-                               ton_amount, context, token, user_withdraw_address)
+        await add_new_manual_tx(user_id=call.from_user.id, nano_ton_amount=ton_amount * 10 ** 9, token_id=token.token_id,
+                                price=token.price, tx_address=user_withdraw_address,
+                                utime=int(time.time()), withdraw_state='rejected')
         return
 
     withdraw_amount_price = ton_amount * token.price
