@@ -17,6 +17,7 @@ class StateKeys:
     GAME = 'game'
     GAME_SETTINGS = 'game_settings'
     CUBE_LOSE_STREAK = 'cube_lose_streak'
+    GENERAL_BET = 'general_bet'
 
 
 class Games:

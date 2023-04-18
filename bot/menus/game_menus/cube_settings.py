@@ -46,7 +46,8 @@ def _keyboard(bet_text, selected_setting, play_text):
     ] for row in CUBE_VARIANTS]
 
     kb = [
-        [InlineKeyboardButton(text=bet_text, callback_data="bet")],
+        [InlineKeyboardButton(text=bet_text, callback_data="bet"),
+         InlineKeyboardButton(text='Ставка', callback_data="reset_bet")],
         *settings_btns,
         [
             InlineKeyboardButton(text='Назад', callback_data="tokens"),

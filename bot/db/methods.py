@@ -101,10 +101,6 @@ async def get_manual_tx_by_id(titan_tx_id):
 async def get_last_manual_transaction(tg_id, token_id):
     result = await ManualTXs.select(ManualTXs.ManualTXs_id, ManualTXs.withdraw_state, fn.Max(ManualTXs.utime)).where(
         ManualTXs.user_id == tg_id, ManualTXs.token_id == token_id, ManualTXs.withdraw_state == 'pending').dicts()
-    # return {
-    #     i['ManualTXs_id']: {**i, 'withdraw_state': i['withdraw_state'] or 0}  # replace `amount` field, set 0 instead None
-    #     for i in result
-    # }
     return result[0]
 
 

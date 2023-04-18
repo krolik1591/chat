@@ -43,6 +43,7 @@ LOSE_TEXT = "Наступного разу пощастить!"
 WIN_TEXT = 'Перемога! Ізі + {score_change} {token_icon}'
 
 GAME_ERR1 = '❌ Не обраний результат ставки!'
+CUBE_MULTIPLY_BET_ERR = '❌ Ставка більше балансу!'
 
 CUBE_SETTINGS_TEXT = "Баланс: <b>{balance}</b> {token_icon}\nСума усіх ставок: {general_bet} \n\nОбери суму ставки та на що ставиш:"
 CUBE_BET_BUTTON = "⚙️ Сума ставки • {bet} {token_icon}"

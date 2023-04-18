@@ -115,5 +115,7 @@ async def process_dice(call: types.CallbackQuery, context: Context, coefficient,
     await call.message.edit_text(text=win_or_lose_text)
 
     # Send settings menu
+    general_bet = (await state.get_data()).get(StateKeys.GENERAL_BET)
+
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await settings_menu(context, msg_id=None)
+    await settings_menu(context, msg_id=None, general_bet=general_bet)
