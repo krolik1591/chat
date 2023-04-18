@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.texts import WITHDRAW_DAILY_LIMIT, WITHDRAW_ERR1, WITHDRAW_ERR2, \
+from bot.texts import PREVIOUS_MANUAL_TX_IN_PROCESS, WITHDRAW_DAILY_LIMIT, WITHDRAW_ERR1, WITHDRAW_ERR2, \
     WITHDRAW_ERR3, WITHDRAW_ERR4, WITHDRAW_ERR5, WITHDRAW_ERR6, WITHDRAW_ERR7
 
 WITHDRAW_ERR = {
@@ -11,7 +11,8 @@ WITHDRAW_ERR = {
     5: WITHDRAW_ERR5,   # round_user_withdraw > user_balance
     6: WITHDRAW_ERR6,   # end money on master wallet
     7: WITHDRAW_ERR7,    # rejected by admin
-    'withdraw_daily_limit': WITHDRAW_DAILY_LIMIT
+    'withdraw_daily_limit': WITHDRAW_DAILY_LIMIT,
+    'previous_manual_tx_in_process': PREVIOUS_MANUAL_TX_IN_PROCESS
 
 }
 

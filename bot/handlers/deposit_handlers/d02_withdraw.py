@@ -5,7 +5,8 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
-from bot.db.methods import get_token_by_id, get_user_balance, get_user_daily_total_amount, update_user_balance
+from bot.db.methods import get_last_manual_transaction, get_token_by_id, get_user_balance, get_user_daily_total_amount, \
+    update_user_balance
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
@@ -42,6 +43,12 @@ async def withdraw_user_text(message: Message, state: FSMContext):
 
     TOKEN_ID = 2
     user_balance = await get_user_balance(message.from_user.id, TOKEN_ID)
+
+    last_manual_tx = await get_last_manual_transaction(message.from_user.id, TOKEN_ID)
+    if last_manual_tx['withdraw_state'] is not None:
+        text, keyboard = withdraw_menu_err('previous_manual_tx_in_process')
+        await state.bot.send_message(message.from_user.id, text, reply_markup=keyboard)
+        return
 
     if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
         err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
