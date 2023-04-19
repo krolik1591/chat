@@ -1,6 +1,6 @@
 from bot.db.methods import update_user_balance
 from bot.menus.deposit_menus.withdraw_menu.withdraw_condition_menu import withdraw_condition_menu
-from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
+from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
 from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 
@@ -22,7 +22,7 @@ async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_to
     else:
         await update_user_balance(user_id, token.token_id, withdraw_amount_price)
 
-        text_err, keyboard = withdraw_menu_err(6)  # not enough money on master wallet
+        text_err, keyboard = withdraw_menu_err.withdraw_err_insufficient_funds_master()
         await state.bot.send_message(user_id, text_err, reply_markup=keyboard)
 
 

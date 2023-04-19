@@ -8,9 +8,8 @@ from aiogram.types import Message
 from bot.db.db import manager
 from bot.db.methods import get_manual_tx_by_id, get_token_by_id, update_user_balance, \
     update_withdraw_state
-from bot.handlers.context import Context
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
-from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
+from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
 from bot.middlewares.filters import FilterChatId
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 from bot.utils.config_reader import config
@@ -50,7 +49,7 @@ async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
         await update_withdraw_state(manual_tx_id, 'rejected')
         await update_user_balance(manual_tx.user_id, manual_tx.token_id, manual_tx.amount / 10**9 * manual_tx.price)
 
-    text, kb = withdraw_menu_err(7)
+    text, kb = withdraw_menu_err.withdraw_err_rejected_by_admin()
     await state.bot.send_message(chat_id=manual_tx.user_id, text=text, reply_markup=kb)
 
 

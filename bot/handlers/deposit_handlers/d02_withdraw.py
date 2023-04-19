@@ -12,13 +12,11 @@ from bot.db.methods import add_new_manual_tx, get_last_manual_transaction, get_t
     update_user_balance
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
+from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
 from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_amount
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu2 import withdraw_menu_address
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu3 import withdraw_menu_check
-from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_menu_err
-from bot.manual_tx.process_manual_tx import process_manual_tx
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 
 flags = {"throttling_key": "default"}
@@ -43,8 +41,8 @@ async def withdraw_user_text(message: Message, state: FSMContext):
     await message.delete()
     context = await Context.from_fsm_context(message.from_user.id, state)
 
-    round_user_withdraw, correct_input_amount = await check_user_input_amount(message, context)
-    if correct_input_amount is False:
+    round_user_withdraw = await check_user_input_amount(message, context)
+    if round_user_withdraw is None:
         return
 
     await state.update_data(user_withdraw_amount=round_user_withdraw)
@@ -53,7 +51,7 @@ async def withdraw_user_text(message: Message, state: FSMContext):
 
     last_manual_tx = await get_last_manual_transaction(message.from_user.id, token_id)
     if last_manual_tx['withdraw_state'] is not None:
-        text, keyboard = withdraw_menu_err('previous_manual_tx_in_process')
+        text, keyboard = withdraw_menu_err.manual_tx_in_process()
         await state.bot.send_message(message.from_user.id, text, reply_markup=keyboard)
         return
 
@@ -68,14 +66,12 @@ async def withdraw_user_address(message: Message, state: FSMContext):
     try:
         user_withdraw_address = Address(message.text)
     except tonsdk.utils.InvalidAddressError:
-        err = 4  # incorrect address
-        text, keyboard = withdraw_menu_err(err)
+        text, keyboard = withdraw_menu_err.withdraw_err_incorrect_address()
         await message.answer(text, reply_markup=keyboard)
         return
 
     if user_withdraw_address.is_test_only:
-        err = 3  # test.net address
-        text, keyboard = withdraw_menu_err(err)
+        text, keyboard = withdraw_menu_err.withdraw_err_testnet_address()
         await message.answer(text, reply_markup=keyboard)
         return
 
@@ -95,8 +91,8 @@ async def withdraw_user_address(message: Message, state: FSMContext):
 async def withdraw_user_amount_approve(message: Message, state: FSMContext):
     await message.delete()
     context = await Context.from_fsm_context(message.from_user.id, state)
-    round_user_withdraw, correct_input = await check_user_input_amount(message, context)
-    if correct_input is False:
+    round_user_withdraw = await check_user_input_amount(message, context)
+    if round_user_withdraw is None:
         return
 
     await state.update_data(user_withdraw_amount=round_user_withdraw)
@@ -144,19 +140,22 @@ async def check_user_input_amount(message, context):
     user_balance = await get_user_balance(message.from_user.id, token_id)
     ton_amount = user_withdraw * token.price
 
-    if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
-        err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
-        text, keyboard = withdraw_menu_err(err, token_price=token.price)
+    if round_user_withdraw < MIN_WITHDRAW:
+        text, keyboard = withdraw_menu_err.withdraw_too_small(token_price=token.price)
         await message.answer(text, reply_markup=keyboard)
-        return round_user_withdraw, False
+        return
+
+    if round_user_withdraw > user_balance:
+        text, keyboard = withdraw_menu_err.withdraw_err_insufficient_funds()
+        await message.answer(text, reply_markup=keyboard)
+        return
 
     if ton_amount > MAXIMUM_WITHDRAW:
-        text, keyboard = withdraw_menu_err('input_amount_bigger_than_maximum_withdraw',
-                                           user_withdraw_amount=round_user_withdraw)
+        text, keyboard = withdraw_menu_err.withdraw_too_big(user_withdraw_amount=round_user_withdraw)
         await message.answer(text, reply_markup=keyboard)
-        return round_user_withdraw, False
+        return
 
-    return round_user_withdraw, True
+    return round_user_withdraw
 
 
 async def check_unresolved_manual_tx(call, token, user_withdraw_amount, user_withdraw_address):
@@ -165,23 +164,13 @@ async def check_unresolved_manual_tx(call, token, user_withdraw_amount, user_wit
     ton_amount = user_withdraw_amount / token.price
 
     if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
-        text, keyboard = withdraw_menu_err('withdraw_daily_limit',
-                                           MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
+        text, keyboard = withdraw_menu_err.reached_daily_limit(MAXIMUM_WITHDRAW_DAILY*token.price - total_amount_price)
         await call.answer(chat_id=call.from_user.id, text=text, reply_markup=keyboard)
 
-        await add_new_manual_tx(user_id=call.from_user.id, nano_ton_amount=ton_amount * 10 ** 9, token_id=token.token_id,
+        await add_new_manual_tx(user_id=call.from_user.id, nano_ton_amount=ton_amount * 10**9, token_id=token.token_id,
                                 price=token.price, tx_address=user_withdraw_address,
                                 utime=int(time.time()), withdraw_state='rejected')
         return False
     return True
 
 
-async def check_user_withdraw_amount_err(user_balance, round_user_withdraw):
-    err = 0
-    if user_balance < MIN_WITHDRAW:
-        err = 2
-    if round_user_withdraw < MIN_WITHDRAW:
-        err = 1
-    if round_user_withdraw > user_balance:
-        err = 5
-    return err

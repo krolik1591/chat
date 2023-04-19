@@ -1,41 +1,50 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.const import MAXIMUM_WITHDRAW, MIN_WITHDRAW
-from bot.texts import INPUT_AMOUNT_BIGGER_MAXIMUM_WITHDRAW, PREVIOUS_MANUAL_TX_IN_PROCESS, WITHDRAW_DAILY_LIMIT, \
+from bot.texts import WITHDRAW_TOO_BIG, PREVIOUS_MANUAL_TX_IN_PROCESS, WITHDRAW_DAILY_LIMIT, \
     WITHDRAW_ERR1, WITHDRAW_ERR2, \
     WITHDRAW_ERR3, WITHDRAW_ERR4, WITHDRAW_ERR5, WITHDRAW_ERR6, WITHDRAW_ERR7
 
-WITHDRAW_ERR = {
-    1: WITHDRAW_ERR1,   # round_user_withdraw < MIN_WITHDRAW
-    2: WITHDRAW_ERR2,   # user balance < MIN_WITHDRAW
-    3: WITHDRAW_ERR3,   # test.net address
-    4: WITHDRAW_ERR4,   # incorrect address
-    5: WITHDRAW_ERR5,   # round_user_withdraw > user_balance
-    6: WITHDRAW_ERR6,   # end money on master wallet
-    7: WITHDRAW_ERR7,    # rejected by admin
-    'withdraw_daily_limit': WITHDRAW_DAILY_LIMIT,
-    'previous_manual_tx_in_process': PREVIOUS_MANUAL_TX_IN_PROCESS,
-    'input_amount_bigger_than_maximum_withdraw': INPUT_AMOUNT_BIGGER_MAXIMUM_WITHDRAW
 
-}
+def manual_tx_in_process():
+    return PREVIOUS_MANUAL_TX_IN_PROCESS, _keyboard()
 
 
-def withdraw_menu_err(err, amount=0, user_withdraw_amount=0, token_price=0):
+def reached_daily_limit(allowable_amount):
+    return WITHDRAW_DAILY_LIMIT.format(allowable_amount=allowable_amount), _keyboard()
+
+
+def withdraw_too_big(user_withdraw_amount):
+    return WITHDRAW_TOO_BIG.format(
+        user_withdraw_amount=user_withdraw_amount, maximum_withdraw=MAXIMUM_WITHDRAW), _keyboard()
+
+
+def withdraw_too_small(token_price):
     ton_amount = MIN_WITHDRAW / token_price
-    if amount <= 0:
-        amount = 0
-    text = WITHDRAW_ERR[err].format(amount=amount, maximum_withdraw=MAXIMUM_WITHDRAW, min_withdraw=MIN_WITHDRAW,
-                                    user_withdraw_amount=user_withdraw_amount, ton_amount=ton_amount)
-    kb = _keyboard()
+    return WITHDRAW_ERR1.format(min_withdraw=MIN_WITHDRAW, ton_amount=ton_amount), _keyboard()
 
-    return text, kb
+
+def withdraw_err_rejected_by_admin():
+    return WITHDRAW_ERR7, _keyboard()
+
+
+def withdraw_err_insufficient_funds_master():
+    return WITHDRAW_ERR6, _keyboard()
+
+
+def withdraw_err_insufficient_funds():
+    return WITHDRAW_ERR5, _keyboard()
+
+
+def withdraw_err_incorrect_address():
+    return WITHDRAW_ERR4, _keyboard()
+
+
+def withdraw_err_testnet_address():
+    return WITHDRAW_ERR3, _keyboard()
 
 
 def _keyboard():
-    kb = [
-        [
-            InlineKeyboardButton(text='OK', callback_data="delete_replenish_message")
-        ]
-    ]
-
-    return InlineKeyboardMarkup(inline_keyboard=kb)
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text='OK', callback_data="delete_replenish_message")
+    ]])
