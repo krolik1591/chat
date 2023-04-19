@@ -38,14 +38,16 @@ async def withdraw(call: types.CallbackQuery, state: FSMContext):
 @router.message(state=Menu.withdraw_amount)
 async def withdraw_user_text(message: Message, state: FSMContext):
     await message.delete()
-    try:
-        user_withdraw = float(message.text)
-    except ValueError:
-        return
-    round_user_withdraw = round(user_withdraw, 2)
-
     TOKEN_ID = 2
-    user_balance = await get_user_balance(message.from_user.id, TOKEN_ID)
+    await state.update_data(**{StateKeys.TOKEN_ID: TOKEN_ID})
+    context = await Context.from_fsm_context(message.from_user.id, state)
+
+    round_user_withdraw, correct_input_amount = await check_user_input_amount(message, context)
+    if correct_input_amount is False:
+        return
+
+    await state.update_data(user_withdraw_amount=round_user_withdraw)
+    last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
 
     last_manual_tx = await get_last_manual_transaction(message.from_user.id, TOKEN_ID)
     if last_manual_tx['withdraw_state'] is not None:
@@ -53,18 +55,7 @@ async def withdraw_user_text(message: Message, state: FSMContext):
         await state.bot.send_message(message.from_user.id, text, reply_markup=keyboard)
         return
 
-    if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
-        err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
-        text, keyboard = withdraw_menu_err(err)
-        await message.answer(text, reply_markup=keyboard)
-        return
-
-    user_data = await state.get_data()
-    last_msg = user_data.get(StateKeys.LAST_MSG_ID)
-
-    await state.update_data(user_withdraw_amount=round_user_withdraw)
-
-    text, keyboard = withdraw_menu_address()  # enter address
+    text, keyboard = withdraw_menu_address()  # input address
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
     await state.set_state(Menu.withdraw_address)
 
@@ -101,25 +92,17 @@ async def withdraw_user_address(message: Message, state: FSMContext):
 @router.message(state=Menu.withdraw_amount_approve)
 async def withdraw_user_amount_approve(message: Message, state: FSMContext):
     await message.delete()
-    try:
-        user_withdraw = float(message.text)
-    except ValueError:
-        return
-    round_user_withdraw = round(user_withdraw, 2)
-
     TOKEN_ID = 2
-    token = await get_token_by_id(TOKEN_ID)
-    user_balance = await get_user_balance(message.from_user.id, TOKEN_ID)
-
-    if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
-        err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
-        text, keyboard = withdraw_menu_err(err)
-        await message.answer(text, reply_markup=keyboard)
+    context = await Context.from_fsm_context(message.from_user.id, state)
+    round_user_withdraw, correct_input = await check_user_input_amount(message, context)
+    if correct_input is False:
         return
 
     await state.update_data(user_withdraw_amount=round_user_withdraw)
-    last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
+
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
+    token = await get_token_by_id(TOKEN_ID)
+    last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
 
     text, keyboard = withdraw_menu_check(round_user_withdraw, user_withdraw_address, token.price)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
@@ -130,8 +113,8 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
 
-    TOKEN_ID = 2
-    token = await get_token_by_id(TOKEN_ID)
+    token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
+    token = await get_token_by_id(token_id)
     ton_amount = user_withdraw_amount / token.price
 
     master_wallet = state.bot.ton_client.master_wallet
@@ -139,29 +122,59 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    if ton_amount > MAXIMUM_WITHDRAW:
-        context = await Context.from_fsm_context(call.from_user.id, state)
-        await process_manual_tx(call.from_user.id, call.from_user.username,
-                                ton_amount, context, token, user_withdraw_address)
-        return
+    user_daily_total_amount_nano_ton = await get_user_daily_total_amount(call.from_user.id)
+    total_amount_price = user_daily_total_amount_nano_ton / 10**9 * token.price
 
-    user_daily_total_amount = await get_user_daily_total_amount(call.from_user.id)
-    total_amount_price = user_daily_total_amount / 10**9 * token.price
-
-    if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
-        text, keyboard = withdraw_menu_err('withdraw_daily_limit',
-                                           MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
-        await state.bot.send_message(chat_id=call.from_user.id, text=text, reply_markup=keyboard)
-
-        await add_new_manual_tx(user_id=call.from_user.id, nano_ton_amount=ton_amount * 10 ** 9, token_id=token.token_id,
-                                price=token.price, tx_address=user_withdraw_address,
-                                utime=int(time.time()), withdraw_state='rejected')
+    correct_withdraw_tx = await check_unresolved_manual_tx(call, token, user_withdraw_amount, total_amount_price,
+                                                           user_withdraw_address)
+    if correct_withdraw_tx is False:
         return
 
     withdraw_amount_price = ton_amount * token.price
     await update_user_balance(call.from_user.id, token.token_id, -withdraw_amount_price)
 
     await withdraw_cash_to_user(master_wallet, user_withdraw_address, ton_amount, call.from_user.id, token, state)
+
+
+async def check_user_input_amount(message, context):
+    try:
+        user_withdraw = float(message.text)
+    except ValueError:
+        return
+    round_user_withdraw = round(user_withdraw, 2)
+
+    token_id = context.state.get(StateKeys.TOKEN_ID)
+    token = await get_token_by_id(token_id)
+    user_balance = await get_user_balance(message.from_user.id, token_id)
+    ton_amount = user_withdraw * token.price
+
+    if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
+        err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
+        text, keyboard = withdraw_menu_err(err)
+        await message.answer(text, reply_markup=keyboard)
+        return round_user_withdraw, False
+
+    if ton_amount > MAXIMUM_WITHDRAW:
+        text, keyboard = withdraw_menu_err('input_amount_bigger_than_maximum_withdraw')
+        await message.answer(text, reply_markup=keyboard)
+        return round_user_withdraw, False
+
+    return round_user_withdraw, True
+
+
+async def check_unresolved_manual_tx(call, token, user_withdraw_amount, total_amount_price, user_withdraw_address):
+    ton_amount = user_withdraw_amount / token.price
+
+    if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
+        text, keyboard = withdraw_menu_err('withdraw_daily_limit',
+                                           MAXIMUM_WITHDRAW_DAILY * token.price - total_amount_price)
+        await call.answer(chat_id=call.from_user.id, text=text, reply_markup=keyboard)
+
+        await add_new_manual_tx(user_id=call.from_user.id, nano_ton_amount=ton_amount * 10 ** 9, token_id=token.token_id,
+                                price=token.price, tx_address=user_withdraw_address,
+                                utime=int(time.time()), withdraw_state='rejected')
+        return False
+    return True
 
 
 async def check_user_withdraw_amount_err(user_balance, round_user_withdraw):
