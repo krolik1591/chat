@@ -21,7 +21,7 @@ ADMIN_APPROVE_TX = 'Адмін схвалив вашу транзу на вив�
 WITHDRAW_MANUAL_TX = '@{username} (id: {user_id}) хоче вивести купу грошей: {ton_amount} TON.'
 WITHDRAW_DAILY_LIMIT = 'Досягнутий денний ліміт на вивід! Сьогодні ще можна вивести: {allowable_amount} TON'
 PREVIOUS_MANUAL_TX_IN_PROCESS = 'Дочекайтесь оброблення попередньої транзакції'
-WITHDRAW_TOO_BIG = 'Максимальний вивід - {user_withdraw_amount} 💎 ({maximum_withdraw} TON)'
+WITHDRAW_TOO_BIG = 'Максимальний вивід - {maximum_withdraw_token} 💎 ({maximum_withdraw} TON)'
 
 WITHDRAW_ERR1 = 'Мінімальна сума для виведення: {min_withdraw} 💎 ({ton_amount} TON)'
 WITHDRAW_ERR3 = '❌ Голова, це тест-нетівська адреса, будь уважніше'

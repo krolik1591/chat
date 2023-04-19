@@ -118,7 +118,8 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    correct_withdraw_tx = await check_unresolved_manual_tx(call, token, user_withdraw_amount, user_withdraw_address)
+    correct_withdraw_tx = await check_unresolved_manual_tx(call, state,
+                                                           token, user_withdraw_amount, user_withdraw_address)
     if correct_withdraw_tx is False:
         return
 
@@ -138,7 +139,7 @@ async def check_user_input_amount(message, context):
     token_id = context.state.get(StateKeys.TOKEN_ID)
     token = await get_token_by_id(token_id)
     user_balance = await get_user_balance(message.from_user.id, token_id)
-    ton_amount = user_withdraw * token.price
+    ton_amount = user_withdraw / token.price
 
     if round_user_withdraw < MIN_WITHDRAW:
         text, keyboard = withdraw_menu_err.withdraw_too_small(token_price=token.price)
@@ -151,21 +152,21 @@ async def check_user_input_amount(message, context):
         return
 
     if ton_amount > MAXIMUM_WITHDRAW:
-        text, keyboard = withdraw_menu_err.withdraw_too_big(user_withdraw_amount=round_user_withdraw)
+        text, keyboard = withdraw_menu_err.withdraw_too_big(token.price)
         await message.answer(text, reply_markup=keyboard)
         return
 
     return round_user_withdraw
 
 
-async def check_unresolved_manual_tx(call, token, user_withdraw_amount, user_withdraw_address):
+async def check_unresolved_manual_tx(call, state, token, user_withdraw_amount, user_withdraw_address):
     user_daily_total_amount_nano_ton = await get_user_daily_total_amount(call.from_user.id)
     total_amount_price = user_daily_total_amount_nano_ton / 10**9 * token.price
     ton_amount = user_withdraw_amount / token.price
 
-    if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
+    if total_amount_price + user_withdraw_amount > MAXIMUM_WITHDRAW_DAILY * token.price:
         text, keyboard = withdraw_menu_err.reached_daily_limit(MAXIMUM_WITHDRAW_DAILY*token.price - total_amount_price)
-        await call.answer(chat_id=call.from_user.id, text=text, reply_markup=keyboard)
+        await state.bot.send_message(call.from_user.id, text, reply_markup=keyboard)
 
         await add_new_manual_tx(user_id=call.from_user.id, nano_ton_amount=ton_amount * 10**9, token_id=token.token_id,
                                 price=token.price, tx_address=user_withdraw_address,
