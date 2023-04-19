@@ -8,6 +8,7 @@ from aiogram.types import Message
 from bot.db.db import manager
 from bot.db.methods import get_manual_tx_by_id, get_token_by_id, update_user_balance, \
     update_withdraw_state
+from bot.handlers.states import StateKeys
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
 from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
 from bot.middlewares.filters import FilterChatId
@@ -30,8 +31,8 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
     text, kb = successful_replenish_menu('successful_manual', titan_tx.amount / 10 ** 9 * titan_tx.price)
     await state.bot.send_message(chat_id=titan_tx.user_id, text=text, reply_markup=kb)
 
-    TOKEN_ID = 2
-    token = await get_token_by_id(TOKEN_ID)
+    token_id = titan_tx.token_id
+    token = await get_token_by_id(token_id)
 
     await withdraw_cash_to_user(state, titan_tx.tx_address, titan_tx.amount / 10 ** 9, titan_tx.user_id,
                                 token)
