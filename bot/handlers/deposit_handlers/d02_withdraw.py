@@ -12,6 +12,7 @@ from bot.db.methods import add_new_manual_tx, get_last_manual_transaction, get_t
     update_user_balance
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
+from bot.manual_tx.process_manual_tx import process_manual_tx
 from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
 from bot.menus.deposit_menus.withdraw_menu.withdraw_approve_menu import withdraw_approve_menu
 from bot.menus.deposit_menus.withdraw_menu.withdraw_menu1 import withdraw_menu_amount
@@ -123,6 +124,11 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     if correct_withdraw_tx is False:
         return
 
+    if user_withdraw_amount > MAXIMUM_WITHDRAW:
+        context = await Context.from_fsm_context(call.from_user.id, state)
+        await process_manual_tx(call.from_user.id, call.from_user.username, ton_amount, context, token, user_withdraw_address)
+        return
+
     withdraw_amount_price = ton_amount * token.price
     await update_user_balance(call.from_user.id, token.token_id, -withdraw_amount_price)
 
@@ -151,10 +157,12 @@ async def check_user_input_amount(message, context):
         await message.answer(text, reply_markup=keyboard)
         return
 
-    if ton_amount > MAXIMUM_WITHDRAW:
-        text, keyboard = withdraw_menu_err.withdraw_too_big(token.price)
-        await message.answer(text, reply_markup=keyboard)
-        return
+    # if ton_amount > MAXIMUM_WITHDRAW:
+    #
+    #
+    #     # text, keyboard = withdraw_menu_err.withdraw_too_big(token.price)
+    #     # await message.answer(text, reply_markup=keyboard)
+    #     return
 
     return round_user_withdraw
 
