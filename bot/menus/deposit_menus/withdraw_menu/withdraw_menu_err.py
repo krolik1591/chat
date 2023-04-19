@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.const import MAXIMUM_WITHDRAW
+from bot.const import MAXIMUM_WITHDRAW, MIN_WITHDRAW
 from bot.texts import INPUT_AMOUNT_BIGGER_MAXIMUM_WITHDRAW, PREVIOUS_MANUAL_TX_IN_PROCESS, WITHDRAW_DAILY_LIMIT, \
     WITHDRAW_ERR1, WITHDRAW_ERR2, \
     WITHDRAW_ERR3, WITHDRAW_ERR4, WITHDRAW_ERR5, WITHDRAW_ERR6, WITHDRAW_ERR7
@@ -20,10 +20,12 @@ WITHDRAW_ERR = {
 }
 
 
-def withdraw_menu_err(err, amount=0):
+def withdraw_menu_err(err, amount=0, user_withdraw_amount=0, token_price=0):
+    ton_amount = MIN_WITHDRAW / token_price
     if amount <= 0:
         amount = 0
-    text = WITHDRAW_ERR[err].format(amount=amount, maximum_withdraw=MAXIMUM_WITHDRAW)
+    text = WITHDRAW_ERR[err].format(amount=amount, maximum_withdraw=MAXIMUM_WITHDRAW, min_withdraw=MIN_WITHDRAW,
+                                    user_withdraw_amount=user_withdraw_amount, ton_amount=ton_amount)
     kb = _keyboard()
 
     return text, kb

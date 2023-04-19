@@ -27,7 +27,10 @@ router = Router()
 
 @router.callback_query(text=["withdraw"])
 async def withdraw(call: types.CallbackQuery, state: FSMContext):
-    text, keyboard = withdraw_menu_amount()  # enter amount
+    TOKEN_ID = 2
+    await state.update_data(**{StateKeys.TOKEN_ID: TOKEN_ID})
+    token = await get_token_by_id(TOKEN_ID)
+    text, keyboard = withdraw_menu_amount(token.price)
     await call.message.edit_text(text, reply_markup=keyboard)
 
     await state.update_data(**{StateKeys.LAST_MSG_ID: call.message.message_id})
@@ -38,8 +41,6 @@ async def withdraw(call: types.CallbackQuery, state: FSMContext):
 @router.message(state=Menu.withdraw_amount)
 async def withdraw_user_text(message: Message, state: FSMContext):
     await message.delete()
-    TOKEN_ID = 2
-    await state.update_data(**{StateKeys.TOKEN_ID: TOKEN_ID})
     context = await Context.from_fsm_context(message.from_user.id, state)
 
     round_user_withdraw, correct_input_amount = await check_user_input_amount(message, context)
@@ -48,8 +49,9 @@ async def withdraw_user_text(message: Message, state: FSMContext):
 
     await state.update_data(user_withdraw_amount=round_user_withdraw)
     last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
+    token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
 
-    last_manual_tx = await get_last_manual_transaction(message.from_user.id, TOKEN_ID)
+    last_manual_tx = await get_last_manual_transaction(message.from_user.id, token_id)
     if last_manual_tx['withdraw_state'] is not None:
         text, keyboard = withdraw_menu_err('previous_manual_tx_in_process')
         await state.bot.send_message(message.from_user.id, text, reply_markup=keyboard)
@@ -77,8 +79,8 @@ async def withdraw_user_address(message: Message, state: FSMContext):
         await message.answer(text, reply_markup=keyboard)
         return
 
-    TOKEN_ID = 2
-    token = await get_token_by_id(TOKEN_ID)
+    token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
+    token = await get_token_by_id(token_id)
 
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
@@ -92,7 +94,6 @@ async def withdraw_user_address(message: Message, state: FSMContext):
 @router.message(state=Menu.withdraw_amount_approve)
 async def withdraw_user_amount_approve(message: Message, state: FSMContext):
     await message.delete()
-    TOKEN_ID = 2
     context = await Context.from_fsm_context(message.from_user.id, state)
     round_user_withdraw, correct_input = await check_user_input_amount(message, context)
     if correct_input is False:
@@ -101,8 +102,9 @@ async def withdraw_user_amount_approve(message: Message, state: FSMContext):
     await state.update_data(user_withdraw_amount=round_user_withdraw)
 
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
-    token = await get_token_by_id(TOKEN_ID)
     last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
+    token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
+    token = await get_token_by_id(token_id)
 
     text, keyboard = withdraw_menu_check(round_user_withdraw, user_withdraw_address, token.price)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
@@ -144,12 +146,13 @@ async def check_user_input_amount(message, context):
 
     if user_balance < MIN_WITHDRAW or round_user_withdraw < MIN_WITHDRAW or round_user_withdraw > user_balance:
         err = await check_user_withdraw_amount_err(user_balance, round_user_withdraw)
-        text, keyboard = withdraw_menu_err(err)
+        text, keyboard = withdraw_menu_err(err, token_price=token.price)
         await message.answer(text, reply_markup=keyboard)
         return round_user_withdraw, False
 
     if ton_amount > MAXIMUM_WITHDRAW:
-        text, keyboard = withdraw_menu_err('input_amount_bigger_than_maximum_withdraw')
+        text, keyboard = withdraw_menu_err('input_amount_bigger_than_maximum_withdraw',
+                                           user_withdraw_amount=round_user_withdraw)
         await message.answer(text, reply_markup=keyboard)
         return round_user_withdraw, False
 
