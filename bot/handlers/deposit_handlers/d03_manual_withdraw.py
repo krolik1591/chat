@@ -31,12 +31,11 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
     text, kb = successful_replenish_menu('successful_manual', titan_tx.amount / 10 ** 9 * titan_tx.price)
     await state.bot.send_message(chat_id=titan_tx.user_id, text=text, reply_markup=kb)
 
-    master_wallet = state.bot.ton_client.master_wallet
     TOKEN_ID = 2
     token = await get_token_by_id(TOKEN_ID)
 
-    await withdraw_cash_to_user(master_wallet, titan_tx.tx_address, titan_tx.amount / 10 ** 9, titan_tx.user_id,
-                                token, state)
+    await withdraw_cash_to_user(state, titan_tx.tx_address, titan_tx.amount / 10 ** 9, titan_tx.user_id,
+                                token)
 
 
 @router.callback_query(Text(text_startswith='denied_manual_tx_'))

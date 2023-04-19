@@ -4,7 +4,8 @@ from bot.menus.deposit_menus.withdraw_menu.withdraw_menu_err import withdraw_men
 from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 
-async def withdraw_cash_to_user(master_wallet, user_withdraw_address, withdraw_amount_ton, user_id, token, state):
+async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_ton, user_id, token):
+    master_wallet = state.bot.ton_client.master_wallet
     withdraw_amount_price = withdraw_amount_ton * token.price
 
     master_balance_nano = await master_wallet.get_balance()

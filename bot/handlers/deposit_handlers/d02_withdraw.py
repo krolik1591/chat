@@ -117,23 +117,17 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     token = await get_token_by_id(token_id)
     ton_amount = user_withdraw_amount / token.price
 
-    master_wallet = state.bot.ton_client.master_wallet
-
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    user_daily_total_amount_nano_ton = await get_user_daily_total_amount(call.from_user.id)
-    total_amount_price = user_daily_total_amount_nano_ton / 10**9 * token.price
-
-    correct_withdraw_tx = await check_unresolved_manual_tx(call, token, user_withdraw_amount, total_amount_price,
-                                                           user_withdraw_address)
+    correct_withdraw_tx = await check_unresolved_manual_tx(call, token, user_withdraw_amount, user_withdraw_address)
     if correct_withdraw_tx is False:
         return
 
     withdraw_amount_price = ton_amount * token.price
     await update_user_balance(call.from_user.id, token.token_id, -withdraw_amount_price)
 
-    await withdraw_cash_to_user(master_wallet, user_withdraw_address, ton_amount, call.from_user.id, token, state)
+    await withdraw_cash_to_user(state, user_withdraw_address, ton_amount, call.from_user.id, token)
 
 
 async def check_user_input_amount(message, context):
@@ -162,7 +156,9 @@ async def check_user_input_amount(message, context):
     return round_user_withdraw, True
 
 
-async def check_unresolved_manual_tx(call, token, user_withdraw_amount, total_amount_price, user_withdraw_address):
+async def check_unresolved_manual_tx(call, token, user_withdraw_amount, user_withdraw_address):
+    user_daily_total_amount_nano_ton = await get_user_daily_total_amount(call.from_user.id)
+    total_amount_price = user_daily_total_amount_nano_ton / 10**9 * token.price
     ton_amount = user_withdraw_amount / token.price
 
     if total_amount_price + user_withdraw_amount >= MAXIMUM_WITHDRAW_DAILY * token.price:
