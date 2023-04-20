@@ -5,7 +5,7 @@ from aiogram.types import Message
 from bot.const import CHANGE_BET, MAX_BET, MIN_BET
 from bot.handlers.context import Context
 from bot.handlers.states import Games, Menu, StateKeys
-from bot.menus.game_menus import bet_menu
+from bot.menus.game_menus import bet_menu as bet_menu_
 from bot.menus.game_menus.cube_settings import cube_settings
 from bot.utils.rounding import round_down
 
@@ -13,7 +13,7 @@ router = Router()
 
 
 async def bet_menu(context: Context, msg_id=None):
-    text, keyboard = bet_menu(context.bet, context.balance, context.token.icon, context.token.id, context.game)
+    text, keyboard = bet_menu_(context.bet, context.balance, context.token.icon, context.token.id, context.game)
     if msg_id is None:
         bet_msg = await context.fsm_context.bot.send_message(
             chat_id=context.user_id, text=text, reply_markup=keyboard)
