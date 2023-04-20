@@ -8,7 +8,7 @@ from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 from bot.db import first_start
 from bot.handlers import routers
 from bot.middlewares.throttling import ThrottlingMiddleware
-from bot.token_ton import TonWrapper, watch_txs
+from bot.tokens.token_ton import TonWrapper, watch_txs
 from bot.utils.config_reader import config
 
 

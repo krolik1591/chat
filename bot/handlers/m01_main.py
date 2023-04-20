@@ -7,7 +7,7 @@ from bot.const import START_POINTS
 from bot.db import db
 from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu, wallet_menus
-from bot.token_ton import TonWrapper
+from bot.tokens.token_ton import TonWrapper
 from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}

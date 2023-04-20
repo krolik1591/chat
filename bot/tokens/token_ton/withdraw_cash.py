@@ -2,7 +2,7 @@ import time
 
 from bot.db.methods import add_new_manual_tx, update_user_balance
 from bot.menus.wallet_menus import withdraw_menu_err, withdraw_menu
-from bot.token_ton import TonWrapper, process_withdraw_tx
+from bot.tokens.token_ton import TonWrapper, process_withdraw_tx
 
 
 async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_ton, user_id, token, manual_tx):

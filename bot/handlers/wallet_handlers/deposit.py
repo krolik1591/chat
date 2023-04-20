@@ -4,7 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db import db
 from bot.menus.wallet_menus.deposit_menu import deposit_menu
-from bot.token_ton import TonWrapper
+from bot.tokens.token_ton import TonWrapper
 
 router = Router()
 

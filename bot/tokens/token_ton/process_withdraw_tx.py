@@ -1,7 +1,7 @@
 import asyncio
 
 from bot.db import db, manager
-from bot.token_ton import TonWrapper
+from bot.tokens.token_ton import TonWrapper
 
 
 async def process_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id, master_wallet_address):

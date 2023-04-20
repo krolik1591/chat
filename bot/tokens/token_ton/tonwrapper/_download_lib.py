@@ -26,6 +26,6 @@ r = requests.get(download_url, headers={"Authorization": "token " + ACCESS_TOKEN
 print("Extracting libtonlibjson.so.0.5")
 
 with zipfile.ZipFile(io.BytesIO(r.content)) as z:
-    z.extract("libtonlibjson.so.0.5", path=".")
+    z.extract("libtonlibjson.so.0.5", path="")
 
 print("Done!")
