@@ -66,6 +66,7 @@ class ManualTXs(manager.Model):
     tx_address = CharField()
     utime = BigIntegerField()
     withdraw_state = CharField()
+    is_manual = BooleanField()
 
 
 class Transactions(manager.Model):
