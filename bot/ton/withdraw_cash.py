@@ -1,8 +1,7 @@
 import time
 
-from bot.db.methods import add_new_manual_tx, get_last_manual_transaction, update_user_balance
-from bot.menus.deposit_menus.withdraw_menu.withdraw_condition_menu import withdraw_condition_menu
-from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
+from bot.db.methods import add_new_manual_tx, update_user_balance
+from bot.menus.deposit_menus import withdraw_menu_err, withdraw_menu
 from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 
@@ -35,9 +34,9 @@ async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_to
 
 async def withdraw_approve(withdraw_condition, state, user_id, token, withdraw_amount_price):
     if withdraw_condition:
-        text, keyboard = withdraw_condition_menu(withdraw_condition)  # transfer money approve
+        text, keyboard = withdraw_menu.withdraw_result(withdraw_condition)  # transfer money withdraw_queued
         await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)
     else:
         await update_user_balance(user_id, token.token_id, withdraw_amount_price)
-        text, keyboard = withdraw_condition_menu(withdraw_condition)
+        text, keyboard = withdraw_menu.withdraw_result(withdraw_condition)
         await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)

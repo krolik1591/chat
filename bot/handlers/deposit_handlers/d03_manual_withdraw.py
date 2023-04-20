@@ -10,7 +10,7 @@ from bot.db.methods import get_manual_tx_by_id, get_token_by_id, update_user_bal
     update_manual_withdraw_state
 from bot.handlers.states import StateKeys
 from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
-from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
+from bot.menus.deposit_menus import withdraw_menu_err
 from bot.middlewares.filters import FilterChatId
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 from bot.utils.config_reader import config
