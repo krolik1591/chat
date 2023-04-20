@@ -7,7 +7,7 @@ from bot.const import START_POINTS
 from bot.db import db
 from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
-from bot.menus.deposit_menus.deposit_menu import deposit_menu
+from bot.menus.wallet_menus import wallet_menu
 from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
@@ -42,14 +42,14 @@ async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.callback_query(text=["deposit"])
-async def deposit_menus(call: types.CallbackQuery, state: FSMContext):
+@router.callback_query(text=["wallet_menu"])
+async def wallet_menu_handler(call: types.CallbackQuery, state: FSMContext):
     balances = await db.get_user_balances(call.from_user.id)
 
     TOKEN_ID = 2
     token = await db.get_token_by_id(TOKEN_ID)
 
-    text, keyboard = deposit_menu(balances, token.price)
+    text, keyboard = wallet_menu(balances, token.price)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

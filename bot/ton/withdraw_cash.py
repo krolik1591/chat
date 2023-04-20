@@ -1,7 +1,7 @@
 import time
 
 from bot.db.methods import add_new_manual_tx, update_user_balance
-from bot.menus.deposit_menus import withdraw_menu_err, withdraw_menu
+from bot.menus.wallet_menus import withdraw_menu_err, withdraw_menu
 from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 

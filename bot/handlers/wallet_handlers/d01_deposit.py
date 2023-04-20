@@ -3,7 +3,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db import db
-from bot.menus.deposit_menus.deposit_menu import deposit_menu
+from bot.menus.wallet_menus.deposit_menu import deposit_menu
 from bot.ton.wallets import TonWrapper
 
 flags = {"throttling_key": "default"}

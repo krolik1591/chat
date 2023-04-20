@@ -27,7 +27,7 @@ def _keyboard():
             InlineKeyboardButton(text='🎲 Ігри', callback_data="all_games"),
         ],
         [
-            InlineKeyboardButton(text='💎 Депозит', callback_data="deposit")
+            InlineKeyboardButton(text='💎 Депозит', callback_data="wallet_menu")
         ],
         [
             InlineKeyboardButton(text='⚙️ Налаштування', callback_data="settings")

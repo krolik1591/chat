@@ -6,7 +6,7 @@ from TonTools.Contracts.Wallet import Wallet
 
 from bot.const import INIT_PAY_TON
 from bot.db import db, manager, models
-from bot.menus.deposit_menus import deposit_menu
+from bot.menus.wallet_menus import deposit_menu
 from bot.ton.wallets import TonWrapper
 
 TOKEN_ID = 2
