@@ -50,10 +50,8 @@ async def withdraw_user_text(message: Message, state: FSMContext):
     last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
     token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
 
-    last_manual_tx = await get_last_manual_transaction(message.from_user.id, token_id)
-    if last_manual_tx['withdraw_state'] is not None:
-        text, keyboard = withdraw_menu_err.manual_tx_in_process()
-        await state.bot.send_message(message.from_user.id, text, reply_markup=keyboard)
+    unresolved_tx = await check_unresolved_tx(message, state, token_id)
+    if unresolved_tx is True:
         return
 
     text, keyboard = withdraw_menu_address()  # input address
@@ -119,20 +117,15 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = withdraw_approve_menu(user_withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    correct_withdraw_tx = await check_unresolved_manual_tx(call, state,
-                                                           token, user_withdraw_amount, user_withdraw_address)
-    if correct_withdraw_tx is False:
-        return
-
-    if ton_amount > MAXIMUM_WITHDRAW:
-        context = await Context.from_fsm_context(call.from_user.id, state)
-        await process_manual_tx(call.from_user.id, call.from_user.username, ton_amount, context, token, user_withdraw_address)
+    correct_withdraw_limit = await check_withdraw_tx_limits(call, state,
+                                                            token, user_withdraw_amount, user_withdraw_address)
+    if correct_withdraw_limit is False:
         return
 
     withdraw_amount_price = ton_amount * token.price
     await update_user_balance(call.from_user.id, token.token_id, -withdraw_amount_price)
 
-    await withdraw_cash_to_user(state, user_withdraw_address, ton_amount, call.from_user.id, token)
+    await withdraw_cash_to_user(state, user_withdraw_address, ton_amount, call.from_user.id, token, manual_tx=False)
 
 
 async def check_user_input_amount(message, context):
@@ -156,15 +149,37 @@ async def check_user_input_amount(message, context):
         await message.answer(text, reply_markup=keyboard)
         return
 
+    if round_user_withdraw > MAXIMUM_WITHDRAW_DAILY * token.price:
+        text, keyboard = withdraw_menu_err.withdraw_too_big(token.price)
+        await message.answer(text, reply_markup=keyboard)
+        return
+
     return round_user_withdraw
 
 
-async def check_unresolved_manual_tx(call, state, token, user_withdraw_amount, user_withdraw_address):
+async def check_unresolved_tx(message, state, token_id):
+    last_manual_tx = await get_last_manual_transaction(message.from_user.id, token_id)
+    if last_manual_tx['withdraw_state'] is not None:
+        text, keyboard = withdraw_menu_err.manual_tx_in_process()
+        await state.bot.send_message(message.from_user.id, text, reply_markup=keyboard)
+        return True
+    return False
+
+
+async def check_withdraw_tx_limits(call, state, token, user_withdraw_amount, user_withdraw_address):
     user_daily_total_amount_nano_ton = await get_user_daily_total_amount(call.from_user.id)
     total_amount_price = user_daily_total_amount_nano_ton / 10**9 * token.price
+    ton_amount = user_withdraw_amount / token.price
 
     if total_amount_price + user_withdraw_amount > MAXIMUM_WITHDRAW_DAILY * token.price:
         text, keyboard = withdraw_menu_err.reached_daily_limit(MAXIMUM_WITHDRAW_DAILY*token.price - total_amount_price)
         await state.bot.send_message(call.from_user.id, text, reply_markup=keyboard)
         return False
+
+    if ton_amount > MAXIMUM_WITHDRAW:
+        context = await Context.from_fsm_context(call.from_user.id, state)
+        await process_manual_tx(call.from_user.id, call.from_user.username, ton_amount, context, token,
+                                user_withdraw_address)
+        return False
+
     return True

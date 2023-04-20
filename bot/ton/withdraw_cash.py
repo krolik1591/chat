@@ -1,10 +1,12 @@
-from bot.db.methods import update_user_balance
+import time
+
+from bot.db.methods import add_new_manual_tx, get_last_manual_transaction, update_user_balance
 from bot.menus.deposit_menus.withdraw_menu.withdraw_condition_menu import withdraw_condition_menu
 from bot.menus.deposit_menus.withdraw_menu import withdraw_menu_err
 from bot.ton.process_withdraw_tx import process_withdraw_tx
 
 
-async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_ton, user_id, token):
+async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_ton, user_id, token, manual_tx):
     master_wallet = state.bot.ton_client.master_wallet
     withdraw_amount_price = withdraw_amount_ton * token.price
 
@@ -12,6 +14,11 @@ async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_to
     master_balance_ton = master_balance_nano / 1e9
 
     if master_balance_ton > withdraw_amount_ton:
+
+        if manual_tx is False:
+            await add_new_manual_tx(user_id, withdraw_amount_ton * 10 ** 9, token.token_id, token.price,
+                                    user_withdraw_address, time.time(), is_manual=False)
+
         await master_wallet.transfer_ton(user_withdraw_address, withdraw_amount_ton)
 
         withdraw_condition = await process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton, user_id,
