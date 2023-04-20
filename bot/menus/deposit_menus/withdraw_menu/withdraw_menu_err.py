@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.const import MAXIMUM_WITHDRAW, MIN_WITHDRAW
+from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
 from bot.texts import PREVIOUS_MANUAL_TX_IN_PROCESS, WITHDRAW_DAILY_LIMIT, WITHDRAW_ERR1, WITHDRAW_ERR3, WITHDRAW_ERR4, \
     WITHDRAW_ERR5, WITHDRAW_ERR6, WITHDRAW_ERR7, WITHDRAW_TOO_BIG
 from bot.utils.rounding import round_down
@@ -16,9 +16,9 @@ def reached_daily_limit(allowable_amount):
 
 
 def withdraw_too_big(token_price):
-    maximum_withdraw_token = MAXIMUM_WITHDRAW * token_price
+    maximum_withdraw_daily_token = MAXIMUM_WITHDRAW_DAILY * token_price
     return WITHDRAW_TOO_BIG.format(
-        maximum_withdraw_token=maximum_withdraw_token, maximum_withdraw=MAXIMUM_WITHDRAW), _keyboard()
+        maximum_withdraw_token=maximum_withdraw_daily_token, maximum_withdraw=MAXIMUM_WITHDRAW), _keyboard()
 
 
 def withdraw_too_small(token_price):
