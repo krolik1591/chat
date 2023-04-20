@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
 
-import bot.db.methods as db
+from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m03_token import tokens_menu
 from bot.handlers.states import StateKeys

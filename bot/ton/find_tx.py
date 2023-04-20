@@ -5,9 +5,7 @@ import ton
 from TonTools.Contracts.Wallet import Wallet
 
 from bot.const import INIT_PAY_TON
-from bot.db import methods as db
-from bot.db.db import Wallets_key, manager
-from bot.db.methods import get_all_users, get_last_transaction, get_token_by_id
+from bot.db import db, manager, models
 from bot.menus.deposit_menus import deposit_menu
 from bot.ton.wallets import TonWrapper
 
@@ -24,14 +22,14 @@ async def watch_txs(ton_wrapper: TonWrapper, bot):
             logging.exception('TonLib error')
 
     while True:
-        all_users_wallet = await get_all_users()
+        all_users_wallet = await db.get_all_users()
         coros = [find_new_user_tx_(user) for user in all_users_wallet]
         await asyncio.gather(*coros)
 
         await asyncio.sleep(10)
 
 
-async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
+async def find_new_user_tx(ton_wrapper: TonWrapper, user: models.Wallets_key, bot):
     master_address = ton_wrapper.master_wallet.address
     account = await ton_wrapper.find_account(user.address)
 
@@ -40,7 +38,7 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
 
     last_tx_from_blockchain = account.state.last_transaction_id
 
-    last_tx_from_db = await get_last_transaction(user.user_id, TOKEN_ID)  # типу беремо з бд
+    last_tx_from_db = await db.get_last_transaction(user.user_id, TOKEN_ID)  # типу беремо з бд
 
     if last_tx_from_blockchain.hash != last_tx_from_db.tx_hash:
         print("NEW TX!")
@@ -55,7 +53,7 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: Wallets_key, bot):
         if len(new_tx) == 0:
             print('fake alarm, its deploy-tx')
 
-        token = await get_token_by_id(TOKEN_ID)
+        token = await db.get_token_by_id(TOKEN_ID)
 
         for tx in new_tx:
             await process_tx(tx, token, user.user_id, master_address, user.address, bot, user_wallet)

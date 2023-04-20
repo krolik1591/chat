@@ -3,8 +3,8 @@ from aiogram import F, Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-import bot.db.methods as db
 from bot.const import START_POINTS
+from bot.db import db
 from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
 from bot.menus.deposit_menus.deposit_menu import deposit_menu

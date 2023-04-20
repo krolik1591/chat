@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 
 from peewee import JOIN, fn
 
-from bot.db.db import Balance, GameLog, ManualTXs, Token, Transactions, User, Wallets_key
+from bot.db.models import Balance, GameLog, ManualTXs, Token, Transactions, User, Wallets_key
 
 
 async def create_new_user(tg_id, username):

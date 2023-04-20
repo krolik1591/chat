@@ -5,9 +5,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.db.db import manager
-from bot.db.methods import get_manual_tx_by_id, get_token_by_id, update_user_balance, \
-    update_manual_withdraw_state
+from bot.db import manager, db
 from bot.handlers.states import StateKeys
 from bot.menus.deposit_menus import withdraw_menu
 from bot.middlewares.filters import FilterChatId
@@ -21,7 +19,7 @@ router = Router()
 @router.callback_query(Text(text_startswith='approve_manual_tx_'))
 async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
     titan_tx_id = call.data.removeprefix('approve_manual_tx_')
-    titan_tx = await get_manual_tx_by_id(titan_tx_id)
+    titan_tx = await db.get_manual_tx_by_id(titan_tx_id)
 
     await state.bot.edit_message_text(
         f'{call.message.text} \n\n✅ Approve', chat_id=config.admin_chat_id, message_id=call.message.message_id)
@@ -31,7 +29,7 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
 
     token_id = titan_tx.token_id
     await state.update_data(**{StateKeys.TOKEN_ID: token_id})
-    token = await get_token_by_id(token_id)
+    token = await db.get_token_by_id(token_id)
 
     await withdraw_cash_to_user(state, titan_tx.tx_address, titan_tx.amount / 10 ** 9, titan_tx.user_id,
                                 token, manual_tx=True)
@@ -43,11 +41,11 @@ async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
         f'{call.message.text} \n\n❌ Denied', chat_id=config.admin_chat_id, message_id=call.message.message_id)
 
     manual_tx_id = call.data.removeprefix('denied_manual_tx_')
-    manual_tx = await get_manual_tx_by_id(manual_tx_id)
+    manual_tx = await db.get_manual_tx_by_id(manual_tx_id)
 
     with manager.pw_database.atomic():
-        await update_manual_withdraw_state(manual_tx_id, 'rejected')
-        await update_user_balance(manual_tx.user_id, manual_tx.token_id, manual_tx.amount / 10**9 * manual_tx.price)
+        await db.update_manual_withdraw_state(manual_tx_id, 'rejected')
+        await db.update_user_balance(manual_tx.user_id, manual_tx.token_id, manual_tx.amount / 10**9 * manual_tx.price)
 
     text, kb = withdraw_menu.withdraw_manual_rejected()
     await state.bot.send_message(chat_id=manual_tx.user_id, text=text, reply_markup=kb)

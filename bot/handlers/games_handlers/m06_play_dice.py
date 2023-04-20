@@ -3,9 +3,8 @@ from asyncio import sleep
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
-import bot.db.methods as db
 from bot.const import THROTTLE_TIME_SPIN
-from bot.db.db import manager
+from bot.db import db, manager
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.states import Games, StateKeys

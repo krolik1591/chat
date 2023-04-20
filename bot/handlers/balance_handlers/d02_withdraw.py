@@ -8,10 +8,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.exceptions import TelegramMigrateToChat
 
 from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
-from bot.db import methods as db
-from bot.db.db import manager
-from bot.db.methods import add_new_manual_tx, update_user_balance, get_last_manual_transaction, \
-    get_token_by_id, get_user_balance, get_user_daily_total_amount
+from bot.db import manager, db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.deposit_menus import withdraw_menu, withdraw_menu_err
@@ -26,7 +23,7 @@ router = Router()
 async def withdraw(call: types.CallbackQuery, state: FSMContext):
     TOKEN_ID = 2
     await state.update_data(**{StateKeys.TOKEN_ID: TOKEN_ID})
-    token = await get_token_by_id(TOKEN_ID)
+    token = await db.get_token_by_id(TOKEN_ID)
     text, keyboard = withdraw_menu.input_amount(token.price)
     await call.message.edit_text(text, reply_markup=keyboard)
 
@@ -73,7 +70,7 @@ async def withdraw_user_address(message: types.Message, state: FSMContext):
         return
 
     token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
-    token = await get_token_by_id(token_id)
+    token = await db.get_token_by_id(token_id)
 
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
@@ -98,7 +95,7 @@ async def withdraw_user_amount_approve(message: types.Message, state: FSMContext
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
     last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
     token_id = (await state.get_data()).get(StateKeys.TOKEN_ID)
-    token = await get_token_by_id(token_id)
+    token = await db.get_token_by_id(token_id)
 
     text, keyboard = withdraw_menu.input_validation(round_user_withdraw, user_withdraw_address, token.price)
     await state.bot.edit_message_text(text, reply_markup=keyboard, chat_id=message.chat.id, message_id=last_msg)
@@ -115,7 +112,7 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
     user_withdraw_address = state_data['user_withdraw_address']
     token_id = state_data[StateKeys.TOKEN_ID]
 
-    token = await get_token_by_id(token_id)
+    token = await db.get_token_by_id(token_id)
     ton_amount = user_withdraw_amount / token.price
 
     #  Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!
@@ -138,7 +135,7 @@ async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
         return
 
     withdraw_amount_price = ton_amount * token.price
-    await update_user_balance(call.from_user.id, token.token_id, -withdraw_amount_price)
+    await db.update_user_balance(call.from_user.id, token.token_id, -withdraw_amount_price)
 
     await withdraw_cash_to_user(state, user_withdraw_address, ton_amount, call.from_user.id, token, manual_tx=False)
 
@@ -151,8 +148,8 @@ async def check_user_input_amount(message, context):
     round_user_withdraw = round(user_withdraw, 2)
 
     token_id = context.state.get(StateKeys.TOKEN_ID)
-    token = await get_token_by_id(token_id)
-    user_balance = await get_user_balance(message.from_user.id, token_id)
+    token = await db.get_token_by_id(token_id)
+    user_balance = await db.get_user_balance(message.from_user.id, token_id)
 
     if round_user_withdraw < MIN_WITHDRAW:
         text, keyboard = withdraw_menu_err.withdraw_too_small(token_price=token.price)
@@ -173,7 +170,7 @@ async def check_user_input_amount(message, context):
 
 
 async def check_unresolved_tx(message, state, token_id):
-    last_manual_tx = await get_last_manual_transaction(message.from_user.id, token_id)
+    last_manual_tx = await db.get_last_manual_transaction(message.from_user.id, token_id)
     if last_manual_tx['withdraw_state'] is not None:
         text, keyboard = withdraw_menu_err.manual_tx_in_process()
         await state.bot.send_message(message.from_user.id, text, reply_markup=keyboard)
@@ -182,7 +179,7 @@ async def check_unresolved_tx(message, state, token_id):
 
 
 async def check_withdraw_tx_limits(call, state, token, user_withdraw_amount, user_withdraw_address):
-    user_daily_total_amount_nano_ton = await get_user_daily_total_amount(call.from_user.id)
+    user_daily_total_amount_nano_ton = await db.get_user_daily_total_amount(call.from_user.id)
     total_amount_price = user_daily_total_amount_nano_ton / 10 ** 9 * token.price
     ton_amount = user_withdraw_amount / token.price
 
@@ -203,7 +200,7 @@ async def check_withdraw_tx_limits(call, state, token, user_withdraw_amount, use
 
 async def process_manual_tx(user_id, username, ton_amount, context, token, user_withdraw_address):
     with manager.pw_database.atomic():
-        new_tx = await add_new_manual_tx(user_id=user_id, nano_ton_amount=ton_amount * 10 ** 9, token_id=token.token_id,
+        new_tx = await db.add_new_manual_tx(user_id=user_id, nano_ton_amount=ton_amount * 10 ** 9, token_id=token.token_id,
                                          price=token.price, tx_address=user_withdraw_address, utime=int(time.time()))
         id_new_tx = new_tx.ManualTXs_id
 
@@ -215,4 +212,4 @@ async def process_manual_tx(user_id, username, ton_amount, context, token, user_
             logging.exception('User trying withdraw cash')
             return
 
-        await update_user_balance(user_id, token.token_id, -ton_amount * token.price)
+        await db.update_user_balance(user_id, token.token_id, -ton_amount * token.price)
