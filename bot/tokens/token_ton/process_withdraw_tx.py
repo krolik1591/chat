@@ -4,7 +4,7 @@ from bot.db import db, manager
 from bot.tokens.token_ton import TonWrapper
 
 
-async def process_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id, master_wallet_address):
+async def find_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id, master_wallet_address):
     await asyncio.sleep(25)  # TODO why
 
     withdraw_amount_nano = withdraw_amount_ton * 1e9

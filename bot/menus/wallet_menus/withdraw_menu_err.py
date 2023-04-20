@@ -29,7 +29,7 @@ def withdraw_err_rejected_by_admin():
     return WITHDRAW_ERR7, kb_del_msg()
 
 
-def withdraw_err_insufficient_funds_master():
+def insufficient_funds_master():
     return WITHDRAW_ERR6, kb_del_msg()
 
 

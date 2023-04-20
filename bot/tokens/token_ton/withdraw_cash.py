@@ -1,8 +1,8 @@
 import time
 
-from bot.db.methods import add_new_manual_tx, update_user_balance
+from bot.db import db, methods
 from bot.menus.wallet_menus import withdraw_menu_err, withdraw_menu
-from bot.tokens.token_ton import TonWrapper, process_withdraw_tx
+from bot.tokens.token_ton import TonWrapper, find_withdraw_tx
 
 
 async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_ton, user_id, token, manual_tx):
@@ -12,31 +12,26 @@ async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_to
     master_balance_nano = await master_wallet.get_balance()
     master_balance_ton = master_balance_nano / 1e9
 
-    if master_balance_ton > withdraw_amount_ton:
+    if withdraw_amount_ton >= master_balance_ton:
+        await db.update_user_balance(user_id, token.token_id, withdraw_amount_price)  # return tokens to user
 
-        if manual_tx is False:
-            await add_new_manual_tx(user_id, withdraw_amount_ton * 10 ** 9, token.token_id, token.price,
-                                    user_withdraw_address, time.time(), is_manual=False)
+        text, keyboard = withdraw_menu_err.insufficient_funds_master()
+        await state.bot.send_message(chat_id=user_id, text=text, reply_markup=keyboard)
+        return
 
-        await master_wallet.transfer_ton(user_withdraw_address, withdraw_amount_ton)
+    if manual_tx is False:
+        await db.add_new_manual_tx(user_id, withdraw_amount_ton * 1e9, token.token_id, token.price,
+                                   user_withdraw_address, time.time(), is_manual=False)
 
-        withdraw_condition = await process_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id,
-                                                       master_wallet.address)
+    await master_wallet.transfer_ton(user_withdraw_address, withdraw_amount_ton)
 
-        await withdraw_approve(withdraw_condition, state, user_id, token, withdraw_amount_price)
+    # FIXME VERY WRONG!! SO SHIT!!!!! CRINGEEEEEE!!!!!
 
-    else:
-        await update_user_balance(user_id, token.token_id, withdraw_amount_price)
+    is_found = await find_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id, master_wallet.address)
 
-        text_err, keyboard = withdraw_menu_err.withdraw_err_insufficient_funds_master()
-        await state.bot.send_message(user_id, text_err, reply_markup=keyboard)
+    if not is_found:
+        await db.update_user_balance(user_id, token.token_id, withdraw_amount_price)
 
+    text, keyboard = withdraw_menu.withdraw_result(is_found)  # transfer money withdraw_queued
+    await state.bot.send_message(chat_id=user_id, text=text, reply_markup=keyboard)
 
-async def withdraw_approve(withdraw_condition, state, user_id, token, withdraw_amount_price):
-    if withdraw_condition:
-        text, keyboard = withdraw_menu.withdraw_result(withdraw_condition)  # transfer money withdraw_queued
-        await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)
-    else:
-        await update_user_balance(user_id, token.token_id, withdraw_amount_price)
-        text, keyboard = withdraw_menu.withdraw_result(withdraw_condition)
-        await state.bot.send_message(text=text, reply_markup=keyboard, chat_id=user_id)
