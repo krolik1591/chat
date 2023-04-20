@@ -3,7 +3,7 @@ from pprint import pprint
 from peewee import fn, JOIN
 
 from bot.db import first_start
-from bot.db.db import Balance, User, Token, Transaction, GameLog
+from bot.db.models import Balance, User, GameLog
 
 
 async def tabl1():

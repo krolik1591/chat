@@ -1,6 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.texts import MENU_TEXT, BALANCE_TEXT
+from bot.utils.rounding import round_down
 
 
 def main_menu(balances: dict):
@@ -15,7 +16,7 @@ def main_menu(balances: dict):
 def balance_text(item):
     name = item['name'].upper()  # todo use i18n to name
     amount = item['amount']
-    round_amount = round(amount, 2)
+    round_amount = round_down(amount, 2)
     return BALANCE_TEXT.format(
         icon=item['icon'], name=name, amount=round_amount)
 
@@ -26,7 +27,7 @@ def _keyboard():
             InlineKeyboardButton(text='🎲 Ігри', callback_data="all_games"),
         ],
         [
-            InlineKeyboardButton(text='💎 Депозит', callback_data="deposit")
+            InlineKeyboardButton(text='💎 Депозит', callback_data="wallet_menu")
         ],
         [
             InlineKeyboardButton(text='⚙️ Налаштування', callback_data="settings")

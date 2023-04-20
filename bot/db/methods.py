@@ -1,12 +1,9 @@
 import json
-from datetime import datetime
-from pprint import pprint
+from datetime import datetime, time, timedelta
 
-from peewee import fn, JOIN
+from peewee import JOIN, fn
 
-from bot.db import first_start
-from bot.db.db import Balance, User, Token, Transaction, GameLog, Wallets_key
-from bot.db.db import manager
+from bot.db.models import Balance, GameLog, ManualTXs, Token, Transactions, User, Wallets_key
 
 
 async def create_new_user(tg_id, username):
@@ -53,6 +50,16 @@ async def update_user_balance(user_id, token_id, new_balance):
         where(Balance.user_id == user_id, Balance.token_id == token_id)
 
 
+async def get_user_daily_total_amount(user_id):
+    today_midnight = datetime.combine(datetime.today().date(), time())
+    next_day_midnight = today_midnight + timedelta(days=1)
+
+    result = await Transactions.select(fn.SUM(Transactions.amount)) \
+        .where(Transactions.user_id == user_id, Transactions.tx_type == 3,
+               Transactions.utime.between(today_midnight.timestamp(), next_day_midnight.timestamp()))
+    return result[0].amount if result[0].amount is not None else 0
+
+
 async def get_tokens():
     return await Token.select()
 
@@ -71,19 +78,37 @@ async def deposit_token(tg_id, token_id, amount):
     )
 
 
-async def update_withdraw_state(tx_hash):
-    return await Transaction.update({Transaction.withdraw_state: True}).where(Transaction.tx_hash == tx_hash)
+async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):
+    return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
+                                     logical_time=logical_time, amount=amount,
+                                     tx_address=tx_address, tx_hash=tx_hash, utime=utime)
 
 
-async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime, *, withdraw_state=False):
-    return await Transaction.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
-                                    logical_time=logical_time, amount=amount,
-                                    tx_address=tx_address, tx_hash=tx_hash, utime=utime, withdraw_state=withdraw_state)
+async def add_new_manual_tx(user_id, nano_ton_amount, token_id, price, tx_address, utime, *,
+                            withdraw_state='pending', is_manual=True):
+    return await ManualTXs.create(user_id=user_id, token_id=token_id, amount=nano_ton_amount, price=price,
+                                  tx_address=tx_address, utime=utime,
+                                  withdraw_state=withdraw_state, is_manual=is_manual)
+
+
+async def update_manual_withdraw_state(titan_tx_id, new_state):
+    return await ManualTXs.update({ManualTXs.withdraw_state: new_state}).where(ManualTXs.ManualTXs_id == titan_tx_id)
+
+
+async def get_manual_tx_by_id(titan_tx_id):
+    result = await ManualTXs.select().where(ManualTXs.ManualTXs_id == titan_tx_id)
+    return result[0]
+
+
+async def get_last_manual_transaction(tg_id, token_id):
+    result = await ManualTXs.select(ManualTXs.ManualTXs_id, ManualTXs.withdraw_state, fn.Max(ManualTXs.utime)).where(
+        ManualTXs.user_id == tg_id, ManualTXs.token_id == token_id, ManualTXs.withdraw_state == 'pending').dicts()
+    return result[0]
 
 
 async def get_last_transaction(tg_id, token_id):
-    result = await Transaction.select(Transaction.tx_hash, fn.Max(Transaction.utime)) \
-        .where(Transaction.user_id == tg_id, Transaction.token_id == token_id, Transaction.tx_type != 3)
+    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime)) \
+        .where(Transactions.user_id == tg_id, Transactions.token_id == token_id, Transactions.tx_type != 3)
     return result[0]
 
 
@@ -118,10 +143,9 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        await first_start()
-        # await add_new_transaction(228322, 3, 45641560, 9, 'cfvervrbgrtbr4ergb', 'fwgvrgbvgb43b5rbhr5', 46814651658146, 5651656)
-        await update_withdraw_state('fwgvrgbvgb43b5rbhr5')
-
+        # await first_start()
+        x = await get_token_by_id(2)
+        print(x.token_id)
 
 
     import asyncio

@@ -1,16 +1,15 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher, F, types
+from aiogram import Bot, Dispatcher, types
 from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
 from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 
 from bot.db import first_start
 from bot.handlers import routers
-from bot.ton.find_tx import watch_txs
-from bot.ton.wallets import TonWrapper
-from bot.utils.config_reader import config
 from bot.middlewares.throttling import ThrottlingMiddleware
+from bot.token_ton import TonWrapper, watch_txs
+from bot.utils.config_reader import config
 
 
 async def main():
@@ -25,7 +24,7 @@ async def main():
 
     dp = Dispatcher(storage=storage)
 
-    dp.message.filter(F.chat.type == "private")  # only private chats allowed
+    # dp.message.filter(F.chat.type == "private")  # only private chats allowed
 
     for router in routers:
         dp.include_router(router)
@@ -36,9 +35,8 @@ async def main():
 
     await first_start()
 
-    bot.ton_client = await TonWrapper.create(master_wallet_mnemon=config.wallet_seed)
-
-    asyncio.create_task(watch_txs(bot.ton_client, bot))
+    ton_wrapper = await TonWrapper.create(master_wallet_mnemon=config.wallet_seed)
+    asyncio.create_task(watch_txs(ton_wrapper, bot))
 
     try:
         print("me:", await bot.get_me())

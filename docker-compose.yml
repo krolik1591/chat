@@ -6,7 +6,7 @@ services:
         restart: "always"
         stop_signal: SIGINT
         env_file:
-            -   .env
+            - bot/.env
         volumes:
             - "./db:/app/db"
         depends_on:

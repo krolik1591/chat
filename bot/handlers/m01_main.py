@@ -1,29 +1,29 @@
 from TonTools.Contracts.Wallet import Wallet
-from TonTools.Providers.LsClient import LsClient
-from aiogram import Router, types
+from aiogram import F, Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-import bot.db.methods as db
 from bot.const import START_POINTS
-from bot.handlers.states import LAST_MSG_ID
-from bot.menus import main_menu
-from bot.menus.deposit_menus.deposit_menu import deposit_menu
+from bot.db import db
+from bot.handlers.states import Menu, StateKeys
+from bot.menus import main_menu, wallet_menus
+from bot.token_ton import TonWrapper
+from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
 router = Router()
 
 
-@router.message(commands="start", flags=flags)
+@router.message(F.chat.type == "private", commands="start", flags=flags)
 async def cmd_start(message: Message, state: FSMContext):
     try:
         await db.get_user_lang(message.from_user.id)
     except ValueError:
         await db.create_new_user(message.from_user.id, message.from_user.username)
         await db.deposit_token(message.from_user.id, 1, START_POINTS)  # add demo
-        await db.deposit_token(message.from_user.id, 2, 0)  # add ton
+        await db.deposit_token(message.from_user.id, 2, 0)  # add token_ton
 
-        new_wallet = Wallet(provider=state.bot.ton_client)
+        new_wallet = Wallet(provider=TonWrapper.INSTANCE)
         mnemonics = ','.join(new_wallet.mnemonics)
         await db.create_user_wallet(message.from_user.id, new_wallet.address, mnemonics)
 
@@ -31,7 +31,8 @@ async def cmd_start(message: Message, state: FSMContext):
     text, keyboard = main_menu(balances)
     msg = await message.answer(text, reply_markup=keyboard)
 
-    await state.update_data(**{LAST_MSG_ID: msg.message_id})
+    await state.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
+    await state.set_state(Menu.delete_message)
 
 
 @router.callback_query(text=["main_menu"])
@@ -41,12 +42,24 @@ async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.callback_query(text=["deposit"])
-async def deposit_menus(call: types.CallbackQuery, state: FSMContext):
+@router.callback_query(text=["wallet_menu"])
+async def wallet_menu_handler(call: types.CallbackQuery, state: FSMContext):
     balances = await db.get_user_balances(call.from_user.id)
 
     TOKEN_ID = 2
     token = await db.get_token_by_id(TOKEN_ID)
 
-    text, keyboard = deposit_menu(balances, token.price)
+    text, keyboard = wallet_menus.wallet_menu(balances, token.price)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+
+@router.message(commands="admin", flags=flags)
+async def admin_menu(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    is_admin = str(user_id) in config.admin_ids
+
+
+@router.message(state=Menu.delete_message)
+async def delete_message(message: Message, state: FSMContext):
+    await message.delete()
+    return

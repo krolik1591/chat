@@ -8,6 +8,12 @@ class Settings(BaseSettings):
     fsm_mode: str
     redis: Optional[RedisDsn]
     wallet_seed: str
+    admin_chat_id: int
+    admin_ids: str
+
+    @validator("admin_ids")
+    def is_admin(cls, v: str):
+        return v.split(',')
 
     @validator("wallet_seed")
     def wallet_seed_check(cls, v: str):
