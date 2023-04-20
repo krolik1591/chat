@@ -1,29 +1,40 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.const import INIT_PAY_TON
-from bot.menus.main_menu import balance_text
-from bot.texts import DEPOSIT_MENU_TEXT
+from bot.menus.utils import kb_del_msg
+from bot.texts import DEPOSIT_INITIATION_ERROR, DEPOSIT_ACCOUNT_INITIATED, SUCCESSFUL_REPLENISH_MENU, \
+    REPLENISH_MENU_TEXT
+from bot.utils.rounding import round_down
 
 
-def deposit_menu(balances: dict, token_price):
-    balances_text = '\n'.join([balance_text(i) for i in balances.values()])
-    text = DEPOSIT_MENU_TEXT.format(balances=balances_text, token_price=token_price, init_pay_ton=INIT_PAY_TON)
-    kb = _keyboard()
+def deposit_account_initiation_menu(is_successful_inited, init_pay_ton):
+    if is_successful_inited:
+        text = DEPOSIT_ACCOUNT_INITIATED.format(init_pay_ton=init_pay_ton)
+    else:
+        text = DEPOSIT_INITIATION_ERROR.format(init_pay_ton=init_pay_ton)
+
+    return text, kb_del_msg()
+
+
+def successful_deposit_menu(amount):
+    amount = round_down(amount, 2)
+    text = SUCCESSFUL_REPLENISH_MENU.format(amount=amount)
+    return text, kb_del_msg()
+
+
+def deposit_menu(wallet_address):
+    text = REPLENISH_MENU_TEXT.format(wallet_address=wallet_address)
+    kb = _replenish_menu_keyboard(wallet_address)
 
     return text, kb
 
 
-def _keyboard():
+def _replenish_menu_keyboard(wallet_address):
     kb = [
+        [InlineKeyboardButton(text='Відкрити Tonkeeper', url=f"https://app.tonkeeper.com/transfer/{wallet_address}")],
+        [InlineKeyboardButton(text='Todo link', url=f"https://app.tonkeeper.com/transfer/{wallet_address}")],
         [
-            InlineKeyboardButton(text='📥 Поповнити', callback_data="replenish"),
-            InlineKeyboardButton(text='📤 Вивести', callback_data="withdraw")
-        ],
-        [
-            InlineKeyboardButton(text='💳 Як придбати TON?', callback_data="how_to_buy")
-        ],
-        [
-            InlineKeyboardButton(text='Меню', callback_data="main_menu")
+            InlineKeyboardButton(text='Мій гаманець', callback_data="deposit"),
+            InlineKeyboardButton(text='Оновити баланс', callback_data="ton_check")
         ]
     ]
 

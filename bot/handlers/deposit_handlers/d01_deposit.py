@@ -4,7 +4,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db.methods import get_user_wallet
-from bot.menus.deposit_menus.replenish_menu import replenish_menu
+from bot.menus.deposit_menus.deposit_menu import deposit_menu
 from bot.ton.wallets import TonWrapper
 
 flags = {"throttling_key": "default"}
@@ -15,13 +15,8 @@ router = Router()
 async def replenish(call: types.CallbackQuery, state: FSMContext):
     user_wallet = await get_user_wallet(call.from_user.id)
 
-    text, keyboard = replenish_menu(user_wallet.address)
+    text, keyboard = deposit_menu(user_wallet.address)
     await call.message.edit_text(text, reply_markup=keyboard)
-
-
-@router.callback_query(text=["delete_replenish_message"])
-async def del_replenish_message(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
 
 
 @router.callback_query(text=["ton_check"])

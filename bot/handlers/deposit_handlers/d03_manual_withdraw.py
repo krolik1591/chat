@@ -9,8 +9,7 @@ from bot.db.db import manager
 from bot.db.methods import get_manual_tx_by_id, get_token_by_id, update_user_balance, \
     update_manual_withdraw_state
 from bot.handlers.states import StateKeys
-from bot.menus.deposit_menus.successful_replenish_menu import successful_replenish_menu
-from bot.menus.deposit_menus import withdraw_menu_err
+from bot.menus.deposit_menus import withdraw_menu
 from bot.middlewares.filters import FilterChatId
 from bot.ton.withdraw_cash import withdraw_cash_to_user
 from bot.utils.config_reader import config
@@ -27,7 +26,7 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
     await state.bot.edit_message_text(
         f'{call.message.text} \n\n✅ Approve', chat_id=config.admin_chat_id, message_id=call.message.message_id)
 
-    text, kb = successful_replenish_menu('successful_manual', titan_tx.amount / 10 ** 9 * titan_tx.price)
+    text, kb = withdraw_menu.withdraw_manual_approved(titan_tx.amount / 10 ** 9 * titan_tx.price)
     await state.bot.send_message(chat_id=titan_tx.user_id, text=text, reply_markup=kb)
 
     token_id = titan_tx.token_id
@@ -50,7 +49,7 @@ async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
         await update_manual_withdraw_state(manual_tx_id, 'rejected')
         await update_user_balance(manual_tx.user_id, manual_tx.token_id, manual_tx.amount / 10**9 * manual_tx.price)
 
-    text, kb = withdraw_menu_err.withdraw_err_rejected_by_admin()
+    text, kb = withdraw_menu.withdraw_manual_rejected()
     await state.bot.send_message(chat_id=manual_tx.user_id, text=text, reply_markup=kb)
 
 
