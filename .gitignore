@@ -2,5 +2,8 @@
 /venv/
 .vscode/
 *.ipynb
-docker-compose.yml
-bot/.env
+
+.env
+.keystore
+db.sqlite3
+redis_dump.rdb
