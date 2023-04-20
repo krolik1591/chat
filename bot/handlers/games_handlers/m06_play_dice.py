@@ -10,11 +10,7 @@ from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.states import Games, StateKeys
 from bot.texts import DICE_ROLL_TEXT, GAME_ERR_BET_NOT_SELECTED, GAME_ERR_BET_TOO_BIG
-from bot.utils.dice_check.dice_check_casino import get_coefficient
-from bot.utils.dice_check.dice_check_games import get_coefficient_basket, get_coefficient_bowling, \
-    get_coefficient_cube, \
-    get_coefficient_darts, get_coefficient_football
-from bot.utils.dice_check.dice_check_texts import game_text
+from bot.utils.dice_check import dice_check_games, game_text
 from bot.utils.rounding import round_down
 
 flags = {"throttling_key": "spin"}
@@ -38,7 +34,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
         # Parse dice result
-        coefficient = get_coefficient(dice_msg.dice.value)
+        coefficient = dice_check_games.slots(dice_msg.dice.value)
         await process_dice(call, context, coefficient, dice_msg, state)
 
     if context.game == Games.CUBE:
@@ -55,7 +51,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         dice_msg = await call.message.answer_dice(emoji="🎲")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-        coefficient = get_coefficient_cube(dice_msg.dice.value, context.game_settings)
+        coefficient = dice_check_games.cube(dice_msg.dice.value, context.game_settings)
 
         current_streak = (await state.get_data()).get(StateKeys.CUBE_LOSE_STREAK, 0)
         if coefficient == 0:
@@ -69,28 +65,28 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         dice_msg = await call.message.answer_dice(emoji="🏀")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-        coefficient = get_coefficient_basket(dice_msg.dice.value)
+        coefficient = dice_check_games.basket(dice_msg.dice.value)
         await process_dice(call, context, coefficient, dice_msg, state)
 
     if context.game == Games.DARTS:
         dice_msg = await call.message.answer_dice(emoji="🎯")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-        coefficient = get_coefficient_darts(dice_msg.dice.value)
+        coefficient = dice_check_games.darts(dice_msg.dice.value)
         await process_dice(call, context, coefficient, dice_msg, state)
 
     if context.game == Games.BOWLING:
         dice_msg = await call.message.answer_dice(emoji="🎳")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-        coefficient = get_coefficient_bowling(dice_msg.dice.value)
+        coefficient = dice_check_games.bowling(dice_msg.dice.value)
         await process_dice(call, context, coefficient, dice_msg, state)
 
     if context.game == Games.FOOTBALL:
         dice_msg = await call.message.answer_dice(emoji="⚽️")
         await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-        coefficient = get_coefficient_football(dice_msg.dice.value)
+        coefficient = dice_check_games.football(dice_msg.dice.value)
         await process_dice(call, context, coefficient, dice_msg, state)
 
 
