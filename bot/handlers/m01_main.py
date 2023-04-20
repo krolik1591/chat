@@ -5,7 +5,7 @@ from aiogram.types import Message
 
 import bot.db.methods as db
 from bot.const import START_POINTS
-from bot.handlers.states import StateKeys
+from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
 from bot.menus.deposit_menus.deposit_menu import deposit_menu
 from bot.utils.config_reader import config
@@ -32,6 +32,7 @@ async def cmd_start(message: Message, state: FSMContext):
     msg = await message.answer(text, reply_markup=keyboard)
 
     await state.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
+    await state.set_state(Menu.delete_message)
 
 
 @router.callback_query(text=["main_menu"])
@@ -56,3 +57,9 @@ async def deposit_menus(call: types.CallbackQuery, state: FSMContext):
 async def admin_menu(message: Message, state: FSMContext):
     user_id = message.from_user.id
     is_admin = str(user_id) in config.admin_ids
+
+
+@router.message(state=Menu.delete_message)
+async def delete_message(message: Message, state: FSMContext):
+    await message.delete()
+    return

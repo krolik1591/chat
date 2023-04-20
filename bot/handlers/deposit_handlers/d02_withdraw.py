@@ -107,6 +107,8 @@ async def withdraw_user_amount_approve(message: Message, state: FSMContext):
 
 @router.callback_query(text=["approve"])
 async def approve_withdraw(call: types.CallbackQuery, state: FSMContext):
+    await state.set_state(Menu.delete_message)
+
     user_withdraw_amount = (await state.get_data()).get('user_withdraw_amount')
     user_withdraw_address = (await state.get_data()).get('user_withdraw_address')
 

@@ -10,7 +10,7 @@ from bot.db.methods import add_new_transaction, update_user_balance
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.games_handlers.m05_bets import bet_menu
-from bot.handlers.states import StateKeys
+from bot.handlers.states import Menu, StateKeys
 from bot.menus.game_menus.main_or_demo_balance_menu import main_or_demo_balance
 
 router = Router()
@@ -33,6 +33,7 @@ async def tokens_menu(context: Context, msg_id=None):
 async def tokens_show(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     await tokens_menu(context, msg_id=call.message.message_id)
+    await state.set_state(Menu.delete_message)
 
 
 @router.callback_query(Text(text_startswith='set_token_'))
