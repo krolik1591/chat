@@ -1,4 +1,3 @@
-from TonTools import *
 from TonTools.Contracts.Wallet import Wallet
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext

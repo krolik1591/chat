@@ -1,16 +1,16 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher, F, types
+from aiogram import Bot, Dispatcher, types
 from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
 from aiogram.dispatcher.fsm.storage.redis import RedisStorage
 
 from bot.db import first_start
 from bot.handlers import routers
+from bot.middlewares.throttling import ThrottlingMiddleware
 from bot.ton.find_tx import watch_txs
 from bot.ton.wallets import TonWrapper
 from bot.utils.config_reader import config
-from bot.middlewares.throttling import ThrottlingMiddleware
 
 
 async def main():

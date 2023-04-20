@@ -1,8 +1,7 @@
 import asyncio
 
 from bot.db.db import manager
-from bot.db.methods import add_new_transaction, get_last_manual_transaction, update_manual_withdraw_state, \
-    update_user_balance
+from bot.db.methods import add_new_transaction, get_last_manual_transaction, update_manual_withdraw_state
 from bot.handlers.states import StateKeys
 from bot.ton.wallets import TonWrapper
 

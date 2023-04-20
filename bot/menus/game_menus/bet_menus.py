@@ -1,11 +1,10 @@
-from bot import texts
-from bot.handlers.states import Games
-from bot.utils.rounding import round_down
-
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from bot import texts
 from bot.const import MIN_BET
+from bot.handlers.states import Games
 from bot.texts import DEFAULT_BALANCE_TEXT, DEFAULT_PLAY_TEXT, DEMO_FUNDS_ICON
+from bot.utils.rounding import round_down
 
 
 def bet_menu(bet, balances, token_icon, token_id, game_mode=None):

@@ -1,5 +1,5 @@
 import json
-from datetime import date, datetime, time, timedelta
+from datetime import datetime, time, timedelta
 
 from peewee import JOIN, fn
 
