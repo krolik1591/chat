@@ -2,11 +2,11 @@ import time
 
 from bot.db.methods import add_new_manual_tx, update_user_balance
 from bot.menus.wallet_menus import withdraw_menu_err, withdraw_menu
-from bot.ton.process_withdraw_tx import process_withdraw_tx
+from bot.token_ton import TonWrapper, process_withdraw_tx
 
 
 async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_ton, user_id, token, manual_tx):
-    master_wallet = state.bot.ton_client.master_wallet
+    master_wallet = TonWrapper.INSTANCE.master_wallet
     withdraw_amount_price = withdraw_amount_ton * token.price
 
     master_balance_nano = await master_wallet.get_balance()
@@ -20,7 +20,7 @@ async def withdraw_cash_to_user(state, user_withdraw_address, withdraw_amount_to
 
         await master_wallet.transfer_ton(user_withdraw_address, withdraw_amount_ton)
 
-        withdraw_condition = await process_withdraw_tx(state, user_withdraw_address, withdraw_amount_ton, user_id,
+        withdraw_condition = await process_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id,
                                                        master_wallet.address)
 
         await withdraw_approve(withdraw_condition, state, user_id, token, withdraw_amount_price)

@@ -9,7 +9,7 @@ from bot.db import manager, db
 from bot.handlers.states import StateKeys
 from bot.menus.wallet_menus import withdraw_menu
 from bot.middlewares.filters import FilterChatId
-from bot.ton.withdraw_cash import withdraw_cash_to_user
+from bot.token_ton import withdraw_cash_to_user
 from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}

@@ -12,7 +12,7 @@ from bot.db import manager, db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.wallet_menus import withdraw_menu, withdraw_menu_err
-from bot.ton.withdraw_cash import withdraw_cash_to_user
+from bot.token_ton import withdraw_cash_to_user
 from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}

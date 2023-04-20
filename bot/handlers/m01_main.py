@@ -6,8 +6,8 @@ from aiogram.types import Message
 from bot.const import START_POINTS
 from bot.db import db
 from bot.handlers.states import Menu, StateKeys
-from bot.menus import main_menu
-from bot.menus.wallet_menus import wallet_menu
+from bot.menus import main_menu, wallet_menus
+from bot.token_ton import TonWrapper
 from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
@@ -21,9 +21,9 @@ async def cmd_start(message: Message, state: FSMContext):
     except ValueError:
         await db.create_new_user(message.from_user.id, message.from_user.username)
         await db.deposit_token(message.from_user.id, 1, START_POINTS)  # add demo
-        await db.deposit_token(message.from_user.id, 2, 0)  # add ton
+        await db.deposit_token(message.from_user.id, 2, 0)  # add token_ton
 
-        new_wallet = Wallet(provider=state.bot.ton_client)
+        new_wallet = Wallet(provider=TonWrapper.INSTANCE)
         mnemonics = ','.join(new_wallet.mnemonics)
         await db.create_user_wallet(message.from_user.id, new_wallet.address, mnemonics)
 
@@ -49,7 +49,7 @@ async def wallet_menu_handler(call: types.CallbackQuery, state: FSMContext):
     TOKEN_ID = 2
     token = await db.get_token_by_id(TOKEN_ID)
 
-    text, keyboard = wallet_menu(balances, token.price)
+    text, keyboard = wallet_menus.wallet_menu(balances, token.price)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
