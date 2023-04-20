@@ -11,7 +11,7 @@ from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.games_handlers.m05_bets import bet_menu
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.game_menus.main_or_demo_balance_menu import main_or_demo_balance
+from bot.menus.game_menus import select_token_menu
 
 router = Router()
 
@@ -19,7 +19,7 @@ router = Router()
 async def tokens_menu(context: Context, msg_id=None):
     tokens = await db.get_tokens()
     balances = await db.get_user_balances(context.user_id)
-    text, keyboard = main_or_demo_balance(tokens, balances)
+    text, keyboard = select_token_menu(tokens, balances)
 
     if msg_id is None:
         await context.fsm_context.bot.send_message(

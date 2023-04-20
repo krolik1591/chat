@@ -12,21 +12,21 @@ def bet_menu(bet, balances, token_icon, token_id, game_mode=None):
     balances = round_down(balances, 2)
 
     if game_mode == Games.CASINO:
-        return base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon, play_text=texts.SLOTS_PLAY_TEXT)
+        return _base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon, play_text=texts.SLOTS_PLAY_TEXT)
     if game_mode == Games.FOOTBALL:
-        return base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon,
-                             play_text=texts.FOOTBALL_PLAY_TEXT)
+        return _base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon,
+                              play_text=texts.FOOTBALL_PLAY_TEXT)
     if game_mode == Games.DARTS:
-        return base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon, play_text=texts.DARTS_PLAY_TEXT)
+        return _base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon, play_text=texts.DARTS_PLAY_TEXT)
 
     if game_mode == Games.CUBE:
-        return base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon, play_text=texts.CUBE_PLAY_TEXT,
-                             back_to='game_settings')
+        return _base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon, play_text=texts.CUBE_PLAY_TEXT,
+                              back_to='game_settings')
 
-    return base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon)
+    return _base_bet_menu(balances, bet, token_id=token_id, token_icon=token_icon)
 
 
-def base_bet_menu(
+def _base_bet_menu(
         balance, bet, token_id,
         text=DEFAULT_BALANCE_TEXT,
         token_icon=DEMO_FUNDS_ICON,

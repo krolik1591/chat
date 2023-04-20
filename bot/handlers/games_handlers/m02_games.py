@@ -6,7 +6,7 @@ import bot.db.methods as db
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m03_token import tokens_menu
 from bot.handlers.states import StateKeys
-from bot.menus import game_choice_menu
+from bot.menus.game_menus import select_game_menu
 
 router = Router()
 
@@ -15,7 +15,7 @@ router = Router()
 async def all_games(call: types.CallbackQuery, state: FSMContext):
     balances = await db.get_user_balances(call.from_user.id)
 
-    text, keyboard = game_choice_menu(balances)
+    text, keyboard = select_game_menu(balances)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
