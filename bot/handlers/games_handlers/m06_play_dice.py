@@ -9,8 +9,7 @@ from bot.db.db import manager
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.states import Games, StateKeys
-from bot.menus.game_menus.game_menu_err import game_menu_err
-from bot.texts import DICE_ROLL_TEXT
+from bot.texts import DICE_ROLL_TEXT, GAME_ERR_BET_NOT_SELECTED, GAME_ERR_BET_TOO_BIG
 from bot.utils.dice_check.dice_check_casino import get_coefficient
 from bot.utils.dice_check.dice_check_games import get_coefficient_basket, get_coefficient_bowling, \
     get_coefficient_cube, \
@@ -46,12 +45,11 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         # if await cube_check_bet(call, state):
         #     return
         if context.bet * len(context.game_settings or []) > context.balance:
-            await call.answer("Ставка більше балансу", show_alert=True)
+            await call.answer(GAME_ERR_BET_TOO_BIG, show_alert=True)
             return
 
         if context.game_settings is None or len(context.game_settings) == 0:
-            text, keyboard = game_menu_err(1)  # user doesnt choice bet
-            await call.message.answer(text, reply_markup=keyboard)
+            await call.answer(GAME_ERR_BET_NOT_SELECTED, show_alert=True)
             return
 
         dice_msg = await call.message.answer_dice(emoji="🎲")
