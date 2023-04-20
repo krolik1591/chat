@@ -1,10 +1,9 @@
-from TonTools import *
 from TonTools.Contracts.Wallet import Wallet
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
-from bot.db.methods import get_user_wallet
-from bot.menus.deposit_menus.replenish_menu import replenish_menu
+from bot.db import db
+from bot.menus.deposit_menus.deposit_menu import deposit_menu
 from bot.ton.wallets import TonWrapper
 
 flags = {"throttling_key": "default"}
@@ -13,15 +12,10 @@ router = Router()
 
 @router.callback_query(text=["replenish"])
 async def replenish(call: types.CallbackQuery, state: FSMContext):
-    user_wallet = await get_user_wallet(call.from_user.id)
+    user_wallet = await db.get_user_wallet(call.from_user.id)
 
-    text, keyboard = replenish_menu(user_wallet.address)
+    text, keyboard = deposit_menu(user_wallet.address)
     await call.message.edit_text(text, reply_markup=keyboard)
-
-
-@router.callback_query(text=["delete_replenish_message"])
-async def del_replenish_message(call: types.CallbackQuery, state: FSMContext):
-    await call.message.delete()
 
 
 @router.callback_query(text=["ton_check"])
@@ -30,7 +24,7 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
 
     master_wallet = ton_client.master_wallet
 
-    user_wallet_info = await get_user_wallet(call.from_user.id)
+    user_wallet_info = await db.get_user_wallet(call.from_user.id)
     user_mnemonic = user_wallet_info.mnemonic.split(',')
     # user_mnemonic = 'reform,spawn,use,electric,relax,olive,have,kiwi,veteran,shine,west,cargo,shop,square,mountain,lion,awful,coral,marriage,monitor,album,three,pudding,culture'.split(',')
     user_wallet = Wallet(provider=ton_client, mnemonics=user_mnemonic)

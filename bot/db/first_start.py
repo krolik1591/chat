@@ -1,4 +1,4 @@
-from .db import ManualTXs, Token, User, Balance, Transactions, GameLog, Wallets_key, manager
+from .models import ManualTXs, Token, User, Balance, Transactions, GameLog, Wallets_key, manager
 from ..texts import DEMO_FUNDS_ICON, TON_FUNDS_ICON
 
 

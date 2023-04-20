@@ -7,6 +7,8 @@ class Menu(StatesGroup):
     withdraw_amount = State()
     withdraw_amount_approve = State()
     withdraw_address = State()
+    delete_message = State()
+    do_nothing = State()
 
 
 class StateKeys:

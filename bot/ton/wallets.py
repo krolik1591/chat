@@ -8,11 +8,12 @@ from ton.tl.types import Internal_TransactionId
 from bot.db import methods as db, first_start
 
 libpath = pathlib.Path(__file__).parent / 'libtonlibjson.so.0.5'
+keystorepath = str(pathlib.Path(__file__).parent / '.keystore')
 
 
 class TonWrapper(LsClient):
 
-    def __init__(self, ls_index=0, config='https://ton.org/global-config.json', keystore=None, workchain_id=0,
+    def __init__(self, ls_index=0, config='https://ton.org/global-config.json', keystore=keystorepath, workchain_id=0,
                  verbosity_level=0, default_timeout=10, addresses_form='user_friendly', master_wallet_mnemon=None):
         super().__init__(ls_index, config, keystore, workchain_id, verbosity_level, default_timeout, addresses_form)
         master_wallet_seed = master_wallet_mnemon.split(' ')

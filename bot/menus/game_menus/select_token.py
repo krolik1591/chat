@@ -4,10 +4,10 @@ from bot.menus.main_menu import balance_text
 from bot.texts import MENU_TEXT
 
 
-def main_or_demo_balance(tokens, balances: dict):
+def select_token_menu(tokens, balances: dict):
     balances_text = '\n'.join([balance_text(i) for i in balances.values()])
     text = MENU_TEXT.format(balances=balances_text)
-    # text = "Обирай свого бійця:"
+
     kb = _keyboard(tokens)
 
     return text, kb
