@@ -49,7 +49,7 @@ class ManualTXs(manager.Model):
     ManualTXs_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='manualTXs')
     amount = BigIntegerField()
-    token = ForeignKeyField(Token, backref='manualTXs')
+    token_id = CharField()
     price = IntegerField()
     tx_address = CharField()
     utime = BigIntegerField()
@@ -60,7 +60,7 @@ class ManualTXs(manager.Model):
 class Transactions(manager.Model):
     transaction_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='transactions')
-    token = ForeignKeyField(Token, backref='transactions')
+    token_id = CharField()
     tx_type = SmallIntegerField()
     # 1) tx_address = адреса з якої поповнюють; tx_type = 1
     # 2) tx_address = похуй ; tx_type = 2
@@ -78,7 +78,7 @@ class Transactions(manager.Model):
 class GameLog(manager.Model):
     gamelog_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='game_logs')
-    token = ForeignKeyField(Token, backref='game_logs')
+    balance_type = CharField()
     game = CharField()
     game_info = TextField()
     bet = BigIntegerField()

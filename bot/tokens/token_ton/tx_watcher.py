@@ -7,12 +7,10 @@ from TonTools.Contracts.Wallet import Wallet
 from bot.const import INIT_PAY_TON
 from bot.db import db, manager, models
 from bot.menus.wallet_menus import deposit_menu
-from bot.tokens.token_ton import TonWrapper
-
-TOKEN_ID = 2
+from bot.tokens.token_ton import TonWrapper, ton_token
 
 
-# оптимизация: сортировать пользователей по последней активности
+# todo оптимизация: сортировать пользователей по последней активности
 async def watch_txs(ton_wrapper: TonWrapper, bot):
     async def find_new_user_tx_(user_):
         try:
@@ -38,7 +36,7 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: models.Wallets_key, bo
 
     last_tx_from_blockchain = account.state.last_transaction_id
 
-    last_tx_from_db = await db.get_last_transaction(user.user_id, TOKEN_ID)  # типу беремо з бд
+    last_tx_from_db = await db.get_last_transaction(user.user_id, ton_token.id)
 
     if last_tx_from_blockchain.hash != last_tx_from_db.tx_hash:
         print("NEW TX!")
@@ -53,36 +51,36 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: models.Wallets_key, bo
         if len(new_tx) == 0:
             print('fake alarm, its deploy-tx')
 
-        token = await db.get_token_by_id(TOKEN_ID)
-
         for tx in new_tx:
-            await process_tx(tx, token, user.user_id, master_address, user.address, bot, user_wallet)
+            await process_tx(tx, user.user_id, master_address, user.address, bot, user_wallet)
 
     else:
         print("NO NEW TX :(")
 
 
-async def process_tx(tx, token, user_id, master_address, user_address, bot, user_wallet):
+async def process_tx(tx, user_id, master_address, user_address, bot, user_wallet):
+    token_price = await ton_token.get_price()
+
     # поповнення рахунку для поповнення
     if tx['destination'] == user_address:
 
         tx_type = 1
         tx_address = tx['source']
-        amount = int(tx['value']) / 1e9 * token.price
+        amount = int(tx['value']) / 1e9 * token_price
 
         user_init_condition = await user_wallet.get_state()
         inited = None
         if user_init_condition == 'uninitialized':
             inited = await init_user_wallet(bot, user_id, user_wallet)
             if inited:
-                amount -= INIT_PAY_TON * token.price
+                amount -= INIT_PAY_TON * token_price
                 await asyncio.sleep(30)
 
         await successful_deposit(bot, amount, user_id)
 
         with manager.pw_database.atomic():
             await db.update_user_balance(user_id, 'general', amount)
-            await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
+            await db.add_new_transaction(user_id, ton_token.id, tx['value'], tx_type, tx_address, tx['tx_hash'],
                                          logical_time=tx['tx_lt'], utime=tx['utime'])
 
         # одразу відправляємо отримані гроші на мастер воллет
@@ -96,7 +94,7 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
     elif tx['source'] == user_address and tx['destination'] == master_address:
         tx_type = 2
         tx_address = master_address
-        await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
+        await db.add_new_transaction(user_id, ton_token.id, tx['value'], tx_type, tx_address, tx['tx_hash'],
                                      logical_time=tx['tx_lt'], utime=tx['utime'])
 
     else:
@@ -113,6 +111,7 @@ async def successful_deposit(bot, amount, user_id):
 async def init_user_wallet(bot, user_id, user_wallet):
     user_wallet_nano = await user_wallet.get_balance()
     user_wallet_ton = user_wallet_nano / 1e9
+
     print('uw bal, init_pay_ton', user_wallet_ton, INIT_PAY_TON)
     if user_wallet_ton > INIT_PAY_TON:
         await user_wallet.deploy()

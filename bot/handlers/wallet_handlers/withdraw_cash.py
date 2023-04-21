@@ -2,11 +2,13 @@ import time
 
 from bot.db import db
 from bot.menus.wallet_menus import withdraw_menu_err, withdraw_menu
+from bot.tokens import Token
 from bot.tokens.token_ton import TonWrapper, find_withdraw_tx
 
 
-async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount_ton, user_id, token, manual_tx):
-    withdraw_amount = withdraw_amount_ton * token.price
+async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount_ton, user_id, token: Token, manual_tx):
+    token_price = await token.get_price()
+    withdraw_amount = withdraw_amount_ton * token_price
     withdraw_amount_nanoton = withdraw_amount_ton * 1e9
 
     master_wallet = TonWrapper.INSTANCE.master_wallet
@@ -21,7 +23,7 @@ async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount_ton, user
         return
 
     if manual_tx is False:
-        await db.add_new_manual_tx(user_id, withdraw_amount_nanoton, token.token_id, token.price,
+        await db.add_new_manual_tx(user_id, withdraw_amount_nanoton, token.token_id, token_price,
                                    withdraw_address, time.time(), is_manual=False)
 
     await master_wallet.transfer_ton(withdraw_address, withdraw_amount_ton)

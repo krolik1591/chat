@@ -37,15 +37,13 @@ async def balance_type_show(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(text_startswith='set_balance_type_'))
 async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
     balance_type = call.data.removeprefix('set_balance_type_')
-    # token = await db.get_token_by_id(token_id)
-
     await state.update_data(**{StateKeys.BALANCE_TYPE: balance_type})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=call.message.message_id)
 
 
-# only for DEMO token
+# only for DEMO balance_type
 @router.callback_query(text=["end_money"])
 async def replenish_demo_balance(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)

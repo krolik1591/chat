@@ -4,6 +4,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.fsm.context import FSMContext
 
+from bot import tokens
 from bot.db import manager, db
 from bot.handlers.states import StateKeys
 from bot.handlers.wallet_handlers.withdraw_cash import withdraw_cash_to_user
@@ -25,7 +26,7 @@ async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext):
 
     token_id = tx.token_id
     await state.update_data(**{StateKeys.TOKEN_ID: token_id})
-    token = await db.get_token_by_id(token_id)
+    token = await tokens.get_token_by_id(token_id)
 
     await withdraw_cash_to_user(state.bot, tx.tx_address, tx.amount / 1e9, tx.user_id,
                                 token, manual_tx=True)

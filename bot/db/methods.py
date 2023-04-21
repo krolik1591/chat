@@ -1,7 +1,7 @@
 import json
 from datetime import datetime, time, timedelta
 
-from peewee import JOIN, fn
+from peewee import fn
 
 from bot.db.models import GameLog, ManualTXs, Transactions, User, Wallets_key
 
@@ -60,15 +60,6 @@ async def update_user_balance(user_id, balance_type, balance_to_add):
     }[balance_type]
 
     return await User.update({field: fn.ROUND(field + balance_to_add, 5)}).where(User.user_id == user_id)
-
-
-# tokens
-
-
-async def get_token_by_id(token_id):
-    # todo remove me
-    assert token_id == 2, "tokenid not 2"
-    return type('ton_token_mock', (object,), dict(token_id=2, name="TON", price=100, icon="🌊"))
 
 
 # transactions
@@ -148,16 +139,14 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
     # cuefa: {cuefa_bet: rock or paper or scissors}
     game_info = json.dumps(game_info)
 
-    return await GameLog.create(user_id=user_id, token_id=balance_type,
+    return await GameLog.create(user_id=user_id, balance_type=balance_type,
                                 game=game, game_info=game_info,
                                 bet=bet, result=result, timestamp=datetime.utcnow())
 
 
 if __name__ == "__main__":
     async def test():
-        # await first_start()
-        x = await get_token_by_id(2)
-        print(x.token_id)
+        pass
 
 
     import asyncio
