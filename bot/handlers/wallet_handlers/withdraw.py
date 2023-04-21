@@ -11,8 +11,8 @@ from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
 from bot.db import manager, db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
+from bot.handlers.wallet_handlers.withdraw_cash import withdraw_cash_to_user
 from bot.menus.wallet_menus import withdraw_menu, withdraw_menu_err
-from bot.tokens.token_ton import withdraw_cash_to_user
 from bot.utils.config_reader import config
 
 router = Router()
@@ -132,7 +132,7 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
 
     await db.update_user_balance(call.from_user.id, token.token_id, -withdraw_amount)
 
-    await withdraw_cash_to_user(state, withdraw_address, ton_amount, call.from_user.id, token, manual_tx=False)
+    await withdraw_cash_to_user(state.bot, withdraw_address, ton_amount, call.from_user.id, token, manual_tx=False)
 
 
 async def validate_amount(message, token_id):

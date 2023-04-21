@@ -6,9 +6,9 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db import manager, db
 from bot.handlers.states import StateKeys
+from bot.handlers.wallet_handlers.withdraw_cash import withdraw_cash_to_user
 from bot.menus.wallet_menus import withdraw_menu
 from bot.middlewares.filters import FilterChatId
-from bot.tokens.token_ton import withdraw_cash_to_user
 
 router = Router()
 
@@ -27,7 +27,7 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.TOKEN_ID: token_id})
     token = await db.get_token_by_id(token_id)
 
-    await withdraw_cash_to_user(state, tx.tx_address, tx.amount / 1e9, tx.user_id,
+    await withdraw_cash_to_user(state.bot, tx.tx_address, tx.amount / 1e9, tx.user_id,
                                 token, manual_tx=True)
 
 
