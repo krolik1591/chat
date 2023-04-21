@@ -5,13 +5,27 @@ from aiogram.types import Message
 
 from bot.const import START_POINTS
 from bot.db import db
+from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
-from bot.menus import main_menu, wallet_menus
+from bot.menus import main_menu
 from bot.tokens.token_ton import TonWrapper
-from bot.utils.config_reader import config
 
 flags = {"throttling_key": "default"}
 router = Router()
+
+
+async def send_main_menu(context: Context, msg_id=None):
+    balances = await db.get_user_balances(context.user_id)
+    text, keyboard = main_menu(balances)
+
+    if msg_id is None:
+        msg = await context.fsm_context.bot.send_message(text, reply_markup=keyboard)
+        await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
+    else:
+        await context.fsm_context.bot.edit_message_text(
+            chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
+
+    await context.fsm_context.set_state(Menu.delete_message)
 
 
 @router.message(F.chat.type == "private", commands="start", flags=flags)
@@ -27,39 +41,11 @@ async def cmd_start(message: Message, state: FSMContext):
         mnemonics = ','.join(new_wallet.mnemonics)
         await db.create_user_wallet(message.from_user.id, new_wallet.address, mnemonics)
 
-    balances = await db.get_user_balances(message.from_user.id)
-    text, keyboard = main_menu(balances)
-    msg = await message.answer(text, reply_markup=keyboard)
-
-    await state.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
-    await state.set_state(Menu.delete_message)
+    context = await Context.from_fsm_context(message.from_user.id, state)
+    await send_main_menu(context)
 
 
 @router.callback_query(text=["main_menu"])
 async def back_to_main(call: types.CallbackQuery, state: FSMContext):
-    balances = await db.get_user_balances(call.from_user.id)
-    text, keyboard = main_menu(balances)
-    await call.message.edit_text(text, reply_markup=keyboard)
-
-
-@router.callback_query(text=["wallet_menu"])
-async def wallet_menu_handler(call: types.CallbackQuery, state: FSMContext):
-    balances = await db.get_user_balances(call.from_user.id)
-
-    TOKEN_ID = 2
-    token = await db.get_token_by_id(TOKEN_ID)
-
-    text, keyboard = wallet_menus.wallet_menu(balances, token.price)
-    await call.message.edit_text(text, reply_markup=keyboard)
-
-
-@router.message(commands="admin", flags=flags)
-async def admin_menu(message: Message, state: FSMContext):
-    user_id = message.from_user.id
-    is_admin = str(user_id) in config.admin_ids
-
-
-@router.message(state=Menu.delete_message)
-async def delete_message(message: Message, state: FSMContext):
-    await message.delete()
-    return
+    context = await Context.from_fsm_context(call.from_user.id, state)
+    await send_main_menu(context, msg_id=call.message.message_id)
