@@ -6,25 +6,34 @@ from peewee import JOIN, fn
 from bot.db.models import Balance, GameLog, ManualTXs, Token, Transactions, User, Wallets_key
 
 
+# users
+
+
 async def create_new_user(tg_id, username):
     return await User.create(user_id=tg_id, username=username, timestamp_registered=datetime.utcnow(),
                              timestamp_last_active=datetime.utcnow())
-
-
-async def create_user_wallet(tg_id, address, mnemonic):
-    return await Wallets_key.create(user_id=tg_id, mnemonic=mnemonic, address=address)
-
-
-async def get_all_users():
-    return await Wallets_key.select(Wallets_key.user_id, Wallets_key.address, Wallets_key.mnemonic)
 
 
 async def update_username(tg_id, username):
     return await User.update({User.username: username}).where(User.user_id == tg_id)
 
 
-async def get_user_wallet(tg_id):
-    return await Wallets_key.select().where(Wallets_key.user_id == tg_id).first()
+async def get_user_lang(tg_id):
+    user_lang = await User.select(User.lang).where(User.user_id == tg_id)
+    if not user_lang:
+        raise ValueError
+    return user_lang[0].lang
+
+
+async def set_user_lang(tg_id, new_lang):
+    return await User.update({User.lang: new_lang}).where(User.user_id == tg_id)
+
+
+async def set_user_last_active(tg_id):
+    return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
+
+
+# balances
 
 
 async def get_user_balances(user_id):
@@ -50,24 +59,6 @@ async def update_user_balance(user_id, token_id, new_balance):
         where(Balance.user_id == user_id, Balance.token_id == token_id)
 
 
-async def get_user_daily_total_amount(user_id):
-    today_midnight = datetime.combine(datetime.today().date(), time())
-    next_day_midnight = today_midnight + timedelta(days=1)
-
-    result = await Transactions.select(fn.SUM(Transactions.amount)) \
-        .where(Transactions.user_id == user_id, Transactions.tx_type == 3,
-               Transactions.utime.between(today_midnight.timestamp(), next_day_midnight.timestamp()))
-    return result[0].amount if result[0].amount is not None else 0
-
-
-async def get_tokens():
-    return await Token.select()
-
-
-async def get_token_by_id(token_id):
-    return await Token.select().where(Token.token_id == token_id).first()
-
-
 async def deposit_token(tg_id, token_id, amount):
     return await Balance \
         .insert(user_id=tg_id, token_id=token_id, amount=amount) \
@@ -78,10 +69,43 @@ async def deposit_token(tg_id, token_id, amount):
     )
 
 
+# tokens
+
+
+async def get_tokens():
+    return await Token.select()
+
+
+async def get_token_by_id(token_id):
+    return await Token.select().where(Token.token_id == token_id).first()
+
+
+# transactions
+
+
+async def get_user_daily_total_amount(user_id):
+    today_midnight = datetime.combine(datetime.today().date(), time())
+    next_day_midnight = today_midnight + timedelta(days=1)
+
+    result = await Transactions.select(fn.SUM(Transactions.amount)) \
+        .where(Transactions.user_id == user_id, Transactions.tx_type == 3,
+               Transactions.utime.between(today_midnight.timestamp(), next_day_midnight.timestamp()))
+    return result[0].amount if result[0].amount is not None else 0
+
+
 async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):
     return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                      logical_time=logical_time, amount=amount,
                                      tx_address=tx_address, tx_hash=tx_hash, utime=utime)
+
+
+async def get_last_transaction(tg_id, token_id):
+    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime)) \
+        .where(Transactions.user_id == tg_id, Transactions.token_id == token_id, Transactions.tx_type != 3)
+    return result[0]
+
+
+# manual transactions
 
 
 async def add_new_manual_tx(user_id, nano_ton_amount, token_id, price, tx_address, utime,
@@ -106,25 +130,22 @@ async def get_last_manual_transaction(tg_id, token_id):
     return result[0]
 
 
-async def get_last_transaction(tg_id, token_id):
-    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime)) \
-        .where(Transactions.user_id == tg_id, Transactions.token_id == token_id, Transactions.tx_type != 3)
-    return result[0]
+# wallets
 
 
-async def get_user_lang(tg_id):
-    user_lang = await User.select(User.lang).where(User.user_id == tg_id)
-    if not user_lang:
-        raise ValueError
-    return user_lang[0].lang
+async def create_user_wallet(tg_id, address, mnemonic):
+    return await Wallets_key.create(user_id=tg_id, mnemonic=mnemonic, address=address)
 
 
-async def set_user_lang(tg_id, new_lang):
-    return await User.update({User.lang: new_lang}).where(User.user_id == tg_id)
+async def get_all_user_wallets():
+    return await Wallets_key.select(Wallets_key.user_id, Wallets_key.address, Wallets_key.mnemonic)
 
 
-async def set_user_last_active(tg_id):
-    return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
+async def get_user_wallet(tg_id):
+    return await Wallets_key.select().where(Wallets_key.user_id == tg_id).first()
+
+
+# game logs
 
 
 async def insert_game_log(user_id, token_id, game_info, bet, result, game):

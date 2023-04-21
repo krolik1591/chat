@@ -22,7 +22,7 @@ async def watch_txs(ton_wrapper: TonWrapper, bot):
             logging.exception('TonLib error')
 
     while True:
-        all_users_wallet = await db.get_all_users()
+        all_users_wallet = await db.get_all_user_wallets()
         coros = [find_new_user_tx_(user) for user in all_users_wallet]
         await asyncio.gather(*coros)
 
