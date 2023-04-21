@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 
 from peewee import JOIN, fn
 
-from bot.db.models import Balance, GameLog, ManualTXs, Token, Transactions, User, Wallets_key
+from bot.db.models import GameLog, ManualTXs, Transactions, User, Wallets_key
 
 
 # users
@@ -37,47 +37,38 @@ async def set_user_last_active(tg_id):
 
 
 async def get_user_balances(user_id):
-    result = await Token.select(Balance.amount, Token.icon, Token.name) \
-        .join(Balance, JOIN.LEFT_OUTER).switch(Balance) \
-        .where((Balance.user_id == user_id) | (Balance.user_id.is_null(True))).dicts()
-
+    result = await User.select(User.balance_demo, User.balance_promo, User.balance_general) \
+        .where(User.user_id == user_id)
+    if not result:
+        raise ValueError
     return {
-        i['name']: {**i, 'amount': i['amount'] or 0}  # replace `amount` field, set 0 instead None
-        for i in result
+        'demo': result[0].balance_demo,
+        'promo': result[0].balance_promo,
+        'general': result[0].balance_general
     }
 
 
-async def get_user_balance(user_id, token_id):
-    result = await Balance.select(Balance.amount).where(Balance.user_id == user_id, Balance.token_id == token_id)
-    if not result:
-        return 0
-    return result[0].amount
+async def get_user_balance(user_id, balance_type):
+    return (await get_user_balances(user_id))[balance_type]
 
 
-async def update_user_balance(user_id, token_id, new_balance):
-    return await Balance.update({Balance.amount: fn.ROUND(Balance.amount + new_balance, 5)}). \
-        where(Balance.user_id == user_id, Balance.token_id == token_id)
+async def update_user_balance(user_id, balance_type, balance_to_add):
+    field = {
+        'demo': User.balance_demo,
+        'promo': User.balance_promo,
+        'general': User.balance_general
+    }[balance_type]
 
-
-async def deposit_token(tg_id, token_id, amount):
-    return await Balance \
-        .insert(user_id=tg_id, token_id=token_id, amount=amount) \
-        .on_conflict(
-        conflict_target=(Balance.user_id, Balance.token_id),
-        preserve=(Balance.user_id, Balance.token_id),
-        update=({Balance.amount: fn.ROUND(Balance.amount + amount, 5)})
-    )
+    return await User.update({field: fn.ROUND(field + balance_to_add, 5)}).where(User.user_id == user_id)
 
 
 # tokens
 
 
-async def get_tokens():
-    return await Token.select()
-
-
 async def get_token_by_id(token_id):
-    return await Token.select().where(Token.token_id == token_id).first()
+    # todo remove me
+    assert token_id == 2, "tokenid not 2"
+    return type('ton_token_mock', (object,), dict(token_id=2, name="TON", price=100, icon="🌊"))
 
 
 # transactions
@@ -148,7 +139,7 @@ async def get_user_wallet(tg_id):
 # game logs
 
 
-async def insert_game_log(user_id, token_id, game_info, bet, result, game):
+async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
     # game = game name, ex: slots or mines or darts
     # game_info = ex:
     # slots/darts/...: {dice_result: 1-64}
@@ -157,7 +148,7 @@ async def insert_game_log(user_id, token_id, game_info, bet, result, game):
     # cuefa: {cuefa_bet: rock or paper or scissors}
     game_info = json.dumps(game_info)
 
-    return await GameLog.create(user_id=user_id, token_id=token_id,
+    return await GameLog.create(user_id=user_id, token_id=balance_type,
                                 game=game, game_info=game_info,
                                 bet=bet, result=result, timestamp=datetime.utcnow())
 

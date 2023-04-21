@@ -4,7 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db import db
 from bot.handlers.context import Context
-from bot.handlers.games_handlers.m03_token import tokens_menu
+from bot.handlers.games_handlers.m03_balance import tokens_menu
 from bot.handlers.states import StateKeys
 from bot.menus.game_menus import select_game_menu
 

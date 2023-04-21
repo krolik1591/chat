@@ -16,7 +16,7 @@ async def settings_menu(context: Context, msg_id=None):
     if context.game == Games.CUBE:
         await context.fsm_context.set_state(Menu.settings)
 
-        text, keyboard = cube_settings(context.game_settings or [], context.balance, context.bet, context.token.icon)
+        text, keyboard = cube_settings(context.game_settings or [], context.balance, context.bet, context.balance_type)
 
         if msg_id is None:
             settings_msg = await context.fsm_context.bot.send_message(

@@ -12,13 +12,16 @@ class Menu(StatesGroup):
 
 
 class StateKeys:
+    # common
     LAST_MSG_ID = 'last_msg_id'
-    BET = 'bet'
-    TOKEN_ID = 'token_id'
-    TOKEN_ICON = 'token_icon'
+    # game
     GAME = 'game'
+    BALANCE_TYPE = 'balance_type'
     GAME_SETTINGS = 'game_settings'
+    BET = 'bet'
     CUBE_LOSE_STREAK = 'cube_lose_streak'
+    # withdraw
+    TOKEN_ID = 'token_id'
 
 
 class Games:

@@ -34,26 +34,15 @@ class User(manager.Model):
     username = CharField(default='')
     lang = CharField(default='en')
 
+    balance_demo = DecimalField(default=0)
+    balance_promo = DecimalField(default=0)
+    balance_general = DecimalField(default=0)
+
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
 
     def __str__(self):
         return f'USER: {self.user_id}; {self.lang=}'
-
-
-class Balance(manager.Model):
-    balance_id = BigIntegerField(primary_key=True)
-    user = ForeignKeyField(User, backref='balances')
-    token = ForeignKeyField(Token, backref='balances')
-    amount = DecimalField(default=0)
-
-    class Meta:
-        indexes = (
-            (("user_id", "token_id"), True),
-        )
-
-    def __str__(self):
-        return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.balance_id}'
 
 
 class ManualTXs(manager.Model):

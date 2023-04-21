@@ -1,12 +1,14 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from bot.menus.utils import get_balance_icon
 from bot.texts import CUBE_BET_BUTTON, CUBE_PLAY_TEXT, CUBE_SETTINGS_TEXT
 
 
-def cube_settings(selected_setting, balance, bet, token_icon):
+def cube_settings(selected_setting, balance, bet, balance_type):
+    balance_icon = get_balance_icon(balance_type)
     general_bet = len(selected_setting) * bet
-    text = CUBE_SETTINGS_TEXT.format(balance=balance, token_icon=token_icon, general_bet=general_bet)
-    bet_text = CUBE_BET_BUTTON.format(bet=bet, token_icon=token_icon)
+    text = CUBE_SETTINGS_TEXT.format(balance=balance, token_icon=balance_icon, general_bet=general_bet)
+    bet_text = CUBE_BET_BUTTON.format(bet=bet, token_icon=balance_icon)
     kb = _keyboard(bet_text, selected_setting, play_text=CUBE_PLAY_TEXT)
 
     return text, kb
@@ -51,7 +53,7 @@ def _keyboard(bet_text, selected_setting, play_text):
          InlineKeyboardButton(text='Ставка', callback_data="reset_bet")],
         *settings_btns,
         [
-            InlineKeyboardButton(text='Назад', callback_data="tokens"),
+            InlineKeyboardButton(text='Назад', callback_data="select_balance_type"),
             InlineKeyboardButton(text=play_text, callback_data="game_play")
         ]
     ]

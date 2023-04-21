@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from bot.texts import BALANCE_TEXT
+from bot.texts import BALANCE_TEXT, TON_FUNDS_ICON, DEMO_FUNDS_ICON
 from bot.utils.rounding import round_down
 
 
@@ -11,13 +11,24 @@ def kb_del_msg():
 
 
 def balances_text(balances):
-    return '\n'.join([balance_text(i) for i in balances.values()])
+    return '\n'.join([balance_text(i) for i in balances.items()])
 
 
 def balance_text(item):
-    name = item['name'].upper()  # todo use i18n to name
-    amount = item['amount']
-    round_amount = round_down(amount, 2)
+    type_, amount = item
     return BALANCE_TEXT.format(
-        icon=item['icon'], name=name, amount=round_amount)
+        icon=get_balance_icon(type_),
+        name=type_.upper(),
+        amount=round_down(amount, 2)
+    )
 
+
+BALANCE_ICONS = {
+    'demo': DEMO_FUNDS_ICON,
+    'general': TON_FUNDS_ICON,
+    'promo': "🎁",
+}
+
+
+def get_balance_icon(balance_type):
+    return BALANCE_ICONS[balance_type]

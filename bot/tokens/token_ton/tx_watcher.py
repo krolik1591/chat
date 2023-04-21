@@ -81,7 +81,7 @@ async def process_tx(tx, token, user_id, master_address, user_address, bot, user
         await successful_deposit(bot, amount, user_id)
 
         with manager.pw_database.atomic():
-            await db.deposit_token(user_id, token.token_id, amount)
+            await db.update_user_balance(user_id, 'general', amount)
             await db.add_new_transaction(user_id, token.token_id, tx['value'], tx_type, tx_address, tx['tx_hash'],
                                          logical_time=tx['tx_lt'], utime=tx['utime'])
 

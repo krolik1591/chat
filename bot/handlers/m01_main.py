@@ -19,7 +19,7 @@ async def send_main_menu(context: Context, msg_id=None):
     text, keyboard = main_menu(balances)
 
     if msg_id is None:
-        msg = await context.fsm_context.bot.send_message(text, reply_markup=keyboard)
+        msg = await context.fsm_context.bot.send_message(context.user_id, text, reply_markup=keyboard)
         await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
     else:
         await context.fsm_context.bot.edit_message_text(
@@ -34,8 +34,7 @@ async def cmd_start(message: Message, state: FSMContext):
         await db.get_user_lang(message.from_user.id)
     except ValueError:
         await db.create_new_user(message.from_user.id, message.from_user.username)
-        await db.deposit_token(message.from_user.id, 1, START_POINTS)  # add demo
-        await db.deposit_token(message.from_user.id, 2, 0)  # add token_ton
+        await db.update_user_balance(message.from_user.id, 'demo', START_POINTS)  # add demo
 
         new_wallet = Wallet(provider=TonWrapper.INSTANCE)
         mnemonics = ','.join(new_wallet.mnemonics)

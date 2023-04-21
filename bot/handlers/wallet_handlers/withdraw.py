@@ -143,7 +143,7 @@ async def validate_amount(message, token_id):
     amount = round(user_withdraw, 2)
 
     token = await db.get_token_by_id(token_id)
-    user_balance = await db.get_user_balance(message.from_user.id, token_id)
+    user_balance = await db.get_user_balance(message.from_user.id, 'general')
 
     if amount < MIN_WITHDRAW:
         text, keyboard = withdraw_menu_err.withdraw_too_small(token_price=token.price)

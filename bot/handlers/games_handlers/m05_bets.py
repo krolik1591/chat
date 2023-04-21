@@ -12,7 +12,7 @@ router = Router()
 
 
 async def bet_menu(context: Context, msg_id=None):
-    text, keyboard = bet_menu_(context.bet, context.balance, context.token.icon, context.token.id, context.game)
+    text, keyboard = bet_menu_(context.bet, context.balance, context.balance_type, context.game)
     if msg_id is None:
         bet_msg = await context.fsm_context.bot.send_message(
             chat_id=context.user_id, text=text, reply_markup=keyboard)

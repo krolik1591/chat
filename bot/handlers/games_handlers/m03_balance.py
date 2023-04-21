@@ -10,15 +10,14 @@ from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.games_handlers.m05_bets import bet_menu
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.game_menus import select_token_menu
+from bot.menus.game_menus import select_balance_menu
 
 router = Router()
 
 
 async def tokens_menu(context: Context, msg_id=None):
-    tokens = await db.get_tokens()
     balances = await db.get_user_balances(context.user_id)
-    text, keyboard = select_token_menu(tokens, balances)
+    text, keyboard = select_balance_menu(balances)
 
     if msg_id is None:
         await context.fsm_context.bot.send_message(
@@ -28,23 +27,19 @@ async def tokens_menu(context: Context, msg_id=None):
             chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
 
 
-@router.callback_query(text=["tokens"])
-async def tokens_show(call: types.CallbackQuery, state: FSMContext):
+@router.callback_query(text=["select_balance_type"])
+async def balance_type_show(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     await tokens_menu(context, msg_id=call.message.message_id)
     await state.set_state(Menu.delete_message)
 
 
-@router.callback_query(Text(text_startswith='set_token_'))
-async def set_token(call: types.CallbackQuery, state: FSMContext):
-    token_id = int(call.data.removeprefix('set_token_'))
-    try:
-        token = await db.get_token_by_id(token_id)
-    except:
-        # todo. integrity error; move user to start
-        return
+@router.callback_query(Text(text_startswith='set_balance_type_'))
+async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
+    balance_type = call.data.removeprefix('set_balance_type_')
+    # token = await db.get_token_by_id(token_id)
 
-    await state.update_data(**{StateKeys.TOKEN_ID: token_id, StateKeys.TOKEN_ICON: token.icon})
+    await state.update_data(**{StateKeys.BALANCE_TYPE: balance_type})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=call.message.message_id)
@@ -54,13 +49,12 @@ async def set_token(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(text=["end_money"])
 async def replenish_demo_balance(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
+    DEMO_TYPE = 'demo'
+    assert context.balance_type == DEMO_TYPE, "REPLENISH NOT A DEMO TOKEN"
 
-    DEMO_TOKEN = 1
-    assert context.token.id == DEMO_TOKEN, "REPLENISH NOT A DEMO TOKEN"
-
-    await db.update_user_balance(call.from_user.id, DEMO_TOKEN, START_POINTS)
-    await db.add_new_transaction(call.from_user.id, DEMO_TOKEN, 500, int(time.time()), START_POINTS, 'demo_address',
-                              'demo_hash', int(time.time()))
+    await db.update_user_balance(call.from_user.id, DEMO_TYPE, START_POINTS)
+    await db.add_new_transaction(call.from_user.id, DEMO_TYPE, 500, int(time.time()), START_POINTS, 'demo_address',
+                                 'demo_hash', int(time.time()))
 
     # context with updated balance
     context = await Context.from_fsm_context(call.from_user.id, state)
