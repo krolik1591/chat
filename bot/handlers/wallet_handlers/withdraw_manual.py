@@ -14,7 +14,7 @@ router = Router()
 
 
 @router.callback_query(Text(text_startswith='approve_manual_tx_'))
-async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
+async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(f'{call.message.text} \n\n✅ Approve')
 
     tx_id = call.data.removeprefix('approve_manual_tx_')
@@ -32,7 +32,7 @@ async def approve_titan_tx(call: types.CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(Text(text_startswith='denied_manual_tx_'))
-async def decline_titan_tx(call: types.CallbackQuery, state: FSMContext):
+async def decline_manual_tx(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(f'{call.message.text} \n\n❌ Denied')
 
     tx_id = call.data.removeprefix('denied_manual_tx_')

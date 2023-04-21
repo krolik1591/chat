@@ -84,19 +84,19 @@ async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx
                                      tx_address=tx_address, tx_hash=tx_hash, utime=utime)
 
 
-async def add_new_manual_tx(user_id, nano_ton_amount, token_id, price, tx_address, utime, *,
+async def add_new_manual_tx(user_id, nano_ton_amount, token_id, price, tx_address, utime,
                             withdraw_state='pending', is_manual=True):
     return await ManualTXs.create(user_id=user_id, token_id=token_id, amount=nano_ton_amount, price=price,
                                   tx_address=tx_address, utime=utime,
                                   withdraw_state=withdraw_state, is_manual=is_manual)
 
 
-async def update_manual_withdraw_state(titan_tx_id, new_state):
-    return await ManualTXs.update({ManualTXs.withdraw_state: new_state}).where(ManualTXs.ManualTXs_id == titan_tx_id)
+async def update_manual_withdraw_state(tx_id, new_state):
+    return await ManualTXs.update({ManualTXs.withdraw_state: new_state}).where(ManualTXs.ManualTXs_id == tx_id)
 
 
-async def get_manual_tx_by_id(titan_tx_id):
-    result = await ManualTXs.select().where(ManualTXs.ManualTXs_id == titan_tx_id)
+async def get_manual_tx_by_id(tx_id):
+    result = await ManualTXs.select().where(ManualTXs.ManualTXs_id == tx_id)
     return result[0]
 
 
