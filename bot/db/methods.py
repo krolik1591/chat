@@ -76,6 +76,17 @@ async def get_user_daily_total_amount(user_id):
 
 
 async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):
+    """
+    :param user_id:
+    :param token_id:
+    :param amount: amount in wei / nano ton
+    :param tx_type: 1 - deposit, 2 - deposit moved to master, 3 - withdraw
+    :param tx_address:
+    :param tx_hash:
+    :param logical_time:
+    :param utime:
+    :return:
+    """
     return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                      logical_time=logical_time, amount=amount,
                                      tx_address=tx_address, tx_hash=tx_hash, utime=utime)

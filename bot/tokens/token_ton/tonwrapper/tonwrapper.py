@@ -29,6 +29,9 @@ class TonWrapper(LsClient):
         cls.INSTANCE = ton_wrapper
         return ton_wrapper
 
+    def get_wallet(self, mnemonics):
+        return Wallet(provider=self, mnemonics=mnemonics.split(','))
+
     # account tx
 
     async def get_account_transactions(self, address,

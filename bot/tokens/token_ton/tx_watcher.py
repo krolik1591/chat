@@ -1,10 +1,10 @@
 import asyncio
 import logging
 
-import ton
-from TonTools.Contracts.Wallet import Wallet
+import ton.tonlibjson
+from TonTools.Contracts import Wallet
 
-from bot.const import INIT_PAY_TON
+from bot.const import TON_INITIALISATION_FEE
 from bot.db import db, manager, models
 from bot.menus.wallet_menus import deposit_menu
 from bot.tokens.token_ton import TonWrapper, ton_token
@@ -20,108 +20,120 @@ async def watch_txs(ton_wrapper: TonWrapper, bot):
             logging.exception('TonLib error')
 
     while True:
-        all_users_wallet = await db.get_all_user_wallets()
-        coros = [find_new_user_tx_(user) for user in all_users_wallet]
+        all_users_wallets = await db.get_all_user_wallets()
+        coros = [find_new_user_tx_(user) for user in all_users_wallets]
         await asyncio.gather(*coros)
 
         await asyncio.sleep(10)
 
 
 async def find_new_user_tx(ton_wrapper: TonWrapper, user: models.Wallets_key, bot):
-    master_address = ton_wrapper.master_wallet.address
-    account = await ton_wrapper.find_account(user.address)
+    user_account = await ton_wrapper.find_account(user.address)
+    user_wallet = ton_wrapper.get_wallet(user.mnemonic)
 
-    user_mnemonic = user.mnemonic.split(',')
-    user_wallet = Wallet(provider=ton_wrapper, mnemonics=user_mnemonic)
-
-    last_tx_from_blockchain = account.state.last_transaction_id
-
+    last_tx_from_blockchain = user_account.state.last_transaction_id
     last_tx_from_db = await db.get_last_transaction(user.user_id, ton_token.id)
 
-    if last_tx_from_blockchain.hash != last_tx_from_db.tx_hash:
-        print("NEW TX!")
-        # добуваємо нові транзи
+    if last_tx_from_blockchain.hash == last_tx_from_db.tx_hash:
+        # no new txs
+        return
 
-        new_tx = await ton_wrapper.get_account_transactions(
-            account.address,
-            last_tx_lt=last_tx_from_blockchain.lt,
-            last_tx_hash=last_tx_from_blockchain.hash,
-            first_tx_hash=last_tx_from_db.tx_hash)
+    new_tx = await ton_wrapper.get_account_transactions(
+        user_account.address,
+        last_tx_lt=last_tx_from_blockchain.lt,
+        last_tx_hash=last_tx_from_blockchain.hash,
+        first_tx_hash=last_tx_from_db.tx_hash)
 
-        if len(new_tx) == 0:
-            print('fake alarm, its deploy-tx')
-
-        for tx in new_tx:
-            await process_tx(tx, user.user_id, master_address, user.address, bot, user_wallet)
-
-    else:
-        print("NO NEW TX :(")
+    for tx in new_tx:
+        await process_tx(tx, user.user_id, user_wallet, bot)
 
 
-async def process_tx(tx, user_id, master_address, user_address, bot, user_wallet):
-    token_price = await ton_token.get_price()
-
+async def process_tx(tx, user_id, user_wallet: Wallet, bot):
     # поповнення рахунку для поповнення
-    if tx['destination'] == user_address:
-
-        tx_type = 1
-        tx_address = tx['source']
-        amount = int(tx['value']) / 1e9 * token_price
-
-        user_init_condition = await user_wallet.get_state()
-        inited = None
-        if user_init_condition == 'uninitialized':
-            inited = await init_user_wallet(bot, user_id, user_wallet)
-            if inited:
-                amount -= INIT_PAY_TON * token_price
-                await asyncio.sleep(30)
-
-        await successful_deposit(bot, amount, user_id)
-
-        with manager.pw_database.atomic():
-            await db.update_user_balance(user_id, 'general', amount)
-            await db.add_new_transaction(user_id, ton_token.id, tx['value'], tx_type, tx_address, tx['tx_hash'],
-                                         logical_time=tx['tx_lt'], utime=tx['utime'])
-
-        # одразу відправляємо отримані гроші на мастер воллет
-        print('tut pracue')
-        try:
-            await user_wallet.transfer_ton(master_address, amount=500_000_000, send_mode=128)
-        except:
-            logging.exception(f'cant transfer cause wallet not inited (юзер: {user_id} бомж лох дєб нема 0.014 на рахунку)')
-
+    if tx['destination'] == user_wallet.address:
+        await user_deposited(tx, bot, user_id, user_wallet)
     # переказ з юзер воллету на мастер воллет
-    elif tx['source'] == user_address and tx['destination'] == master_address:
-        tx_type = 2
-        tx_address = master_address
-        await db.add_new_transaction(user_id, ton_token.id, tx['value'], tx_type, tx_address, tx['tx_hash'],
-                                     logical_time=tx['tx_lt'], utime=tx['utime'])
-
+    elif tx['source'] == user_wallet.address and tx['destination'] == TonWrapper.INSTANCE.master_wallet.address:
+        await user_deposit_moved_to_master(tx, user_id)
     else:
         raise AssertionError('This should not happen')
 
 
-async def successful_deposit(bot, amount, user_id):
-    amount = round(amount, 2)
-    text, keyboard = deposit_menu.successful_deposit_menu(amount)
+async def user_deposited(tx, bot, user_id, user_wallet: Wallet):
+    amount_ton = int(tx['value']) / 1e9
 
-    await bot.send_message(user_id, text, reply_markup=keyboard)
+    user_init_state = await user_wallet.get_state()
+    if user_init_state == 'uninitialized':
+
+        inited = await init_user_wallet(bot, user_id, user_wallet)
+        if inited:
+            amount_ton -= TON_INITIALISATION_FEE
+            await asyncio.sleep(30)  # todo why?
+
+    amount_gametokens = await ton_token.to_gametokens(amount_ton)
+
+    await send_successful_deposit_msg(bot, user_id, amount_gametokens)
+
+    with manager.pw_database.atomic():
+        await db.update_user_balance(user_id, 'general', amount_gametokens)
+        await db.add_new_transaction(
+            user_id=user_id,
+            token_id=ton_token.id,
+            amount=tx['value'],
+            tx_type=1,  # deposit
+            tx_address=tx['source'],
+            tx_hash=tx['tx_hash'],
+            logical_time=tx['tx_lt'],
+            utime=tx['utime']
+        )
+
+    # одразу відправляємо отримані гроші на мастер воллет
+    await transfer_to_master(user_wallet)
+
+
+async def user_deposit_moved_to_master(tx, user_id):
+    await db.add_new_transaction(
+        user_id=user_id,
+        token_id=ton_token.id,
+        amount=tx['value'],
+        tx_type=2,  # deposit moved to master
+        tx_address=TonWrapper.INSTANCE.master_wallet.address,  # todo ?
+        tx_hash=tx['tx_hash'],
+        logical_time=tx['tx_lt'],
+        utime=tx['utime']
+    )
+
+
+async def transfer_to_master(user_wallet: Wallet):
+    try:
+        await user_wallet.transfer_ton(TonWrapper.INSTANCE.master_wallet.address, amount=500_000_000, send_mode=128)
+    except:
+        logging.exception('cant transfer cause wallet not inited '
+                          f'(юзер: {user_wallet.address} бомж лох дєб нема 0.014 на рахунку)')
 
 
 async def init_user_wallet(bot, user_id, user_wallet):
-    user_wallet_nano = await user_wallet.get_balance()
-    user_wallet_ton = user_wallet_nano / 1e9
-
-    print('uw bal, init_pay_ton', user_wallet_ton, INIT_PAY_TON)
-    if user_wallet_ton > INIT_PAY_TON:
-        await user_wallet.deploy()
-        print('мінус 14 центів сучара')
-        text, keyboard = deposit_menu.deposit_account_initiation_menu(True, INIT_PAY_TON)
-        await bot.send_message(user_id, text, reply_markup=keyboard)
-        return True
-
-    else:
-        print()
-        text, keyboard = deposit_menu.deposit_account_initiation_menu(False, INIT_PAY_TON)
-        await bot.send_message(user_id, text, reply_markup=keyboard)
+    user_balance = await user_wallet.get_balance()  # nano ton
+    if user_balance <= TON_INITIALISATION_FEE * 1e9:
+        await send_failed_initiation_msg(bot, user_id)
         return False
+
+    print('deploying account', user_wallet.address)
+    await user_wallet.deploy()
+    await send_successful_initiation_msg(bot, user_id)
+    return True
+
+
+async def send_successful_deposit_msg(bot, user_id, amount):
+    text, keyboard = deposit_menu.successful_deposit_menu(amount=round(amount, 2))
+    await bot.send_message(user_id, text, reply_markup=keyboard)
+
+
+async def send_successful_initiation_msg(bot, user_id):
+    text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=True)
+    await bot.send_message(user_id, text, reply_markup=keyboard)
+
+
+async def send_failed_initiation_msg(bot, user_id):
+    text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=False)
+    await bot.send_message(user_id, text, reply_markup=keyboard)

@@ -30,9 +30,10 @@ async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount_ton, user
 
     # FIXME VERY WRONG!! SO SHIT!!!!! CRINGEEEEEE!!!!!
 
-    is_found = await find_withdraw_tx(withdraw_address, withdraw_amount_ton, user_id, master_wallet.address)
+    is_found = await find_withdraw_tx(withdraw_address, withdraw_amount_ton, user_id)
 
     if not is_found:
+        # return tokens to user
         await db.update_user_balance(user_id, token.token_id, withdraw_amount)
 
     text, keyboard = withdraw_menu.withdraw_result(is_found)  # transfer money withdraw_queued

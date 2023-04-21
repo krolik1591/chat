@@ -1,16 +1,17 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from bot.const import TON_INITIALISATION_FEE
 from bot.menus.utils import kb_del_msg
 from bot.texts import DEPOSIT_INITIATION_ERROR, DEPOSIT_ACCOUNT_INITIATED, SUCCESSFUL_REPLENISH_MENU, \
     REPLENISH_MENU_TEXT
 from bot.utils.rounding import round_down
 
 
-def deposit_account_initiation_menu(is_successful_inited, init_pay_ton):
+def deposit_account_initiation(is_successful_inited):
     if is_successful_inited:
-        text = DEPOSIT_ACCOUNT_INITIATED.format(init_pay_ton=init_pay_ton)
+        text = DEPOSIT_ACCOUNT_INITIATED.format(init_pay_ton=TON_INITIALISATION_FEE)
     else:
-        text = DEPOSIT_INITIATION_ERROR.format(init_pay_ton=init_pay_ton)
+        text = DEPOSIT_INITIATION_ERROR.format(init_pay_ton=TON_INITIALISATION_FEE)
 
     return text, kb_del_msg()
 
