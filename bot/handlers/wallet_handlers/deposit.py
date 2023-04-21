@@ -6,7 +6,6 @@ from bot.db import db
 from bot.menus.wallet_menus.deposit_menu import deposit_menu
 from bot.token_ton import TonWrapper
 
-flags = {"throttling_key": "default"}
 router = Router()
 
 

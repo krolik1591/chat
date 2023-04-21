@@ -12,7 +12,6 @@ from bot.middlewares.filters import FilterChatId
 from bot.token_ton import withdraw_cash_to_user
 from bot.utils.config_reader import config
 
-flags = {"throttling_key": "default"}
 router = Router()
 
 

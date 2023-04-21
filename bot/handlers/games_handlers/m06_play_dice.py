@@ -16,7 +16,7 @@ flags = {"throttling_key": "spin"}
 router = Router()
 
 
-@router.callback_query(text=["game_play"])
+@router.callback_query(text=["game_play"], flags=flags)
 async def games_play(call: types.CallbackQuery, state: FSMContext):
     # await call.answer()
 
