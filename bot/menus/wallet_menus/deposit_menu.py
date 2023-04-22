@@ -2,8 +2,8 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.consts.const import TON_INITIALISATION_FEE
 from bot.menus.utils import kb_del_msg
-from bot.consts.texts import DEPOSIT_INITIATION_ERROR, DEPOSIT_ACCOUNT_INITIATED, SUCCESSFUL_REPLENISH_MENU, \
-    REPLENISH_MENU_TEXT
+from bot.consts.texts import DEPOSIT_INITIATION_ERROR, DEPOSIT_ACCOUNT_INITIATED, DEPOSIT_SUCCESSFUL, \
+    DEPOSIT_MENU_TEXT
 from bot.utils.rounding import round_down
 
 
@@ -18,12 +18,12 @@ def deposit_account_initiation(is_successful_inited):
 
 def successful_deposit_menu(amount):
     amount = round_down(amount, 2)
-    text = SUCCESSFUL_REPLENISH_MENU.format(amount=amount)
+    text = DEPOSIT_SUCCESSFUL.format(amount=amount)
     return text, kb_del_msg()
 
 
 def deposit_menu(wallet_address):
-    text = REPLENISH_MENU_TEXT.format(wallet_address=wallet_address)
+    text = DEPOSIT_MENU_TEXT.format(wallet_address=wallet_address)
     kb = _replenish_menu_keyboard(wallet_address)
 
     return text, kb

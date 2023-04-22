@@ -2,12 +2,12 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.consts.const import TON_INITIALISATION_FEE
 from bot.menus.utils import balances_text
-from bot.consts.texts import DEPOSIT_MENU_TEXT
+from bot.consts.texts import WALLET_MENU_TEXT
 
 
 def wallet_menu(balances: dict, token_price):
-    text = DEPOSIT_MENU_TEXT.format(balances=balances_text(balances),
-                                    token_price=token_price, init_pay_ton=TON_INITIALISATION_FEE)
+    text = WALLET_MENU_TEXT.format(balances=balances_text(balances),
+                                   token_price=token_price, init_pay_ton=TON_INITIALISATION_FEE)
     kb = _keyboard()
 
     return text, kb
