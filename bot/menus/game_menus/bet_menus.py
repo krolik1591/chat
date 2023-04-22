@@ -29,7 +29,7 @@ def _base_bet_menu(
         balance, bet, balance_type,
         text=DEFAULT_BALANCE_TEXT,
         play_text=DEFAULT_PLAY_TEXT,
-        back_to='tokens'
+        back_to='select_balance_type'
 ):
     balance_icon = get_balance_icon(balance_type)
     text = text.format(balance=balance, bet=bet)
