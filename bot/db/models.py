@@ -19,16 +19,6 @@ class Wallets_key(manager.Model):
         return f'Wallets_: {self.user_id} {self.mnemonic} {self.address}'
 
 
-class Token(manager.Model):
-    token_id = BigIntegerField(primary_key=True)
-    name = CharField()
-    price = IntegerField()
-    icon = CharField()
-
-    def __str__(self):
-        return f'TOKEN: {self.icon} {self.name}; {self.price=}, {self.token_id=}'
-
-
 class User(manager.Model):
     user_id = BigIntegerField(primary_key=True)
     username = CharField(default='')
