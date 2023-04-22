@@ -3,13 +3,13 @@ from asyncio import sleep
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
-from bot.const import THROTTLE_TIME_SPIN
+from bot.consts.const import THROTTLE_TIME_SPIN
 from bot.db import db, manager
 from bot.handlers.context import Context
 from bot.menus.utils import get_balance_icon
 from bot.handlers.games_handlers.dice_games import DICE_GAMES, Dice
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
-from bot.texts import DICE_ROLL_TEXT
+from bot.consts.texts import DICE_ROLL_TEXT
 
 flags = {"throttling_key": "spin"}
 router = Router()

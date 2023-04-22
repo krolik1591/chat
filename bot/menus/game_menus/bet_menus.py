@@ -1,10 +1,10 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot import texts
-from bot.const import MIN_BET
+from bot.consts import texts
+from bot.consts.const import MIN_BET
 from bot.handlers.states import Games
 from bot.menus.utils import get_balance_icon
-from bot.texts import DEFAULT_BALANCE_TEXT, DEFAULT_PLAY_TEXT
+from bot.consts.texts import DEFAULT_BALANCE_TEXT, DEFAULT_PLAY_TEXT
 from bot.utils.rounding import round_down
 
 

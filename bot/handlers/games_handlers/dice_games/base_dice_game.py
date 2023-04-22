@@ -1,6 +1,6 @@
 from bot.handlers.context import Context
 from bot.handlers.states import StateKeys
-from bot.texts import GAME_ERR_BET_TOO_BIG
+from bot.consts.texts import GAME_ERR_BET_TOO_BIG
 from bot.utils.rounding import round_down
 
 

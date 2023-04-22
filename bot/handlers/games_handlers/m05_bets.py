@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.const import CHANGE_BET, MAX_BET, MIN_BET
+from bot.consts.const import CHANGE_BET, MAX_BET, MIN_BET
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.game_menus import bet_menu as bet_menu_

@@ -4,7 +4,7 @@ import logging
 import ton.tonlibjson
 from TonTools.Contracts import Wallet
 
-from bot.const import TON_INITIALISATION_FEE
+from bot.consts.const import TON_INITIALISATION_FEE
 from bot.db import db, manager, models
 from bot.menus.wallet_menus import deposit_menu
 from bot.tokens.token_ton import TonWrapper, ton_token

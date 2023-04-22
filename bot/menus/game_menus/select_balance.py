@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.menus.utils import balances_text, get_balance_icon
-from bot.texts import MENU_TEXT
+from bot.consts.texts import MENU_TEXT
 
 BALANCES_BUTTONS = ['demo', 'general']
 

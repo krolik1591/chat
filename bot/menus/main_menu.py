@@ -1,8 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.menus.utils import balances_text
-from bot.texts import MENU_TEXT, BALANCE_TEXT
-from bot.utils.rounding import round_down
+from bot.consts.texts import MENU_TEXT
 
 
 def main_menu(balances: dict):

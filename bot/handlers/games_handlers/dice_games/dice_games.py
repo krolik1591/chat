@@ -1,14 +1,14 @@
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.dice_games import slots_check
 from bot.handlers.games_handlers.dice_games.base_dice_game import Dice
-from bot.handlers.games_handlers.dice_games.rewards import FOOTBALL_REWARDS, BOWLING_REWARDS, DARTS_REWARDS, \
+from bot.consts.rewards import FOOTBALL_REWARDS, BOWLING_REWARDS, DARTS_REWARDS, \
     BASKET_REWARDS, \
     SLOTS_REWARDS, CubeRewards
 from bot.handlers.games_handlers.dice_games.texts import FOOTBALL_TEXTS, BOWLING_TEXTS, DARTS_TEXTS, BASKET_TEXTS, \
     CUBE_TEXTS, \
     NUMBERS_EMOJI
 from bot.handlers.states import Games, StateKeys
-from bot.texts import GAME_ERR_BET_TOO_BIG, GAME_ERR_BET_NOT_SELECTED, LOSE_TEXT, WIN_TEXT
+from bot.consts.texts import GAME_ERR_BET_TOO_BIG, GAME_ERR_BET_NOT_SELECTED, LOSE_TEXT, WIN_TEXT
 
 
 class DiceCube(Dice):

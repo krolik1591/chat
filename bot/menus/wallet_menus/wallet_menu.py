@@ -1,8 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.const import TON_INITIALISATION_FEE
+from bot.consts.const import TON_INITIALISATION_FEE
 from bot.menus.utils import balances_text
-from bot.texts import DEPOSIT_MENU_TEXT
+from bot.consts.texts import DEPOSIT_MENU_TEXT
 
 
 def wallet_menu(balances: dict, token_price):

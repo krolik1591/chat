@@ -1,8 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.const import TON_INITIALISATION_FEE
+from bot.consts.const import TON_INITIALISATION_FEE
 from bot.menus.utils import kb_del_msg
-from bot.texts import DEPOSIT_INITIATION_ERROR, DEPOSIT_ACCOUNT_INITIATED, SUCCESSFUL_REPLENISH_MENU, \
+from bot.consts.texts import DEPOSIT_INITIATION_ERROR, DEPOSIT_ACCOUNT_INITIATED, SUCCESSFUL_REPLENISH_MENU, \
     REPLENISH_MENU_TEXT
 from bot.utils.rounding import round_down
 

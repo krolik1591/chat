@@ -2,7 +2,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.handlers.states import Games
 from bot.menus.utils import balances_text
-from bot.texts import MENU_TEXT
+from bot.consts.texts import MENU_TEXT
 
 
 def select_game_menu(balances: dict):

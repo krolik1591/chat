@@ -6,7 +6,7 @@ from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot import tokens
-from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
+from bot.consts.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
 from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys

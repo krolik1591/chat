@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from bot.texts import BALANCE_TEXT, TON_FUNDS_ICON, DEMO_FUNDS_ICON
+from bot.consts.texts import BALANCE_TEXT, TON_FUNDS_ICON, DEMO_FUNDS_ICON
 from bot.utils.rounding import round_down
 
 

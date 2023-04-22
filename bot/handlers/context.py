@@ -3,7 +3,7 @@ import json
 from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db import db
-from bot.const import MIN_BET
+from bot.consts.const import MIN_BET
 from bot.handlers.states import StateKeys
 from bot.utils.rounding import round_down
 

@@ -3,7 +3,7 @@ from aiogram import F, Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.const import START_POINTS
+from bot.consts.const import START_POINTS
 from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys

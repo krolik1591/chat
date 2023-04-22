@@ -5,7 +5,7 @@ from aiogram.dispatcher.flags.getter import get_flag
 from aiogram.types import Message
 from cachetools import TTLCache
 
-from bot.const import THROTTLE_TIME_SPIN, THROTTLE_TIME_OTHER
+from bot.consts.const import THROTTLE_TIME_SPIN, THROTTLE_TIME_OTHER
 
 
 class ThrottlingMiddleware(BaseMiddleware):
