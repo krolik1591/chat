@@ -18,3 +18,9 @@ class Token(ABC):
 
     async def get_price(self) -> float:
         raise NotImplemented
+
+    async def from_gametokens(self, amount: float) -> float:
+        return amount / await self.get_price()
+
+    async def to_gametokens(self, amount_ton: float) -> float:
+        return amount_ton * await self.get_price()

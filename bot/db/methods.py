@@ -69,10 +69,13 @@ async def get_user_daily_total_amount(user_id):
     today_midnight = datetime.combine(datetime.today().date(), time())
     next_day_midnight = today_midnight + timedelta(days=1)
 
-    result = await Transactions.select(fn.SUM(Transactions.amount)) \
-        .where(Transactions.user_id == user_id, Transactions.tx_type == 3,
-               Transactions.utime.between(today_midnight.timestamp(), next_day_midnight.timestamp()))
-    return result[0].amount if result[0].amount is not None else 0
+    result = await Transactions.select(fn.SUM(Transactions.amount)).where(
+        Transactions.user_id == user_id,
+        Transactions.tx_type == 3,
+        Transactions.utime.between(today_midnight.timestamp(), next_day_midnight.timestamp())
+    )
+
+    return result[0].amount or 0
 
 
 async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):

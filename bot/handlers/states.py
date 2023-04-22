@@ -22,6 +22,8 @@ class StateKeys:
     CUBE_LOSE_STREAK = 'cube_lose_streak'
     # withdraw
     TOKEN_ID = 'token_id'
+    WITHDRAW_AMOUNT = 'withdraw_amount'
+    WITHDRAW_ADDRESS = 'withdraw_address'
 
 
 class Games:

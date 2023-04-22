@@ -6,9 +6,9 @@ from bot.tokens import Token
 from bot.tokens.token_ton import TonWrapper, find_withdraw_tx
 
 
-async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount_ton, user_id, token: Token, manual_tx):
+async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id, token: Token, manual_tx):
     token_price = await token.get_price()
-    withdraw_amount = withdraw_amount_ton * token_price
+    withdraw_amount_ton = await token.from_gametokens(withdraw_amount)
     withdraw_amount_nanoton = withdraw_amount_ton * 1e9
 
     master_wallet = TonWrapper.INSTANCE.master_wallet

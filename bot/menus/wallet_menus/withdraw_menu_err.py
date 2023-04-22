@@ -14,15 +14,13 @@ def reached_daily_limit(allowable_amount):
     return WITHDRAW_DAILY_LIMIT.format(allowable_amount=allowable_amount), kb_del_msg()
 
 
-def withdraw_too_big(token_price):
-    maximum_withdraw_daily_token = MAXIMUM_WITHDRAW_DAILY * token_price
+def withdraw_exceeds_daily_limit(daily_limit_token):
     return WITHDRAW_TOO_BIG.format(
-        maximum_withdraw_token=maximum_withdraw_daily_token, maximum_withdraw=MAXIMUM_WITHDRAW), kb_del_msg()
+        daily_limit_token=daily_limit_token, daily_limit=MAXIMUM_WITHDRAW_DAILY), kb_del_msg()
 
 
-def withdraw_too_small(token_price):
-    ton_amount = MIN_WITHDRAW / token_price
-    return WITHDRAW_ERR1.format(min_withdraw=MIN_WITHDRAW, ton_amount=ton_amount), kb_del_msg()
+def withdraw_too_small(token_amount):
+    return WITHDRAW_ERR1.format(min_withdraw=MIN_WITHDRAW, ton_amount=token_amount), kb_del_msg()
 
 
 def withdraw_err_rejected_by_admin():

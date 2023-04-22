@@ -21,15 +21,18 @@ async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext):
     tx_id = call.data.removeprefix('approve_manual_tx_')
     tx = await db.get_manual_tx_by_id(tx_id)
 
-    text, kb = withdraw_menu.withdraw_manual_approved(tx.amount / 1e9 * tx.price)
+    token = await tokens.get_token_by_id(tx.token_id)
+    amount_nanoton = tx.amount
+    amount_gametokens = await token.to_gametokens(amount_nanoton / 1e9)
+
+    text, kb = withdraw_menu.withdraw_manual_approved(amount_gametokens)
     await state.bot.send_message(chat_id=tx.user_id, text=text, reply_markup=kb)
 
     token_id = tx.token_id
     await state.update_data(**{StateKeys.TOKEN_ID: token_id})
     token = await tokens.get_token_by_id(token_id)
 
-    await withdraw_cash_to_user(state.bot, tx.tx_address, tx.amount / 1e9, tx.user_id,
-                                token, manual_tx=True)
+    await withdraw_cash_to_user(state.bot, tx.tx_address, amount_gametokens, tx.user_id, token, manual_tx=True)
 
 
 @router.callback_query(Text(text_startswith='denied_manual_tx_'))
@@ -39,15 +42,19 @@ async def decline_manual_tx(call: types.CallbackQuery, state: FSMContext):
     tx_id = call.data.removeprefix('denied_manual_tx_')
     tx = await db.get_manual_tx_by_id(tx_id)
 
+    token = await tokens.get_token_by_id(tx.token_id)
+    amount_nanoton = tx.amount
+    amount_gametokens = await token.to_gametokens(amount_nanoton / 1e9)
+
     with manager.pw_database.atomic():
         await db.update_manual_withdraw_state(tx_id, 'rejected')
-        await db.update_user_balance(tx.user_id, tx.token_id, tx.amount / 1e9 * tx.price)
+        await db.update_user_balance(tx.user_id, tx.token_id, amount_gametokens)
 
     text, kb = withdraw_menu.withdraw_manual_rejected()
     await state.bot.send_message(chat_id=tx.user_id, text=text, reply_markup=kb)
 
 
-@router.message(lambda message: message.reply_to_message is not None, FilterChatId(), state='*',)
+@router.message(lambda message: message.reply_to_message is not None, FilterChatId(), state='*', )
 async def send_msg_from_admin_to_user(message: types.Message, state: FSMContext):
     match = re.search(r"\(id:\s*(\d+)\)", message.reply_to_message.text)
     user_id = match.group(1) if match else None

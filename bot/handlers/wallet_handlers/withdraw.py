@@ -40,7 +40,7 @@ async def withdraw_input_amount_handler(message: types.Message, state: FSMContex
     if amount is None:
         return  # error msg already sent by validate_amount
 
-    await state.update_data(user_withdraw_amount=amount)
+    await state.update_data(**{StateKeys.WITHDRAW_AMOUNT: amount})
 
     if await is_user_has_unresolved_tx(message.from_user.id):
         text, keyboard = withdraw_menu_err.manual_tx_in_process()
@@ -73,20 +73,21 @@ async def withdraw_input_address_handler(message: types.Message, state: FSMConte
         await message.answer(text, reply_markup=keyboard)
         return
 
-    await state.update_data(user_withdraw_address=user_withdraw_address.to_string())
+    await state.update_data(**{StateKeys.WITHDRAW_ADDRESS: user_withdraw_address.to_string()})
 
     context = await Context.from_fsm_context(message.from_user.id, state)
     await withdraw_approve_menu(context)
 
 
 async def withdraw_approve_menu(context: Context):
-    withdraw_amount = context.state['user_withdraw_amount']
-    withdraw_address = context.state['user_withdraw_address']
+    withdraw_amount = context.state[StateKeys.WITHDRAW_AMOUNT]
+    withdraw_address = context.state[StateKeys.WITHDRAW_ADDRESS]
     token_id = context.state[StateKeys.TOKEN_ID]
-    token = await tokens.get_token_by_id(token_id)
-    token_price = await token.get_price()
 
-    text, keyboard = withdraw_menu.input_validation(withdraw_amount, withdraw_address, token_price)
+    token = await tokens.get_token_by_id(token_id)
+    withdraw_amount_token = round(await token.from_gametokens(withdraw_amount), 4)
+
+    text, keyboard = withdraw_menu.input_validation(withdraw_amount, withdraw_address, withdraw_amount_token)
     await context.fsm_context.bot.edit_message_text(text, reply_markup=keyboard, chat_id=context.user_id,
                                                     message_id=context.last_msg_id)
     await context.fsm_context.set_state(Menu.withdraw_amount_approve)
@@ -95,7 +96,7 @@ async def withdraw_approve_menu(context: Context):
 @router.message(state=Menu.withdraw_amount_approve)
 async def withdraw_input_amount_handler_at_approve(message: types.Message, state: FSMContext):
     await message.delete()
-    amount = await validate_amount(message, token_id=2)
+    amount = await validate_amount(message, token_id=TOKEN_ID)
     if amount is None:
         return  # error msg already sent by validate_amount
 
@@ -116,27 +117,25 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     token_id = state_data[StateKeys.TOKEN_ID]
 
     token = await tokens.get_token_by_id(token_id)
-    token_price = await token.get_price()
-    ton_amount = withdraw_amount / token_price
 
     #  Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!
     text, keyboard = withdraw_menu.withdraw_queued(withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    can_withdraw_today = how_much_can_withdraw_today(call.from_user.id, token_price=token_price)
+    can_withdraw_today = how_much_can_withdraw_today(call.from_user.id, token=token)
     if withdraw_amount > can_withdraw_today:
         text, keyboard = withdraw_menu_err.reached_daily_limit(can_withdraw_today)
         await state.bot.send_message(call.from_user.id, text, reply_markup=keyboard)
         return
 
-    if ton_amount > MAXIMUM_WITHDRAW:
-        await create_manual_tx(call.from_user.id, call.from_user.username, ton_amount, state.bot, token,
+    if withdraw_amount > MAXIMUM_WITHDRAW:
+        await create_manual_tx(call.from_user.id, call.from_user.username, withdraw_amount, state.bot, token,
                                withdraw_address)
         return
 
     await db.update_user_balance(call.from_user.id, token.token_id, -withdraw_amount)
 
-    await withdraw_cash_to_user(state.bot, withdraw_address, ton_amount, call.from_user.id, token, manual_tx=False)
+    await withdraw_cash_to_user(state.bot, withdraw_address, withdraw_amount, call.from_user.id, token, manual_tx=False)
 
 
 async def validate_amount(message, token_id):
@@ -147,11 +146,11 @@ async def validate_amount(message, token_id):
     amount = round(user_withdraw, 2)
 
     token = await tokens.get_token_by_id(token_id)
-    token_price = await token.get_price()
     user_balance = await db.get_user_balance(message.from_user.id, 'general')
 
     if amount < MIN_WITHDRAW:
-        text, keyboard = withdraw_menu_err.withdraw_too_small(token_price=token_price)
+        minimum_amount_token = await token.from_gametokens(MIN_WITHDRAW)
+        text, keyboard = withdraw_menu_err.withdraw_too_small(token_amount=minimum_amount_token)
         await message.answer(text, reply_markup=keyboard)
         return
 
@@ -160,16 +159,19 @@ async def validate_amount(message, token_id):
         await message.answer(text, reply_markup=keyboard)
         return
 
-    if amount > MAXIMUM_WITHDRAW_DAILY * token_price:
-        text, keyboard = withdraw_menu_err.withdraw_too_big(token_price)
+    if amount > MAXIMUM_WITHDRAW_DAILY:
+        daily_limit_token = await token.from_gametokens(MAXIMUM_WITHDRAW_DAILY)
+        text, keyboard = withdraw_menu_err.withdraw_exceeds_daily_limit(daily_limit_token)
         await message.answer(text, reply_markup=keyboard)
         return
 
     return amount
 
 
-async def create_manual_tx(user_id, username, ton_amount, bot, token: tokens.Token, withdraw_address):
+async def create_manual_tx(user_id, username, withdraw_amount, bot, token: tokens.Token, withdraw_address):
+    ton_amount = await token.from_gametokens(withdraw_amount)
     token_price = await token.get_price()
+
     with manager.pw_database.atomic():
         new_tx = await db.add_new_manual_tx(user_id=user_id, nano_ton_amount=ton_amount * 1e9,
                                             token_id=token.token_id, price=token_price,
@@ -178,7 +180,7 @@ async def create_manual_tx(user_id, username, ton_amount, bot, token: tokens.Tok
         if not await send_manual_tx_to_admin_chat(bot, user_id, username, ton_amount, new_tx.ManualTXs_id):
             return  # failed to send msg
 
-        await db.update_user_balance(user_id, token.token_id, -ton_amount * token_price)
+        await db.update_user_balance(user_id, token.token_id, -withdraw_amount)
 
 
 async def send_manual_tx_to_admin_chat(bot, user_id, username, ton_amount, id_new_tx):
@@ -196,10 +198,13 @@ async def is_user_has_unresolved_tx(user_id):
     return last_manual_tx['withdraw_state'] is not None
 
 
-async def how_much_can_withdraw_today(user_id, token_price):
+async def how_much_can_withdraw_today(user_id, token):
+    # todo this is wrong, coz returns value in nanoton (1e-9) or, when we add BNB, in wei (1e-18)
+    # todo we should have separate table for transactions in game tokens and use it here
+
     # how much user already withdraw today
     already_withdraw_today_nanoton = await db.get_user_daily_total_amount(user_id)
-    already_withdraw_today_tokens = already_withdraw_today_nanoton / 1e9 * token_price
+    already_withdraw_today_gametokens = await token.to_gametokens(already_withdraw_today_nanoton / 1e9)
 
-    allowable_amount = MAXIMUM_WITHDRAW_DAILY * token_price - already_withdraw_today_tokens
+    allowable_amount = MAXIMUM_WITHDRAW_DAILY - already_withdraw_today_gametokens
     return allowable_amount

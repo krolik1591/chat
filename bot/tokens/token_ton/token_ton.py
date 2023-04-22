@@ -15,8 +15,5 @@ class TonToken(Token):
         # todo calc from usd price
         return 100
 
-    async def to_gametoken(self, amount_ton: float) -> float:
-        return amount_ton * await self.get_price()
-
 
 ton_token = TonToken()
