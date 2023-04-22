@@ -1,6 +1,6 @@
 from bot.texts import TON_FUNDS_ICON
 from bot.tokens.base_token import Token, InsufficientFunds
-from bot.tokens.token_ton import TonWrapper
+from bot.tokens.token_ton.tonwrapper.tonwrapper import TonWrapper
 
 
 class TonToken(Token):
