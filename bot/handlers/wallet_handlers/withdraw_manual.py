@@ -6,7 +6,6 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot import tokens
 from bot.db import manager, db
-from bot.handlers.states import StateKeys
 from bot.handlers.wallet_handlers.withdraw_cash import withdraw_cash_to_user
 from bot.menus.wallet_menus import withdraw_menu
 from bot.middlewares.filters import FilterChatId

@@ -38,12 +38,12 @@ async def withdraw_input_amount_handler(message: types.Message, state: FSMContex
     if amount is None:
         return  # error msg already sent by validate_amount
 
-    await state.update_data(**{StateKeys.WITHDRAW_AMOUNT: amount})
-
     if await is_user_has_unresolved_tx(message.from_user.id):
         text, keyboard = withdraw_menu_err.manual_tx_in_process()
         await message.answer(text, reply_markup=keyboard)
         return
+
+    await state.update_data(**{StateKeys.WITHDRAW_AMOUNT: amount})
 
     context = await Context.from_fsm_context(message.from_user.id, state)
     await withdraw_input_address_menu(context)
@@ -98,7 +98,7 @@ async def withdraw_input_amount_handler_at_approve(message: types.Message, state
     if amount is None:
         return  # error msg already sent by validate_amount
 
-    await state.update_data(user_withdraw_amount=amount)
+    await state.update_data(**{StateKeys.WITHDRAW_AMOUNT: amount})
 
     context = await Context.from_fsm_context(message.from_user.id, state)
     await withdraw_approve_menu(context)
