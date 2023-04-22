@@ -110,8 +110,8 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
 
     state_data = await state.get_data()
 
-    withdraw_amount = state_data['user_withdraw_amount']
-    withdraw_address = state_data['user_withdraw_address']
+    withdraw_amount = state_data[StateKeys.WITHDRAW_AMOUNT]
+    withdraw_address = state_data[StateKeys.WITHDRAW_ADDRESS]
     token_id = state_data[StateKeys.TOKEN_ID]
 
     token = await tokens.get_token_by_id(token_id)
