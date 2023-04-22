@@ -37,17 +37,21 @@ async def show_settings(call: types.CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(Text(text_startswith='cube_game_settings_'))
-async def set_settings(call: types.CallbackQuery, state: FSMContext):
-    new_settings = call.data.removeprefix('cube_game_settings_')
+async def set_cube_settings(call: types.CallbackQuery, state: FSMContext):
+    setting_to_toggle = call.data.removeprefix('cube_game_settings_')
+
     context = await Context.from_fsm_context(call.from_user.id, state)
-    old_game_settings: [str] = context.game_settings or []
+    game_settings: [str] = context.game_settings or []
 
-    if new_settings in old_game_settings:
-        old_game_settings.remove(new_settings)
+    if setting_to_toggle == "RESET":
+        game_settings = []
     else:
-        old_game_settings.append(new_settings)
+        if setting_to_toggle in game_settings:
+            game_settings.remove(setting_to_toggle)
+        else:
+            game_settings.append(setting_to_toggle)
 
-    await state.update_data(**{StateKeys.GAME_SETTINGS: json.dumps(old_game_settings)})
+    await state.update_data(**{StateKeys.GAME_SETTINGS: json.dumps(game_settings)})
     context = await Context.from_fsm_context(call.from_user.id, state)
 
     await settings_menu(context, msg_id=call.message.message_id)
@@ -60,13 +64,3 @@ async def bet_change_text_cube(message, state):
     context = await Context.from_fsm_context(message.from_user.id, state)
     await settings_menu(context, msg_id=context.last_msg_id)
 
-
-@router.callback_query(text=['reset_bet'])
-async def cube_reset_bet(call: types.CallbackQuery, state: FSMContext):
-    await call.answer()
-
-    null_game_settings = json.dumps([])
-    await state.update_data(**{StateKeys.GAME_SETTINGS: null_game_settings})
-
-    context = await Context.from_fsm_context(call.from_user.id, state)
-    await settings_menu(context, msg_id=call.message.message_id)
