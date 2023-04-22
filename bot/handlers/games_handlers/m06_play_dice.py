@@ -7,7 +7,7 @@ from bot.const import THROTTLE_TIME_SPIN
 from bot.db import db, manager
 from bot.handlers.context import Context
 from bot.menus.utils import get_balance_icon
-from bot.utils.dice_check.dice_games import DICE_GAMES, Dice
+from bot.handlers.games_handlers.dice_games import DICE_GAMES, Dice
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.texts import DICE_ROLL_TEXT
 

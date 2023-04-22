@@ -1,4 +1,4 @@
-from bot.utils.dice_check.dice_check_casino import three, Slot, two_near, two
+from bot.handlers.games_handlers.dice_games.slots_check import three, Slot, two_near, two
 
 # CASINO (16 WINNING COMBOS), CASINO_PROFIT = 40.625 %
 SLOTS_REWARDS = {
