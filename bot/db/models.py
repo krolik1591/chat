@@ -19,20 +19,14 @@ class Wallets_key(manager.Model):
         return f'Wallets_: {self.user_id} {self.mnemonic} {self.address}'
 
 
-class Token(manager.Model):
-    token_id = BigIntegerField(primary_key=True)
-    name = CharField()
-    price = IntegerField()
-    icon = CharField()
-
-    def __str__(self):
-        return f'TOKEN: {self.icon} {self.name}; {self.price=}, {self.token_id=}'
-
-
 class User(manager.Model):
     user_id = BigIntegerField(primary_key=True)
     username = CharField(default='')
     lang = CharField(default='en')
+
+    balance_demo = DecimalField(default=0)
+    balance_promo = DecimalField(default=0)
+    balance_general = DecimalField(default=0)
 
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
@@ -41,26 +35,11 @@ class User(manager.Model):
         return f'USER: {self.user_id}; {self.lang=}'
 
 
-class Balance(manager.Model):
-    balance_id = BigIntegerField(primary_key=True)
-    user = ForeignKeyField(User, backref='balances')
-    token = ForeignKeyField(Token, backref='balances')
-    amount = DecimalField(default=0)
-
-    class Meta:
-        indexes = (
-            (("user_id", "token_id"), True),
-        )
-
-    def __str__(self):
-        return f'BALANCES: {self.user_id} {self.token_id}; price:{self.amount} id:{self.balance_id}'
-
-
-class ManualTXs(manager.Model):
-    ManualTXs_id = BigIntegerField(primary_key=True)
-    user = ForeignKeyField(User, backref='manualTXs')
+class WithdrawTx(manager.Model):
+    withdrawtx_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='WithdrawTx')
     amount = BigIntegerField()
-    token = ForeignKeyField(Token, backref='manualTXs')
+    token_id = CharField()
     price = IntegerField()
     tx_address = CharField()
     utime = BigIntegerField()
@@ -71,11 +50,8 @@ class ManualTXs(manager.Model):
 class Transactions(manager.Model):
     transaction_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='transactions')
-    token = ForeignKeyField(Token, backref='transactions')
+    token_id = CharField()
     tx_type = SmallIntegerField()
-    # 1) tx_address = адреса з якої поповнюють; tx_type = 1
-    # 2) tx_address = похуй ; tx_type = 2
-    # 3) tx_address = адреса на яку виводимо гроши; tx_type = 3
     tx_address = CharField()
     tx_hash = CharField()
     logical_time = BigIntegerField()
@@ -89,7 +65,7 @@ class Transactions(manager.Model):
 class GameLog(manager.Model):
     gamelog_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='game_logs')
-    token = ForeignKeyField(Token, backref='game_logs')
+    balance_type = CharField()
     game = CharField()
     game_info = TextField()
     bet = BigIntegerField()

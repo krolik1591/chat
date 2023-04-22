@@ -1,24 +1,15 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from bot.menus.utils import balances_text
 from bot.texts import MENU_TEXT, BALANCE_TEXT
 from bot.utils.rounding import round_down
 
 
 def main_menu(balances: dict):
-    balances_text = '\n'.join([balance_text(i) for i in balances.values()])
-
-    text = MENU_TEXT.format(balances=balances_text)
+    text = MENU_TEXT.format(balances=balances_text(balances))
     kb = _keyboard()
 
     return text, kb
-
-
-def balance_text(item):
-    name = item['name'].upper()  # todo use i18n to name
-    amount = item['amount']
-    round_amount = round_down(amount, 2)
-    return BALANCE_TEXT.format(
-        icon=item['icon'], name=name, amount=round_amount)
 
 
 def _keyboard():

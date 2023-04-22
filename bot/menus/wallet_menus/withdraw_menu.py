@@ -26,11 +26,10 @@ def input_address():
     return text, kb
 
 
-def input_validation(user_withdraw_amount, user_withdraw_address, token_price):
-    user_withdraw_amount_ton = round(user_withdraw_amount / token_price, 4)
-    text = WITHDRAW_MENU_TEXT3.format(user_withdraw_amount=user_withdraw_amount,
-                                      user_withdraw_address=user_withdraw_address,
-                                      user_withdraw_amount_ton=user_withdraw_amount_ton)
+def input_validation(withdraw_amount, withdraw_address, withdraw_amount_token):
+    text = WITHDRAW_MENU_TEXT3.format(user_withdraw_amount=withdraw_amount,
+                                      user_withdraw_address=withdraw_address,
+                                      user_withdraw_amount_ton=withdraw_amount_token)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='✅ Підтвердити', callback_data="withdraw_queued")],
         [InlineKeyboardButton(text='Назад', callback_data="withdraw")]
@@ -50,8 +49,9 @@ def withdraw_queued(user_withdraw_amount):
     return text, kb
 
 
-def admin_manual_tx(user_id, username, ton_amount, id_new_tx):
-    text = WITHDRAW_MANUAL_TX.format(user_id=user_id, username=username, ton_amount=ton_amount)
+def admin_manual_tx(user_id, username, token_id, withdraw_amount, id_new_tx):
+    text = WITHDRAW_MANUAL_TX.format(user_id=user_id, username=username, withdraw_amount=withdraw_amount)
+
     kb = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text='✅ Approve', callback_data=f"approve_manual_tx_{id_new_tx}"),
         InlineKeyboardButton(text='❌ Denied', callback_data=f"denied_manual_tx_{id_new_tx}")

@@ -1,4 +1,5 @@
 from bot.handlers.states import Games
+from bot.menus.utils import get_balance_icon
 
 from bot.texts import BASKET_TEXT_2, BASKET_TEXT_3, BASKET_TEXT_5, BOWLING_TEXT_4, BOWLING_TEXT_5, BOWLING_TEXT_6, \
     CUBE_TEXT_0, CUBE_TEXT_1, CUBE_TEXT_2, CUBE_TEXT_3, DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1, DARTS_OR_BOWLING_TEXT_2, \
@@ -7,24 +8,27 @@ from bot.texts import BASKET_TEXT_2, BASKET_TEXT_3, BASKET_TEXT_5, BOWLING_TEXT_
 
 
 def game_text(context, score_change, dice_value, cube_lose_streak):
+    balance_icon = get_balance_icon(context.balance_type)
+
     if context.game == Games.CASINO:
-        return LOSE_TEXT if score_change == 0 \
-            else WIN_TEXT.format(score_change=score_change, token_icon=context.token.icon)
+        if score_change == 0:
+            return LOSE_TEXT
+        return WIN_TEXT.format(score_change=score_change, token_icon=balance_icon)
 
     if context.game == Games.CUBE:
-        return cube_text(cube_lose_streak, dice_value, score_change=score_change, token_icon=context.token.icon)
+        return cube_text(cube_lose_streak, dice_value, score_change=score_change, token_icon=balance_icon)
 
     if context.game == Games.BASKET:
-        return basket_text(dice_value, score_change=score_change, token_icon=context.token.icon)
+        return basket_text(dice_value, score_change=score_change, token_icon=balance_icon)
 
     if context.game == Games.DARTS:
-        return darts_text(dice_value, score_change=score_change, token_icon=context.token.icon)
+        return darts_text(dice_value, score_change=score_change, token_icon=balance_icon)
 
     if context.game == Games.BOWLING:
-        return bowling_text(dice_value, score_change=score_change, token_icon=context.token.icon)
+        return bowling_text(dice_value, score_change=score_change, token_icon=balance_icon)
 
     if context.game == Games.FOOTBALL:
-        return football_text(dice_value, score_change=score_change, token_icon=context.token.icon)
+        return football_text(dice_value, score_change=score_change, token_icon=balance_icon)
 
 
 BASKET_TEXTS = {

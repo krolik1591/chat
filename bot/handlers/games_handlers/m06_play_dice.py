@@ -90,7 +90,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
 
 
 async def process_dice(call: types.CallbackQuery, context: Context, coefficient, dice_msg: types.Message, state):
-    token_id = context.token.id
+    balance_type = context.balance_type
 
     score_change = round_down((coefficient * context.bet), 5)
 
@@ -103,8 +103,8 @@ async def process_dice(call: types.CallbackQuery, context: Context, coefficient,
     game_info = {"dice_result": dice_msg.dice.value}
 
     with manager.pw_database.atomic():
-        await db.update_user_balance(call.from_user.id, token_id, user_win)
-        await db.insert_game_log(call.from_user.id, token_id, game=context.game,
+        await db.update_user_balance(call.from_user.id, balance_type, user_win)
+        await db.insert_game_log(call.from_user.id, balance_type, game=context.game,
                                  game_info=game_info, bet=context.bet, result=score_change)
 
     await sleep(THROTTLE_TIME_SPIN)
