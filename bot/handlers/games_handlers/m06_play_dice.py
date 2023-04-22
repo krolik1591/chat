@@ -6,11 +6,10 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from bot.const import THROTTLE_TIME_SPIN
 from bot.db import db, manager
 from bot.handlers.context import Context
+from bot.menus.utils import get_balance_icon
+from bot.handlers.games_handlers.dice_games import DICE_GAMES, Dice
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
-from bot.handlers.states import Games, StateKeys
-from bot.texts import DICE_ROLL_TEXT, GAME_ERR_BET_NOT_SELECTED, GAME_ERR_BET_TOO_BIG
-from bot.utils.dice_check import dice_check_games, game_text
-from bot.utils.rounding import round_down
+from bot.texts import DICE_ROLL_TEXT
 
 flags = {"throttling_key": "spin"}
 router = Router()
@@ -18,102 +17,35 @@ router = Router()
 
 @router.callback_query(text=["game_play"], flags=flags)
 async def games_play(call: types.CallbackQuery, state: FSMContext):
-    # await call.answer()
-
     await db.set_user_last_active(call.from_user.id)
     context = await Context.from_fsm_context(call.from_user.id, state)
 
-    if context.bet > context.balance:
-        await call.answer("Ставка більше балансу", show_alert=True)
+    dice_game: Dice = DICE_GAMES[context.game]
+
+    error = dice_game.pre_check(context)
+    if error is not None:
+        await call.answer(error, show_alert=True)
         return
 
-    if context.game == Games.CASINO:
-        # Send dice
-        dice_msg = await call.message.answer_dice(emoji="🎰")
-        await call.message.edit_text(text=DICE_ROLL_TEXT)
+    dice_msg = await call.message.answer_dice(emoji=dice_game.EMOJI)
+    await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-        # Parse dice result
-        coefficient = dice_check_games.slots(dice_msg.dice.value)
-        await process_dice(call, context, coefficient, dice_msg, state)
-
-    if context.game == Games.CUBE:
-        # if await cube_check_bet(call, state):
-        #     return
-        if context.bet * len(context.game_settings or []) > context.balance:
-            await call.answer(GAME_ERR_BET_TOO_BIG, show_alert=True)
-            return
-
-        if context.game_settings is None or len(context.game_settings) == 0:
-            await call.answer(GAME_ERR_BET_NOT_SELECTED, show_alert=True)
-            return
-
-        dice_msg = await call.message.answer_dice(emoji="🎲")
-        await call.message.edit_text(text=DICE_ROLL_TEXT)
-
-        coefficient = dice_check_games.cube(dice_msg.dice.value, context.game_settings)
-
-        current_streak = (await state.get_data()).get(StateKeys.CUBE_LOSE_STREAK, 0)
-        if coefficient == 0:
-            await state.update_data(**{StateKeys.CUBE_LOSE_STREAK: current_streak + 1})
-        else:
-            await state.update_data(**{StateKeys.CUBE_LOSE_STREAK: 0})
-
-        await process_dice(call, context, coefficient, dice_msg, state)
-
-    if context.game == Games.BASKET:
-        dice_msg = await call.message.answer_dice(emoji="🏀")
-        await call.message.edit_text(text=DICE_ROLL_TEXT)
-
-        coefficient = dice_check_games.basket(dice_msg.dice.value)
-        await process_dice(call, context, coefficient, dice_msg, state)
-
-    if context.game == Games.DARTS:
-        dice_msg = await call.message.answer_dice(emoji="🎯")
-        await call.message.edit_text(text=DICE_ROLL_TEXT)
-
-        coefficient = dice_check_games.darts(dice_msg.dice.value)
-        await process_dice(call, context, coefficient, dice_msg, state)
-
-    if context.game == Games.BOWLING:
-        dice_msg = await call.message.answer_dice(emoji="🎳")
-        await call.message.edit_text(text=DICE_ROLL_TEXT)
-
-        coefficient = dice_check_games.bowling(dice_msg.dice.value)
-        await process_dice(call, context, coefficient, dice_msg, state)
-
-    if context.game == Games.FOOTBALL:
-        dice_msg = await call.message.answer_dice(emoji="⚽️")
-        await call.message.edit_text(text=DICE_ROLL_TEXT)
-
-        coefficient = dice_check_games.football(dice_msg.dice.value)
-        await process_dice(call, context, coefficient, dice_msg, state)
-
-
-async def process_dice(call: types.CallbackQuery, context: Context, coefficient, dice_msg: types.Message, state):
-    balance_type = context.balance_type
-
-    score_change = round_down((coefficient * context.bet), 5)
-
-    if context.game == Games.CUBE:
-        bets = len(context.game_settings)
-        user_win = round_down(score_change - context.bet * bets, 5)
-    else:
-        user_win = round_down(score_change - context.bet, 5)
-
-    game_info = {"dice_result": dice_msg.dice.value}
+    result = await dice_game.get_result(context, dice_msg.dice.value)
 
     with manager.pw_database.atomic():
-        await db.update_user_balance(call.from_user.id, balance_type, user_win)
-        await db.insert_game_log(call.from_user.id, balance_type, game=context.game,
-                                 game_info=game_info, bet=context.bet, result=score_change)
+        await db.update_user_balance(call.from_user.id, context.balance_type, result['score_change'])
+        await db.insert_game_log(user_id=call.from_user.id,
+                                 balance_type=context.balance_type,
+                                 game=context.game,
+                                 game_info=result['game_info'],
+                                 bet=context.bet,
+                                 result=result['score_change'])
 
+    # Change first msg to game result
     await sleep(THROTTLE_TIME_SPIN)
-
-    # Send result
-    cube_lose_streak = (await state.get_data()).get(StateKeys.CUBE_LOSE_STREAK)
-
-    win_or_lose_text = game_text(context, round_down(score_change, 2), dice_msg.dice.value, cube_lose_streak)
-    await call.message.edit_text(text=win_or_lose_text)
+    text = dice_game.get_text(context, dice_msg.dice.value, result['score_change'],
+                              get_balance_icon(context.balance_type))
+    await call.message.edit_text(text=text)
 
     # Send settings menu
     context = await Context.from_fsm_context(call.from_user.id, state)
