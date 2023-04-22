@@ -25,4 +25,4 @@ async def set_game(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.GAME: game})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await balances_menu(context, call.message.message_id)
+    await balances_menu(context, msg_id=call.message.message_id)
