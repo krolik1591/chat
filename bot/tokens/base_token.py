@@ -2,6 +2,10 @@ import warnings
 from abc import ABC
 
 
+class InsufficientFunds(Exception):
+    pass
+
+
 class Token(ABC):
     @property
     def token_id(self) -> str:
@@ -24,3 +28,9 @@ class Token(ABC):
 
     async def to_gametokens(self, amount_ton: float) -> float:
         return amount_ton * await self.get_price()
+
+    async def can_transfer(self, withdraw_amount) -> bool:
+        raise NotImplemented
+
+    def transfer(self, withdraw_address, withdraw_amount):
+        raise NotImplemented

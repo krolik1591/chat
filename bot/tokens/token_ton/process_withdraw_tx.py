@@ -12,7 +12,7 @@ async def find_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id):
     if found_tx is None:
         return False
 
-    last_manual_tx = await db.get_last_manual_transaction(user_id, token_id="ton")
+    last_manual_tx = await db.get_last_withdraw_transaction(user_id, token_id="ton")
 
     with manager.pw_database.atomic():
         await db.add_new_transaction(
@@ -24,7 +24,7 @@ async def find_withdraw_tx(user_withdraw_address, withdraw_amount_ton, user_id):
             tx_hash=found_tx.hash,
             logical_time=found_tx.lt,
             utime=found_tx.utime)
-        await db.update_manual_withdraw_state(last_manual_tx['ManualTXs_id'], 'approved')
+        await db.update_withdraw_tx_state(last_manual_tx.withdrawtx_id, 'success')
 
     return True
 

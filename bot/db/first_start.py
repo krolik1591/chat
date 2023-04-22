@@ -1,4 +1,4 @@
-from .models import ManualTXs, User, Transactions, GameLog, Wallets_key, manager
+from .models import WithdrawTx, User, Transactions, GameLog, Wallets_key, manager
 
 
 async def first_start():
@@ -7,4 +7,4 @@ async def first_start():
 
     print("First start, creating tables...")
 
-    await manager.create_tables(Wallets_key, User, Transactions, ManualTXs, GameLog)
+    await manager.create_tables(Wallets_key, User, Transactions, WithdrawTx, GameLog)

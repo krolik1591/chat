@@ -1,15 +1,13 @@
-import logging
 import time
 
 import tonsdk.utils
 from TonTools import Address
 from aiogram import Router, types
 from aiogram.dispatcher.fsm.context import FSMContext
-from aiogram.exceptions import TelegramMigrateToChat
 
 from bot import tokens
 from bot.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
-from bot.db import manager, db
+from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.handlers.wallet_handlers.withdraw_cash import withdraw_cash_to_user
@@ -122,20 +120,24 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = withdraw_menu.withdraw_queued(withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    can_withdraw_today = how_much_can_withdraw_today(call.from_user.id, token=token)
+    can_withdraw_today = how_much_can_withdraw_today(call.from_user.id)
     if withdraw_amount > can_withdraw_today:
         text, keyboard = withdraw_menu_err.reached_daily_limit(can_withdraw_today)
         await state.bot.send_message(call.from_user.id, text, reply_markup=keyboard)
         return
 
-    if withdraw_amount > MAXIMUM_WITHDRAW:
-        await create_manual_tx(call.from_user.id, call.from_user.username, withdraw_amount, state.bot, token,
-                               withdraw_address)
-        return
+    is_manual = withdraw_amount > MAXIMUM_WITHDRAW
+    new_tx = await db.add_new_withdraw_tx(user_id=call.from_user.id, token_id=token.token_id,
+                                          amount=withdraw_amount, tx_address=withdraw_address,
+                                          utime=int(time.time()), is_manual=is_manual)
+
+    if is_manual:
+        await send_manual_tx_to_admin_chat(state.bot, call.from_user.id, call.from_user.username, token.token_id,
+                                           withdraw_amount, new_tx.withdrawtx_id)
+    else:
+        await withdraw_cash_to_user(state.bot, withdraw_address, withdraw_amount, call.from_user.id, token)
 
     await db.update_user_balance(call.from_user.id, token.token_id, -withdraw_amount)
-
-    await withdraw_cash_to_user(state.bot, withdraw_address, withdraw_amount, call.from_user.id, token, manual_tx=False)
 
 
 async def validate_amount(message, token_id):
@@ -168,43 +170,17 @@ async def validate_amount(message, token_id):
     return amount
 
 
-async def create_manual_tx(user_id, username, withdraw_amount, bot, token: tokens.Token, withdraw_address):
-    ton_amount = await token.from_gametokens(withdraw_amount)
-    token_price = await token.get_price()
-
-    with manager.pw_database.atomic():
-        new_tx = await db.add_new_manual_tx(user_id=user_id, nano_ton_amount=ton_amount * 1e9,
-                                            token_id=token.token_id, price=token_price,
-                                            tx_address=withdraw_address, utime=int(time.time()))
-
-        if not await send_manual_tx_to_admin_chat(bot, user_id, username, ton_amount, new_tx.ManualTXs_id):
-            return  # failed to send msg
-
-        await db.update_user_balance(user_id, token.token_id, -withdraw_amount)
-
-
-async def send_manual_tx_to_admin_chat(bot, user_id, username, ton_amount, id_new_tx):
-    text, keyboard = withdraw_menu.admin_manual_tx(user_id, username, ton_amount, id_new_tx)
-    try:
-        await bot.send_message(chat_id=config.admin_chat_id, text=text, reply_markup=keyboard)
-    except TelegramMigrateToChat as ex:
-        logging.exception('User trying withdraw cash')
-        return False
-    return True
+async def send_manual_tx_to_admin_chat(bot, user_id, username, token_id, withdraw_amount, id_new_tx):
+    text, keyboard = withdraw_menu.admin_manual_tx(user_id, username, token_id, withdraw_amount, id_new_tx)
+    await bot.send_message(chat_id=config.admin_chat_id, text=text, reply_markup=keyboard)
 
 
 async def is_user_has_unresolved_tx(user_id):
-    last_manual_tx = await db.get_last_manual_transaction(user_id, token_id=2)
-    return last_manual_tx['withdraw_state'] is not None
+    last_manual_tx = await db.get_last_withdraw_transaction(user_id, token_id=TOKEN_ID)
+    return last_manual_tx.withdraw_state is not None
 
 
-async def how_much_can_withdraw_today(user_id, token):
-    # todo this is wrong, coz returns value in nanoton (1e-9) or, when we add BNB, in wei (1e-18)
-    # todo we should have separate table for transactions in game tokens and use it here
-
-    # how much user already withdraw today
-    already_withdraw_today_nanoton = await db.get_user_daily_total_amount(user_id)
-    already_withdraw_today_gametokens = await token.to_gametokens(already_withdraw_today_nanoton / 1e9)
-
+async def how_much_can_withdraw_today(user_id):  # how much user already withdraw today
+    already_withdraw_today_gametokens = await db.get_user_daily_total_amount(user_id)
     allowable_amount = MAXIMUM_WITHDRAW_DAILY - already_withdraw_today_gametokens
     return allowable_amount
