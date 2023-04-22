@@ -28,7 +28,7 @@ class TonToken(Token):
 
         return True
 
-    def transfer(self, withdraw_address, withdraw_amount):
+    async def transfer(self, withdraw_address, withdraw_amount):
         master_wallet = TonWrapper.INSTANCE.master_wallet
         withdraw_amount_ton = await self.from_gametokens(withdraw_amount)
         await master_wallet.transfer_ton(withdraw_address, withdraw_amount_ton)
