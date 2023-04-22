@@ -1,34 +1,7 @@
-from bot.handlers.states import Games
-from bot.menus.utils import get_balance_icon
-
 from bot.texts import BASKET_TEXT_2, BASKET_TEXT_3, BASKET_TEXT_5, BOWLING_TEXT_4, BOWLING_TEXT_5, BOWLING_TEXT_6, \
     CUBE_TEXT_0, CUBE_TEXT_1, CUBE_TEXT_2, CUBE_TEXT_3, DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1, DARTS_OR_BOWLING_TEXT_2, \
     DARTS_OR_BOWLING_TEXT_3, \
     DARTS_TEXT_4, DARTS_TEXT_5_OR_BASKET_4, DARTS_TEXT_6, FOOTBALL_TEXT_LOSE, FOOTBALL_TEXT_WIN, LOSE_TEXT, WIN_TEXT
-
-
-def game_text(context, score_change, dice_value, cube_lose_streak):
-    balance_icon = get_balance_icon(context.balance_type)
-
-    if context.game == Games.CASINO:
-        if score_change == 0:
-            return LOSE_TEXT
-        return WIN_TEXT.format(score_change=score_change, token_icon=balance_icon)
-
-    if context.game == Games.CUBE:
-        return cube_text(cube_lose_streak, dice_value, score_change=score_change, token_icon=balance_icon)
-
-    if context.game == Games.BASKET:
-        return basket_text(dice_value, score_change=score_change, token_icon=balance_icon)
-
-    if context.game == Games.DARTS:
-        return darts_text(dice_value, score_change=score_change, token_icon=balance_icon)
-
-    if context.game == Games.BOWLING:
-        return bowling_text(dice_value, score_change=score_change, token_icon=balance_icon)
-
-    if context.game == Games.FOOTBALL:
-        return football_text(dice_value, score_change=score_change, token_icon=balance_icon)
 
 
 BASKET_TEXTS = {
@@ -85,23 +58,29 @@ NUMBERS_EMOJI = {
 }
 
 
-def cube_text(cube_lose_streak, dice_value, score_change, token_icon):
+def casino(dice_value, score_change, token_icon):
+    if score_change == 0:
+        return LOSE_TEXT
+    return WIN_TEXT.format(score_change=score_change, token_icon=token_icon)
+
+
+def cube(dice_value, score_change, token_icon, cube_lose_streak):
     dice_number_emoji = NUMBERS_EMOJI[dice_value]
     return CUBE_TEXTS[cube_lose_streak].format(score_change=score_change, token_icon=token_icon,
-                                              cube_lose_streak=cube_lose_streak, dice_number_emoji=dice_number_emoji)
+                                               cube_lose_streak=cube_lose_streak, dice_number_emoji=dice_number_emoji)
 
 
-def basket_text(dice_value, score_change, token_icon):
+def basket(dice_value, score_change, token_icon):
     return BASKET_TEXTS[dice_value].format(score_change=score_change, token_icon=token_icon)
 
 
-def darts_text(dice_value, score_change, token_icon):
+def darts(dice_value, score_change, token_icon):
     return DARTS_TEXTS[dice_value].format(score_change=score_change, token_icon=token_icon)
 
 
-def bowling_text(dice_value, score_change, token_icon):
+def bowling(dice_value, score_change, token_icon):
     return BOWLING_TEXTS[dice_value].format(score_change=score_change, token_icon=token_icon)
 
 
-def football_text(dice_value, score_change, token_icon):
+def football(dice_value, score_change, token_icon):
     return FOOTBALL_TEXTS[dice_value].format(score_change=score_change, token_icon=token_icon)

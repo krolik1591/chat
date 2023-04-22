@@ -3,7 +3,7 @@ from bot.games_const import BET_ON_PARITY, BET_ON_RANGE, CLEAR_HIT, DIRTY_HIT, E
 from bot.utils.dice_check import dice_check_casino
 
 
-def slots(dice_value: int) -> float:
+def slots(dice_value: int, game_settings) -> float:
     return dice_check_casino.get_coefficient(dice_value)
 
 
@@ -19,7 +19,7 @@ def cube(dice_value: int, user_bets) -> float:
     return win
 
 
-def basket(dice_value: int) -> float:
+def basket(dice_value: int, game_settings) -> float:
     if dice_value == 5:
         return CLEAR_HIT
     if dice_value == 4:
@@ -27,7 +27,7 @@ def basket(dice_value: int) -> float:
     return 0
 
 
-def darts(dice_value: int) -> float:
+def darts(dice_value: int, game_settings) -> float:
     if dice_value == 6:
         return HIT_CENTER
     if dice_value == 5:
@@ -37,7 +37,7 @@ def darts(dice_value: int) -> float:
     return 0
 
 
-def bowling(dice_value: int) -> float:
+def bowling(dice_value: int, game_settings) -> float:
     if dice_value == 6:
         return STRIKE
     if dice_value == 5:
@@ -45,7 +45,7 @@ def bowling(dice_value: int) -> float:
     return 0
 
 
-def football(dice_value: int) -> float:
+def football(dice_value: int, game_settings) -> float:
     ez_win = [3, 4, 5]
     if dice_value in ez_win:
         return GOAL
