@@ -15,7 +15,7 @@ from bot.menus.game_menus import select_balance_menu
 router = Router()
 
 
-async def tokens_menu(context: Context, msg_id=None):
+async def balances_menu(context: Context, msg_id=None):
     balances = await db.get_user_balances(context.user_id)
     text, keyboard = select_balance_menu(balances)
 
@@ -30,7 +30,7 @@ async def tokens_menu(context: Context, msg_id=None):
 @router.callback_query(text=["select_balance_type"])
 async def balance_type_show(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await tokens_menu(context, msg_id=call.message.message_id)
+    await balances_menu(context, msg_id=call.message.message_id)
     await state.set_state(Menu.delete_message)
 
 

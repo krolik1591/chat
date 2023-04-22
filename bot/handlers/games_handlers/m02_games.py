@@ -4,7 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 
 from bot.db import db
 from bot.handlers.context import Context
-from bot.handlers.games_handlers.m03_balance import tokens_menu
+from bot.handlers.games_handlers.m03_balance import balances_menu
 from bot.handlers.states import StateKeys
 from bot.menus.game_menus import select_game_menu
 
@@ -25,4 +25,4 @@ async def set_game(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.GAME: game})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await tokens_menu(context, call.message.message_id)
+    await balances_menu(context, call.message.message_id)
