@@ -6,6 +6,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from bot.const import THROTTLE_TIME_SPIN
 from bot.db import db, manager
 from bot.handlers.context import Context
+from bot.menus.utils import get_balance_icon
 from bot.utils.dice_check.dice_games import DICE_GAMES, Dice
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.texts import DICE_ROLL_TEXT
@@ -26,28 +27,26 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         await call.answer(error, show_alert=True)
         return
 
-    dice_msg = await call.message.answer_dice(emoji=dice_game.dice_emoji)
+    dice_msg = await call.message.answer_dice(emoji=dice_game.EMOJI)
     await call.message.edit_text(text=DICE_ROLL_TEXT)
 
-    result = await dice_game.get_result(dice_msg.dice.value, context)
-
-    score_change = result['score_change']
-    user_win = result['user_win']
-    game_info = result['game_info']
-    text = result['text']
-
-    balance_type = context.balance_type
+    result = await dice_game.get_result(context, dice_msg.dice.value)
 
     with manager.pw_database.atomic():
-        await db.update_user_balance(call.from_user.id, balance_type, user_win)
-        await db.insert_game_log(call.from_user.id, balance_type, game=context.game,
-                                 game_info=game_info, bet=context.bet, result=score_change)
+        await db.update_user_balance(call.from_user.id, context.balance_type, result['score_change'])
+        await db.insert_game_log(user_id=call.from_user.id,
+                                 balance_type=context.balance_type,
+                                 game=context.game,
+                                 game_info=result['game_info'],
+                                 bet=context.bet,
+                                 result=result['score_change'])
 
     # Change first msg to game result
     await sleep(THROTTLE_TIME_SPIN)
+    text = dice_game.get_text(context, dice_msg.dice.value, result['score_change'],
+                              get_balance_icon(context.balance_type))
     await call.message.edit_text(text=text)
 
     # Send settings menu
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=None)
-
