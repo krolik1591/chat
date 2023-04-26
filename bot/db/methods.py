@@ -168,7 +168,8 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        pass
+        x = await get_all_user_wallets()
+        print(x[0].user_id)
 
 
     import asyncio

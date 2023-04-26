@@ -120,7 +120,7 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     text, keyboard = withdraw_menu.withdraw_queued(withdraw_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
 
-    can_withdraw_today = how_much_can_withdraw_today(call.from_user.id)
+    can_withdraw_today = await how_much_can_withdraw_today(call.from_user.id)
     if withdraw_amount > can_withdraw_today:
         text, keyboard = withdraw_menu_err.reached_daily_limit(can_withdraw_today)
         await state.bot.send_message(call.from_user.id, text, reply_markup=keyboard)
@@ -137,7 +137,7 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     else:
         await withdraw_cash_to_user(state.bot, withdraw_address, withdraw_amount, call.from_user.id, token)
 
-    await db.update_user_balance(call.from_user.id, token.token_id, -withdraw_amount)
+    await db.update_user_balance(call.from_user.id, 'general', -withdraw_amount)
 
 
 async def validate_amount(message, token_id):
