@@ -4,7 +4,7 @@ from bot.tokens import Token, InsufficientFunds
 from bot.tokens.token_ton import find_withdraw_tx
 
 
-async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id, token: Token):
+async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id, token: Token, tx_id: int):
 
     try:
         await token.can_transfer(withdraw_amount)
@@ -15,7 +15,8 @@ async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id,
         await bot.send_message(chat_id=user_id, text=text, reply_markup=keyboard)
         return
 
-    transfer_text = f'{user_id},{token.token_id},{withdraw_amount}'
+    transfer_text = f'{tx_id},{user_id},{withdraw_amount}'
+
     await token.transfer(withdraw_address, withdraw_amount, transfer_text)
 
     # # FIXME VERY WRONG!! SO SHIT!!!!! CRINGEEEEEE!!!!!
