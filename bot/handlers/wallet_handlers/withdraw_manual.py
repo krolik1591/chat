@@ -38,7 +38,7 @@ async def decline_manual_tx(call: types.CallbackQuery, state: FSMContext):
 
     with manager.pw_database.atomic():
         await db.update_withdraw_tx_state(tx_id, 'rejected')
-        await db.update_user_balance(tx.user_id, tx.token_id, tx.amount)
+        await db.update_user_balance(tx.user_id, 'general', tx.amount)
 
     text, kb = withdraw_menu.withdraw_manual_rejected()
     await state.bot.send_message(chat_id=tx.user_id, text=text, reply_markup=kb)

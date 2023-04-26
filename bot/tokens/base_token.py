@@ -32,5 +32,5 @@ class Token(ABC):
     async def can_transfer(self, withdraw_amount) -> bool:
         raise NotImplemented
 
-    async def transfer(self, withdraw_address, withdraw_amount):
+    async def transfer(self, withdraw_address, withdraw_amount, msg):
         raise NotImplemented

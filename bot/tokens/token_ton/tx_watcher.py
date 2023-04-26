@@ -136,3 +136,18 @@ async def send_successful_initiation_msg(bot, user_id):
 async def send_failed_initiation_msg(bot, user_id):
     text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=False)
     await bot.send_message(user_id, text, reply_markup=keyboard)
+
+
+async def create_master_wallet(ton_wrapper, bot):
+    mw_id = 0
+
+    all_users_wallets = await db.get_all_user_wallets()
+    for wallet in all_users_wallets:
+        if mw_id == wallet.user_id:
+            return
+
+    mw_address = ton_wrapper.master_wallet.address
+    mw_mnemon_arr = ton_wrapper.master_wallet.mnemonics
+    mw_mnemon_string = ','.join(mw_mnemon_arr)
+
+    await db.create_user_wallet(mw_id, mw_address, mw_mnemon_string)

@@ -28,10 +28,10 @@ class TonToken(Token):
 
         return True
 
-    async def transfer(self, withdraw_address, withdraw_amount):
+    async def transfer(self, withdraw_address, withdraw_amount, msg):
         master_wallet = TonWrapper.INSTANCE.master_wallet
         withdraw_amount_ton = await self.from_gametokens(withdraw_amount)
-        await master_wallet.transfer_ton(withdraw_address, withdraw_amount_ton)
+        await master_wallet.transfer_ton(withdraw_address, withdraw_amount_ton, msg)
         return withdraw_amount_ton  # todo return tx hash or something
 
 
