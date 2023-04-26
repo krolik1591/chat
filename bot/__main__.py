@@ -35,7 +35,9 @@ async def main():
 
     await first_start()
 
-    ton_wrapper = await TonWrapper.create(master_wallet_mnemon=config.wallet_seed)
+    ton_wrapper = await TonWrapper.create_archival(master_wallet_mnemon=config.wallet_seed)
+    TonWrapper.INSTANCE = ton_wrapper
+
     asyncio.create_task(watch_txs(ton_wrapper, bot))
 
     try:

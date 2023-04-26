@@ -1,12 +1,28 @@
 import pathlib
+import random
 
 from TonTools import *
+from ton.tl.base import TLObject
 from ton.tl.functions import Raw_GetTransactions
 from ton.tl.types import Internal_TransactionId
 
+import aiohttp
+import asyncio
+import json
+
+from ton.tonlibjson import BlockNotFound, TonlibException, logger
 
 libpath = pathlib.Path(__file__).parent / 'libtonlibjson.so.0.5'
 keystorepath = str(pathlib.Path(__file__).parent / '.keystore')
+
+
+async def fetch_json(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            if response.status == 200:
+                return await response.json()
+            else:
+                print(f"Не вдалося завантажити JSON з {url}. Помилка: {response.status}")
 
 
 class TonWrapper(LsClient):
@@ -19,15 +35,15 @@ class TonWrapper(LsClient):
         self.master_wallet = Wallet(provider=self, mnemonics=master_wallet_seed)
 
     @classmethod
-    async def create(cls, config='https://ton.org/global.config.json', master_wallet_mnemon=None, **kwargs):
-        if cls.INSTANCE is not None:
-            return TonWrapper.INSTANCE
-
-        ton_wrapper = TonWrapper(config=config, default_timeout=10, master_wallet_mnemon=master_wallet_mnemon, **kwargs)
-        await ton_wrapper.init_tonlib(cdll_path=libpath)
-
-        cls.INSTANCE = ton_wrapper
-        return ton_wrapper
+    async def create_archival(cls, config='https://ton.org/global.config.json', master_wallet_mnemon=None, **kwargs):
+        json_data = await fetch_json(config)
+        ls_count = len(json_data['liteservers'])
+        for ls in range(ls_count):
+            ton_wrapper = TonWrapper(config=config, ls_index=ls, master_wallet_mnemon=master_wallet_mnemon, **kwargs)
+            await ton_wrapper.init_tonlib(cdll_path=libpath)
+            if await ton_wrapper._is_archival():
+                return ton_wrapper
+        raise Exception('Ya v ahue. Archive node not found')
 
     def get_wallet(self, mnemonics):
         return Wallet(provider=self, mnemonics=mnemonics.split(','))
@@ -57,6 +73,7 @@ class TonWrapper(LsClient):
                     "tx_lt": outer_tx.transaction_id.lt,
                     "utime": outer_tx.utime,
                     "value": tx.value,
+
                 }
                 if res['source'] == '':
                     continue
@@ -104,3 +121,40 @@ class TonWrapper(LsClient):
                 break
 
         return results
+
+    async def _is_archival(self):
+        try:
+            request = TlLookupBlock(-1, -9223372036854775808, random.randint(2, 4096))
+            raw_block_transactions = await self.tonlib_wrapper.execute(request)
+
+            return True
+        except BlockNotFound as e:
+            return False
+        except TonlibException as e:
+            logger.error("TonlibWorker #{ls_index:03d} report_archival exception of type {exc_type}: {exc}",
+                         ls_index=self.ls_index, exc_type=type(e).__name__, exc=e)
+
+
+class TlLookupBlock(TLObject):
+    def __init__(self, workchain, shard, seqno=None, lt=None, unixtime=None):
+        assert (seqno is not None) or (lt is not None) or (unixtime is not None), "Seqno, LT or unixtime should be defined"
+
+        mode = 0
+        if seqno is not None:
+            mode += 1
+        if lt is not None:
+            mode += 2
+        if unixtime is not None:
+            mode += 4
+
+        self.type = 'blocks.lookupBlock'
+        self.mode = mode
+        self.id = {
+                '@type': 'ton.blockId',
+                'workchain': workchain,
+                'shard': shard,
+                'seqno': seqno
+            }
+        self.lt = lt
+        self.utime = unixtime
+
