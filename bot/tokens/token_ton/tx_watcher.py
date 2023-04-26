@@ -14,7 +14,10 @@ from bot.tokens.token_ton import TonWrapper, ton_token
 async def watch_txs(ton_wrapper: TonWrapper, bot):
     async def find_new_user_tx_(user_):
         try:
-            await find_new_user_tx(ton_wrapper, user_, bot)
+            new_txs = await find_new_txs(ton_wrapper, user_)
+            user_wallet = ton_wrapper.get_wallet(user_.mnemonic)
+            for tx in new_txs:
+                await process_user_tx(tx, user_.user_id, user_wallet, bot)
 
         except ton.tonlibjson.TonlibError as ex:
             logging.exception('TonLib error')
@@ -27,9 +30,8 @@ async def watch_txs(ton_wrapper: TonWrapper, bot):
         await asyncio.sleep(10)
 
 
-async def find_new_user_tx(ton_wrapper: TonWrapper, user: models.Wallets_key, bot):
+async def find_new_txs(ton_wrapper: TonWrapper, user: models.Wallets_key):
     user_account = await ton_wrapper.find_account(user.address)
-    user_wallet = ton_wrapper.get_wallet(user.mnemonic)
 
     last_tx_from_blockchain = user_account.state.last_transaction_id
     last_tx_from_db = await db.get_last_transaction(user.user_id, ton_token.id)
@@ -38,17 +40,14 @@ async def find_new_user_tx(ton_wrapper: TonWrapper, user: models.Wallets_key, bo
         # no new txs
         return
 
-    new_tx = await ton_wrapper.get_account_transactions(
+    return await ton_wrapper.get_account_transactions(
         user_account.address,
         last_tx_lt=last_tx_from_blockchain.lt,
         last_tx_hash=last_tx_from_blockchain.hash,
         first_tx_hash=last_tx_from_db.tx_hash)
 
-    for tx in new_tx:
-        await process_tx(tx, user.user_id, user_wallet, bot)
 
-
-async def process_tx(tx, user_id, user_wallet: Wallet, bot):
+async def process_user_tx(tx, user_id, user_wallet: Wallet, bot):
     # поповнення рахунку для поповнення
     if tx['destination'] == user_wallet.address:
         await user_deposited(tx, bot, user_id, user_wallet)
