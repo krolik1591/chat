@@ -183,5 +183,5 @@ async def is_user_has_unresolved_tx(user_id):
 
 async def how_much_can_withdraw_today(user_id):  # how much user already withdraw today
     already_withdraw_today_gametokens = await db.get_user_daily_total_amount(user_id)
-    allowable_amount = MAXIMUM_WITHDRAW_DAILY - already_withdraw_today_gametokens
+    allowable_amount = MAXIMUM_WITHDRAW_DAILY - already_withdraw_today_gametokens / 10**7
     return allowable_amount
