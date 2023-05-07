@@ -1,5 +1,7 @@
 import asyncio
 import logging
+import time
+from pprint import pprint
 
 import ton.tonlibjson
 from TonTools.Contracts import Wallet
@@ -12,17 +14,32 @@ from bot.tokens.token_ton import TonWrapper, ton_token
 
 # todo оптимизация: сортировать пользователей по последней активности
 async def watch_txs(ton_wrapper: TonWrapper, bot):
+    print(ton_wrapper, 'watch tx')
+
+    async def find_new_master_tx():
+        try:
+            new_txs = await find_new_master_txs(ton_wrapper)
+            if new_txs is not None:
+                for tx in new_txs:
+                    await process_master_tx(tx)
+
+        except ton.tonlibjson.TonlibError as ex:
+            logging.exception('TonLib error')
+
     async def find_new_user_tx_(user_):
         try:
-            new_txs = await find_new_txs(ton_wrapper, user_)
-            user_wallet = ton_wrapper.get_wallet(user_.mnemonic)
-            for tx in new_txs:
-                await process_user_tx(tx, user_.user_id, user_wallet, bot)
+            new_txs = await find_new_user_txs(ton_wrapper, user_)
+            if new_txs is not None:
+                user_wallet = ton_wrapper.get_wallet(user_.mnemonic)
+                for tx in new_txs:
+                    await process_user_tx(tx, user_.user_id, user_wallet, bot)
 
         except ton.tonlibjson.TonlibError as ex:
             logging.exception('TonLib error')
 
     while True:
+        await find_new_master_tx()
+
         all_users_wallets = await db.get_all_user_wallets()
         coros = [find_new_user_tx_(user) for user in all_users_wallets]
         await asyncio.gather(*coros)
@@ -30,7 +47,7 @@ async def watch_txs(ton_wrapper: TonWrapper, bot):
         await asyncio.sleep(10)
 
 
-async def find_new_txs(ton_wrapper: TonWrapper, user: models.Wallets_key):
+async def find_new_user_txs(ton_wrapper: TonWrapper, user: models.Wallets_key):
     user_account = await ton_wrapper.find_account(user.address)
 
     last_tx_from_blockchain = user_account.state.last_transaction_id
@@ -45,6 +62,29 @@ async def find_new_txs(ton_wrapper: TonWrapper, user: models.Wallets_key):
         last_tx_lt=last_tx_from_blockchain.lt,
         last_tx_hash=last_tx_from_blockchain.hash,
         first_tx_hash=last_tx_from_db.tx_hash)
+
+
+async def find_new_master_txs(ton_wrapper: TonWrapper):
+    master_account = await ton_wrapper.find_account(ton_wrapper.master_wallet.address)
+
+    last_tx_from_blockchain = master_account.state.last_transaction_id
+    last_tx_from_db = await db.get_last_transaction(0, ton_token.id)
+
+    if last_tx_from_blockchain.hash == last_tx_from_db.tx_hash:
+        # no new txs
+        return
+
+    return await ton_wrapper.get_account_transactions(
+        master_account.address,
+        last_tx_lt=last_tx_from_blockchain.lt,
+        last_tx_hash=last_tx_from_blockchain.hash,
+        first_tx_hash=last_tx_from_db.tx_hash)
+
+
+async def process_master_tx(tx):
+
+    print(tx['msg'])
+
 
 
 async def process_user_tx(tx, user_id, user_wallet: Wallet, bot):
@@ -138,7 +178,7 @@ async def send_failed_initiation_msg(bot, user_id):
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
-async def create_master_wallet(ton_wrapper, bot):
+async def create_master_wallet(ton_wrapper):
     mw_id = 0
 
     all_users_wallets = await db.get_all_user_wallets()
