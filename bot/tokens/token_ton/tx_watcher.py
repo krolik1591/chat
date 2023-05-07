@@ -1,15 +1,14 @@
 import asyncio
 import logging
-import time
-from pprint import pprint
 
 import ton.tonlibjson
 from TonTools.Contracts import Wallet
 
 from bot.consts.const import TON_INITIALISATION_FEE
 from bot.db import db, manager, models
-from bot.db.methods import add_new_transaction, get_withdraw_tx_by_id, update_withdraw_tx_state
+from bot.db.methods import add_new_transaction, update_withdraw_tx_state
 from bot.menus.wallet_menus import deposit_menu
+from bot.menus.wallet_menus.withdraw_menu import withdraw_result
 from bot.tokens.token_ton import TonWrapper, ton_token
 
 
@@ -22,7 +21,7 @@ async def watch_txs(ton_wrapper: TonWrapper, bot):
             new_txs = await find_new_master_txs(ton_wrapper)
             if new_txs is not None:
                 for tx in new_txs:
-                    await process_master_tx(tx)
+                    await process_master_tx(tx, bot)
 
         except ton.tonlibjson.TonlibError as ex:
             logging.exception('TonLib error')
@@ -82,11 +81,11 @@ async def find_new_master_txs(ton_wrapper: TonWrapper):
         first_tx_hash=last_tx_from_db.tx_hash)
 
 
-async def process_master_tx(tx):
+async def process_master_tx(tx, bot):
     if tx['msg'] != '':
         tx_id = int(tx['msg'])
-        withdraw_tx = await get_withdraw_tx_by_id(tx_id)
-        pprint(tx)
+        withdraw_tx = await db.get_withdraw_tx_by_id(tx_id)
+
         if withdraw_tx.tx_address == tx['destination'] and withdraw_tx.amount * 10**7 == int(tx['value']):
             with manager.pw_database.atomic():
                 await add_new_transaction(
@@ -100,6 +99,9 @@ async def process_master_tx(tx):
                     utime=tx['utime'])
 
                 await update_withdraw_tx_state(tx_id, 'approved')
+
+            text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
+            await bot.send_message(chat_id=withdraw_tx.user_id, text=text, reply_markup=keyboard)
 
 
 async def process_user_tx(tx, user_id, user_wallet: Wallet, bot):
