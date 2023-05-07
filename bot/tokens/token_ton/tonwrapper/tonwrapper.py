@@ -65,6 +65,13 @@ class TonWrapper(LsClient):
         for outer_tx in all_txs:
             inners_txs = outer_tx.out_msgs + ([outer_tx.in_msg] if hasattr(outer_tx, 'in_msg') else [])
 
+            msg_text = ''
+            if len(outer_tx.out_msgs) != 0:
+                for line in outer_tx.out_msgs:
+                    if hasattr(line.msg_data, 'text'):
+                        encoded_msg_text = line.msg_data.text
+                        msg_text = base64.b64decode(encoded_msg_text).decode('utf-8')
+
             for tx in inners_txs:
                 res = {
                     "destination": tx.destination.account_address,
@@ -73,6 +80,7 @@ class TonWrapper(LsClient):
                     "tx_lt": outer_tx.transaction_id.lt,
                     "utime": outer_tx.utime,
                     "value": tx.value,
+                    "msg": msg_text,
 
                 }
                 if res['source'] == '':
