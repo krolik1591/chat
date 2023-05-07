@@ -8,6 +8,7 @@ from TonTools.Contracts import Wallet
 
 from bot.consts.const import TON_INITIALISATION_FEE
 from bot.db import db, manager, models
+from bot.db.methods import add_new_transaction, get_withdraw_tx_by_id, update_withdraw_tx_state
 from bot.menus.wallet_menus import deposit_menu
 from bot.tokens.token_ton import TonWrapper, ton_token
 
@@ -68,7 +69,7 @@ async def find_new_master_txs(ton_wrapper: TonWrapper):
     master_account = await ton_wrapper.find_account(ton_wrapper.master_wallet.address)
 
     last_tx_from_blockchain = master_account.state.last_transaction_id
-    last_tx_from_db = await db.get_last_transaction(0, ton_token.id)
+    last_tx_from_db = await db.get_last_tx_by_tx_type(3)    # withdraw
 
     if last_tx_from_blockchain.hash == last_tx_from_db.tx_hash:
         # no new txs
@@ -82,9 +83,23 @@ async def find_new_master_txs(ton_wrapper: TonWrapper):
 
 
 async def process_master_tx(tx):
+    if tx['msg'] != '':
+        tx_id = int(tx['msg'])
+        withdraw_tx = await get_withdraw_tx_by_id(tx_id)
+        pprint(tx)
+        if withdraw_tx.tx_address == tx['destination'] and withdraw_tx.amount * 10**7 == int(tx['value']):
+            with manager.pw_database.atomic():
+                await add_new_transaction(
+                    user_id=withdraw_tx.user_id,
+                    token_id="ton",
+                    amount=int(tx['value']),
+                    tx_type=3,  # withdraw
+                    tx_address=tx['destination'],
+                    tx_hash=tx['tx_hash'],
+                    logical_time=int(tx['tx_lt']),
+                    utime=tx['utime'])
 
-    print(tx['msg'])
-
+                await update_withdraw_tx_state(tx_id, 'approved')
 
 
 async def process_user_tx(tx, user_id, user_wallet: Wallet, bot):
