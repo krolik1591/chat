@@ -101,6 +101,12 @@ async def get_last_transaction(tg_id, token_id):
     return result[0]
 
 
+async def get_last_tx_by_tx_type(tx_type):
+    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime))\
+        .where(Transactions.tx_type == tx_type)
+    return result[0]
+
+
 # manual transactions
 
 
