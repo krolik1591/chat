@@ -43,7 +43,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
 
     # Change first msg to game result
     await sleep(THROTTLE_TIME_SPIN)
-    text = dice_game.get_text(context, dice_msg.dice.value, result['score_change'],
+    text = dice_game.get_text(context, dice_msg.dice.value, result['score_change'] + context.bet,
                               get_balance_icon(context.balance_type))
     await call.message.edit_text(text=text)
 

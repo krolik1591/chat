@@ -56,9 +56,9 @@ BOWLING_REWARDS = {
 
 
 FOOTBALL_REWARDS = {
-    1: 1.3,  # central goal,
-    2: 1.3,  # right goal
+    1: 0,  # miss,
+    2: 0,  # rebound miss
     3: 1.3,  # left goal
-    4: 0,  # rebound miss
-    5: 0,  # miss
+    4: 1.3,  # right goal
+    5: 1.3,  # goal
 }
