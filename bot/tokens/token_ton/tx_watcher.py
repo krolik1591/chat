@@ -86,7 +86,7 @@ async def process_master_tx(tx, bot):
         return
 
     with manager.pw_database.atomic():
-        withdraw_tx = await approve_withdraw(tx, bot)
+        withdraw_tx, msg = await approve_withdraw(tx, bot)
 
         await add_new_transaction(
             user_id=withdraw_tx.user_id if withdraw_tx else 0,
@@ -96,12 +96,13 @@ async def process_master_tx(tx, bot):
             tx_address=tx['destination'],
             tx_hash=tx['tx_hash'],
             logical_time=int(tx['tx_lt']),
-            utime=tx['utime'])
+            utime=tx['utime'],
+            comment="|".join(msg) if msg else ''),
 
 
 async def approve_withdraw(tx, bot):
     if not tx['msg'].startswith('withdrawv1'):
-        return
+        return None, None
     msg = tx['msg'].removeprefix('withdrawv1').split('|')
 
     tx_id = int(msg[0])
@@ -111,7 +112,7 @@ async def approve_withdraw(tx, bot):
         withdraw_tx = await db.get_withdraw_tx_by_id(tx_id)
     except:
         logging.error('Find tx in master_wallet not in WithdrawTx')
-        return
+        return None, msg
 
     if withdraw_tx.tx_address != tx['destination'] or withdraw_tx.utime != tx_utime:
         raise ValueError(f'Ne sovpadaet. \n'
@@ -123,7 +124,7 @@ async def approve_withdraw(tx, bot):
     text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
     await bot.send_message(chat_id=withdraw_tx.user_id, text=text, reply_markup=keyboard)
 
-    return withdraw_tx
+    return withdraw_tx, msg
 
 
 async def process_user_tx(tx, user_id, user_wallet: Wallet, bot):

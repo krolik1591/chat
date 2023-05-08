@@ -78,7 +78,8 @@ async def get_user_daily_total_amount(user_id):
     return result[0].amount or 0
 
 
-async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime):
+async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx_hash, logical_time, utime,
+                              comment=''):
     """
     :param user_id:
     :param token_id:
@@ -88,11 +89,12 @@ async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx
     :param tx_hash:
     :param logical_time:
     :param utime:
+    :param comment: only for withdraw tx
     :return:
     """
     return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                      logical_time=logical_time, amount=amount,
-                                     tx_address=tx_address, tx_hash=tx_hash, utime=utime)
+                                     tx_address=tx_address, tx_hash=tx_hash, utime=utime, comment=comment)
 
 
 async def get_last_transaction(tg_id, token_id):
