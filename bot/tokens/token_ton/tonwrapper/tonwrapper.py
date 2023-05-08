@@ -67,9 +67,9 @@ class TonWrapper(LsClient):
 
             msg_text = ''
             if len(outer_tx.out_msgs) != 0:
-                for line in outer_tx.out_msgs:
-                    if hasattr(line.msg_data, 'text'):
-                        encoded_msg_text = line.msg_data.text
+                for msg in outer_tx.out_msgs:
+                    if hasattr(msg.msg_data, 'text'):
+                        encoded_msg_text = msg.msg_data.text
                         msg_text = base64.b64decode(encoded_msg_text).decode('utf-8')
 
             for tx in inners_txs:

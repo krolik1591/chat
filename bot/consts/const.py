@@ -3,8 +3,8 @@ CHANGE_BET = 10
 MAX_BET = 5000
 START_POINTS = 500
 
-MIN_WITHDRAW = 10   # game tokens
-MAXIMUM_WITHDRAW = 50   # game tokens
+MIN_WITHDRAW = 5   # game tokens
+MAXIMUM_WITHDRAW = 30   # game tokens
 MAXIMUM_WITHDRAW_DAILY = 110  # game tokens
 
 TON_INITIALISATION_FEE = 0.015  # ton

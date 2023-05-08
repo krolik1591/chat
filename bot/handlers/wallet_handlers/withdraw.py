@@ -136,7 +136,7 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
                                            withdraw_amount, new_tx.withdrawtx_id)
     else:
         await withdraw_cash_to_user(state.bot, withdraw_address, withdraw_amount, call.from_user.id, token,
-                                    new_tx.withdrawtx_id)
+                                    new_tx)
 
     await db.update_user_balance(call.from_user.id, 'general', -withdraw_amount)
 

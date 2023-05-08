@@ -1,9 +1,11 @@
+import time
+
 from bot.db import db
 from bot.menus.wallet_menus import withdraw_menu_err
 from bot.tokens import InsufficientFunds, Token
 
 
-async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id, token: Token, tx_id: int):
+async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id, token: Token, tx):
 
     try:
         await token.can_transfer(withdraw_amount)
@@ -14,6 +16,6 @@ async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id,
         await bot.send_message(chat_id=user_id, text=text, reply_markup=keyboard)
         return
 
-    transfer_text = f'{tx_id}'
+    transfer_text = f'withdrawv1{tx.withdrawtx_id}|{tx.utime}'
 
     await token.transfer(withdraw_address, withdraw_amount, transfer_text)

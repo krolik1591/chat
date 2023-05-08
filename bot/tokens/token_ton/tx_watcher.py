@@ -14,7 +14,6 @@ from bot.tokens.token_ton import TonWrapper, ton_token
 
 # todo оптимизация: сортировать пользователей по последней активности
 async def watch_txs(ton_wrapper: TonWrapper, bot):
-    print(ton_wrapper, 'watch tx')
 
     async def find_new_master_tx():
         try:
@@ -82,26 +81,38 @@ async def find_new_master_txs(ton_wrapper: TonWrapper):
 
 
 async def process_master_tx(tx, bot):
-    if tx['msg'] != '':
-        tx_id = int(tx['msg'])
+    if not tx['msg'].startswith('withdrawv1'):
+        return
+    msg = tx['msg'].removeprefix('withdrawv1')
+
+    tx_id = int(msg.split('|')[0])
+    tx_utime = int(msg.split('|')[1])
+
+    try:
         withdraw_tx = await db.get_withdraw_tx_by_id(tx_id)
+    except:
+        logging.error('Find tx in master_wallet not in WithdrawTx')
+        return
 
-        if withdraw_tx.tx_address == tx['destination'] and withdraw_tx.amount * 10**7 == int(tx['value']):
-            with manager.pw_database.atomic():
-                await add_new_transaction(
-                    user_id=withdraw_tx.user_id,
-                    token_id="ton",
-                    amount=int(tx['value']),
-                    tx_type=3,  # withdraw
-                    tx_address=tx['destination'],
-                    tx_hash=tx['tx_hash'],
-                    logical_time=int(tx['tx_lt']),
-                    utime=tx['utime'])
+    if withdraw_tx.tx_address != tx['destination'] or \
+            withdraw_tx.amount * 10**7 != int(tx['value']) or \
+            withdraw_tx.utime != tx_utime:
+        raise ValueError('Ne sovpadaet')
+    with manager.pw_database.atomic():
+        await add_new_transaction(
+            user_id=withdraw_tx.user_id,
+            token_id="ton",
+            amount=int(tx['value']),
+            tx_type=3,  # withdraw
+            tx_address=tx['destination'],
+            tx_hash=tx['tx_hash'],
+            logical_time=int(tx['tx_lt']),
+            utime=tx['utime'])
 
-                await update_withdraw_tx_state(tx_id, 'approved')
+        await update_withdraw_tx_state(tx_id, 'approved')
 
-            text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
-            await bot.send_message(chat_id=withdraw_tx.user_id, text=text, reply_markup=keyboard)
+    text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
+    await bot.send_message(chat_id=withdraw_tx.user_id, text=text, reply_markup=keyboard)
 
 
 async def process_user_tx(tx, user_id, user_wallet: Wallet, bot):
@@ -124,7 +135,7 @@ async def user_deposited(tx, bot, user_id, user_wallet: Wallet):
         inited = await init_user_wallet(bot, user_id, user_wallet)
         if inited:
             amount_ton -= TON_INITIALISATION_FEE
-            await asyncio.sleep(30)  # todo why?
+            await asyncio.sleep(30)  # wait for user wallet to be inited
 
     amount_gametokens = await ton_token.to_gametokens(amount_ton)
 
