@@ -9,6 +9,7 @@ from bot.db import first_start
 from bot.handlers import routers
 from bot.middlewares.throttling import ThrottlingMiddleware
 from bot.tokens.token_ton import TonWrapper, watch_txs
+from bot.tokens.withdraw_timeout_watcher import find_and_reject_lost_tx
 from bot.utils.config_reader import config
 
 
@@ -39,6 +40,7 @@ async def main():
     TonWrapper.INSTANCE = ton_wrapper
 
     asyncio.create_task(watch_txs(ton_wrapper, bot))
+    asyncio.create_task(find_and_reject_lost_tx(bot))
 
     try:
         print("me:", await bot.get_me())

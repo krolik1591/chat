@@ -75,7 +75,7 @@ def withdraw_result(is_ok, ton_amount):
     if is_ok:
         text = PAYMENT_CONFIRMED.format(ton_amount=ton_amount)  # round_user_withdraw < MIN_WITHDRAW
     else:
-        text = PAYMENT_DENIED.format()  # user balance < MIN_WITHDRAW
+        text = PAYMENT_DENIED.format(ton_amount=ton_amount)  # user balance < MIN_WITHDRAW
 
     return text, kb_del_msg()
 

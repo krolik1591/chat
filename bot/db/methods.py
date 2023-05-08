@@ -107,6 +107,12 @@ async def get_last_tx_by_tx_type(tx_type):
     return result[0]
 
 
+async def get_all_pending_tx(utime):
+    result = await WithdrawTx.select().where(WithdrawTx.withdraw_state == 'pending',
+                                             WithdrawTx.utime < utime)
+    return result
+
+
 # manual transactions
 
 
@@ -174,8 +180,9 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_all_user_wallets()
-        print(x[0].user_id)
+        x = await get_all_pending_tx(1683553516)
+        for tx in x:
+            print(tx.withdraw_state)
 
 
     import asyncio

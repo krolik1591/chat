@@ -9,5 +9,7 @@ MAXIMUM_WITHDRAW_DAILY = 110  # game tokens
 
 TON_INITIALISATION_FEE = 0.015  # ton
 
+INTERVAL_FOR_REJECT_LOST_TX = 5 * 60    # sec
+
 THROTTLE_TIME_SPIN = 2  # время искусственной задержки между броском дайса и ответом, оно же период троттлинга
 THROTTLE_TIME_OTHER = 1  # время искусственной задержки между остальными командами, оно же период троттлинга
