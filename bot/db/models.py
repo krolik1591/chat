@@ -37,7 +37,7 @@ class User(manager.Model):
 class WithdrawTx(manager.Model):
     withdrawtx_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='WithdrawTx')
-    amount = BigIntegerField()
+    amount = DecimalField()
     token_id = CharField()
     tx_address = CharField()
     utime = BigIntegerField()

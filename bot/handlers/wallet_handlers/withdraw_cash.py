@@ -8,7 +8,7 @@ from bot.tokens import InsufficientFunds, Token
 async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id, token: Token, tx):
 
     try:
-        await token.can_transfer(withdraw_amount)
+        await token.can_transfer(withdraw_amount)   #todo враховувати fee
     except InsufficientFunds:
         await db.update_user_balance(user_id, 'general', withdraw_amount)  # return tokens to user
 
