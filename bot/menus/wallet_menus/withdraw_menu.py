@@ -7,9 +7,9 @@ from bot.menus.utils import kb_del_msg
 from bot.utils.rounding import round_down
 
 
-def input_amount(token_price):
+def input_amount(token_price, general_balance):
     ton_amount = MIN_WITHDRAW / token_price
-    text = WITHDRAW_MENU_TEXT1.format(min_withdraw=MIN_WITHDRAW, ton_amount=ton_amount)
+    text = WITHDRAW_MENU_TEXT1.format(min_withdraw=MIN_WITHDRAW, ton_amount=ton_amount, general_balance=general_balance)
     kb = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text='Мій гаманець', callback_data="wallet_menu")
     ]])
@@ -26,10 +26,11 @@ def input_address():
     return text, kb
 
 
-def input_validation(withdraw_amount, withdraw_address, withdraw_amount_token):
+def input_validation(withdraw_amount, withdraw_address, withdraw_amount_token, general_balance):
     text = WITHDRAW_MENU_TEXT3.format(user_withdraw_amount=withdraw_amount,
                                       user_withdraw_address=withdraw_address,
-                                      user_withdraw_amount_ton=withdraw_amount_token)
+                                      user_withdraw_amount_ton=withdraw_amount_token,
+                                      general_balance=general_balance)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='✅ Підтвердити', callback_data="withdraw_queued")],
         [InlineKeyboardButton(text='Назад', callback_data="withdraw")]

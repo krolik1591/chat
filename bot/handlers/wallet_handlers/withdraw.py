@@ -23,8 +23,9 @@ TOKEN_ID = "ton"
 async def withdraw_input_amount_menu(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.TOKEN_ID: TOKEN_ID})
     token = await tokens.get_token_by_id(TOKEN_ID)
+    general_balance = await db.get_user_balance(call.from_user.id, 'general')
 
-    text, keyboard = withdraw_menu.input_amount(await token.get_price())
+    text, keyboard = withdraw_menu.input_amount(await token.get_price(), general_balance)
     await call.message.edit_text(text, reply_markup=keyboard)
     await state.update_data(**{StateKeys.LAST_MSG_ID: call.message.message_id})
     await state.set_state(Menu.withdraw_amount)
@@ -84,8 +85,10 @@ async def withdraw_approve_menu(context: Context):
 
     token = await tokens.get_token_by_id(token_id)
     withdraw_amount_token = round(await token.from_gametokens(withdraw_amount), 4)
+    general_balance = await db.get_user_balance(context.user_id, 'general')
 
-    text, keyboard = withdraw_menu.input_validation(withdraw_amount, withdraw_address, withdraw_amount_token)
+    text, keyboard = withdraw_menu.input_validation(withdraw_amount, withdraw_address, withdraw_amount_token,
+                                                    general_balance)
     await context.fsm_context.bot.edit_message_text(text, reply_markup=keyboard, chat_id=context.user_id,
                                                     message_id=context.last_msg_id)
     await context.fsm_context.set_state(Menu.withdraw_amount_approve)

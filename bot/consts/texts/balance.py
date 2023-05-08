@@ -12,9 +12,12 @@ TON_FUNDS_ICON = '💎'
 
 # withdraw
 
-WITHDRAW_MENU_TEXT1 = '📤 Виведення • крок 1/3 \n\n⚠️ Мін. сума виведення: {min_withdraw} 💎 ({ton_amount} TON)\n\nНадішліть суму 💎 для виведення:'
+WITHDRAW_MENU_TEXT1 = '📤 Виведення • крок 1/3 \n\nВаш баланс: {general_balance} 💎\n' \
+                      '⚠️ Мін. сума виведення: {min_withdraw} 💎 ({ton_amount} TON)\n\n' \
+                      'Надішліть суму 💎 для виведення:'
 WITHDRAW_MENU_TEXT2 = '📤 Виведення • крок 2/3 \n\nНадішліть адресу вашого гаманця:'
-WITHDRAW_MENU_TEXT3 = '📤 Виведення • крок 3/3 \n\nСума: {user_withdraw_amount} 💎 ({user_withdraw_amount_ton} TON)\nАдрес:\n{user_withdraw_address}\n\n' \
+WITHDRAW_MENU_TEXT3 = '📤 Виведення • крок 3/3 \n\n<b>Ваш баланс:</b> {general_balance} 💎\n' \
+                      'Сума: {user_withdraw_amount} 💎 ({user_withdraw_amount_ton} TON)\nАдрес:\n<code>{user_withdraw_address}</code>\n\n' \
                       'Підтвердіть або надішліть іншу кількість 💎 на виведення'
 
 WITHDRAW_APPROVE = '✅ Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!\n\n' \
