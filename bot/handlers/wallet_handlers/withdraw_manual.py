@@ -26,7 +26,7 @@ async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext):
     await state.bot.send_message(chat_id=tx.user_id, text=text, reply_markup=kb)
 
     token = await tokens.get_token_by_id(tx.token_id)
-    await withdraw_cash_to_user(state.bot, tx.tx_address, tx.amount, tx.user_id, token, tx)
+    await withdraw_cash_to_user(state.bot, tx.tx_address, float(tx.amount), tx.user_id, token, tx)
 
 
 @router.callback_query(Text(text_startswith='denied_manual_tx_'))
