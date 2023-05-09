@@ -143,7 +143,7 @@ async def get_last_withdraw_transaction(user_id, token_id):
     result = await WithdrawTx.select(WithdrawTx.withdrawtx_id, WithdrawTx.withdraw_state, fn.Max(WithdrawTx.utime)).where(
         WithdrawTx.user_id == user_id,
         WithdrawTx.token_id == token_id,
-        WithdrawTx.withdraw_state == 'pending'
+        (WithdrawTx.withdraw_state == 'moderating') | (WithdrawTx.withdraw_state == 'pending')
     )
     return result[0]
 
@@ -182,9 +182,8 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_all_pending_tx(1683553516)
-        for tx in x:
-            print(tx.withdraw_state)
+        x = await get_last_withdraw_transaction(12345, 'general')
+        print(x)
 
 
     import asyncio

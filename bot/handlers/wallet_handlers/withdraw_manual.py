@@ -20,7 +20,7 @@ async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext):
     tx_id = call.data.removeprefix('approve_manual_tx_')
     tx = await db.get_withdraw_tx_by_id(tx_id)
 
-    await db.update_withdraw_tx_state(tx_id, 'approved')
+    await db.update_withdraw_tx_state(tx_id, 'pending')
 
     text, kb = withdraw_menu.withdraw_manual_approved(tx.amount)
     await state.bot.send_message(chat_id=tx.user_id, text=text, reply_markup=kb)

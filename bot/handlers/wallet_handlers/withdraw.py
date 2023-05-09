@@ -137,6 +137,7 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     if is_manual:
         await send_manual_tx_to_admin_chat(state.bot, call.from_user.id, call.from_user.username, token.token_id,
                                            withdraw_amount, new_tx.withdrawtx_id)
+        await db.update_withdraw_tx_state(new_tx.withdrawtx_id, 'moderating')
     else:
         await withdraw_cash_to_user(state.bot, withdraw_address, withdraw_amount, call.from_user.id, token,
                                     new_tx)
