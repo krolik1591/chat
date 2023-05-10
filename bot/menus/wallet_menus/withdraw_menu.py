@@ -1,7 +1,8 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bot.consts.const import MIN_WITHDRAW
-from bot.consts.texts import ADMIN_APPROVE_TX, ADMIN_REJECT_TX, PAYMENT_CONFIRMED, PAYMENT_DENIED, WITHDRAW_APPROVE, \
+from bot.consts.texts import ADMIN_APPROVE_TX, ADMIN_REJECT_TX, PAYMENT_CONFIRMED, PAYMENT_DENIED, PAYMENT_LOST, \
+    WITHDRAW_APPROVE, \
     WITHDRAW_MANUAL_TX, WITHDRAW_MENU_TEXT1, WITHDRAW_MENU_TEXT2, WITHDRAW_MENU_TEXT3
 from bot.menus.utils import kb_del_msg
 from bot.utils.rounding import round_down
@@ -73,10 +74,18 @@ def withdraw_manual_rejected():
 
 
 def withdraw_result(is_ok, ton_amount):
+    ton_amount = round_down(ton_amount, 2)
     if is_ok:
         text = PAYMENT_CONFIRMED.format(ton_amount=ton_amount)  # round_user_withdraw < MIN_WITHDRAW
     else:
         text = PAYMENT_DENIED.format(ton_amount=ton_amount)  # user balance < MIN_WITHDRAW
 
+    return text, kb_del_msg()
+
+
+def withdraw_lost_by_blockchain(ton_amount):
+    ton_amount = round_down(ton_amount, 2)
+
+    text = PAYMENT_LOST.format(ton_amount=ton_amount)
     return text, kb_del_msg()
 
