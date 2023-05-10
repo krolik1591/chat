@@ -34,8 +34,7 @@ def _replenish_menu_keyboard(wallet_address):
         [InlineKeyboardButton(text='Відкрити Tonkeeper', url=f"https://app.tonkeeper.com/transfer/{wallet_address}")],
         [InlineKeyboardButton(text='Todo link', url=f"https://app.tonkeeper.com/transfer/{wallet_address}")],
         [
-            InlineKeyboardButton(text='Мій гаманець', callback_data="wallet_menu"),
-            InlineKeyboardButton(text='Оновити баланс', callback_data="ton_check")
+            InlineKeyboardButton(text='Мій гаманець', callback_data="wallet_menu")
         ]
     ]
 
