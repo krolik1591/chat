@@ -40,6 +40,8 @@ WITHDRAW_ERR_INSUFFICIENT_FUNDS_MASTER = 'На мастер-рахунку не 
 
 PAYMENT_CONFIRMED = '✅ Гроші ({ton_amount} TON) зараховані на ваш рахунок!'
 PAYMENT_DENIED = '❌ Гроші ({ton_amount} TON) не зараховані, токени повернені на баланс.'
+PAYMENT_LOST = 'Транзакція на вивід {ton_amount} TON загублена блокчейном, токени повернені на баланс. \n' \
+               'Просто спробуйте ще раз :)'
 
 # deposit
 
