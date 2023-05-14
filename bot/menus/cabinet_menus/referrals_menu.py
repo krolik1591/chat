@@ -22,7 +22,7 @@ def _keyboard():
             InlineKeyboardButton(text='Як це працює', callback_data="ref_info")
         ],
         [
-            InlineKeyboardButton(text='‹ Назад', callback_data="referrals_menu")
+            InlineKeyboardButton(text='‹ Назад', callback_data="cabinet_menu")
         ]
     ]
 
