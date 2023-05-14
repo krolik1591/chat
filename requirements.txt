@@ -1,7 +1,7 @@
 --pre
-aiogram==3.0.0b2
+aiogram==3.0.0b7
 cachetools~=5.0.0
-aioredis~=2.0.1
+redis~=4.5.5
 python-dotenv==0.19.2
 aiohttp~=3.8.4
 pydantic~=1.10.4

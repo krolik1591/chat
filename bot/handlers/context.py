@@ -1,6 +1,6 @@
 import json
 
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.fsm.context import FSMContext
 
 from bot.db import db
 from bot.consts.const import MIN_BET

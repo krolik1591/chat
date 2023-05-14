@@ -1,6 +1,7 @@
 from TonTools.Contracts.Wallet import Wallet
 from aiogram import F, Router, types
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Command, Text
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.consts.const import START_POINTS
@@ -29,7 +30,7 @@ async def send_main_menu(context: Context, msg_id=None):
     await context.fsm_context.set_state(Menu.delete_message)
 
 
-@router.message(F.chat.type == "private", commands="start", flags=flags)
+@router.message(F.chat.type == "private", Command("start"), flags=flags)
 async def cmd_start(message: Message, state: FSMContext):
     try:
         await db.get_user_lang(message.from_user.id)
@@ -56,7 +57,7 @@ async def cmd_start(message: Message, state: FSMContext):
     await send_main_menu(context)
 
 
-@router.callback_query(text=["main_menu"])
+@router.callback_query(Text("main_menu"))
 async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     await send_main_menu(context, msg_id=call.message.message_id)

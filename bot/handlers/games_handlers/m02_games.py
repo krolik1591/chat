@@ -1,6 +1,6 @@
 from aiogram import Router, types
-from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Text
+from aiogram.fsm.context import FSMContext
 
 from bot.db import db
 from bot.handlers.context import Context
@@ -11,7 +11,7 @@ from bot.menus.game_menus import select_game_menu
 router = Router()
 
 
-@router.callback_query(text=["all_games"])
+@router.callback_query(Text("all_games"))
 async def all_games(call: types.CallbackQuery, state: FSMContext):
     balances = await db.get_user_balances(call.from_user.id)
 
@@ -19,7 +19,7 @@ async def all_games(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-@router.callback_query(Text(text_startswith='set_game_'))
+@router.callback_query(Text(startswith='set_game_'))
 async def set_game(call: types.CallbackQuery, state: FSMContext):
     game = call.data.removeprefix('set_game_')
     await state.update_data(**{StateKeys.GAME: game})

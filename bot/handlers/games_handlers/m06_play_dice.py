@@ -1,7 +1,8 @@
 from asyncio import sleep
 
 from aiogram import Router, types
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Text
+from aiogram.fsm.context import FSMContext
 
 from bot.consts.const import THROTTLE_TIME_SPIN
 from bot.db import db, manager
@@ -15,7 +16,7 @@ flags = {"throttling_key": "spin"}
 router = Router()
 
 
-@router.callback_query(text=["game_play"], flags=flags)
+@router.callback_query(Text("game_play"), flags=flags)
 async def games_play(call: types.CallbackQuery, state: FSMContext):
     await db.set_user_last_active(call.from_user.id)
     context = await Context.from_fsm_context(call.from_user.id, state)

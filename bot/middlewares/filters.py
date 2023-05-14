@@ -1,6 +1,6 @@
 from typing import Any
 
-from aiogram.dispatcher.filters import BaseFilter
+from aiogram.filters import BaseFilter
 from aiogram.types import Message
 
 from bot.utils.config_reader import config

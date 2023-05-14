@@ -3,8 +3,8 @@ import logging
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher, types
-from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
-from aiogram.dispatcher.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
 from bot.db import first_start

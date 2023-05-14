@@ -1,8 +1,8 @@
 import json
 
 from aiogram import Router, types
-from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Text, StateFilter
+from aiogram.fsm.context import FSMContext
 
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m05_bets import bet_change_state, bet_menu
@@ -30,13 +30,13 @@ async def settings_menu(context: Context, msg_id=None):
         return await bet_menu(context, msg_id=msg_id)
 
 
-@router.callback_query(Text(text_startswith='game_settings'))
+@router.callback_query(Text(startswith='game_settings'))
 async def show_settings(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=call.message.message_id)
 
 
-@router.callback_query(Text(text_startswith='cube_game_settings_'))
+@router.callback_query(Text(startswith='cube_game_settings_'))
 async def set_cube_settings(call: types.CallbackQuery, state: FSMContext):
     setting_to_toggle = call.data.removeprefix('cube_game_settings_')
 
@@ -57,7 +57,7 @@ async def set_cube_settings(call: types.CallbackQuery, state: FSMContext):
     await settings_menu(context, msg_id=call.message.message_id)
 
 
-@router.message(state=Menu.settings)
+@router.message(StateFilter(Menu.settings))
 async def bet_change_text_cube(message, state):
     await bet_change_state(message, state)
 

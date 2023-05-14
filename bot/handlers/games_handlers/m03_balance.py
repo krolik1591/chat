@@ -1,8 +1,8 @@
 import time
 
 from aiogram import Router, types
-from aiogram.dispatcher.filters import Text
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Text
+from aiogram.fsm.context import FSMContext
 
 from bot.db import db
 from bot.consts.const import START_POINTS
@@ -24,13 +24,13 @@ async def balances_menu(context: Context, msg_id):
     await context.fsm_context.set_state(Menu.delete_message)
 
 
-@router.callback_query(text=["select_balance_type"])
+@router.callback_query(Text("select_balance_type"))
 async def balance_type_show(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     await balances_menu(context, msg_id=call.message.message_id)
 
 
-@router.callback_query(Text(text_startswith='set_balance_type_'))
+@router.callback_query(Text(startswith='set_balance_type_'))
 async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
     balance_type = call.data.removeprefix('set_balance_type_')
     await state.update_data(**{StateKeys.BALANCE_TYPE: balance_type})
@@ -40,7 +40,7 @@ async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
 
 
 # only for DEMO balance_type
-@router.callback_query(text=["end_money"])
+@router.callback_query(Text("end_money"))
 async def replenish_demo_balance(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     DEMO_TYPE = 'demo'
