@@ -34,7 +34,7 @@ def input_validation(withdraw_amount, withdraw_address, withdraw_amount_token, g
                                       general_balance=general_balance)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text='✅ Підтвердити', callback_data="withdraw_queued")],
-        [InlineKeyboardButton(text='Назад', callback_data="withdraw")]
+        [InlineKeyboardButton(text='‹ Назад', callback_data="withdraw")]
     ])
 
     return text, kb

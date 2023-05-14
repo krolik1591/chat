@@ -41,7 +41,7 @@ def _keyboard():
 
     kb = [
         *games,
-        [InlineKeyboardButton(text='Назад', callback_data="main_menu")]
+        [InlineKeyboardButton(text='‹ Назад', callback_data="main_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)

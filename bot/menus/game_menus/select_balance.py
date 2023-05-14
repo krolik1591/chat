@@ -22,7 +22,7 @@ def _keyboard():
     kb = [
         *balances_buttons,
         [
-            InlineKeyboardButton(text='Назад', callback_data="all_games"),
+            InlineKeyboardButton(text='‹ Назад', callback_data="all_games"),
             InlineKeyboardButton(text='Правила', callback_data="rules")
         ]
     ]

@@ -53,7 +53,7 @@ def _keyboard(bet_text, selected_setting, play_text):
          InlineKeyboardButton(text='Скинути все', callback_data="cube_game_settings_RESET")],
         *settings_btns,
         [
-            InlineKeyboardButton(text='Назад', callback_data="select_balance_type"),
+            InlineKeyboardButton(text='‹ Назад', callback_data="select_balance_type"),
             InlineKeyboardButton(text=play_text, callback_data="game_play")
         ]
     ]
