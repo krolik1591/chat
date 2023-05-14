@@ -1,13 +1,13 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.utils.i18n import gettext as _
 
 from bot.consts.const import TON_INITIALISATION_FEE
 from bot.menus.utils import balances_text
-from bot.consts.texts import WALLET_MENU_TEXT
 
 
 def wallet_menu(balances: dict, token_price):
-    text = WALLET_MENU_TEXT.format(balances=balances_text(balances),
-                                   token_price=token_price, init_pay_ton=TON_INITIALISATION_FEE)
+    text = _('WALLET_MENU_TEXT').format(balances=balances_text(balances),
+                                        token_price=token_price, init_pay_ton=TON_INITIALISATION_FEE)
     kb = _keyboard()
 
     return text, kb
@@ -16,11 +16,11 @@ def wallet_menu(balances: dict, token_price):
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text='📥 Поповнити', callback_data="replenish"),
-            InlineKeyboardButton(text='📤 Вивести', callback_data="withdraw")
+            InlineKeyboardButton(text=_('WALLET_MENU_BTN_DEPOSIT'), callback_data="replenish"),
+            InlineKeyboardButton(text=_('WALLET_MENU_BTN_WITHDRAW'), callback_data="withdraw")
         ],
-        [InlineKeyboardButton(text='💳 Як придбати TON?', callback_data="how_to_buy")],
-        [InlineKeyboardButton(text='‹ Меню', callback_data="cabinet_menu")]
+        [InlineKeyboardButton(text=_('WALLET_MENU_BTN_HOW_TO_BUY'), callback_data="how_to_buy")],
+        [InlineKeyboardButton(text=_('WALLET_MENU_BTN_BACK'), callback_data="cabinet_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)

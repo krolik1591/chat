@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-14 21:31+0300\n"
+"POT-Creation-Date: 2023-05-14 22:23+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -49,31 +49,62 @@ msgstr "💬 Підтримка"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
-msgstr '✅ Одноразовиій платіж за ініціацію вашого особистого TON-гаманця ({init_pay_ton} TON) пройшов успішно :)\n\n'
-                            'З Вашого особистого рахунку було списано {init_pay_ton} TON'
+msgstr ""
+"✅ Одноразовиій платіж за ініціацію вашого особистого TON-гаманця ({init_pay_ton} TON) пройшов успішно :)\n"
+"\n"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:13
 msgid "DEPOSIT_INITIATION_ERROR"
-msgstr '❌ Недостатньо коштів!\n\nОдноразовий платіж за ініціацію вашого особистого TON-гаманця - {init_pay_ton} TON'
+msgstr ""
+"❌ Недостатньо коштів!\n"
+"\n"
+"Одноразовий платіж за ініціацію вашого особистого TON-гаманця - {init_pay_ton} TON"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:20
 msgid "DEPOSIT_SUCCESSFUL"
-msgstr '✅ Баланс успішно поповнений на {amount}💎!\n\nВдалих спінів, друже 😉'
+msgstr ""
+"✅ Баланс успішно поповнений на {amount}💎!\n"
+"\n"
+"Вдалих спінів, друже 😉"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:25
 msgid "DEPOSIT_MENU_TEXT"
-msgstr '📥 <b>Поповнити Toncoin</b>\n\nПереведіть <b>Toncoin</b> на свою депозитну адресу в <b>The Open Network – TON</b>\n\n'
-                    '<b>Адреса</b>:\n<code>{wallet_address}</code>'
+msgstr ""
+"📥 <b>Поповнити Toncoin</b>\n"
+"\n"
+"Переведіть <b>Toncoin</b> на свою депозитну адресу в <b>The Open Network – TON</b>\n"
+"\n"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:34
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
-msgstr 'Відкрити Tonkeeper'
+msgstr "Відкрити Tonkeeper"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:35
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
-msgstr 'Відкрити Tonkeeper'
+msgstr "Відкрити Tonkeeper"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:37
 msgid "DEPOSIT_MENU_BTN_BACK"
-msgstr '‹ Мій гаманець'
+msgstr "‹ Мій гаманець"
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:10
+msgid "WALLET_MENU_TEXT"
+msgstr '💸 <b>Мій гаманець</b> \n\n<b>Баланс</b>: \n\n{balances} \n\n<b>Курс</b>: {token_price}💎 = 1 TON\n\n'
+                   'Одноразовий платіж за ініціацію {init_pay_ton} TON'
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:25
+msgid "WALLET_MENU_BTN_DEPOSIT"
+msgstr '📥 Поповнити'
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:26
+msgid "WALLET_MENU_BTN_WITHDRAW"
+msgstr '📤 Вивести'
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:28
+msgid "WALLET_MENU_BTN_HOW_TO_BUY"
+msgstr '💳 Як придбати TON?'
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:29
+msgid "WALLET_MENU_BTN_BACK"
+msgstr '‹ Меню'
 
