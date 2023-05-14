@@ -28,7 +28,7 @@ class DiceCube(Dice):
 
     def _get_score_change(self, context, dice_value):
         coefficient = self._get_coefficient(context, dice_value)
-        return context.bet * len(context.game_settings) * (coefficient - 1)
+        return context.bet * (coefficient - len(context.game_settings))
 
     def pre_check(self, context: Context):
         if context.game_settings is None or len(context.game_settings or []) == 0:
