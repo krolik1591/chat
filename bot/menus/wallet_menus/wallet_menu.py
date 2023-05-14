@@ -20,7 +20,7 @@ def _keyboard():
             InlineKeyboardButton(text='📤 Вивести', callback_data="withdraw")
         ],
         [InlineKeyboardButton(text='💳 Як придбати TON?', callback_data="how_to_buy")],
-        [InlineKeyboardButton(text='‹ Меню', callback_data="main_menu")]
+        [InlineKeyboardButton(text='‹ Меню', callback_data="cabinet_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)
