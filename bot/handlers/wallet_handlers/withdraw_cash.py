@@ -10,7 +10,7 @@ async def withdraw_cash_to_user(bot, withdraw_address, withdraw_amount, user_id,
     except InsufficientFunds:
         with manager.pw_database.atomic():
             await db.update_user_balance(user_id, 'general', withdraw_amount)  # return tokens to user
-            await db.update_withdraw_tx_state(tx.withdrawtx_id, 'rejected')
+            await db.update_withdraw_tx_state(tx.withdrawtx_id, 'out_of_funds')
 
         text, keyboard = withdraw_menu_err.insufficient_funds_master()
         await bot.send_message(chat_id=user_id, text=text, reply_markup=keyboard)
