@@ -36,7 +36,9 @@ async def main():
     i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
 
     dp.message.middleware(ThrottlingMiddleware())
-    dp.message.middleware(FSMI18nMiddleware(i18n))
+    dp.callback_query.middleware(ThrottlingMiddleware())  # todo check if it works
+
+    dp.update.middleware(FSMI18nMiddleware(i18n))
 
     await set_bot_commands(bot)
 
