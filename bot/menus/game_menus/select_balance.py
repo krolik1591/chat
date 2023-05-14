@@ -1,13 +1,13 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.utils.i18n import gettext as _
 
 from bot.menus.utils import balances_text, get_balance_icon
-from bot.consts.texts import MENU_TEXT
 
 BALANCES_BUTTONS = ['demo', 'general']
 
 
 def select_balance_menu(balances: dict):
-    text = MENU_TEXT.format(balances=balances_text(balances))
+    text = _('MENU_TEXT').format(balances=balances_text(balances))
     kb = _keyboard()
     return text, kb
 
