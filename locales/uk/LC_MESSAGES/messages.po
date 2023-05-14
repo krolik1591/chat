@@ -1,0 +1,49 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-05-14 21:10+0300\n"
+"PO-Revision-Date: 2023-05-14 20:36+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../bot/menus/main_menu.py:9
+msgid "MENU_TEXT"
+msgstr ""
+"💵 Баланс:\n"
+"\n"
+"{balances}\n"
+"\n"
+"Поїхали?"
+
+#: ../bot/menus/main_menu.py:24
+msgid "MAIN_MENU_BTN_GAMES"
+msgstr '🎲 Ігри'
+
+#: ../bot/menus/main_menu.py:27
+msgid "MAIN_MENU_BTN_CABINET"
+msgstr '🏠 Мій кабінет'
+
+#: ../bot/menus/main_menu.py:30
+msgid "MAIN_MENU_BTN_SETTINGS"
+msgstr '⚙️ Налаштування'
+
+#: ../bot/menus/main_menu.py:33
+msgid "MAIN_MENU_BTN_ADS"
+msgstr '📢 Реклама'
+
+#: ../bot/menus/main_menu.py:34
+msgid "MAIN_MENU_BTN_SUPPORT"
+msgstr '💬 Підтримка'
+
