@@ -10,7 +10,7 @@ init:
 
 .PHONY:update
 update:
-	pybabel update --no-wrap -d . -D messages -i messages.pot
+	pybabel update --no-wrap -d . -D messages -i messages.pot -N
 
 
 .PHONY:extractnupdate

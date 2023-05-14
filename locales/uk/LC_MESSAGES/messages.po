@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-14 21:10+0300\n"
+"POT-Creation-Date: 2023-05-14 21:31+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: ../bot/menus/main_menu.py:9
+#: ../bot/menus/main_menu.py:8
 msgid "MENU_TEXT"
 msgstr ""
 "💵 Баланс:\n"
@@ -27,23 +27,53 @@ msgstr ""
 "\n"
 "Поїхали?"
 
-#: ../bot/menus/main_menu.py:24
+#: ../bot/menus/main_menu.py:17
 msgid "MAIN_MENU_BTN_GAMES"
-msgstr '🎲 Ігри'
+msgstr "🎲 Ігри"
+
+#: ../bot/menus/main_menu.py:20
+msgid "MAIN_MENU_BTN_CABINET"
+msgstr "🏠 Мій кабінет"
+
+#: ../bot/menus/main_menu.py:23
+msgid "MAIN_MENU_BTN_SETTINGS"
+msgstr "⚙️ Налаштування"
+
+#: ../bot/menus/main_menu.py:26
+msgid "MAIN_MENU_BTN_ADS"
+msgstr "📢 Реклама"
 
 #: ../bot/menus/main_menu.py:27
-msgid "MAIN_MENU_BTN_CABINET"
-msgstr '🏠 Мій кабінет'
-
-#: ../bot/menus/main_menu.py:30
-msgid "MAIN_MENU_BTN_SETTINGS"
-msgstr '⚙️ Налаштування'
-
-#: ../bot/menus/main_menu.py:33
-msgid "MAIN_MENU_BTN_ADS"
-msgstr '📢 Реклама'
-
-#: ../bot/menus/main_menu.py:34
 msgid "MAIN_MENU_BTN_SUPPORT"
-msgstr '💬 Підтримка'
+msgstr "💬 Підтримка"
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:11
+msgid "DEPOSIT_ACCOUNT_INITIATED"
+msgstr '✅ Одноразовиій платіж за ініціацію вашого особистого TON-гаманця ({init_pay_ton} TON) пройшов успішно :)\n\n'
+                            'З Вашого особистого рахунку було списано {init_pay_ton} TON'
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:13
+msgid "DEPOSIT_INITIATION_ERROR"
+msgstr '❌ Недостатньо коштів!\n\nОдноразовий платіж за ініціацію вашого особистого TON-гаманця - {init_pay_ton} TON'
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:20
+msgid "DEPOSIT_SUCCESSFUL"
+msgstr '✅ Баланс успішно поповнений на {amount}💎!\n\nВдалих спінів, друже 😉'
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:25
+msgid "DEPOSIT_MENU_TEXT"
+msgstr '📥 <b>Поповнити Toncoin</b>\n\nПереведіть <b>Toncoin</b> на свою депозитну адресу в <b>The Open Network – TON</b>\n\n'
+                    '<b>Адреса</b>:\n<code>{wallet_address}</code>'
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:34
+msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
+msgstr 'Відкрити Tonkeeper'
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:35
+msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
+msgstr 'Відкрити Tonkeeper'
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:37
+msgid "DEPOSIT_MENU_BTN_BACK"
+msgstr '‹ Мій гаманець'
 
