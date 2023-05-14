@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-14 22:31+0300\n"
+"POT-Creation-Date: 2023-05-14 22:41+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -18,7 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: ../bot/menus/main_menu.py:8
+#: ../bot/menus/game_menus/select_balance.py:10
+#: ../bot/menus/game_menus/select_game.py:9 ../bot/menus/main_menu.py:8
 msgid "MENU_TEXT"
 msgstr ""
 "💵 Баланс:\n"
@@ -115,35 +116,86 @@ msgstr "💳 Як придбати TON?"
 msgid "WALLET_MENU_BTN_BACK"
 msgstr "‹ Меню"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:11
+#: ../bot/menus/wallet_menus/withdraw_menu.py:14
+msgid "WITHDRAW_MENU_TEXT1"
+msgstr ""
+"📤 Виведення • крок 1/3 \n"
+"\n"
+"Ваш баланс: {general_balance} 💎\n"
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:24
+msgid "WITHDRAW_MENU_TEXT2"
+msgstr ""
+"📤 Виведення • крок 2/3 \n"
+"\n"
+"Надішліть адресу вашого гаманця:"
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:33
+msgid "WITHDRAW_MENU_TEXT3"
+msgstr ""
+"📤 Виведення • крок 3/3 \n"
+"\n"
+"<b>Ваш баланс:</b> {general_balance} 💎\n"
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:47
+msgid "WITHDRAW_APPROVE"
+msgstr ""
+"✅ Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!\n"
+"\n"
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:57
+msgid "WITHDRAW_MANUAL_TX"
+msgstr "@{username} (id: {user_id}) хоче вивести купу грошей: {withdraw_amount}."
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:69
+msgid "ADMIN_APPROVE_TX"
+msgstr "Адмін схвалив вашу транзу на виведення {amount} 💎! Очікуйте поповнення :)"
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:74
+msgid "ADMIN_REJECT_TX"
+msgstr "Транза відхилена адміном. Токени повернені на баланс"
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:81
+msgid "PAYMENT_CONFIRMED"
+msgstr "✅ Гроші ({ton_amount} TON) зараховані на ваш рахунок!"
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:83
+msgid "PAYMENT_DENIED"
+msgstr "❌ Гроші ({ton_amount} TON) не зараховані, токени повернені на баланс."
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:91
+msgid "PAYMENT_LOST"
+msgstr "Транзакція на вивід {ton_amount} TON загублена блокчейном, токени повернені на баланс. \n"
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:9
 msgid "PREVIOUS_WITHDRAW_IN_PROCESS"
-msgstr 'Дочекайтесь оброблення попередньої транзакції'
+msgstr "Дочекайтесь оброблення попередньої транзакції"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:16
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:14
 msgid "REACHED_DAILY_LIMIT"
-msgstr 'Досягнутий денний ліміт на вивід! Сьогодні ще можна вивести: {allowable_amount} 💎'
+msgstr "Досягнутий денний ліміт на вивід! Сьогодні ще можна вивести: {allowable_amount} 💎"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:20
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:18
 msgid "WITHDRAW_TOO_BIG"
-msgstr 'Максимальний денний ліміт - {daily_limit} 💎 ({daily_limit_token} TON)'
+msgstr "Максимальний денний ліміт - {daily_limit} 💎 ({daily_limit_token} TON)"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:25
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:23
 msgid "AMOUNT_TOO_SMALL"
-msgstr 'Мінімальна сума для виведення: {min_withdraw} 💎 ({ton_amount} TON)'
+msgstr "Мінімальна сума для виведення: {min_withdraw} 💎 ({ton_amount} TON)"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:29
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:27
 msgid "INSUFFICIENT_FUNDS_MASTER"
-msgstr 'На мастер-рахунку не вистачає грошей. Токени повернені на баланс'
+msgstr "На мастер-рахунку не вистачає грошей. Токени повернені на баланс"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:33
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:31
 msgid "INSUFFICIENT_FUNDS"
-msgstr '❌ Бажаної суми виводу нема на вашому рахунку'
+msgstr "❌ Бажаної суми виводу нема на вашому рахунку"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:37
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:35
 msgid "WRONG_ADDRESS"
-msgstr '❌ Невірно введено адресу'
+msgstr "❌ Невірно введено адресу"
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:41
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:39
 msgid "TON_TESTNET_ADDRESS"
-msgstr '❌ Голова, це тест-нетівська адреса, будь уважніше'
+msgstr "❌ Голова, це тест-нетівська адреса, будь уважніше"
 
