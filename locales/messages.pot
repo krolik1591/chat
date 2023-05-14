@@ -1,0 +1,164 @@
+# Translations template for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-05-14 22:41+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+#: ../bot/menus/game_menus/select_balance.py:10
+#: ../bot/menus/game_menus/select_game.py:9 ../bot/menus/main_menu.py:8
+msgid "MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/main_menu.py:17
+msgid "MAIN_MENU_BTN_GAMES"
+msgstr ""
+
+#: ../bot/menus/main_menu.py:20
+msgid "MAIN_MENU_BTN_CABINET"
+msgstr ""
+
+#: ../bot/menus/main_menu.py:23
+msgid "MAIN_MENU_BTN_SETTINGS"
+msgstr ""
+
+#: ../bot/menus/main_menu.py:26
+msgid "MAIN_MENU_BTN_ADS"
+msgstr ""
+
+#: ../bot/menus/main_menu.py:27
+msgid "MAIN_MENU_BTN_SUPPORT"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:11
+msgid "DEPOSIT_ACCOUNT_INITIATED"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:13
+msgid "DEPOSIT_INITIATION_ERROR"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:20
+msgid "DEPOSIT_SUCCESSFUL"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:25
+msgid "DEPOSIT_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:34
+msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:35
+msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/deposit_menu.py:37
+msgid "DEPOSIT_MENU_BTN_BACK"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:9
+msgid "WALLET_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:19
+msgid "WALLET_MENU_BTN_DEPOSIT"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:20
+msgid "WALLET_MENU_BTN_WITHDRAW"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:22
+msgid "WALLET_MENU_BTN_HOW_TO_BUY"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/wallet_menu.py:23
+msgid "WALLET_MENU_BTN_BACK"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:14
+msgid "WITHDRAW_MENU_TEXT1"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:24
+msgid "WITHDRAW_MENU_TEXT2"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:33
+msgid "WITHDRAW_MENU_TEXT3"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:47
+msgid "WITHDRAW_APPROVE"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:57
+msgid "WITHDRAW_MANUAL_TX"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:69
+msgid "ADMIN_APPROVE_TX"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:74
+msgid "ADMIN_REJECT_TX"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:81
+msgid "PAYMENT_CONFIRMED"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:83
+msgid "PAYMENT_DENIED"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu.py:91
+msgid "PAYMENT_LOST"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:9
+msgid "PREVIOUS_WITHDRAW_IN_PROCESS"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:14
+msgid "REACHED_DAILY_LIMIT"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:18
+msgid "WITHDRAW_TOO_BIG"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:23
+msgid "AMOUNT_TOO_SMALL"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:27
+msgid "INSUFFICIENT_FUNDS_MASTER"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:31
+msgid "INSUFFICIENT_FUNDS"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:35
+msgid "WRONG_ADDRESS"
+msgstr ""
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:39
+msgid "TON_TESTNET_ADDRESS"
+msgstr ""
+
