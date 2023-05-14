@@ -1,9 +1,11 @@
 import asyncio
 import logging
+from pathlib import Path
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
 from aiogram.dispatcher.fsm.storage.redis import RedisStorage
+from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
 from bot.db import first_start
 from bot.handlers import routers
@@ -30,7 +32,11 @@ async def main():
     for router in routers:
         dp.include_router(router)
 
+    i18n_path = Path(__file__).parent.parent / 'locales'
+    i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
+
     dp.message.middleware(ThrottlingMiddleware())
+    dp.message.middleware(FSMI18nMiddleware(i18n))
 
     await set_bot_commands(bot)
 

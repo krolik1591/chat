@@ -7,3 +7,5 @@
 .keystore
 db.sqlite3
 redis_dump.rdb
+
+*.mo
