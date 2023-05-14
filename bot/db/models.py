@@ -20,8 +20,9 @@ class Wallets_key(manager.Model):
 
 class User(manager.Model):
     user_id = BigIntegerField(primary_key=True)
-    username = CharField(default='')
+    username = CharField(default='', null=True)
     lang = CharField(default='en')
+    referrer = BigIntegerField(null=True)
 
     balance_demo = DecimalField(default=0)
     balance_promo = DecimalField(default=0)

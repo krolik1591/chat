@@ -9,9 +9,9 @@ from bot.db.models import GameLog, WithdrawTx, Transactions, User, Wallets_key
 # users
 
 
-async def create_new_user(tg_id, username):
+async def create_new_user(tg_id, username, referrer, start_points):
     return await User.create(user_id=tg_id, username=username, timestamp_registered=datetime.utcnow(),
-                             timestamp_last_active=datetime.utcnow())
+                             timestamp_last_active=datetime.utcnow(), referrer=referrer, balance_demo=start_points)
 
 
 async def update_username(tg_id, username):

@@ -4,6 +4,7 @@ from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.consts.const import START_POINTS
+from bot.consts.texts import CHECK_REF_APPROVE_TEXT, CHECK_REF_DENIED_TEXT
 from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
@@ -33,8 +34,19 @@ async def cmd_start(message: Message, state: FSMContext):
     try:
         await db.get_user_lang(message.from_user.id)
     except ValueError:
-        await db.create_new_user(message.from_user.id, message.from_user.username)
-        await db.update_user_balance(message.from_user.id, 'demo', START_POINTS)  # add demo
+        invite_sender = None
+        if len(message.text.split()) == 2:
+            try:
+                invite_sender = int(message.text.split()[1])
+                await db.get_user_lang(invite_sender)
+            except ValueError:
+                await message.answer(CHECK_REF_DENIED_TEXT)
+                return
+
+            await state.bot.send_message(invite_sender, CHECK_REF_APPROVE_TEXT.
+                                         format(id=message.from_user.id, name=message.from_user.first_name))
+
+        await db.create_new_user(message.from_user.id, message.from_user.username, invite_sender, START_POINTS)
 
         new_wallet = Wallet(provider=TonWrapper.INSTANCE)
         mnemonics = ','.join(new_wallet.mnemonics)
