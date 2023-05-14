@@ -23,13 +23,3 @@ async def admin_menu(message: types.Message):
 async def delete_message(message: types.Message):
     await message.delete()
 
-
-@router.inline_query()
-async def send_invite(query: types.InlineQuery, state):
-    await query.answer([types.InlineQueryResultArticle(
-        title='Send invitation', description='huihuihuihjughrtyjgrgri',
-        id='wqweqweqwe', input_message_content=types.InputTextMessageContent(message_text='hi noggers'),
-        reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[[
-            types.InlineKeyboardButton(text='pohui', url=await create_start_link(state.bot, str(query.from_user.id)))
-        ]]))
-    ])

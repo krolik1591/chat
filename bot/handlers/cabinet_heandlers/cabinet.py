@@ -22,3 +22,14 @@ async def referrals(call: types.CallbackQuery, state: FSMContext):
 
     text, keyboard = referrals_menu(invite_link)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+
+@router.inline_query()
+async def inline_send_invite(query: types.InlineQuery, state):
+    await query.answer([types.InlineQueryResultArticle(
+        title='Send invitation', description='huihuihuihjughrtyjgrgri',
+        id='wqweqweqwe', input_message_content=types.InputTextMessageContent(message_text='hi noggers'),
+        reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[[
+            types.InlineKeyboardButton(text='pohui', url=await create_start_link(state.bot, str(query.from_user.id)))
+        ]]))
+    ])
