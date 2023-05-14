@@ -11,8 +11,8 @@ def language_menu():
 
 
 LANGUAGES = {
-    'ua': 'Українська',
-    'en': 'Англійська'
+    'ua': '🇺🇦 Українська',
+    'en': '🇺🇸 Англійська'
 }
 
 
@@ -24,7 +24,7 @@ def _keyboard():
 
     kb = [
         *settings_btns,
-        [InlineKeyboardButton(text='‹ Назад', callback_data="settings")]
+        [InlineKeyboardButton(text='‹ Назад', callback_data="main_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)
