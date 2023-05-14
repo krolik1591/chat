@@ -1,7 +1,6 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.menus.utils import balances_text
-from bot.consts.texts import CABINET_MENU_TEXT, MENU_TEXT
+from bot.consts.texts import CABINET_MENU_TEXT
 
 
 def cabinet_menu():
@@ -17,7 +16,7 @@ def _keyboard():
             InlineKeyboardButton(text='💎 Депозит', callback_data="wallet_menu"),
         ],
         [
-            InlineKeyboardButton(text='👬 Реферали', callback_data="wallet_menu")
+            InlineKeyboardButton(text='👬 Реферали', callback_data="referrals_menu")
         ],
         [
             InlineKeyboardButton(text='‹ Назад', callback_data="main_menu")
