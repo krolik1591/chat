@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-14 22:23+0300\n"
+"POT-Creation-Date: 2023-05-14 22:31+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -87,24 +87,63 @@ msgstr "Відкрити Tonkeeper"
 msgid "DEPOSIT_MENU_BTN_BACK"
 msgstr "‹ Мій гаманець"
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:10
+#: ../bot/menus/wallet_menus/wallet_menu.py:9
 msgid "WALLET_MENU_TEXT"
-msgstr '💸 <b>Мій гаманець</b> \n\n<b>Баланс</b>: \n\n{balances} \n\n<b>Курс</b>: {token_price}💎 = 1 TON\n\n'
-                   'Одноразовий платіж за ініціацію {init_pay_ton} TON'
+msgstr ""
+"💸 <b>Мій гаманець</b> \n"
+"\n"
+"<b>Баланс</b>: \n"
+"\n"
+"{balances} \n"
+"\n"
+"<b>Курс</b>: {token_price}💎 = 1 TON\n"
+"\n"
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:25
+#: ../bot/menus/wallet_menus/wallet_menu.py:19
 msgid "WALLET_MENU_BTN_DEPOSIT"
-msgstr '📥 Поповнити'
+msgstr "📥 Поповнити"
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:26
+#: ../bot/menus/wallet_menus/wallet_menu.py:20
 msgid "WALLET_MENU_BTN_WITHDRAW"
-msgstr '📤 Вивести'
+msgstr "📤 Вивести"
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:28
+#: ../bot/menus/wallet_menus/wallet_menu.py:22
 msgid "WALLET_MENU_BTN_HOW_TO_BUY"
-msgstr '💳 Як придбати TON?'
+msgstr "💳 Як придбати TON?"
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:29
+#: ../bot/menus/wallet_menus/wallet_menu.py:23
 msgid "WALLET_MENU_BTN_BACK"
-msgstr '‹ Меню'
+msgstr "‹ Меню"
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:11
+msgid "PREVIOUS_WITHDRAW_IN_PROCESS"
+msgstr 'Дочекайтесь оброблення попередньої транзакції'
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:16
+msgid "REACHED_DAILY_LIMIT"
+msgstr 'Досягнутий денний ліміт на вивід! Сьогодні ще можна вивести: {allowable_amount} 💎'
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:20
+msgid "WITHDRAW_TOO_BIG"
+msgstr 'Максимальний денний ліміт - {daily_limit} 💎 ({daily_limit_token} TON)'
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:25
+msgid "AMOUNT_TOO_SMALL"
+msgstr 'Мінімальна сума для виведення: {min_withdraw} 💎 ({ton_amount} TON)'
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:29
+msgid "INSUFFICIENT_FUNDS_MASTER"
+msgstr 'На мастер-рахунку не вистачає грошей. Токени повернені на баланс'
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:33
+msgid "INSUFFICIENT_FUNDS"
+msgstr '❌ Бажаної суми виводу нема на вашому рахунку'
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:37
+msgid "WRONG_ADDRESS"
+msgstr '❌ Невірно введено адресу'
+
+#: ../bot/menus/wallet_menus/withdraw_menu_err.py:41
+msgid "TON_TESTNET_ADDRESS"
+msgstr '❌ Голова, це тест-нетівська адреса, будь уважніше'
 
