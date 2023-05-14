@@ -13,7 +13,7 @@ def referrals_menu(invite_link):
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text='Відправити запрошення', callback_data="send_invite"),
+            InlineKeyboardButton(text='Відправити запрошення', switch_inline_query="send_invite"),
         ],
         [
             InlineKeyboardButton(text='Вивести на ігровий баланс', callback_data="promo_to_general")
