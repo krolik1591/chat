@@ -1,10 +1,10 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.consts.texts import LANGUAGE_TEXT
+from aiogram.utils.i18n import gettext as _
 
 
 def language_menu():
-    text = LANGUAGE_TEXT
+    text = _('LANGUAGE_TEXT')
     kb = _keyboard()
 
     return text, kb
@@ -12,7 +12,8 @@ def language_menu():
 
 LANGUAGES = {
     'ua': '🇺🇦 Українська',
-    'en': '🇺🇸 Англійська'
+    'en': '🇺🇸 English',
+    'ru': '💩 русский'
 }
 
 
@@ -24,7 +25,7 @@ def _keyboard():
 
     kb = [
         *settings_btns,
-        [InlineKeyboardButton(text='‹ Назад', callback_data="main_menu")]
+        [InlineKeyboardButton(text=_('BACK'), callback_data="main_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)
