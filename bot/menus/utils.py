@@ -20,7 +20,7 @@ def balance_text(item):
     type_, amount = item
     return BALANCE_TEXT.format(
         icon=get_balance_icon(type_),
-        name=get_balance_name(item),
+        name=get_balance_name(type_),
         amount=round_down(amount, 2)
     )
 

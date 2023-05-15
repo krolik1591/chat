@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-15 15:24+0300\n"
+"POT-Creation-Date: 2023-05-15 21:11+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -48,9 +48,158 @@ msgstr "📢 Реклама"
 msgid "MAIN_MENU_BTN_SUPPORT"
 msgstr "💬 Підтримка"
 
-#: ../bot/menus/setting_menus/setting.py:8
-msgid "SETTING_TEXT"
+#: ../bot/menus/utils.py:30
+msgid "SELECT_BALANCE_BTN_DEMO"
+msgstr "DEMO"
+
+#: ../bot/menus/utils.py:31
+msgid "SELECT_BALANCE_BTN_PROMO"
+msgstr "PROMO"
+
+#: ../bot/menus/utils.py:32
+msgid "SELECT_BALANCE_BTN_GENERAL"
+msgstr "GENERAL"
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:7
+msgid "CABINET_MENU_TEXT"
 msgstr ""
+"Дякую тобі мій мілорд за науку. Я створив цю затишну домівку для твоїх синів та моїх братів. \n\n"
+"StillNoWoman."
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:16
+msgid "CABINET_MENU_BTN_DEPOSIT"
+msgstr "💎 Депозит"
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:19
+msgid "CABINET_MENU_BTN_REFERRALS"
+msgstr "👬 Реферали"
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:22
+#: ../bot/menus/cabinet_menus/referrals_menu.py:25
+#: ../bot/menus/game_menus/bet_menus.py:57
+#: ../bot/menus/game_menus/cube_settings.py:55
+#: ../bot/menus/game_menus/select_balance.py:25
+#: ../bot/menus/game_menus/select_game.py:43
+#: ../bot/menus/setting_menus/language_menu.py:28
+#: ../bot/menus/setting_menus/setting.py:19
+msgid "BTN_BACK"
+msgstr "‹ Назад"
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:7
+msgid "REFERRAL_MENU_TEXT"
+msgstr ""
+"Запрошуйте друзів та отримайте <b>до 15%</b> від всіх їх ставок. Виграшних та програшних.\n\n"
+"Кількість рефералів:\n"
+"Всього зароблено:\n"
+"Виведено на ігровий баланс:\n"
+"Ваш рівень:\n\n"
+"Посилання для запрошень: <code>{invite_link}</code>"
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:16
+msgid "REFERRALS_MENU_SEND_INVITE"
+msgstr "Відправити запрошення"
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:19
+msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
+msgstr "Вивести на ігровий баланс "
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:22
+msgid "REFERRALS_MENU_HOW_IT_WORKS"
+msgstr "Як це працює?"
+
+#: ../bot/menus/game_menus/bet_menus.py:14
+msgid "SLOTS_PLAY_TEXT"
+msgstr "Крутити!"
+
+#: ../bot/menus/game_menus/bet_menus.py:16
+msgid "FOOTBALL_PLAY_TEXT"
+msgstr "Удар!"
+
+#: ../bot/menus/game_menus/bet_menus.py:18
+msgid "DARTS_PLAY_TEXT"
+msgstr "Кинути!"
+
+#: ../bot/menus/game_menus/bet_menus.py:21
+#: ../bot/menus/game_menus/cube_settings.py:12
+msgid "CUBE_PLAY_TEXT"
+msgstr "Кубісь!"
+
+#: ../bot/menus/game_menus/bet_menus.py:29
+msgid "DEFAULT_BALANCE_TEXT"
+msgstr ""
+"Ваші гроши: <b>{balance}</b>\n\nОбери розмір ставки:"
+
+#: ../bot/menus/game_menus/bet_menus.py:30
+msgid "DEFAULT_PLAY_TEXT"
+msgstr "Грати"
+
+#: ../bot/menus/game_menus/bet_menus.py:66
+msgid "BET_MENUS_BTN_GIVEMEMONEY"
+msgstr "Віддай гроші"
+
+#: ../bot/menus/game_menus/cube_settings.py:10
+msgid "CUBE_SETTINGS_TEXT"
+msgstr "Баланс: <b>{balance}</b> {token_icon}\nСума усіх ставок: {general_bet} \n\nОбери суму ставки та на що ставиш:"
+
+#: ../bot/menus/game_menus/cube_settings.py:11
+msgid "CUBE_BET_BUTTON"
+msgstr "⚙️ Ставка • {bet} {token_icon}"
+
+#: ../bot/menus/game_menus/cube_settings.py:35
+msgid "CUBE_SETTINGS_BTN_EVEN"
+msgstr "Парне"
+
+#: ../bot/menus/game_menus/cube_settings.py:36
+msgid "CUBE_SETTINGS_BTN_ODD"
+msgstr "Непарне"
+
+#: ../bot/menus/game_menus/cube_settings.py:52
+msgid "CUBE_SETTINGS_BTN_RESET_ALL_BETS"
+msgstr "Обнуляємось"
+
+#: ../bot/menus/game_menus/select_game.py:26
+msgid "SELECT_GAME_BTN_CASINO"
+msgstr "🎰 Казино"
+
+#: ../bot/menus/game_menus/select_game.py:27
+msgid "SELECT_GAME_BTN_CUBE"
+msgstr "🎲 Кубик"
+
+#: ../bot/menus/game_menus/select_game.py:28
+msgid "SELECT_GAME_BTN_BASKET"
+msgstr "🏀 Баскет"
+
+#: ../bot/menus/game_menus/select_game.py:29
+msgid "SELECT_GAME_BTN_DARTS"
+msgstr "🎯 Дартс"
+
+#: ../bot/menus/game_menus/select_game.py:30
+msgid "SELECT_GAME_BTN_BOWLING"
+msgstr "🎳 Боулінг"
+
+#: ../bot/menus/game_menus/select_game.py:31
+msgid "SELECT_GAME_BTN_FOOTBALL"
+msgstr "⚽️ Футбол"
+
+#: ../bot/menus/game_menus/select_game.py:32
+msgid "SELECT_GAME_BTN_MINES"
+msgstr "💣 Міни"
+
+#: ../bot/menus/game_menus/select_game.py:33
+msgid "SELECT_GAME_BTN_CUEFA"
+msgstr "✌️ ЦУ-Е-ФА"
+
+#: ../bot/menus/setting_menus/language_menu.py:7
+msgid "LANGUAGE_TEXT"
+msgstr "Обери потрібну мову:"
+
+#: ../bot/menus/setting_menus/setting.py:7
+msgid "SETTING_TEXT"
+msgstr "Вітаю у налаштуваннях!\n\nА ви вже налаштувались взяти баночку?"
+
+#: ../bot/menus/setting_menus/setting.py:16
+msgid "SETTING_BTN_CHANGE_LANG"
+msgstr "Змінити мову"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"

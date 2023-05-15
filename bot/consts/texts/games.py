@@ -6,9 +6,6 @@ WIN_TEXT = 'Перемога! Ізі + {score_change} {token_icon}'
 GAME_ERR_BET_NOT_SELECTED = '❌ Не обраний результат ставки!'
 GAME_ERR_BET_TOO_BIG = '❌ Ставка більше балансу!'
 
-CUBE_SETTINGS_TEXT = "Баланс: <b>{balance}</b> {token_icon}\nСума усіх ставок: {general_bet} \n\nОбери суму ставки та на що ставиш:"
-CUBE_BET_BUTTON = "⚙️ Ставка • {bet} {token_icon}"
-RESET_BET = 'Обнуляємось'
 
 DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1 = '😐 Мимо'
 DARTS_OR_BOWLING_TEXT_2 = '🙄 Не пощастило'
@@ -36,7 +33,6 @@ CUBE_TEXT_2 = '{dice_number_emoji}\n\n🤐 Дідько, знов не поща�
 CUBE_TEXT_3 = '{dice_number_emoji}\n\n🔥 Вже {cube_lose_streak} раз не щастить'
 
 
-DEFAULT_PLAY_TEXT = 'Грати'
 
 FOOTBALL_PLAY_TEXT = "⚽ ️Kick"
 DARTS_PLAY_TEXT = "🎯 ️Darts"

@@ -21,17 +21,16 @@ def bet_menu(bet, balance, balance_type, game_mode=None):
         return _base_bet_menu(balance, bet, balance_type=balance_type, play_text=_('CUBE_PLAY_TEXT'),
                               back_to='game_settings')
 
-    return _base_bet_menu(balance, bet, balance_type=balance_type)
+    return _base_bet_menu(balance, bet, balance_type=balance_type, play_text=_('DEFAULT_PLAY_TEXT'))
 
 
 def _base_bet_menu(
         balance, bet, balance_type,
-        text=_('DEFAULT_BALANCE_TEXT'),
-        play_text=_('DEFAULT_PLAY_TEXT'),
+        play_text='',
         back_to='select_balance_type'
 ):
     balance_icon = get_balance_icon(balance_type)
-    text = text.format(balance=balance, bet=bet)
+    text = _('DEFAULT_BALANCE_TEXT').format(balance=balance, bet=bet)
 
     add_replenish_btn = balance_type == 'demo' and balance < MIN_BET
     kb = _keyboard(bet, balance_icon, play_text, add_replenish_btn, back_to)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-15 15:24+0300\n"
+"POT-Creation-Date: 2023-05-15 21:11+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -43,8 +43,148 @@ msgstr ""
 msgid "MAIN_MENU_BTN_SUPPORT"
 msgstr ""
 
-#: ../bot/menus/setting_menus/setting.py:8
+#: ../bot/menus/utils.py:30
+msgid "SELECT_BALANCE_BTN_DEMO"
+msgstr ""
+
+#: ../bot/menus/utils.py:31
+msgid "SELECT_BALANCE_BTN_PROMO"
+msgstr ""
+
+#: ../bot/menus/utils.py:32
+msgid "SELECT_BALANCE_BTN_GENERAL"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:7
+msgid "CABINET_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:16
+msgid "CABINET_MENU_BTN_DEPOSIT"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:19
+msgid "CABINET_MENU_BTN_REFERRALS"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:22
+#: ../bot/menus/cabinet_menus/referrals_menu.py:25
+#: ../bot/menus/game_menus/bet_menus.py:57
+#: ../bot/menus/game_menus/cube_settings.py:55
+#: ../bot/menus/game_menus/select_balance.py:25
+#: ../bot/menus/game_menus/select_game.py:43
+#: ../bot/menus/setting_menus/language_menu.py:28
+#: ../bot/menus/setting_menus/setting.py:19
+msgid "BTN_BACK"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:7
+msgid "REFERRAL_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:16
+msgid "REFERRALS_MENU_SEND_INVITE"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:19
+msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:22
+msgid "REFERRALS_MENU_HOW_IT_WORKS"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:14
+msgid "SLOTS_PLAY_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:16
+msgid "FOOTBALL_PLAY_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:18
+msgid "DARTS_PLAY_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:21
+#: ../bot/menus/game_menus/cube_settings.py:12
+msgid "CUBE_PLAY_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:29
+msgid "DEFAULT_BALANCE_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:30
+msgid "DEFAULT_PLAY_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:66
+msgid "BET_MENUS_BTN_GIVEMEMONEY"
+msgstr ""
+
+#: ../bot/menus/game_menus/cube_settings.py:10
+msgid "CUBE_SETTINGS_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/cube_settings.py:11
+msgid "CUBE_BET_BUTTON"
+msgstr ""
+
+#: ../bot/menus/game_menus/cube_settings.py:35
+msgid "CUBE_SETTINGS_BTN_EVEN"
+msgstr ""
+
+#: ../bot/menus/game_menus/cube_settings.py:36
+msgid "CUBE_SETTINGS_BTN_ODD"
+msgstr ""
+
+#: ../bot/menus/game_menus/cube_settings.py:52
+msgid "CUBE_SETTINGS_BTN_RESET_ALL_BETS"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:26
+msgid "SELECT_GAME_BTN_CASINO"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:27
+msgid "SELECT_GAME_BTN_CUBE"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:28
+msgid "SELECT_GAME_BTN_BASKET"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:29
+msgid "SELECT_GAME_BTN_DARTS"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:30
+msgid "SELECT_GAME_BTN_BOWLING"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:31
+msgid "SELECT_GAME_BTN_FOOTBALL"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:32
+msgid "SELECT_GAME_BTN_MINES"
+msgstr ""
+
+#: ../bot/menus/game_menus/select_game.py:33
+msgid "SELECT_GAME_BTN_CUEFA"
+msgstr ""
+
+#: ../bot/menus/setting_menus/language_menu.py:7
+msgid "LANGUAGE_TEXT"
+msgstr ""
+
+#: ../bot/menus/setting_menus/setting.py:7
 msgid "SETTING_TEXT"
+msgstr ""
+
+#: ../bot/menus/setting_menus/setting.py:16
+msgid "SETTING_BTN_CHANGE_LANG"
 msgstr ""
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:11
