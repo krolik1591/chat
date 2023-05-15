@@ -1,10 +1,10 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from bot.consts.texts import CABINET_MENU_TEXT
+from aiogram.utils.i18n import gettext as _
 
 
 def cabinet_menu():
-    text = CABINET_MENU_TEXT
+    text = _('CABINET_MENU_TEXT')
     kb = _keyboard()
 
     return text, kb
@@ -13,13 +13,13 @@ def cabinet_menu():
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text='💎 Депозит', callback_data="wallet_menu"),
+            InlineKeyboardButton(text=_('CABINET_MENU_BTN_DEPOSIT'), callback_data="wallet_menu"),
         ],
         [
-            InlineKeyboardButton(text='👬 Реферали', callback_data="referrals_menu")
+            InlineKeyboardButton(text=_('CABINET_MENU_BTN_REFERRALS'), callback_data="referrals_menu")
         ],
         [
-            InlineKeyboardButton(text='‹ Назад', callback_data="main_menu")
+            InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu")
         ]
     ]
 
