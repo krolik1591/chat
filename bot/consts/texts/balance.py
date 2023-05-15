@@ -17,3 +17,4 @@ CHECK_REF_APPROVE_TEXT = '<a href="tg://user?id={id}">{name}</a> став ваш
 
 DEMO_FUNDS_ICON = '🐠'
 TON_FUNDS_ICON = '💎'
+PROMO_FUNDS_ICON = '🎁'

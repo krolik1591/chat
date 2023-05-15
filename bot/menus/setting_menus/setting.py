@@ -16,7 +16,7 @@ def _keyboard():
             InlineKeyboardButton(text=_('SETTING_BTN_CHANGE_LANG'), callback_data="change_lang"),
         ],
         [
-            InlineKeyboardButton(text=_('BACK'), callback_data="main_menu")
+            InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu")
         ]
     ]
 

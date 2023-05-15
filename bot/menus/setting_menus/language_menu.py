@@ -25,7 +25,7 @@ def _keyboard():
 
     kb = [
         *settings_btns,
-        [InlineKeyboardButton(text=_('BACK'), callback_data="main_menu")]
+        [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)
