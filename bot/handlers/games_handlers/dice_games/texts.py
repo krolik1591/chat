@@ -1,4 +1,3 @@
-from bot.consts import texts as t
 from aiogram.utils.i18n import gettext as _
 
 

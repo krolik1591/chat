@@ -2,7 +2,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from aiogram.utils.i18n import gettext as _
 
-from bot.consts.texts import BALANCE_TEXT, PROMO_FUNDS_ICON, TON_FUNDS_ICON, DEMO_FUNDS_ICON
+from bot.consts.balance import BALANCE_TEXT, PROMO_FUNDS_ICON, TON_FUNDS_ICON, DEMO_FUNDS_ICON
 from bot.utils.rounding import round_down
 
 
