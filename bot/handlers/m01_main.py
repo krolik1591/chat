@@ -12,6 +12,8 @@ from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
 from bot.tokens.token_ton import TonWrapper
 
+from aiogram.utils.i18n import gettext as _
+
 flags = {"throttling_key": "default"}
 router = Router()
 
@@ -41,10 +43,10 @@ async def cmd_start(message: Message, state: FSMContext):
                 invite_sender = int(message.text.split()[1])
                 await db.get_user_lang(invite_sender)
             except ValueError:
-                await message.answer(CHECK_REF_DENIED_TEXT)
+                await message.answer(_('CHECK_REF_DENIED_TEXT'))
                 return
 
-            await state.bot.send_message(invite_sender, CHECK_REF_APPROVE_TEXT.
+            await state.bot.send_message(invite_sender, _('CHECK_REF_APPROVE_TEXT').
                                          format(id=message.from_user.id, name=message.from_user.first_name))
 
         await db.create_new_user(message.from_user.id, message.from_user.username, invite_sender, START_POINTS)
