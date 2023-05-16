@@ -33,7 +33,9 @@ async def send_main_menu(context: Context, msg_id=None):
 @router.message(F.chat.type == "private", Command("start"), flags=flags)
 async def cmd_start(message: Message, state: FSMContext):
     try:
-        await db.get_user_lang(message.from_user.id)
+        user_lang = await db.get_user_lang(message.from_user.id)
+        await state.update_data(**{StateKeys.LOCALE: user_lang})
+
     except ValueError:
         invite_sender = None
         if len(message.text.split()) == 2:

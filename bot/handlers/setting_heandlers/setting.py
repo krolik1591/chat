@@ -1,7 +1,9 @@
 from aiogram import Router, types
 from aiogram.filters import Text
+from aiogram.fsm.context import FSMContext
 
 from bot.db.methods import set_user_lang
+from bot.handlers.states import StateKeys
 from bot.menus.setting_menus.language_menu import language_menu
 from bot.menus.setting_menus.setting import setting_menu
 
@@ -21,8 +23,9 @@ async def change_lang(call: types.CallbackQuery):
 
 
 @router.callback_query(Text(startswith='new_lang'))
-async def update_language(call: types.CallbackQuery):
+async def update_language(call: types.CallbackQuery, state: FSMContext):
     lang = call.data.removeprefix('new_lang')
     await set_user_lang(call.from_user.id, lang)
+    await state.update_data(**{StateKeys.LOCALE: lang})
 
     await call.answer('Мову змінено!')

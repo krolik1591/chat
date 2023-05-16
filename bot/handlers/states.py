@@ -14,6 +14,7 @@ class Menu(StatesGroup):
 class StateKeys:
     # common
     LAST_MSG_ID = 'last_msg_id'
+    LOCALE = 'locale'
     # game
     GAME = 'game'
     BALANCE_TYPE = 'balance_type'
