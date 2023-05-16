@@ -409,10 +409,8 @@ msgstr ""
 #: ../bot/menus/wallet_menus/deposit_menu.py:25
 msgid "DEPOSIT_MENU_TEXT"
 msgstr ""
-"📥 <b>Поповнити Toncoin</b>\n"
-"\n"
-"Переведіть <b>Toncoin</b> на свою депозитну адресу в <b>The Open Network – TON</b>\n"
-"\n"
+"📥 <b>Поповнити Toncoin</b>\n\nПереведіть <b>Toncoin</b> на свою депозитну адресу в <b>The Open Network – TON</b>\n\n"
+"<b>Адреса</b>:\n<code>{wallet_address}</code>"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:34
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
@@ -457,9 +455,9 @@ msgstr "‹ Меню"
 #: ../bot/menus/wallet_menus/withdraw_menu.py:11
 msgid "WITHDRAW_MENU_TEXT1"
 msgstr ""
-"📤 Виведення • крок 1/3 \n"
-"\n"
-"Ваш баланс: {general_balance} 💎\n"
+"📤 Виведення • крок 1/3 \n\nВаш баланс: {general_balance} 💎\n"
+"⚠️ Мін. сума виведення: {min_withdraw} 💎 ({ton_amount} TON)\n\n"
+"Надішліть суму 💎 для виведення:"
 
 #: ../bot/menus/wallet_menus/withdraw_menu.py:21
 msgid "WITHDRAW_MENU_TEXT2"
@@ -471,9 +469,9 @@ msgstr ""
 #: ../bot/menus/wallet_menus/withdraw_menu.py:30
 msgid "WITHDRAW_MENU_TEXT3"
 msgstr ""
-"📤 Виведення • крок 3/3 \n"
-"\n"
-"<b>Ваш баланс:</b> {general_balance} 💎\n"
+"📤 Виведення • крок 3/3 \n\n<b>Ваш баланс:</b> {general_balance} 💎\n"
+"Сума: {user_withdraw_amount} 💎 ({user_withdraw_amount_ton} TON)\nАдрес:\n<code>{user_withdraw_address}</code>\n\n"
+"Підтвердіть або надішліть іншу кількість 💎 на виведення"
 
 #: ../bot/menus/wallet_menus/withdraw_menu.py:44
 msgid "WITHDRAW_APPROVE"
