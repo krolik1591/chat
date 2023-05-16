@@ -3,14 +3,14 @@ from asyncio import sleep
 from aiogram import Router, types
 from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.i18n import gettext as _
 
 from bot.consts.const import THROTTLE_TIME_SPIN
 from bot.db import db, manager
 from bot.handlers.context import Context
-from bot.menus.utils import get_balance_icon
 from bot.handlers.games_handlers.dice_games import DICE_GAMES, Dice
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
-from bot.consts.texts import DICE_ROLL_TEXT
+from bot.menus.utils import get_balance_icon
 
 flags = {"throttling_key": "spin"}
 router = Router()
@@ -29,7 +29,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
         return
 
     dice_msg = await call.message.answer_dice(emoji=dice_game.EMOJI)
-    await call.message.edit_text(text=DICE_ROLL_TEXT)
+    await call.message.edit_text(text=_('DICE_ROLL_TEXT'))
 
     result = await dice_game.get_result(context, dice_msg.dice.value)
 

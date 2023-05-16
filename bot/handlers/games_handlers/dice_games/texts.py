@@ -71,12 +71,3 @@ def numbers_emoji(dice):
         6: _('DICE_GAMES_NUMBERS_CUBE_EMOJI_6')
     }
     return NUMBERS_EMOJI[dice]
-
-primer = {
-    1: '1️⃣ <b>- непарне</b>',
-    2: '2️⃣ <b>- парне</b>',
-    3: '3️⃣ <b>- непарне</b>',
-    4: '4️⃣ <b>- парне</b>',
-    5: '5️⃣ <b>- непарне</b>',
-    6: '6️⃣ <b>- парне</b>'
-}

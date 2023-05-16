@@ -3,16 +3,14 @@ from aiogram import F, Router, types
 from aiogram.filters import Command, Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
+from aiogram.utils.i18n import gettext as _
 
 from bot.consts.const import START_POINTS
-from bot.consts.texts import CHECK_REF_APPROVE_TEXT, CHECK_REF_DENIED_TEXT
 from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
 from bot.tokens.token_ton import TonWrapper
-
-from aiogram.utils.i18n import gettext as _
 
 flags = {"throttling_key": "default"}
 router = Router()

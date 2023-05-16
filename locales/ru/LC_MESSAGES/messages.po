@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-15 21:11+0300\n"
+"POT-Creation-Date: 2023-05-16 13:56+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -17,6 +17,142 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: ../bot/handlers/m01_main.py:44
+msgid "CHECK_REF_DENIED_TEXT"
+msgstr ""
+
+#: ../bot/handlers/m01_main.py:47
+msgid "CHECK_REF_APPROVE_TEXT"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/m06_play_dice.py:32
+msgid "DICE_ROLL_TEXT"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/base_dice_game.py:31
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:41
+msgid "GAME_ERR_BET_TOO_BIG"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:38
+msgid "GAME_ERR_BET_NOT_SELECTED"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:49
+msgid "LOSE_TEXT"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:50
+msgid "WIN_TEXT"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:7
+#: ../bot/handlers/games_handlers/dice_games/texts.py:18
+#: ../bot/handlers/games_handlers/dice_games/texts.py:30
+#: ../bot/handlers/games_handlers/dice_games/texts.py:42
+msgid "DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:8
+msgid "BASKET_TEXT_2"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:9
+msgid "BASKET_TEXT_3"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:10
+#: ../bot/handlers/games_handlers/dice_games/texts.py:22
+msgid "DARTS_TEXT_5_OR_BASKET_4"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:11
+msgid "BASKET_TEXT_5"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:19
+#: ../bot/handlers/games_handlers/dice_games/texts.py:31
+msgid "DARTS_OR_BOWLING_TEXT_2"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:20
+#: ../bot/handlers/games_handlers/dice_games/texts.py:32
+msgid "DARTS_OR_BOWLING_TEXT_3"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:21
+msgid "DARTS_TEXT_4"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:23
+msgid "DARTS_TEXT_6"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:33
+msgid "BOWLING_TEXT_4"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:34
+msgid "BOWLING_TEXT_5"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:35
+msgid "BOWLING_TEXT_6"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:43
+msgid "FOOTBALL_TEXT_LOSE"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:44
+#: ../bot/handlers/games_handlers/dice_games/texts.py:45
+#: ../bot/handlers/games_handlers/dice_games/texts.py:46
+msgid "FOOTBALL_TEXT_WIN"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:53
+msgid "CUBE_TEXT_0"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:54
+msgid "CUBE_TEXT_1"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:55
+msgid "CUBE_TEXT_2"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:56
+#: ../bot/handlers/games_handlers/dice_games/texts.py:57
+#: ../bot/handlers/games_handlers/dice_games/texts.py:58
+#: ../bot/handlers/games_handlers/dice_games/texts.py:59
+msgid "CUBE_TEXT_3"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:66
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_1"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:67
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_2"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:68
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_3"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:69
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_4"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:70
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_5"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:71
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
+msgstr ""
 
 #: ../bot/menus/game_menus/select_balance.py:10
 #: ../bot/menus/game_menus/select_game.py:9 ../bot/menus/main_menu.py:8
@@ -69,7 +205,7 @@ msgstr ""
 
 #: ../bot/menus/cabinet_menus/cabinet_menu.py:22
 #: ../bot/menus/cabinet_menus/referrals_menu.py:25
-#: ../bot/menus/game_menus/bet_menus.py:57
+#: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
 #: ../bot/menus/game_menus/select_game.py:43
@@ -111,15 +247,15 @@ msgstr ""
 msgid "CUBE_PLAY_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:29
-msgid "DEFAULT_BALANCE_TEXT"
-msgstr ""
-
-#: ../bot/menus/game_menus/bet_menus.py:30
+#: ../bot/menus/game_menus/bet_menus.py:24
 msgid "DEFAULT_PLAY_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:66
+#: ../bot/menus/game_menus/bet_menus.py:33
+msgid "DEFAULT_BALANCE_TEXT"
+msgstr ""
+
+#: ../bot/menus/game_menus/bet_menus.py:65
 msgid "BET_MENUS_BTN_GIVEMEMONEY"
 msgstr ""
 

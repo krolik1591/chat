@@ -1,6 +1,11 @@
 from bot.handlers.context import Context
 from bot.handlers.states import StateKeys
-from bot.consts.texts import GAME_ERR_BET_TOO_BIG
+from bot.utils.rounding import round_down
+
+from aiogram.utils.i18n import gettext as _
+
+from bot.handlers.context import Context
+from bot.handlers.states import StateKeys
 from bot.utils.rounding import round_down
 
 
@@ -23,7 +28,7 @@ class Dice:
 
     def pre_check(self, context: Context):
         if context.bet > context.balance:
-            return GAME_ERR_BET_TOO_BIG
+            return _('GAME_ERR_BET_TOO_BIG')
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         raise NotImplementedError
