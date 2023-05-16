@@ -23,7 +23,7 @@ def _keyboard():
         *balances_buttons,
         [
             InlineKeyboardButton(text=_('BTN_BACK'), callback_data="all_games"),
-            InlineKeyboardButton(text='SELECT_BALANCE_BTN_RULES', callback_data="rules")
+            InlineKeyboardButton(text=_('SELECT_BALANCE_BTN_RULES'), callback_data="rules")
         ]
     ]
 
