@@ -32,16 +32,19 @@ async def set_user_lang(tg_id, new_lang):
 async def set_user_last_active(tg_id):
     return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
 
-
-async def update_pot_to_ref(tg_id, amount):
-    return await User.update({User.pot_to_ref: fn.ROUND(User.pot_to_ref + amount, 2)}).where(User.user_id == tg_id)
+# referrals
 
 
 async def get_user_referrer(tg_id):
-    user_ref = await User.select(User.referrer).where(User.user_id == tg_id)
+    user_ref = await User.select().where(User.user_id == tg_id)
     if not user_ref:
         raise ValueError
-    return user_ref[0].lang
+    return user_ref[0].referrer
+
+
+async def get_count_all_user_referrals(tg_id):
+    result = await User.select().where(User.referrer == tg_id)
+    return len(result)
 
 # balances
 
@@ -192,7 +195,7 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_user_referrer(357108179)
+        x = await get_user_referrer(445235232)
         print(x)
 
 

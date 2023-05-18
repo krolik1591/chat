@@ -23,14 +23,15 @@ class User(manager.Model):
     username = CharField(default='', null=True)
     lang = CharField(default='en')
     referrer = BigIntegerField(null=True)
-    pot_to_ref = BigIntegerField(null=True)
+    total_ref_withdraw = BigIntegerField(null=True)
 
+    balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
     balance_promo = DecimalField(default=0)
-    balance_general = DecimalField(default=0)
 
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
+    timestamp_ref_withdraw = DateTimeField()
 
     def __str__(self):
         return f'USER: {self.user_id}; {self.lang=}'
