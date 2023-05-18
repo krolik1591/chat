@@ -31,7 +31,7 @@ class User(manager.Model):
 
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
-    timestamp_ref_withdraw = DateTimeField()
+    timestamp_ref_withdraw = DateTimeField(null=True)
 
     def __str__(self):
         return f'USER: {self.user_id}; {self.lang=}'

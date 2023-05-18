@@ -3,8 +3,9 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.i18n import gettext as _
 
 
-def referrals_menu(invite_link):
-    text = _('REFERRAL_MENU_TEXT').format(invite_link=invite_link)
+def referrals_menu(invite_link, referrals_count, total_ref_withdraw):
+    text = _('REFERRAL_MENU_TEXT').format(invite_link=invite_link, referrals_count=referrals_count,
+                                          total_ref_withdraw=total_ref_withdraw)
     kb = _keyboard()
 
     return text, kb

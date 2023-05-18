@@ -3,6 +3,7 @@ from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.deep_linking import create_start_link
 
+from bot.db import db
 from bot.menus.cabinet_menus.cabinet_menu import cabinet_menu
 from bot.menus.cabinet_menus.referrals_menu import referrals_menu
 
@@ -18,9 +19,12 @@ async def cabinet(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text("referrals_menu"))
 async def referrals(call: types.CallbackQuery, state: FSMContext):
+    await db.update_datetime_and_amount_ref_withdraw(call.from_user.id, 0)
     invite_link = await create_start_link(state.bot, str(call.from_user.id))
+    referrals_count = await db.get_count_all_user_referrals(call.from_user.id)
+    total_ref_withdraw = await db.get_total_ref_withdraw(call.from_user.id)
 
-    text, keyboard = referrals_menu(invite_link)
+    text, keyboard = referrals_menu(invite_link, referrals_count, total_ref_withdraw)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

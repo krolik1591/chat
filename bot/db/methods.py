@@ -32,19 +32,45 @@ async def set_user_lang(tg_id, new_lang):
 async def set_user_last_active(tg_id):
     return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
 
+
 # referrals
+
+
+async def update_datetime_and_amount_ref_withdraw(tg_id, amount):
+    return await User.update({User.total_ref_withdraw: fn.Round(User.total_ref_withdraw + amount),
+                              User.timestamp_ref_withdraw: datetime.utcnow()}).where(User.user_id == tg_id)
+
+
+async def get_date_last_total_ref_withdraw(tg_id):
+    result = await User.select().where(User.user_id == tg_id)
+    return result[0].timestamp_ref_withdraw
+
+
+async def get_total_ref_withdraw(tg_id):
+    result = await User.select().where(User.user_id == tg_id)
+    return result[0].total_ref_withdraw
 
 
 async def get_user_referrer(tg_id):
     user_ref = await User.select().where(User.user_id == tg_id)
-    if not user_ref:
-        raise ValueError
     return user_ref[0].referrer
 
 
 async def get_count_all_user_referrals(tg_id):
     result = await User.select().where(User.referrer == tg_id)
     return len(result)
+
+
+async def get_referrals_bets(referrer):
+    time_ = await User.select().where(User.user_id == referrer)
+    time_ = time_[0].timestamp_ref_withdraw or 0
+    print(time_)
+    result = (await User
+              .select(fn.SUM(GameLog.bet).alias('total_bets'))
+              .join(GameLog)
+              .where(User.referrer == referrer, GameLog.timestamp > time_).scalar())
+    return result
+
 
 # balances
 
@@ -117,7 +143,7 @@ async def get_last_transaction(tg_id, token_id):
 
 
 async def get_last_tx_by_tx_type(tx_type):
-    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime))\
+    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime)) \
         .where(Transactions.tx_type == tx_type)
     return result[0]
 
@@ -153,7 +179,8 @@ async def get_withdraw_tx_by_id(tx_id):
 
 
 async def get_last_withdraw_transaction(user_id, token_id):
-    result = await WithdrawTx.select(WithdrawTx.withdrawtx_id, WithdrawTx.withdraw_state, fn.Max(WithdrawTx.utime)).where(
+    result = await WithdrawTx.select(WithdrawTx.withdrawtx_id, WithdrawTx.withdraw_state,
+                                     fn.Max(WithdrawTx.utime)).where(
         WithdrawTx.user_id == user_id,
         WithdrawTx.token_id == token_id,
         (WithdrawTx.withdraw_state == 'moderating') | (WithdrawTx.withdraw_state == 'pending')
@@ -195,7 +222,7 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_user_referrer(445235232)
+        x = await get_referrals_bets(357108179)
         print(x)
 
 
