@@ -34,6 +34,10 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     result = await dice_game.get_result(context, dice_msg.dice.value)
 
     with manager.pw_database.atomic():
+        user_ref = await db.get_user_referrer(call.from_user.id)
+        if user_ref is not None:
+            await db.update_pot_to_ref(call.from_user.id, context.bet)
+
         await db.update_user_balance(call.from_user.id, context.balance_type, result['score_change'])
         await db.insert_game_log(user_id=call.from_user.id,
                                  balance_type=context.balance_type,
