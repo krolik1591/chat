@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-16 14:03+0300\n"
+"POT-Creation-Date: 2023-05-19 13:40+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../bot/handlers/m01_main.py:44
+#: ../bot/handlers/m01_main.py:46
 msgid "CHECK_REF_DENIED_TEXT"
 msgstr ""
 
-#: ../bot/handlers/m01_main.py:47
+#: ../bot/handlers/m01_main.py:49
 msgid "CHECK_REF_APPROVE_TEXT"
 msgstr ""
 
@@ -47,111 +47,115 @@ msgstr ""
 msgid "WIN_TEXT"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:7
-#: ../bot/handlers/games_handlers/dice_games/texts.py:18
-#: ../bot/handlers/games_handlers/dice_games/texts.py:30
-#: ../bot/handlers/games_handlers/dice_games/texts.py:42
+#: ../bot/handlers/games_handlers/dice_games/texts.py:6
+#: ../bot/handlers/games_handlers/dice_games/texts.py:17
+#: ../bot/handlers/games_handlers/dice_games/texts.py:29
+#: ../bot/handlers/games_handlers/dice_games/texts.py:41
 msgid "DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:8
+#: ../bot/handlers/games_handlers/dice_games/texts.py:7
 msgid "BASKET_TEXT_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:9
+#: ../bot/handlers/games_handlers/dice_games/texts.py:8
 msgid "BASKET_TEXT_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:10
-#: ../bot/handlers/games_handlers/dice_games/texts.py:22
+#: ../bot/handlers/games_handlers/dice_games/texts.py:9
+#: ../bot/handlers/games_handlers/dice_games/texts.py:21
 msgid "DARTS_TEXT_5_OR_BASKET_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:11
+#: ../bot/handlers/games_handlers/dice_games/texts.py:10
 msgid "BASKET_TEXT_5"
+msgstr ""
+
+#: ../bot/handlers/games_handlers/dice_games/texts.py:18
+#: ../bot/handlers/games_handlers/dice_games/texts.py:30
+msgid "DARTS_OR_BOWLING_TEXT_2"
 msgstr ""
 
 #: ../bot/handlers/games_handlers/dice_games/texts.py:19
 #: ../bot/handlers/games_handlers/dice_games/texts.py:31
-msgid "DARTS_OR_BOWLING_TEXT_2"
-msgstr ""
-
-#: ../bot/handlers/games_handlers/dice_games/texts.py:20
-#: ../bot/handlers/games_handlers/dice_games/texts.py:32
 msgid "DARTS_OR_BOWLING_TEXT_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:21
+#: ../bot/handlers/games_handlers/dice_games/texts.py:20
 msgid "DARTS_TEXT_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:23
+#: ../bot/handlers/games_handlers/dice_games/texts.py:22
 msgid "DARTS_TEXT_6"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:33
+#: ../bot/handlers/games_handlers/dice_games/texts.py:32
 msgid "BOWLING_TEXT_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:34
+#: ../bot/handlers/games_handlers/dice_games/texts.py:33
 msgid "BOWLING_TEXT_5"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:35
+#: ../bot/handlers/games_handlers/dice_games/texts.py:34
 msgid "BOWLING_TEXT_6"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:43
+#: ../bot/handlers/games_handlers/dice_games/texts.py:42
 msgid "FOOTBALL_TEXT_LOSE"
 msgstr ""
 
+#: ../bot/handlers/games_handlers/dice_games/texts.py:43
 #: ../bot/handlers/games_handlers/dice_games/texts.py:44
 #: ../bot/handlers/games_handlers/dice_games/texts.py:45
-#: ../bot/handlers/games_handlers/dice_games/texts.py:46
 msgid "FOOTBALL_TEXT_WIN"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:53
+#: ../bot/handlers/games_handlers/dice_games/texts.py:52
 msgid "CUBE_TEXT_0"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:54
+#: ../bot/handlers/games_handlers/dice_games/texts.py:53
 msgid "CUBE_TEXT_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:55
+#: ../bot/handlers/games_handlers/dice_games/texts.py:54
 msgid "CUBE_TEXT_2"
 msgstr ""
 
+#: ../bot/handlers/games_handlers/dice_games/texts.py:55
 #: ../bot/handlers/games_handlers/dice_games/texts.py:56
 #: ../bot/handlers/games_handlers/dice_games/texts.py:57
 #: ../bot/handlers/games_handlers/dice_games/texts.py:58
-#: ../bot/handlers/games_handlers/dice_games/texts.py:59
 msgid "CUBE_TEXT_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:66
+#: ../bot/handlers/games_handlers/dice_games/texts.py:65
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:67
+#: ../bot/handlers/games_handlers/dice_games/texts.py:66
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:68
+#: ../bot/handlers/games_handlers/dice_games/texts.py:67
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:69
+#: ../bot/handlers/games_handlers/dice_games/texts.py:68
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:70
+#: ../bot/handlers/games_handlers/dice_games/texts.py:69
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_5"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:71
+#: ../bot/handlers/games_handlers/dice_games/texts.py:70
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
+msgstr ""
+
+#: ../bot/handlers/setting_heandlers/setting.py:33
+msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
 #: ../bot/menus/game_menus/select_balance.py:10
@@ -204,7 +208,7 @@ msgid "CABINET_MENU_BTN_REFERRALS"
 msgstr ""
 
 #: ../bot/menus/cabinet_menus/cabinet_menu.py:22
-#: ../bot/menus/cabinet_menus/referrals_menu.py:25
+#: ../bot/menus/cabinet_menus/referrals_menu.py:26
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
@@ -218,15 +222,15 @@ msgstr ""
 msgid "REFERRAL_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:16
+#: ../bot/menus/cabinet_menus/referrals_menu.py:17
 msgid "REFERRALS_MENU_SEND_INVITE"
 msgstr ""
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:19
+#: ../bot/menus/cabinet_menus/referrals_menu.py:20
 msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
 msgstr ""
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:22
+#: ../bot/menus/cabinet_menus/referrals_menu.py:23
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr ""
 
