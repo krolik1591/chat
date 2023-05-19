@@ -17,13 +17,18 @@ def _keyboard():
             InlineKeyboardButton(text=_('MAIN_MENU_BTN_GAMES'), callback_data="all_games"),
         ],
         [
-            InlineKeyboardButton(text=_('MAIN_MENU_BTN_CABINET'), callback_data="cabinet_menu")
+            InlineKeyboardButton(text='🍀 Колесо фортуни', callback_data="wheel_of_fortune"),
         ],
         [
-            InlineKeyboardButton(text=_('MAIN_MENU_BTN_SETTINGS'), callback_data="settings")
+            InlineKeyboardButton(text=_('CABINET_MENU_BTN_DEPOSIT'), callback_data="wallet_menu"),
         ],
         [
-            InlineKeyboardButton(text=_('MAIN_MENU_BTN_ADS'), callback_data="spam"),
+            InlineKeyboardButton(text='Аккаунт', callback_data="my_account"),
+            InlineKeyboardButton(text=_('SETTING_BTN_CHANGE_LANG'), callback_data="change_lang"),
+
+        ],
+        [
+            InlineKeyboardButton(text='Гайди', callback_data="guides"),
             InlineKeyboardButton(text=_('MAIN_MENU_BTN_SUPPORT'), callback_data="support")
         ]
     ]

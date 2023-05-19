@@ -1,8 +1,6 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-
 from aiogram.utils.i18n import gettext as _
 
-from bot.consts import const
 from bot.consts.const import USER_REF_LEVEL
 
 
@@ -47,7 +45,7 @@ def _keyboard():
             InlineKeyboardButton(text=_('REFERRALS_MENU_HOW_IT_WORKS'), callback_data="ref_info")
         ],
         [
-            InlineKeyboardButton(text=_('BTN_BACK'), callback_data="cabinet_menu")
+            InlineKeyboardButton(text=_('BTN_BACK'), callback_data="my_account")
         ]
     ]
 

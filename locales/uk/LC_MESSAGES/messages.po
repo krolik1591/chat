@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-19 17:06+0300\n"
+"POT-Creation-Date: 2023-05-19 23:21+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -30,20 +30,20 @@ msgstr "<a href='tg://user?id={id}'>{name}</a> став вашим поддів�
 msgid "DICE_ROLL_TEXT"
 msgstr "🍀 Успіхів!"
 
-#: ../bot/handlers/games_handlers/dice_games/base_dice_game.py:32
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:48
+#: ../bot/handlers/games_handlers/dice_games/base_dice_game.py:29
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:46
 msgid "GAME_ERR_BET_TOO_BIG"
 msgstr "❌ Ставка більше балансу!"
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:45
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:43
 msgid "GAME_ERR_BET_NOT_SELECTED"
 msgstr "❌ Не обраний результат ставки!"
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:56
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:59
 msgid "LOSE_TEXT"
 msgstr "Наступного разу пощастить!"
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:57
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:60
 msgid "WIN_TEXT"
 msgstr "Перемога! Ізі + {score_change} {token_icon}"
 
@@ -184,12 +184,51 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../bot/handlers/setting_heandlers/setting.py:35
+#: ../bot/handlers/setting_heandlers/setting.py:34
 msgid "SETTINGS_LANG_CHANGED"
 msgstr "Мову змінено!"
 
+#: ../bot/menus/guides_menus.py:7
+msgid "GUIDES_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/guides_menus.py:16
+msgid "GUIDES_MENU_BTN_ABOUT_CASINO"
+msgstr ""
+
+#: ../bot/menus/guides_menus.py:19
+msgid "GUIDES_MENU_BTN_HOW_TO_DEPOSIT"
+msgstr ""
+
+#: ../bot/menus/guides_menus.py:22
+msgid "GUIDES_MENU_BTN_WITHDRAWALS"
+msgstr ""
+
+#: ../bot/menus/guides_menus.py:25
+msgid "GUIDES_MENU_BTN_GAMES_AND_RULES"
+msgstr ""
+
+#: ../bot/menus/guides_menus.py:28
+msgid "GUIDES_MENU_BTN_PROMO_CODES"
+msgstr ""
+
+#: ../bot/menus/guides_menus.py:31
+msgid "GUIDES_MENU_BTN_REFERRAL_PROGRAM"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:22
+#: ../bot/menus/cabinet_menus/referrals_menu.py:48
+#: ../bot/menus/game_menus/bet_menus.py:56
+#: ../bot/menus/game_menus/cube_settings.py:55
+#: ../bot/menus/game_menus/select_balance.py:25
+#: ../bot/menus/game_menus/select_game.py:43 ../bot/menus/guides_menus.py:34
+#: ../bot/menus/setting_menus/language_menu.py:28
+msgid "BTN_BACK"
+msgstr "‹ Назад"
+
 #: ../bot/menus/game_menus/select_balance.py:10
 #: ../bot/menus/game_menus/select_game.py:9 ../bot/menus/main_menu.py:8
+#: ../bot/menus/my_account_menus/my_account_menu.py:8
 msgid "MENU_TEXT"
 msgstr ""
 "💵 Баланс:\n"
@@ -202,19 +241,15 @@ msgstr ""
 msgid "MAIN_MENU_BTN_GAMES"
 msgstr "🎲 Ігри"
 
-#: ../bot/menus/main_menu.py:20
-msgid "MAIN_MENU_BTN_CABINET"
-msgstr "🏠 Мій кабінет"
-
-#: ../bot/menus/main_menu.py:23
-msgid "MAIN_MENU_BTN_SETTINGS"
-msgstr "⚙️ Налаштування"
-
-#: ../bot/menus/main_menu.py:26
-msgid "MAIN_MENU_BTN_ADS"
-msgstr "📢 Реклама"
+#: ../bot/menus/cabinet_menus/cabinet_menu.py:16 ../bot/menus/main_menu.py:23
+msgid "CABINET_MENU_BTN_DEPOSIT"
+msgstr "Мій гаманець"
 
 #: ../bot/menus/main_menu.py:27
+msgid "SETTING_BTN_CHANGE_LANG"
+msgstr "Змінити мову"
+
+#: ../bot/menus/main_menu.py:32
 msgid "MAIN_MENU_BTN_SUPPORT"
 msgstr "💬 Підтримка"
 
@@ -237,46 +272,32 @@ msgstr ""
 "\n"
 "StillNoWoman."
 
-#: ../bot/menus/cabinet_menus/cabinet_menu.py:16
-msgid "CABINET_MENU_BTN_DEPOSIT"
-msgstr "💎 Депозит"
-
 #: ../bot/menus/cabinet_menus/cabinet_menu.py:19
+#: ../bot/menus/my_account_menus/my_account_menu.py:17
 msgid "CABINET_MENU_BTN_REFERRALS"
 msgstr "👬 Реферали"
 
-#: ../bot/menus/cabinet_menus/cabinet_menu.py:22
-#: ../bot/menus/cabinet_menus/referrals_menu.py:54
-#: ../bot/menus/game_menus/bet_menus.py:56
-#: ../bot/menus/game_menus/cube_settings.py:55
-#: ../bot/menus/game_menus/select_balance.py:25
-#: ../bot/menus/game_menus/select_game.py:43
-#: ../bot/menus/setting_menus/language_menu.py:28
-#: ../bot/menus/setting_menus/setting.py:19
-msgid "BTN_BACK"
-msgstr "‹ Назад"
-
-#: ../bot/menus/cabinet_menus/referrals_menu.py:11
+#: ../bot/menus/cabinet_menus/referrals_menu.py:10
 msgid "REF_LVL_1_ADEPT"
 msgstr "Адепт"
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:12
+#: ../bot/menus/cabinet_menus/referrals_menu.py:11
 msgid "REF_LVL_2_EXPERIENCED"
 msgstr "Досвідчений"
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:13
+#: ../bot/menus/cabinet_menus/referrals_menu.py:12
 msgid "REF_LVL_3_CONNOISSEUR"
 msgstr "Знавець"
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:14
+#: ../bot/menus/cabinet_menus/referrals_menu.py:13
 msgid "REF_LVL_4_EXPERT"
 msgstr "Експерт"
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:15
+#: ../bot/menus/cabinet_menus/referrals_menu.py:14
 msgid "REF_LVL_5_MAESTRO"
 msgstr "Маестро"
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:34
+#: ../bot/menus/cabinet_menus/referrals_menu.py:27
 msgid "REFERRAL_MENU_TEXT"
 msgstr ""
 "Запрошуйте друзів та отримайте <b>до 15%</b> від всіх їх ставок. Виграшних та програшних.\n"
@@ -289,15 +310,15 @@ msgstr ""
 "\n"
 "Посилання для запрошень: <code>{invite_link}</code>"
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:45
+#: ../bot/menus/cabinet_menus/referrals_menu.py:39
 msgid "REFERRALS_MENU_SEND_INVITE"
 msgstr "Відправити запрошення"
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:48
+#: ../bot/menus/cabinet_menus/referrals_menu.py:42
 msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
 msgstr "Вивести на ігровий баланс "
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:51
+#: ../bot/menus/cabinet_menus/referrals_menu.py:45
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr "Як це працює?"
 
@@ -396,17 +417,6 @@ msgstr "✌️ ЦУ-Е-ФА"
 #: ../bot/menus/setting_menus/language_menu.py:7
 msgid "LANGUAGE_TEXT"
 msgstr "Обери потрібну мову:"
-
-#: ../bot/menus/setting_menus/setting.py:7
-msgid "SETTING_TEXT"
-msgstr ""
-"Вітаю у налаштуваннях!\n"
-"\n"
-"А ви вже налаштувались взяти баночку?"
-
-#: ../bot/menus/setting_menus/setting.py:16
-msgid "SETTING_BTN_CHANGE_LANG"
-msgstr "Змінити мову"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
@@ -568,4 +578,19 @@ msgstr "❌ Невірно введено адресу"
 #: ../bot/menus/wallet_menus/withdraw_menu_err.py:39
 msgid "TON_TESTNET_ADDRESS"
 msgstr "❌ Голова, це тест-нетівська адреса, будь уважніше"
+
+#~ msgid "MAIN_MENU_BTN_CABINET"
+#~ msgstr "🏠 Мій кабінет"
+
+#~ msgid "MAIN_MENU_BTN_SETTINGS"
+#~ msgstr "⚙️ Налаштування"
+
+#~ msgid "MAIN_MENU_BTN_ADS"
+#~ msgstr "📢 Реклама"
+
+#~ msgid "SETTING_TEXT"
+#~ msgstr ""
+#~ "Вітаю у налаштуваннях!\n"
+#~ "\n"
+#~ "А ви вже налаштувались взяти баночку?"
 

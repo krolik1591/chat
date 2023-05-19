@@ -7,7 +7,6 @@ from bot.handlers.context import Context
 from bot.handlers.m01_main import send_main_menu
 from bot.handlers.states import StateKeys
 from bot.menus.setting_menus.language_menu import language_menu
-from bot.menus.setting_menus.setting import setting_menu
 
 from aiogram.utils.i18n import gettext as _
 
