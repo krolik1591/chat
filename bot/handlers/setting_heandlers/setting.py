@@ -3,6 +3,8 @@ from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 
 from bot.db.methods import set_user_lang
+from bot.handlers.context import Context
+from bot.handlers.m01_main import send_main_menu
 from bot.handlers.states import StateKeys
 from bot.menus.setting_menus.language_menu import language_menu
 from bot.menus.setting_menus.setting import setting_menu
@@ -31,3 +33,6 @@ async def update_language(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.LOCALE: lang})
 
     await call.answer(_('SETTINGS_LANG_CHANGED'))
+
+    context = await Context.from_fsm_context(call.from_user.id, state)
+    await send_main_menu(context)
