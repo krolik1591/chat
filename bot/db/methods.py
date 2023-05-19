@@ -48,7 +48,7 @@ async def get_date_last_total_ref_withdraw(tg_id):
 
 async def get_total_ref_withdraw(tg_id):
     result = await User.select().where(User.user_id == tg_id)
-    return result[0].total_ref_withdraw
+    return result[0].total_ref_withdraw or 0
 
 
 async def get_user_referrer(tg_id):
@@ -64,12 +64,12 @@ async def get_count_all_user_referrals(tg_id):
 async def get_referrals_bets(referrer):
     time_ = await User.select().where(User.user_id == referrer)
     time_ = time_[0].timestamp_ref_withdraw or 0
-    print(time_)
+
     result = (await User
               .select(fn.SUM(GameLog.bet).alias('total_bets'))
               .join(GameLog)
               .where(User.referrer == referrer, GameLog.timestamp > time_).scalar())
-    return result
+    return result or 0
 
 
 # balances

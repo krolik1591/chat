@@ -23,8 +23,9 @@ async def referrals(call: types.CallbackQuery, state: FSMContext):
     invite_link = await create_start_link(state.bot, str(call.from_user.id))
     referrals_count = await db.get_count_all_user_referrals(call.from_user.id)
     total_ref_withdraw = await db.get_total_ref_withdraw(call.from_user.id)
+    referrals_bets = await db.get_referrals_bets(call.from_user.id)
 
-    text, keyboard = referrals_menu(invite_link, referrals_count, total_ref_withdraw)
+    text, keyboard = referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_bets)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
