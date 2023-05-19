@@ -31,10 +31,10 @@ async def send_main_menu(context: Context, msg_id=None):
 
 
 @router.message(F.chat.type == "private", Command("start"), flags=flags)
-async def cmd_start(message: Message, state: FSMContext):
+async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
     try:
         user_lang = await db.get_user_lang(message.from_user.id)
-        await state.update_data(**{StateKeys.LOCALE: user_lang})
+        await i18n_middleware.set_locale(state, user_lang)
 
     except ValueError:
         invite_sender = None

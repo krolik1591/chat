@@ -27,10 +27,10 @@ async def change_lang(call: types.CallbackQuery):
 
 
 @router.callback_query(Text(startswith='new_lang'))
-async def update_language(call: types.CallbackQuery, state: FSMContext):
-    lang = call.data.removeprefix('new_lang')
-    await set_user_lang(call.from_user.id, lang)
-    await state.update_data(**{StateKeys.LOCALE: lang})
+async def update_language(call: types.CallbackQuery, state: FSMContext, i18n_middleware):
+    user_lang = call.data.removeprefix('new_lang')
+    await set_user_lang(call.from_user.id, user_lang)
+    await i18n_middleware.set_locale(state, user_lang)
 
     await call.answer(_('SETTINGS_LANG_CHANGED'))
 
