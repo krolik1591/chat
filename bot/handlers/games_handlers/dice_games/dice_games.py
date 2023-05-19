@@ -14,24 +14,31 @@ class DiceCube(Dice):
         streak = context.state[StateKeys.CUBE_LOSE_STREAK]
         dice_number_emoji = gtexts.numbers_emoji(dice_value)
         cube_text = gtexts.cube_texts(streak)
-        return cube_text.format(score_change=score_change, token_icon=balance_icon,
+        cube_coef = context.state[StateKeys.CUBE_COEF] * context.bet
+        return cube_text.format(score_change=cube_coef, token_icon=balance_icon,
                                 cube_lose_streak=streak, dice_number_emoji=dice_number_emoji)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         win = 0
+        context.state[StateKeys.AT_LEAST_ONE_BET] = False
         for user_bet in context.game_settings:
             if str(dice_value) in user_bet:
                 if len(user_bet) == 1:
                     win += rewards.CubeRewards.EXACT_VALUE_BET
+                    context.state[StateKeys.AT_LEAST_ONE_BET] = True
                 if len(user_bet) == 2:
                     win += rewards.CubeRewards.BET_ON_RANGE
+                    context.state[StateKeys.AT_LEAST_ONE_BET] = True
                 if len(user_bet) == 3:
                     win += rewards.CubeRewards.BET_ON_PARITY
+                    context.state[StateKeys.AT_LEAST_ONE_BET] = True
         return win
 
     def _get_score_change(self, context, dice_value):
+        context.state[StateKeys.CUBE_COEF] = 0
         coefficient = self._get_coefficient(context, dice_value)
-        return context.bet * (coefficient - len(context.game_settings))
+        context.state[StateKeys.CUBE_COEF] = coefficient
+        return context.bet * coefficient - context.bet * len(context.game_settings)
 
     def pre_check(self, context: Context):
         if context.game_settings is None or len(context.game_settings or []) == 0:

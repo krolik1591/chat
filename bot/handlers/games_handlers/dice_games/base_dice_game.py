@@ -16,7 +16,8 @@ class Dice:
         score_change = self._get_score_change(context, dice_value)
         game_info = {"dice_result": dice_value, "game_settings": context.game_settings}
 
-        await self._update_lose_streak(context, score_change <= 0)
+        if context.state[StateKeys.GAME] == 'CUBE':
+            await self._update_lose_streak(context, context.state[StateKeys.AT_LEAST_ONE_BET])
 
         return {
             'score_change': round_down(score_change, 5),
@@ -38,6 +39,6 @@ class Dice:
         return context.bet * (coefficient - 1)
 
     async def _update_lose_streak(self, context: Context, is_lose: bool):
-        lose_streak = 0 if not is_lose else context.state.get(StateKeys.CUBE_LOSE_STREAK, 0) + 1
+        lose_streak = 0 if is_lose else context.state.get(StateKeys.CUBE_LOSE_STREAK, 0) + 1
         await context.fsm_context.update_data(**{StateKeys.CUBE_LOSE_STREAK: lose_streak})
         context.state[StateKeys.CUBE_LOSE_STREAK] = lose_streak
