@@ -10,34 +10,32 @@ from bot.handlers.states import Games, StateKeys
 class DiceCube(Dice):
     EMOJI = "🎲"
 
+    async def get_result(self, context: Context, dice_value: int):
+        is_win = self._get_coefficient(context, dice_value) > 0  # win at least one bet
+        await self._update_lose_streak(context, is_win)
+        return await super().get_result(context, dice_value)
+
     def get_text(self, context, dice_value, score_change, balance_icon):
         streak = context.state[StateKeys.CUBE_LOSE_STREAK]
         dice_number_emoji = gtexts.numbers_emoji(dice_value)
-        cube_text = gtexts.cube_texts(streak)
-        cube_coef = context.state[StateKeys.CUBE_COEF] * context.bet
-        return cube_text.format(score_change=cube_coef, token_icon=balance_icon,
-                                cube_lose_streak=streak, dice_number_emoji=dice_number_emoji)
+        cube_coef = self._get_coefficient(context, dice_value) * context.bet
+        return gtexts.cube_texts(streak).format(score_change=cube_coef, token_icon=balance_icon,
+                                                cube_lose_streak=streak, dice_number_emoji=dice_number_emoji)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         win = 0
-        context.state[StateKeys.AT_LEAST_ONE_BET] = False
         for user_bet in context.game_settings:
             if str(dice_value) in user_bet:
                 if len(user_bet) == 1:
                     win += rewards.CubeRewards.EXACT_VALUE_BET
-                    context.state[StateKeys.AT_LEAST_ONE_BET] = True
                 if len(user_bet) == 2:
                     win += rewards.CubeRewards.BET_ON_RANGE
-                    context.state[StateKeys.AT_LEAST_ONE_BET] = True
                 if len(user_bet) == 3:
                     win += rewards.CubeRewards.BET_ON_PARITY
-                    context.state[StateKeys.AT_LEAST_ONE_BET] = True
         return win
 
     def _get_score_change(self, context, dice_value):
-        context.state[StateKeys.CUBE_COEF] = 0
         coefficient = self._get_coefficient(context, dice_value)
-        context.state[StateKeys.CUBE_COEF] = coefficient
         return context.bet * coefficient - context.bet * len(context.game_settings)
 
     def pre_check(self, context: Context):
@@ -46,6 +44,11 @@ class DiceCube(Dice):
 
         if context.bet * len(context.game_settings) > context.balance:
             return _('GAME_ERR_BET_TOO_BIG')
+
+    async def _update_lose_streak(self, context: Context, is_win: bool):
+        lose_streak = 0 if is_win else context.state.get(StateKeys.CUBE_LOSE_STREAK, 0) + 1
+        await context.fsm_context.update_data(**{StateKeys.CUBE_LOSE_STREAK: lose_streak})
+        context.state[StateKeys.CUBE_LOSE_STREAK] = lose_streak
 
 
 class DiceSlots(Dice):

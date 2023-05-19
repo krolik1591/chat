@@ -21,8 +21,6 @@ class StateKeys:
     GAME_SETTINGS = 'game_settings'
     BET = 'bet'
     CUBE_LOSE_STREAK = 'cube_lose_streak'
-    AT_LEAST_ONE_BET = 'at_least_one_bet'
-    CUBE_COEF = 'cube_coef'
     # withdraw
     TOKEN_ID = 'token_id'
     WITHDRAW_AMOUNT = 'withdraw_amount'
