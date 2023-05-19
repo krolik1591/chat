@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-19 13:40+0300\n"
+"POT-Creation-Date: 2023-05-19 17:06+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -30,20 +30,20 @@ msgstr ""
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/base_dice_game.py:31
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:41
+#: ../bot/handlers/games_handlers/dice_games/base_dice_game.py:32
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:48
 msgid "GAME_ERR_BET_TOO_BIG"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:38
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:45
 msgid "GAME_ERR_BET_NOT_SELECTED"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:49
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:56
 msgid "LOSE_TEXT"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:50
+#: ../bot/handlers/games_handlers/dice_games/dice_games.py:57
 msgid "WIN_TEXT"
 msgstr ""
 
@@ -111,50 +111,47 @@ msgstr ""
 msgid "FOOTBALL_TEXT_WIN"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:52
+#: ../bot/handlers/games_handlers/dice_games/texts.py:53
 msgid "CUBE_TEXT_0"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:53
+#: ../bot/handlers/games_handlers/dice_games/texts.py:54
 msgid "CUBE_TEXT_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:54
+#: ../bot/handlers/games_handlers/dice_games/texts.py:55
 msgid "CUBE_TEXT_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:55
 #: ../bot/handlers/games_handlers/dice_games/texts.py:56
-#: ../bot/handlers/games_handlers/dice_games/texts.py:57
-#: ../bot/handlers/games_handlers/dice_games/texts.py:58
 msgid "CUBE_TEXT_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:65
+#: ../bot/handlers/games_handlers/dice_games/texts.py:63
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:66
+#: ../bot/handlers/games_handlers/dice_games/texts.py:64
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:67
+#: ../bot/handlers/games_handlers/dice_games/texts.py:65
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:68
+#: ../bot/handlers/games_handlers/dice_games/texts.py:66
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:69
+#: ../bot/handlers/games_handlers/dice_games/texts.py:67
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_5"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:70
+#: ../bot/handlers/games_handlers/dice_games/texts.py:68
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../bot/handlers/setting_heandlers/setting.py:33
+#: ../bot/handlers/setting_heandlers/setting.py:35
 msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
@@ -208,7 +205,7 @@ msgid "CABINET_MENU_BTN_REFERRALS"
 msgstr ""
 
 #: ../bot/menus/cabinet_menus/cabinet_menu.py:22
-#: ../bot/menus/cabinet_menus/referrals_menu.py:26
+#: ../bot/menus/cabinet_menus/referrals_menu.py:54
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
@@ -218,19 +215,39 @@ msgstr ""
 msgid "BTN_BACK"
 msgstr ""
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:7
+#: ../bot/menus/cabinet_menus/referrals_menu.py:11
+msgid "REF_LVL_1_ADEPT"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:12
+msgid "REF_LVL_2_EXPERIENCED"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:13
+msgid "REF_LVL_3_CONNOISSEUR"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:14
+msgid "REF_LVL_4_EXPERT"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:15
+msgid "REF_LVL_5_MAESTRO"
+msgstr ""
+
+#: ../bot/menus/cabinet_menus/referrals_menu.py:34
 msgid "REFERRAL_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:17
+#: ../bot/menus/cabinet_menus/referrals_menu.py:45
 msgid "REFERRALS_MENU_SEND_INVITE"
 msgstr ""
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:20
+#: ../bot/menus/cabinet_menus/referrals_menu.py:48
 msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
 msgstr ""
 
-#: ../bot/menus/cabinet_menus/referrals_menu.py:23
+#: ../bot/menus/cabinet_menus/referrals_menu.py:51
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr ""
 

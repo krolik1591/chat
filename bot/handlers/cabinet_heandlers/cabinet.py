@@ -3,6 +3,7 @@ from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.deep_linking import create_start_link
 
+from bot.consts import const
 from bot.db import db
 from bot.menus.cabinet_menus.cabinet_menu import cabinet_menu
 from bot.menus.cabinet_menus.referrals_menu import referrals_menu
@@ -24,8 +25,9 @@ async def referrals(call: types.CallbackQuery, state: FSMContext):
     referrals_count = await db.get_count_all_user_referrals(call.from_user.id)
     total_ref_withdraw = await db.get_total_ref_withdraw(call.from_user.id)
     referrals_bets = await db.get_referrals_bets(call.from_user.id)
+    all_profit = referrals_bets + total_ref_withdraw
 
-    text, keyboard = referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_bets)
+    text, keyboard = referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_bets, all_profit)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
