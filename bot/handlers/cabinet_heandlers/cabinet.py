@@ -20,7 +20,6 @@ async def cabinet(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text("referrals_menu"))
 async def referrals(call: types.CallbackQuery, state: FSMContext):
-    await db.update_datetime_and_amount_ref_withdraw(call.from_user.id, 0)
     invite_link = await create_start_link(state.bot, str(call.from_user.id))
     referrals_count = await db.get_count_all_user_referrals(call.from_user.id)
     total_ref_withdraw = await db.get_total_ref_withdraw(call.from_user.id)
