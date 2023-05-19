@@ -48,16 +48,14 @@ def football_texts(dice):
 
 
 def cube_texts(lose_streak):
+    text_lose = 3 if lose_streak > 3 else lose_streak
     CUBE_TEXTS = {
         0: _('CUBE_TEXT_0'),
         1: _('CUBE_TEXT_1'),
         2: _('CUBE_TEXT_2'),
         3: _('CUBE_TEXT_3'),
-        4: _('CUBE_TEXT_3'),
-        5: _('CUBE_TEXT_3'),
-        6: _('CUBE_TEXT_3')
     }
-    return CUBE_TEXTS[lose_streak]
+    return CUBE_TEXTS[text_lose]
 
 
 def numbers_emoji(dice):
