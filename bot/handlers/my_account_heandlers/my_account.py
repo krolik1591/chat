@@ -2,7 +2,7 @@ from aiogram import Router, types
 from aiogram.filters import Text
 
 from bot.db import db
-from bot.menus.my_account_menus.my_account_menu import my_account_menu
+from bot.menus.account_menus.account_menu import my_account_menu
 
 router = Router()
 

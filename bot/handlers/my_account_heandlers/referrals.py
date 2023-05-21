@@ -2,9 +2,10 @@ from aiogram import Router, types
 from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.deep_linking import create_start_link
+from aiogram.utils.i18n import gettext as _
 
 from bot.db import db
-from bot.menus.my_account_menus.referrals_menu import referrals_menu
+from bot.menus.account_menus.referrals_menu import referrals_menu
 
 router = Router()
 
@@ -24,10 +25,11 @@ async def referrals(call: types.CallbackQuery, state: FSMContext):
 @router.inline_query()
 async def inline_send_invite(query: types.InlineQuery, state):
     await query.answer([types.InlineQueryResultArticle(
-        title='Send invitation', description='huihuihuihjughrtyjgrgri',
-        id='wqweqweqwe', input_message_content=types.InputTextMessageContent(message_text='hi noggers'),
+        title=_('REFERRALS_SEND_INVITATION_TITLE_TEXT'), description=_('REFERRALS_SEND_INVITATION_DESC_TEXT'),
+        id='skrrrr', input_message_content=types.InputTextMessageContent(
+            message_text=_('REFERRALS_SEND_INVITATION_TEXT')),
         reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[[
-            types.InlineKeyboardButton(text='pohui', url=await create_start_link(state.bot, str(query.from_user.id)))
+            types.InlineKeyboardButton(text=_('REFERRALS_SEND_INVITATION_BTN_TEXT'),
+                                       url=await create_start_link(state.bot, str(query.from_user.id)))
         ]]))
     ])
-

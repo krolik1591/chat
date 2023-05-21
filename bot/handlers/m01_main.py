@@ -18,7 +18,8 @@ router = Router()
 
 async def send_main_menu(context: Context, msg_id=None):
     balances = await db.get_user_balances(context.user_id)
-    text, keyboard = main_menu(balances)
+    lang = await db.get_user_lang(context.user_id)
+    text, keyboard = main_menu(balances, lang)
 
     if msg_id is None:
         msg = await context.fsm_context.bot.send_message(context.user_id, text, reply_markup=keyboard)

@@ -14,18 +14,17 @@ def my_account_menu(balances: dict):
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text=_('CABINET_MENU_BTN_REFERRALS'), callback_data="referrals_menu")
+            InlineKeyboardButton(text=_('ACCOUNT_MENU_BTN_REFERRALS'), callback_data="referrals_menu")
         ],
         [
-            InlineKeyboardButton(text='Промокоди', callback_data="promo_codes")
+            InlineKeyboardButton(text=_('ACCOUNT_MENU_BTN_PROMO_CODES'), callback_data="promo_codes")
         ],
         [
-            InlineKeyboardButton(text='Трофеї', callback_data="trophies"),
+            InlineKeyboardButton(text=_('ACCOUNT_MENU_BTN_TROPHIES'), callback_data="trophies"),
         ],
         [
-            InlineKeyboardButton(text='Відправити подарунок', callback_data="send_gift"),
-            InlineKeyboardButton(text='Налаштування', callback_data="settings"),
-
+            InlineKeyboardButton(text=_('ACCOUNT_MENU_BTN_SEND_GIFT'), callback_data="send_gift"),
+            InlineKeyboardButton(text=_('ACCOUNT_MENU_SETTINGS'), callback_data="settings"),
         ],
         [
             InlineKeyboardButton(text='Меню', callback_data="main_menu"),
