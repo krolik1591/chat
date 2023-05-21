@@ -13,5 +13,3 @@ async def settings(call: types.CallbackQuery):
 
     text, keyboard = my_account_menu(balances)
     await call.message.edit_text(text, reply_markup=keyboard)
-
-

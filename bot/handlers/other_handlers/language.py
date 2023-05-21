@@ -1,22 +1,14 @@
 from aiogram import Router, types
 from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.i18n import gettext as _
 
 from bot.db.methods import set_user_lang
 from bot.handlers.context import Context
 from bot.handlers.m01_main import send_main_menu
-from bot.handlers.states import StateKeys
-from bot.menus.setting_menus.language_menu import language_menu
-
-from aiogram.utils.i18n import gettext as _
+from bot.menus.main_menus.language_menu import language_menu
 
 router = Router()
-
-
-@router.callback_query(Text("settings"))
-async def settings(call: types.CallbackQuery):
-    text, keyboard = setting_menu()
-    await call.message.edit_text(text, reply_markup=keyboard)
 
 
 @router.callback_query(Text("change_lang"))

@@ -1,7 +1,7 @@
 from aiogram import Router, types
 from aiogram.filters import Text
 
-from bot.menus.guides_menus import guides_menu
+from bot.menus.main_menus.guides_menus import guides_menu
 
 router = Router()
 

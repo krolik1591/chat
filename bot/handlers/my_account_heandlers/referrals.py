@@ -3,19 +3,10 @@ from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.deep_linking import create_start_link
 
-from bot.consts import const
 from bot.db import db
-from bot.menus.cabinet_menus.cabinet_menu import cabinet_menu
-from bot.menus.cabinet_menus.referrals_menu import referrals_menu
+from bot.menus.my_account_menus.referrals_menu import referrals_menu
 
 router = Router()
-
-
-@router.callback_query(Text("cabinet_menu"))
-async def cabinet(call: types.CallbackQuery, state: FSMContext):
-
-    text, keyboard = cabinet_menu()
-    await call.message.edit_text(text, reply_markup=keyboard)
 
 
 @router.callback_query(Text("referrals_menu"))
@@ -39,3 +30,4 @@ async def inline_send_invite(query: types.InlineQuery, state):
             types.InlineKeyboardButton(text='pohui', url=await create_start_link(state.bot, str(query.from_user.id)))
         ]]))
     ])
+
