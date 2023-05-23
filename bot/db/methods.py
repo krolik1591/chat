@@ -61,7 +61,7 @@ async def get_count_all_user_referrals(tg_id):
     return len(result)
 
 
-async def get_referrals_bets(referrer):
+async def get_referrals_bets_from_last_withdraw(referrer):
     time_ = await User.select().where(User.user_id == referrer)
     time_ = time_[0].timestamp_ref_withdraw or 0
 
@@ -69,6 +69,14 @@ async def get_referrals_bets(referrer):
               .select(fn.SUM(GameLog.bet).alias('total_bets'))
               .join(GameLog)
               .where(User.referrer == referrer, GameLog.timestamp > time_).scalar())
+    return result or 0
+
+
+async def get_all_referrals_bets(referrer):
+    result = (await User
+              .select(fn.SUM(GameLog.bet).alias('total_bets'))
+              .join(GameLog)
+              .where(User.referrer == referrer).scalar())
     return result or 0
 
 
@@ -222,7 +230,7 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_referrals_bets(357108179)
+        x = await get_all_referrals_bets(357108179)
         print(x)
 
 

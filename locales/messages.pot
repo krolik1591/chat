@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-21 13:55+0300\n"
+"POT-Creation-Date: 2023-05-23 20:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../bot/handlers/m01_main.py:46
+#: ../bot/handlers/m01_main.py:47
 msgid "CHECK_REF_DENIED_TEXT"
 msgstr ""
 
-#: ../bot/handlers/m01_main.py:49
+#: ../bot/handlers/m01_main.py:50
 msgid "CHECK_REF_APPROVE_TEXT"
 msgstr ""
 
@@ -150,19 +150,27 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:28
+#: ../bot/handlers/my_account_heandlers/referrals.py:31
+msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
+msgstr ""
+
+#: ../bot/handlers/my_account_heandlers/referrals.py:38
+msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
+msgstr ""
+
+#: ../bot/handlers/my_account_heandlers/referrals.py:54
 msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:28
+#: ../bot/handlers/my_account_heandlers/referrals.py:54
 msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:30
+#: ../bot/handlers/my_account_heandlers/referrals.py:56
 msgid "REFERRALS_SEND_INVITATION_TEXT"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:32
+#: ../bot/handlers/my_account_heandlers/referrals.py:58
 msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
 msgstr ""
 
@@ -260,19 +268,19 @@ msgstr ""
 msgid "REFERRAL_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:39
+#: ../bot/menus/account_menus/referrals_menu.py:38
 msgid "REFERRALS_MENU_SEND_INVITE"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:42
+#: ../bot/menus/account_menus/referrals_menu.py:41
 msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:45
+#: ../bot/menus/account_menus/referrals_menu.py:44
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:48
+#: ../bot/menus/account_menus/referrals_menu.py:47
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
