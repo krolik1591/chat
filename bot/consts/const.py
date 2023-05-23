@@ -14,7 +14,7 @@ INTERVAL_FOR_REJECT_LOST_TX = 5 * 60    # sec
 USER_REF_LEVEL = {
     'adept': [0, 5],
     'experienced': [50_000, 7],
-    'connoisseur': [100_000, 10],
+    'connoisseur': [100_000, 10],   # 100_000 - bets, 10 - percent
     'expert': [500_000, 12],
     'maestro': [1_000_000, 15]
 }
