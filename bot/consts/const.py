@@ -11,6 +11,8 @@ TON_INITIALISATION_FEE = 0.015  # ton
 
 INTERVAL_FOR_REJECT_LOST_TX = 5 * 60    # sec
 
+MIN_REF_WITHDRAW = 50   # game tokens
+
 USER_REF_LEVEL = {
     # [where lvl ends | percent]
     'adept': [50_000, 5],
