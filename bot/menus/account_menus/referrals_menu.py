@@ -35,7 +35,7 @@ def referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_b
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text=_('REFERRALS_MENU_SEND_INVITE'), switch_inline_query="send_invite"),
+            InlineKeyboardButton(text=_('REFERRALS_MENU_SEND_INVITE'), switch_inline_query=""),
         ],
         [
             InlineKeyboardButton(text=_('REFERRALS_MENU_SEND_PROMO_TO_GENERAL'), callback_data="promo_to_general")

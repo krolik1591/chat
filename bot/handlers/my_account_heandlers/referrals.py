@@ -7,7 +7,7 @@ from aiogram.utils.deep_linking import create_start_link
 from aiogram.utils.i18n import gettext as _
 
 from bot.consts.const import MIN_REF_WITHDRAW, USER_REF_LEVEL
-from bot.db import db
+from bot.db import db, manager
 from bot.menus.account_menus.referrals_menu import referrals_menu
 
 router = Router()
@@ -29,7 +29,11 @@ async def referrals(call: types.CallbackQuery, state: FSMContext):
     if total_bonus < MIN_REF_WITHDRAW:
         await call.answer(_('REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY').format(min_ref_withdraw=MIN_REF_WITHDRAW), True)
         return
-    await db.update_datetime_and_amount_ref_withdraw(call.from_user.id, total_bonus)
+
+    with manager.pw_database.atomic():
+        await db.update_datetime_and_amount_ref_withdraw(call.from_user.id, total_bonus)
+        await db.update_user_balance(call.from_user.id, 'general', total_bonus)
+
     await call.answer(_('REFERRALS_PROMO_TO_GENERAL_SUCCESS'))
 
     invite_link, referrals_count, total_ref_withdraw, referrals_bets, money_to_withdraw = await referral_info(call,
@@ -53,13 +57,13 @@ async def referral_info(call, state):
 async def inline_send_invite(query: types.InlineQuery, state):
     await query.answer([types.InlineQueryResultArticle(
         title=_('REFERRALS_SEND_INVITATION_TITLE_TEXT'), description=_('REFERRALS_SEND_INVITATION_DESC_TEXT'),
-        id='skrrrr', input_message_content=types.InputTextMessageContent(
+        id=query.id, input_message_content=types.InputTextMessageContent(
             message_text=_('REFERRALS_SEND_INVITATION_TEXT')),
         reply_markup=types.InlineKeyboardMarkup(inline_keyboard=[[
             types.InlineKeyboardButton(text=_('REFERRALS_SEND_INVITATION_BTN_TEXT'),
                                        url=await create_start_link(state.bot, str(query.from_user.id)))
         ]]))
-    ])
+    ], cache_time=0, is_personal=True)
 
 
 async def how_many_cash_referrer_can_withdraw(user_id):
