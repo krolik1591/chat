@@ -1,8 +1,10 @@
 import asyncio
 import logging
+from pathlib import Path
 
 import ton.tonlibjson
 from TonTools.Contracts import Wallet
+from aiogram.utils.i18n import I18n
 
 from bot.consts.const import TON_INITIALISATION_FEE
 from bot.db import db, manager, models
@@ -205,17 +207,23 @@ async def init_user_wallet(bot, user_id, user_wallet):
 
 
 async def send_successful_deposit_msg(bot, user_id, amount):
-    text, keyboard = deposit_menu.successful_deposit_menu(amount=round(amount, 2))
+    i18n = await set_user_locale_to_i18n(user_id)
+    with i18n:
+        text, keyboard = deposit_menu.successful_deposit_menu(amount=round(amount, 2))
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
 async def send_successful_initiation_msg(bot, user_id):
-    text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=True)
+    i18n = await set_user_locale_to_i18n(user_id)
+    with i18n:
+        text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=True)
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
 async def send_failed_initiation_msg(bot, user_id):
-    text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=False)
+    i18n = await set_user_locale_to_i18n(user_id)
+    with i18n:
+        text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=False)
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
@@ -232,3 +240,11 @@ async def create_master_wallet(ton_wrapper):
     mw_mnemon_string = ','.join(mw_mnemon_arr)
 
     await db.create_user_wallet(mw_id, mw_address, mw_mnemon_string)
+
+
+async def set_user_locale_to_i18n(user_id):
+    user_locale = await db.get_user_lang(user_id)
+    i18n_path = Path(__file__).parent.parent.parent.parent / 'locales'
+    i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
+    i18n.current_locale = user_locale
+    return i18n.context()
