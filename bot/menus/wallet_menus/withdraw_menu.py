@@ -11,7 +11,7 @@ def input_amount(token_price, general_balance):
     text = _('WITHDRAW_MENU_TEXT1').format(min_withdraw=MIN_WITHDRAW, ton_amount=ton_amount,
                                            general_balance=general_balance)
     kb = InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(text='Мій гаманець', callback_data="wallet_menu")
+        InlineKeyboardButton(text=_('BTN_BACK'), callback_data="wallet_menu")
     ]])
 
     return text, kb
@@ -20,7 +20,7 @@ def input_amount(token_price, general_balance):
 def input_address():
     text = _('WITHDRAW_MENU_TEXT2').format()
     kb = InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(text='Назад', callback_data="withdraw")
+        InlineKeyboardButton(text=_('BTN_BACK'), callback_data="withdraw")
     ]])
 
     return text, kb
@@ -32,8 +32,8 @@ def input_validation(withdraw_amount, withdraw_address, withdraw_amount_token, g
                                            user_withdraw_amount_ton=withdraw_amount_token,
                                            general_balance=general_balance)
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text='✅ Підтвердити', callback_data="withdraw_queued")],
-        [InlineKeyboardButton(text='‹ Назад', callback_data="withdraw")]
+        [InlineKeyboardButton(text=_('WITHDRAW_MENU_BTN_STEP_3_APPROVE'), callback_data="withdraw_queued")],
+        [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="withdraw")]
     ])
 
     return text, kb
@@ -44,7 +44,7 @@ def withdraw_queued(user_withdraw_amount):
     text = _('WITHDRAW_APPROVE').format(user_withdraw_amount=user_withdraw_amount,
                                         user_withdraw_amount_ton=user_withdraw_amount_ton)
     kb = InlineKeyboardMarkup(inline_keyboard=[[
-        InlineKeyboardButton(text='В меню', callback_data="main_menu")
+        InlineKeyboardButton(text=_('WITHDRAW_MENU_BTN_STEP_4_TO_MENU'), callback_data="main_menu")
     ]])
 
     return text, kb

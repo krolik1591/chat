@@ -27,7 +27,7 @@ def _keyboard():
             InlineKeyboardButton(text=_('ACCOUNT_MENU_SETTINGS'), callback_data="settings"),
         ],
         [
-            InlineKeyboardButton(text='Меню', callback_data="main_menu"),
+            InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu"),
         ]
     ]
 

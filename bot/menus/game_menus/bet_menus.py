@@ -48,9 +48,9 @@ def _keyboard(bet, balance_icon, play_text, add_replenish_btn, back_to):
             InlineKeyboardButton(text='+', callback_data="bet_plus")
         ],
         [
-            InlineKeyboardButton(text='min', callback_data="bet_min"),
+            InlineKeyboardButton(text=_('BET_MENUS_BTN_MINIMUM'), callback_data="bet_min"),
             InlineKeyboardButton(text='x2', callback_data="bet_x2"),
-            InlineKeyboardButton(text='max', callback_data="bet_max")
+            InlineKeyboardButton(text=_('BET_MENUS_BTN_MAXIMUM'), callback_data="bet_max")
         ],
         [
             InlineKeyboardButton(text=_('BTN_BACK'), callback_data=back_to),

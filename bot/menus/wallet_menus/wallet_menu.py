@@ -20,7 +20,7 @@ def _keyboard():
             InlineKeyboardButton(text=_('WALLET_MENU_BTN_WITHDRAW'), callback_data="withdraw")
         ],
         [InlineKeyboardButton(text=_('WALLET_MENU_BTN_HOW_TO_BUY'), callback_data="how_to_buy")],
-        [InlineKeyboardButton(text=_('WALLET_MENU_BTN_BACK'), callback_data="main_menu")]
+        [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)
