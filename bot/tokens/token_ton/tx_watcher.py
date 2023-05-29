@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from pathlib import Path
+from pprint import pprint
 
 import ton.tonlibjson
 from TonTools.Contracts import Wallet
@@ -123,7 +124,9 @@ async def approve_withdraw(tx, bot):
 
     await update_withdraw_tx_state(tx_id, 'approved')
 
-    text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
+    i18n = await set_user_locale_to_i18n(withdraw_tx.user_id)
+    with i18n:
+        text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
     await bot.send_message(chat_id=withdraw_tx.user_id, text=text, reply_markup=keyboard)
 
     return withdraw_tx, msg
