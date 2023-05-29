@@ -51,7 +51,8 @@ def withdraw_queued(user_withdraw_amount):
 
 
 def admin_manual_tx(user_id, username, token_id, withdraw_amount, id_new_tx):
-    text = _('WITHDRAW_MANUAL_TX').format(user_id=user_id, username=username, withdraw_amount=withdraw_amount)
+    text = '@{username} (id: {user_id}) хоче вивести купу грошей: {withdraw_amount}.'\
+        .format(user_id=user_id, username=username, withdraw_amount=withdraw_amount)
 
     kb = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text='✅ Approve', callback_data=f"approve_manual_tx_{id_new_tx}"),
