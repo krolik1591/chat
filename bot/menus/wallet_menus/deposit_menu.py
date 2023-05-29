@@ -28,7 +28,6 @@ def deposit_menu(wallet_address):
     return text, kb
 
 
-
 def _replenish_menu_keyboard(wallet_address):
     kb = [
         [InlineKeyboardButton(text=_('DEPOSIT_MENU_BTN_OPEN_TONKEEPER'), url=f"https://app.tonkeeper.com/transfer/{wallet_address}")],
