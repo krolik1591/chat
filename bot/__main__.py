@@ -47,8 +47,8 @@ async def main():
     ton_wrapper = await TonWrapper.create_archival(master_wallet_mnemon=config.wallet_seed)
     TonWrapper.INSTANCE = ton_wrapper
 
-    asyncio.create_task(watch_txs(ton_wrapper, bot))
-    asyncio.create_task(find_and_reject_lost_tx(bot))
+    asyncio.create_task(watch_txs(ton_wrapper, bot, i18n))
+    asyncio.create_task(find_and_reject_lost_tx(bot, i18n))
 
     try:
         print("me:", await bot.get_me())

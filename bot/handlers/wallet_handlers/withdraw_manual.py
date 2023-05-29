@@ -14,13 +14,16 @@ router = Router()
 
 
 @router.callback_query(Text(startswith='approve_manual_tx_'))
-async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext):
+async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext, i18n_middleware):
     await call.message.edit_text(f'{call.message.text} \n\n✅ Approve')
 
     tx_id = call.data.removeprefix('approve_manual_tx_')
     tx = await db.get_withdraw_tx_by_id(tx_id)
 
     await db.update_withdraw_tx_state(tx_id, 'pending')
+
+    user_lang = await db.get_user_lang(tx.user_id)
+    await i18n_middleware.set_locale(state, user_lang)
 
     text, kb = withdraw_menu.withdraw_manual_approved(tx.amount)
     await state.bot.send_message(chat_id=tx.user_id, text=text, reply_markup=kb)
@@ -30,7 +33,7 @@ async def approve_manual_tx(call: types.CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(Text(startswith='denied_manual_tx_'))
-async def decline_manual_tx(call: types.CallbackQuery, state: FSMContext):
+async def decline_manual_tx(call: types.CallbackQuery, state: FSMContext, i18n_middleware):
     await call.message.edit_text(f'{call.message.text} \n\n❌ Denied')
 
     tx_id = call.data.removeprefix('denied_manual_tx_')
@@ -39,6 +42,9 @@ async def decline_manual_tx(call: types.CallbackQuery, state: FSMContext):
     with manager.pw_database.atomic():
         await db.update_withdraw_tx_state(tx_id, 'rejected')
         await db.update_user_balance(tx.user_id, 'general', tx.amount)
+
+    user_lang = await db.get_user_lang(tx.user_id)
+    await i18n_middleware.set_locale(state, user_lang)
 
     text, kb = withdraw_menu.withdraw_manual_rejected()
     await state.bot.send_message(chat_id=tx.user_id, text=text, reply_markup=kb)

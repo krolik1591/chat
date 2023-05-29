@@ -16,14 +16,14 @@ from bot.tokens.token_ton import TonWrapper, ton_token
 
 
 # todo оптимизация: сортировать пользователей по последней активности
-async def watch_txs(ton_wrapper: TonWrapper, bot):
+async def watch_txs(ton_wrapper: TonWrapper, bot, i18n: I18n):
 
     async def find_new_master_tx():
         try:
             new_txs = await find_new_master_txs(ton_wrapper)
             if new_txs is not None:
                 for tx in new_txs:
-                    await process_master_tx(tx, bot)
+                    await process_master_tx(tx, bot, i18n)
 
         except ton.tonlibjson.TonlibError as ex:
             logging.exception('TonLib error')
@@ -34,6 +34,7 @@ async def watch_txs(ton_wrapper: TonWrapper, bot):
             if new_txs is not None:
                 user_wallet = ton_wrapper.get_wallet(user_.mnemonic)
                 for tx in new_txs:
+                    await set_user_locale_to_i18n(user_.user_id, i18n)
                     await process_user_tx(tx, user_.user_id, user_wallet, bot)
 
         except ton.tonlibjson.TonlibError as ex:
@@ -83,13 +84,13 @@ async def find_new_master_txs(ton_wrapper: TonWrapper):
         first_tx_hash=last_tx_from_db.tx_hash)
 
 
-async def process_master_tx(tx, bot):
+async def process_master_tx(tx, bot, i18n):
 
     if tx['source'] != TonWrapper.INSTANCE.master_wallet.address:   # not a withdrawal
         return
 
     with manager.pw_database.atomic():
-        withdraw_tx, msg = await approve_withdraw(tx, bot)
+        withdraw_tx, msg = await approve_withdraw(tx, bot, i18n)
 
         await add_new_transaction(
             user_id=withdraw_tx.user_id if withdraw_tx else 0,
@@ -103,7 +104,7 @@ async def process_master_tx(tx, bot):
             comment="|".join(msg) if msg else ''),
 
 
-async def approve_withdraw(tx, bot):
+async def approve_withdraw(tx, bot, i18n):
     if not tx['msg'].startswith('withdrawv1'):
         return None, None
     msg = tx['msg'].removeprefix('withdrawv1').split('|')
@@ -124,9 +125,9 @@ async def approve_withdraw(tx, bot):
 
     await update_withdraw_tx_state(tx_id, 'approved')
 
-    i18n = await set_user_locale_to_i18n(withdraw_tx.user_id)
-    with i18n:
-        text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
+    await set_user_locale_to_i18n(withdraw_tx.user_id, i18n)
+
+    text, keyboard = withdraw_result(True, int(withdraw_tx.amount) / 100)
     await bot.send_message(chat_id=withdraw_tx.user_id, text=text, reply_markup=keyboard)
 
     return withdraw_tx, msg
@@ -210,23 +211,17 @@ async def init_user_wallet(bot, user_id, user_wallet):
 
 
 async def send_successful_deposit_msg(bot, user_id, amount):
-    i18n = await set_user_locale_to_i18n(user_id)
-    with i18n:
-        text, keyboard = deposit_menu.successful_deposit_menu(amount=round(amount, 2))
+    text, keyboard = deposit_menu.successful_deposit_menu(amount=round(amount, 2))
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
 async def send_successful_initiation_msg(bot, user_id):
-    i18n = await set_user_locale_to_i18n(user_id)
-    with i18n:
-        text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=True)
+    text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=True)
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
 async def send_failed_initiation_msg(bot, user_id):
-    i18n = await set_user_locale_to_i18n(user_id)
-    with i18n:
-        text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=False)
+    text, keyboard = deposit_menu.deposit_account_initiation(is_successful_inited=False)
     await bot.send_message(user_id, text, reply_markup=keyboard)
 
 
@@ -245,9 +240,7 @@ async def create_master_wallet(ton_wrapper):
     await db.create_user_wallet(mw_id, mw_address, mw_mnemon_string)
 
 
-async def set_user_locale_to_i18n(user_id):
-    user_locale = await db.get_user_lang(user_id)
-    i18n_path = Path(__file__).parent.parent.parent.parent / 'locales'
-    i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
-    i18n.current_locale = user_locale
-    return i18n.context()
+async def set_user_locale_to_i18n(user_id, i18n):
+    user_lang = await db.get_user_lang(user_id)
+    i18n.current_locale = user_lang
+    i18n.set_current(i18n)
