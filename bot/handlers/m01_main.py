@@ -10,6 +10,7 @@ from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
+from bot.menus.utils import kb_del_msg
 from bot.tokens.token_ton import TonWrapper
 
 flags = {"throttling_key": "default"}
@@ -47,8 +48,12 @@ async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
                 await message.answer(_('CHECK_REF_DENIED_TEXT'))
                 return
 
+            user_lang = await db.get_user_lang(invite_sender)
+            await i18n_middleware.set_locale(state, user_lang)
+            kb = kb_del_msg()
             await state.bot.send_message(invite_sender, _('CHECK_REF_APPROVE_TEXT').
-                                         format(id=message.from_user.id, name=message.from_user.first_name))
+                                         format(id=message.from_user.id, name=message.from_user.first_name),
+                                         reply_markup=kb)
 
         await db.create_new_user(message.from_user.id, message.from_user.username, invite_sender, START_POINTS)
 
