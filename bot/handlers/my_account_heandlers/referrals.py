@@ -9,6 +9,7 @@ from aiogram.utils.i18n import gettext as _
 from bot.consts.const import MIN_REF_WITHDRAW, USER_REF_LEVEL
 from bot.db import db, manager
 from bot.menus.account_menus.referrals_menu import referrals_menu
+from bot.utils.rounding import round_down
 
 router = Router()
 flags = {"throttling_key": "default"}
@@ -93,7 +94,7 @@ def calc_bonus(addition_ref_value, current_ref_value):
         total_bonus += this_lvl_bonus * percent / 100
         current_ref_value = lvl_ends
 
-    return total_bonus
+    return round_down(total_bonus, 2)
 
 
 def find_ref_lvl(value):

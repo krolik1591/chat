@@ -23,7 +23,7 @@ class User(manager.Model):
     username = CharField(default='', null=True)
     lang = CharField(default='en')
     referrer = BigIntegerField(null=True)
-    total_ref_withdraw = BigIntegerField(null=True)
+    total_ref_withdraw = BigIntegerField(default=0)
 
     balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
