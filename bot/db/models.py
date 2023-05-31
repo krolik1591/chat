@@ -70,8 +70,8 @@ class GameLog(manager.Model):
     balance_type = CharField()
     game = CharField()
     game_info = TextField()
-    bet = BigIntegerField()
-    result = BigIntegerField()
+    bet = DecimalField()
+    result = DecimalField()
     timestamp = DateTimeField()
 
     def __str__(self):
