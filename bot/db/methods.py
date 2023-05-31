@@ -37,7 +37,7 @@ async def set_user_last_active(tg_id):
 
 
 async def update_datetime_and_amount_ref_withdraw(tg_id, amount):
-    return await User.update({User.total_ref_withdraw: fn.Round(User.total_ref_withdraw + amount),
+    return await User.update({User.total_ref_withdraw: fn.Round(User.total_ref_withdraw + amount, 2),
                               User.timestamp_ref_withdraw: datetime.utcnow()}).where(User.user_id == tg_id)
 
 
@@ -230,7 +230,7 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_all_referrals_bets(357108179)
+        x = await update_datetime_and_amount_ref_withdraw(357108179, 23.69)
         print(x)
 
 

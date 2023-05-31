@@ -2,6 +2,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.i18n import gettext as _
 
 from bot.consts.const import USER_REF_LEVEL
+from bot.utils.rounding import round_down
 
 
 def referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_bets, money_to_withdraw):
@@ -22,7 +23,7 @@ def referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_b
     else:
         raise Exception('ref_level not found')
 
-    all_profit = total_ref_withdraw + money_to_withdraw
+    all_profit = round_down(float(total_ref_withdraw) + money_to_withdraw, 2)
 
     text = _('REFERRAL_MENU_TEXT').format(invite_link=invite_link, referrals_count=referrals_count,
                                           total_ref_withdraw=total_ref_withdraw, money_to_withdraw=money_to_withdraw,
