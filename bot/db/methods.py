@@ -68,7 +68,7 @@ async def get_referrals_bets_from_last_withdraw(referrer):
     result = (await User
               .select(fn.SUM(GameLog.bet).alias('total_bets'))
               .join(GameLog)
-              .where(User.referrer == referrer, GameLog.timestamp > time_).scalar())
+              .where(User.referrer == referrer, GameLog.timestamp > time_, GameLog.balance_type == "general").scalar())
     return result or 0
 
 
@@ -76,7 +76,7 @@ async def get_all_referrals_bets(referrer):
     result = (await User
               .select(fn.SUM(GameLog.bet).alias('total_bets'))
               .join(GameLog)
-              .where(User.referrer == referrer).scalar())
+              .where(User.referrer == referrer, GameLog.balance_type == "general").scalar())
     return result or 0
 
 
