@@ -19,7 +19,7 @@ class DiceCube(Dice):
         streak = context.state[StateKeys.CUBE_LOSE_STREAK]
         dice_number_emoji = gtexts.numbers_emoji(dice_value)
         cube_coef = self._get_coefficient(context, dice_value) * context.bet
-        return gtexts.cube_texts(streak).format(score_change=cube_coef, token_icon=balance_icon,
+        return gtexts.cube_texts(streak).format(score_change=round(cube_coef, 2), token_icon=balance_icon,
                                                 cube_lose_streak=streak, dice_number_emoji=dice_number_emoji)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
