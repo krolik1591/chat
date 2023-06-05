@@ -33,6 +33,20 @@ async def set_user_last_active(tg_id):
     return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
 
 
+# admin
+
+async def get_users_by_lang(lang):
+    users = await User.select(User.user_id).where(User.lang == lang, User.is_blocked is True)
+    result = []
+    for user in users:
+        result.append(user.user_id)
+    return result
+
+
+async def user_blocked_bot(tg_id):
+    return await User.update({User.is_blocked: True}).where(User.user_id == tg_id)
+
+
 # referrals
 
 
@@ -230,7 +244,7 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await update_datetime_and_amount_ref_withdraw(357108179, 23.69)
+        x = await get_users_by_lang('en')
         print(x)
 
 

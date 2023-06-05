@@ -29,6 +29,8 @@ class User(manager.Model):
     balance_demo = DecimalField(default=0)
     balance_promo = DecimalField(default=0)
 
+    is_blocked = BooleanField(default=False)
+
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
     timestamp_ref_withdraw = DateTimeField(null=True)
