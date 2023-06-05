@@ -13,7 +13,7 @@ def _keyboard():
     kb = [
         [
             InlineKeyboardButton(text=_("ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"), callback_data="spam_sending_approved"),
-            InlineKeyboardButton(text=_("ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"), callback_data="spam_sending_denied")
+            InlineKeyboardButton(text=_("ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"), callback_data="spam_sending_")
         ]
     ]
 
