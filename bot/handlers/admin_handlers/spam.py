@@ -59,26 +59,32 @@ async def spam_sending(call: types.CallbackQuery, state: FSMContext):
     spam_confirm = call.data.removeprefix("spam_sending_")
     who_receive_spam = (await state.get_data()).get(StateKeys.WHO_GET_SPAM)
 
-    if bool(spam_confirm):
-        spam_msg_id = (await state.get_data()).get(StateKeys.SPAM_MSG_ID)
+    if not spam_confirm:
+        return
+    spam_msg_id = (await state.get_data()).get(StateKeys.SPAM_MSG_ID)
 
-        if who_receive_spam == 'all':
-            lang_receiver = (await state.get_data()).get(StateKeys.SPAM_LANG)
-            users = await db.get_users_by_lang(lang_receiver)
-            if len(users) == 0:
-                await call.answer(_("ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"), show_alert=True)
-                text, kb = spam_language_menu()
-                await state.bot.edit_message_text(text, call.from_user.id, call.message.message_id, reply_markup=kb)
-                return
+    if who_receive_spam == 'all':
+        lang_receiver = (await state.get_data()).get(StateKeys.SPAM_LANG)
+        users = await db.get_users_by_lang(lang_receiver)
 
-            for user in users:
-                try:
-                    try:
-                        await state.bot.copy_message(chat_id=user, from_chat_id=call.from_user.id,
-                                                     message_id=spam_msg_id, reply_markup=kb_del_msg())
-                    except exceptions.TelegramForbiddenError:
-                        await db.user_blocked_bot(user)
-                        print(f"User with id: {user} are block bot.")
+        if not users:
+            await call.answer(_("ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"), show_alert=True)
+            text, kb = spam_language_menu()
+            await state.bot.edit_message_text(text, call.from_user.id, call.message.message_id, reply_markup=kb)
+            return
 
-                except exceptions.TelegramBadRequest:
-                    print(f"User with id: {user} are doesnt exist.")
+        await send_spam_msg(call, state, users, spam_msg_id)
+
+
+async def send_spam_msg(call, state, users, spam_msg_id):
+    for user in users:
+        try:
+            try:
+                await state.bot.copy_message(chat_id=user, from_chat_id=call.from_user.id,
+                                             message_id=spam_msg_id, reply_markup=kb_del_msg())
+            except exceptions.TelegramForbiddenError:
+                await db.user_blocked_bot(user)
+                print(f"User with id: {user} are block bot.")
+
+        except exceptions.TelegramBadRequest:
+            print(f"User with id: {user} are doesnt exist.")
