@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-05 14:04+0300\n"
+"POT-Creation-Date: 2023-06-05 15:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -250,6 +250,7 @@ msgstr ""
 
 #: ../bot/menus/account_menus/account_menu.py:30
 #: ../bot/menus/account_menus/referrals_menu.py:51
+#: ../bot/menus/admin_menus/spam_type_menu.py:21
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
@@ -302,6 +303,30 @@ msgstr ""
 
 #: ../bot/menus/account_menus/referrals_menu.py:48
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
+msgstr ""
+
+#: ../bot/menus/admin_menus/admin_menu.py:6
+msgid "ADMIN_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/admin_menus/admin_menu.py:15
+msgid "ADMIN_MENU_BTN_SPAM"
+msgstr ""
+
+#: ../bot/menus/admin_menus/admin_menu.py:18
+msgid "ADMIN_MENU_BTN_STATISTIC"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_type_menu.py:6
+msgid "ADMIN_SPAM_TYPE_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_type_menu.py:15
+msgid "ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_type_menu.py:18
+msgid "ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"
 msgstr ""
 
 #: ../bot/menus/game_menus/bet_menus.py:14

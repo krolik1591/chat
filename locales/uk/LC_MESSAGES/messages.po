@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-05 14:04+0300\n"
+"POT-Creation-Date: 2023-06-05 15:37+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -289,6 +289,7 @@ msgstr "Налаштування"
 
 #: ../bot/menus/account_menus/account_menu.py:30
 #: ../bot/menus/account_menus/referrals_menu.py:51
+#: ../bot/menus/admin_menus/spam_type_menu.py:21
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
@@ -351,6 +352,30 @@ msgstr "🔄 Оновити статус"
 #: ../bot/menus/account_menus/referrals_menu.py:48
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr "Як це працює?"
+
+#: ../bot/menus/admin_menus/admin_menu.py:6
+msgid "ADMIN_MENU_TEXT"
+msgstr "Вітаю, пане Адмін! Чого бажаєте?"
+
+#: ../bot/menus/admin_menus/admin_menu.py:15
+msgid "ADMIN_MENU_BTN_SPAM"
+msgstr "Навалить посилань"
+
+#: ../bot/menus/admin_menus/admin_menu.py:18
+msgid "ADMIN_MENU_BTN_STATISTIC"
+msgstr "Чекнуть стату"
+
+#: ../bot/menus/admin_menus/spam_type_menu.py:6
+msgid "ADMIN_SPAM_TYPE_MENU_TEXT"
+msgstr "Кому навалимо?"
+
+#: ../bot/menus/admin_menus/spam_type_menu.py:15
+msgid "ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"
+msgstr "Усім"
+
+#: ../bot/menus/admin_menus/spam_type_menu.py:18
+msgid "ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"
+msgstr "Обраним"
 
 #: ../bot/menus/game_menus/bet_menus.py:14
 msgid "SLOTS_PLAY_TEXT"
