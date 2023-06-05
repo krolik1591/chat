@@ -12,10 +12,10 @@ def spam_type_menu():
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text=_("ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"), callback_data="spam_type"),
+            InlineKeyboardButton(text=_("ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"), callback_data="who_get_spam_all"),
         ],
         [
-            InlineKeyboardButton(text=_("ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"), callback_data="spam_type"),
+            InlineKeyboardButton(text=_("ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"), callback_data="who_get_spam_for_id"),
         ],
         [
             InlineKeyboardButton(text=_("BTN_BACK"), callback_data="admin_menu"),

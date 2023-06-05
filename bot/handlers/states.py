@@ -9,6 +9,8 @@ class Menu(StatesGroup):
     withdraw_address = State()
     delete_message = State()
     do_nothing = State()
+    # admin
+    enter_spam_msg = State()
 
 
 class StateKeys:
@@ -24,6 +26,10 @@ class StateKeys:
     TOKEN_ID = 'token_id'
     WITHDRAW_AMOUNT = 'withdraw_amount'
     WITHDRAW_ADDRESS = 'withdraw_address'
+    # admin
+    WHO_GET_SPAM = 'who_get_spam'
+    SPAM_LANG = 'spam_lang'
+    SPAM_MSG_ID = 'spam_msg_id'
 
 
 class Games:

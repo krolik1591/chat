@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-05 15:37+0300\n"
+"POT-Creation-Date: 2023-06-05 17:53+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -24,6 +24,14 @@ msgstr ""
 
 #: ../bot/handlers/m01_main.py:54
 msgid "CHECK_REF_APPROVE_TEXT"
+msgstr ""
+
+#: ../bot/handlers/admin_handlers/spam.py:39
+msgid "ADMIN_SPAM_TEXT_ENTER_UR_MSG"
+msgstr ""
+
+#: ../bot/handlers/admin_handlers/spam.py:48
+msgid "ADMIN_SPAM_TEXT_TEMPLATE"
 msgstr ""
 
 #: ../bot/handlers/games_handlers/m06_play_dice.py:33
@@ -251,6 +259,7 @@ msgstr ""
 
 #: ../bot/menus/account_menus/account_menu.py:30
 #: ../bot/menus/account_menus/referrals_menu.py:51
+#: ../bot/menus/admin_menus/spam_language_menu.py:22
 #: ../bot/menus/admin_menus/spam_type_menu.py:21
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
@@ -316,6 +325,22 @@ msgstr ""
 
 #: ../bot/menus/admin_menus/admin_menu.py:18
 msgid "ADMIN_MENU_BTN_STATISTIC"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_confirm_menu.py:6
+msgid "ADMIN_SPAM_CONFIRM_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_confirm_menu.py:15
+msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_confirm_menu.py:16
+msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_language_menu.py:8
+msgid "ADMIN_SPAM_LANGUAGE_MENU_TEXT"
 msgstr ""
 
 #: ../bot/menus/admin_menus/spam_type_menu.py:6
