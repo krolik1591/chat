@@ -42,6 +42,9 @@ def _keyboard():
             InlineKeyboardButton(text=_('REFERRALS_MENU_SEND_PROMO_TO_GENERAL'), callback_data="promo_to_general")
         ],
         [
+            InlineKeyboardButton(text=_('REFERRALS_MENU_BTN_REFRESH_REF_INFO'), callback_data="referrals_menu_refresh")
+        ],
+        [
             InlineKeyboardButton(text=_('REFERRALS_MENU_HOW_IT_WORKS'), callback_data="ref_info")
         ],
         [

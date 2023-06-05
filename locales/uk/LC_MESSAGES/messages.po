@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-29 15:54+0300\n"
+"POT-Creation-Date: 2023-06-05 14:04+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../bot/handlers/m01_main.py:47
+#: ../bot/handlers/m01_main.py:48
 msgid "CHECK_REF_DENIED_TEXT"
 msgstr "Невірне реферальне посилання. Уважніше."
 
-#: ../bot/handlers/m01_main.py:50
+#: ../bot/handlers/m01_main.py:54
 msgid "CHECK_REF_APPROVE_TEXT"
 msgstr "<a href='tg://user?id={id}'>{name}</a> став вашим поддіваном"
 
-#: ../bot/handlers/games_handlers/m06_play_dice.py:32
+#: ../bot/handlers/games_handlers/m06_play_dice.py:33
 msgid "DICE_ROLL_TEXT"
 msgstr "🍀 Успіхів!"
 
@@ -184,27 +184,31 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:30
+#: ../bot/handlers/my_account_heandlers/referrals.py:25
+msgid "REFERRALS_REFRESHED_TEXT"
+msgstr "✅ Статистика оновлена!"
+
+#: ../bot/handlers/my_account_heandlers/referrals.py:36
 msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
 msgstr "Недостатньо токенів для виведення. Мінімальна сума для виведення - {min_ref_withdraw} токенів."
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:37
+#: ../bot/handlers/my_account_heandlers/referrals.py:43
 msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
 msgstr "Токени виведені на головний баланс!"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:59
+#: ../bot/handlers/my_account_heandlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
 msgstr "Здарова"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:59
+#: ../bot/handlers/my_account_heandlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
 msgstr "Здарова заебал"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:61
+#: ../bot/handlers/my_account_heandlers/referrals.py:70
 msgid "REFERRALS_SEND_INVITATION_TEXT"
 msgstr "Здарова заебал заходь"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:63
+#: ../bot/handlers/my_account_heandlers/referrals.py:72
 msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
 msgstr "Іду"
 
@@ -283,27 +287,43 @@ msgstr "Відправити подарунок"
 msgid "ACCOUNT_MENU_SETTINGS"
 msgstr "Налаштування"
 
-#: ../bot/menus/account_menus/referrals_menu.py:10
+#: ../bot/menus/account_menus/account_menu.py:30
+#: ../bot/menus/account_menus/referrals_menu.py:51
+#: ../bot/menus/game_menus/bet_menus.py:56
+#: ../bot/menus/game_menus/cube_settings.py:55
+#: ../bot/menus/game_menus/select_balance.py:25
+#: ../bot/menus/game_menus/select_game.py:43
+#: ../bot/menus/main_menus/guides_menus.py:34
+#: ../bot/menus/main_menus/language_menu.py:28
+#: ../bot/menus/wallet_menus/deposit_menu.py:36
+#: ../bot/menus/wallet_menus/wallet_menu.py:23
+#: ../bot/menus/wallet_menus/withdraw_menu.py:14
+#: ../bot/menus/wallet_menus/withdraw_menu.py:23
+#: ../bot/menus/wallet_menus/withdraw_menu.py:36
+msgid "BTN_BACK"
+msgstr "‹ Назад"
+
+#: ../bot/menus/account_menus/referrals_menu.py:11
 msgid "REF_LVL_1_ADEPT"
 msgstr "Адепт"
 
-#: ../bot/menus/account_menus/referrals_menu.py:11
+#: ../bot/menus/account_menus/referrals_menu.py:12
 msgid "REF_LVL_2_EXPERIENCED"
 msgstr "Досвідчений"
 
-#: ../bot/menus/account_menus/referrals_menu.py:12
+#: ../bot/menus/account_menus/referrals_menu.py:13
 msgid "REF_LVL_3_CONNOISSEUR"
 msgstr "Знавець"
 
-#: ../bot/menus/account_menus/referrals_menu.py:13
+#: ../bot/menus/account_menus/referrals_menu.py:14
 msgid "REF_LVL_4_EXPERT"
 msgstr "Експерт"
 
-#: ../bot/menus/account_menus/referrals_menu.py:14
+#: ../bot/menus/account_menus/referrals_menu.py:15
 msgid "REF_LVL_5_MAESTRO"
 msgstr "Маестро"
 
-#: ../bot/menus/account_menus/referrals_menu.py:27
+#: ../bot/menus/account_menus/referrals_menu.py:28
 msgid "REFERRAL_MENU_TEXT"
 msgstr ""
 "Запрошуйте друзів та отримайте <b>до 15%</b> від всіх їх ставок. Виграшних та програшних.\n"
@@ -316,30 +336,21 @@ msgstr ""
 "\n"
 "Посилання для запрошень: <code>{invite_link}</code>"
 
-#: ../bot/menus/account_menus/referrals_menu.py:38
+#: ../bot/menus/account_menus/referrals_menu.py:39
 msgid "REFERRALS_MENU_SEND_INVITE"
 msgstr "Відправити запрошення"
 
-#: ../bot/menus/account_menus/referrals_menu.py:41
+#: ../bot/menus/account_menus/referrals_menu.py:42
 msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
 msgstr "Вивести на ігровий баланс "
 
-#: ../bot/menus/account_menus/referrals_menu.py:44
+#: ../bot/menus/account_menus/referrals_menu.py:45
+msgid "REFERRALS_MENU_BTN_REFRESH_REF_INFO"
+msgstr "🔄 Оновити статус"
+
+#: ../bot/menus/account_menus/referrals_menu.py:48
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr "Як це працює?"
-
-#: ../bot/menus/account_menus/referrals_menu.py:47
-#: ../bot/menus/game_menus/bet_menus.py:56
-#: ../bot/menus/game_menus/cube_settings.py:55
-#: ../bot/menus/game_menus/select_balance.py:25
-#: ../bot/menus/game_menus/select_game.py:43
-#: ../bot/menus/main_menus/guides_menus.py:34
-#: ../bot/menus/main_menus/language_menu.py:28
-#: ../bot/menus/wallet_menus/withdraw_menu.py:14
-#: ../bot/menus/wallet_menus/withdraw_menu.py:23
-#: ../bot/menus/wallet_menus/withdraw_menu.py:36
-msgid "BTN_BACK"
-msgstr "‹ Назад"
 
 #: ../bot/menus/game_menus/bet_menus.py:14
 msgid "SLOTS_PLAY_TEXT"
@@ -503,17 +514,13 @@ msgstr ""
 "<b>Адреса</b>:\n"
 "<code>{wallet_address}</code>"
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:34
+#: ../bot/menus/wallet_menus/deposit_menu.py:33
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
 msgstr "Відкрити Tonkeeper"
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:35
+#: ../bot/menus/wallet_menus/deposit_menu.py:34
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
 msgstr "Відкрити Tonkeeper"
-
-#: ../bot/menus/wallet_menus/deposit_menu.py:37
-msgid "DEPOSIT_MENU_BTN_BACK"
-msgstr "‹ Мій гаманець"
 
 #: ../bot/menus/wallet_menus/wallet_menu.py:9
 msgid "WALLET_MENU_TEXT"
@@ -538,10 +545,6 @@ msgstr "📤 Вивести"
 #: ../bot/menus/wallet_menus/wallet_menu.py:22
 msgid "WALLET_MENU_BTN_HOW_TO_BUY"
 msgstr "💳 Як придбати TON?"
-
-#: ../bot/menus/wallet_menus/wallet_menu.py:23
-msgid "WALLET_MENU_BTN_BACK"
-msgstr "‹ Меню"
 
 #: ../bot/menus/wallet_menus/withdraw_menu.py:11
 msgid "WITHDRAW_MENU_TEXT1"
@@ -586,27 +589,23 @@ msgstr ""
 msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
 msgstr "На головну"
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:54
-msgid "WITHDRAW_MANUAL_TX"
-msgstr "@{username} (id: {user_id}) хоче вивести купу грошей: {withdraw_amount}."
-
-#: ../bot/menus/wallet_menus/withdraw_menu.py:66
+#: ../bot/menus/wallet_menus/withdraw_menu.py:67
 msgid "ADMIN_APPROVE_TX"
 msgstr "Адмін схвалив вашу транзу на виведення {amount} 💎! Очікуйте поповнення :)"
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:71
+#: ../bot/menus/wallet_menus/withdraw_menu.py:72
 msgid "ADMIN_REJECT_TX"
 msgstr "Транза відхилена адміном. Токени повернені на баланс"
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:78
+#: ../bot/menus/wallet_menus/withdraw_menu.py:79
 msgid "PAYMENT_CONFIRMED"
 msgstr "✅ Гроші ({ton_amount} TON) зараховані на ваш рахунок!"
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:80
+#: ../bot/menus/wallet_menus/withdraw_menu.py:81
 msgid "PAYMENT_DENIED"
 msgstr "❌ Гроші ({ton_amount} TON) не зараховані, токени повернені на баланс."
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:88
+#: ../bot/menus/wallet_menus/withdraw_menu.py:89
 msgid "PAYMENT_LOST"
 msgstr "Транзакція на вивід {ton_amount} TON загублена блокчейном, токени повернені на баланс. \n"
 
@@ -671,4 +670,13 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 
 #~ msgid "CABINET_MENU_BTN_REFERRALS"
 #~ msgstr "👬 Реферали"
+
+#~ msgid "DEPOSIT_MENU_BTN_BACK"
+#~ msgstr "‹ Мій гаманець"
+
+#~ msgid "WALLET_MENU_BTN_BACK"
+#~ msgstr "‹ Меню"
+
+#~ msgid "WITHDRAW_MANUAL_TX"
+#~ msgstr "@{username} (id: {user_id}) хоче вивести купу грошей: {withdraw_amount}."
 

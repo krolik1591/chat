@@ -1,6 +1,6 @@
 import logging
 
-from aiogram import Router, types
+from aiogram import Router, types, exceptions
 from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.deep_linking import create_start_link
@@ -15,13 +15,18 @@ router = Router()
 flags = {"throttling_key": "default"}
 
 
-@router.callback_query(Text("referrals_menu"))
+@router.callback_query(Text(startswith="referrals_menu_"))
 async def referrals(call: types.CallbackQuery, state: FSMContext):
     invite_link, referrals_count, total_ref_withdraw, referrals_bets, money_to_withdraw = await referral_info(call,
                                                                                                               state)
-
     text, keyboard = referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_bets, money_to_withdraw)
-    await call.message.edit_text(text, reply_markup=keyboard)
+
+    if call.data.removeprefix('referrals_menu_') == 'refresh':
+        await call.answer(_('REFERRALS_REFRESHED_TEXT'), show_alert=True)
+    try:
+        await call.message.edit_text(text, reply_markup=keyboard)
+    except exceptions.TelegramBadRequest:
+        print('Повідомлення для редактування не змінилось! Помилка TelegramBadRequest')
 
 
 @router.callback_query(Text("promo_to_general"), flags=flags)
@@ -41,7 +46,10 @@ async def referrals(call: types.CallbackQuery, state: FSMContext):
                                                                                                               state)
 
     text, keyboard = referrals_menu(invite_link, referrals_count, total_ref_withdraw, referrals_bets, money_to_withdraw)
-    await call.message.edit_text(text, reply_markup=keyboard)
+    try:
+        await call.message.edit_text(text, reply_markup=keyboard)
+    except exceptions.TelegramBadRequest:
+        print('Повідомлення для редактування не змінилось! Помилка TelegramBadRequest')
 
 
 async def referral_info(call, state):

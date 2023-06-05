@@ -14,7 +14,7 @@ def my_account_menu(balances: dict):
 def _keyboard():
     kb = [
         [
-            InlineKeyboardButton(text=_('ACCOUNT_MENU_BTN_REFERRALS'), callback_data="referrals_menu")
+            InlineKeyboardButton(text=_('ACCOUNT_MENU_BTN_REFERRALS'), callback_data="referrals_menu_start")
         ],
         [
             InlineKeyboardButton(text=_('ACCOUNT_MENU_BTN_PROMO_CODES'), callback_data="promo_codes")

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-29 15:54+0300\n"
+"POT-Creation-Date: 2023-06-05 14:04+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../bot/handlers/m01_main.py:47
+#: ../bot/handlers/m01_main.py:48
 msgid "CHECK_REF_DENIED_TEXT"
 msgstr ""
 
-#: ../bot/handlers/m01_main.py:50
+#: ../bot/handlers/m01_main.py:54
 msgid "CHECK_REF_APPROVE_TEXT"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/m06_play_dice.py:32
+#: ../bot/handlers/games_handlers/m06_play_dice.py:33
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
@@ -151,27 +151,31 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:30
+#: ../bot/handlers/my_account_heandlers/referrals.py:25
+msgid "REFERRALS_REFRESHED_TEXT"
+msgstr ""
+
+#: ../bot/handlers/my_account_heandlers/referrals.py:36
 msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:37
+#: ../bot/handlers/my_account_heandlers/referrals.py:43
 msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:59
+#: ../bot/handlers/my_account_heandlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
 msgstr "HI!"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:59
+#: ../bot/handlers/my_account_heandlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
 msgstr "HI, BRO!"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:61
+#: ../bot/handlers/my_account_heandlers/referrals.py:70
 msgid "REFERRALS_SEND_INVITATION_TEXT"
 msgstr "HI, BRO, CMON PLAY WITH ME!"
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:63
+#: ../bot/handlers/my_account_heandlers/referrals.py:72
 msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
 msgstr "GO!"
 
@@ -245,53 +249,60 @@ msgstr ""
 msgid "ACCOUNT_MENU_SETTINGS"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:10
-msgid "REF_LVL_1_ADEPT"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:11
-msgid "REF_LVL_2_EXPERIENCED"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:12
-msgid "REF_LVL_3_CONNOISSEUR"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:13
-msgid "REF_LVL_4_EXPERT"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:14
-msgid "REF_LVL_5_MAESTRO"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:27
-msgid "REFERRAL_MENU_TEXT"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:38
-msgid "REFERRALS_MENU_SEND_INVITE"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:41
-msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:44
-msgid "REFERRALS_MENU_HOW_IT_WORKS"
-msgstr ""
-
-#: ../bot/menus/account_menus/referrals_menu.py:47
+#: ../bot/menus/account_menus/account_menu.py:30
+#: ../bot/menus/account_menus/referrals_menu.py:51
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
 #: ../bot/menus/game_menus/select_game.py:43
 #: ../bot/menus/main_menus/guides_menus.py:34
 #: ../bot/menus/main_menus/language_menu.py:28
+#: ../bot/menus/wallet_menus/deposit_menu.py:36
+#: ../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../bot/menus/wallet_menus/withdraw_menu.py:14
 #: ../bot/menus/wallet_menus/withdraw_menu.py:23
 #: ../bot/menus/wallet_menus/withdraw_menu.py:36
 msgid "BTN_BACK"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:11
+msgid "REF_LVL_1_ADEPT"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:12
+msgid "REF_LVL_2_EXPERIENCED"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:13
+msgid "REF_LVL_3_CONNOISSEUR"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:14
+msgid "REF_LVL_4_EXPERT"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:15
+msgid "REF_LVL_5_MAESTRO"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:28
+msgid "REFERRAL_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:39
+msgid "REFERRALS_MENU_SEND_INVITE"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:42
+msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:45
+msgid "REFERRALS_MENU_BTN_REFRESH_REF_INFO"
+msgstr ""
+
+#: ../bot/menus/account_menus/referrals_menu.py:48
+msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr ""
 
 #: ../bot/menus/game_menus/bet_menus.py:14
@@ -435,16 +446,12 @@ msgstr ""
 msgid "DEPOSIT_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:34
+#: ../bot/menus/wallet_menus/deposit_menu.py:33
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:35
+#: ../bot/menus/wallet_menus/deposit_menu.py:34
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
-msgstr ""
-
-#: ../bot/menus/wallet_menus/deposit_menu.py:37
-msgid "DEPOSIT_MENU_BTN_BACK"
 msgstr ""
 
 #: ../bot/menus/wallet_menus/wallet_menu.py:9
@@ -461,10 +468,6 @@ msgstr ""
 
 #: ../bot/menus/wallet_menus/wallet_menu.py:22
 msgid "WALLET_MENU_BTN_HOW_TO_BUY"
-msgstr ""
-
-#: ../bot/menus/wallet_menus/wallet_menu.py:23
-msgid "WALLET_MENU_BTN_BACK"
 msgstr ""
 
 #: ../bot/menus/wallet_menus/withdraw_menu.py:11
@@ -491,27 +494,23 @@ msgstr ""
 msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:54
-msgid "WITHDRAW_MANUAL_TX"
-msgstr ""
-
-#: ../bot/menus/wallet_menus/withdraw_menu.py:66
+#: ../bot/menus/wallet_menus/withdraw_menu.py:67
 msgid "ADMIN_APPROVE_TX"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:71
+#: ../bot/menus/wallet_menus/withdraw_menu.py:72
 msgid "ADMIN_REJECT_TX"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:78
+#: ../bot/menus/wallet_menus/withdraw_menu.py:79
 msgid "PAYMENT_CONFIRMED"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:80
+#: ../bot/menus/wallet_menus/withdraw_menu.py:81
 msgid "PAYMENT_DENIED"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:88
+#: ../bot/menus/wallet_menus/withdraw_menu.py:89
 msgid "PAYMENT_LOST"
 msgstr ""
 
@@ -569,5 +568,14 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "CABINET_MENU_BTN_REFERRALS"
+#~ msgstr ""
+
+#~ msgid "DEPOSIT_MENU_BTN_BACK"
+#~ msgstr ""
+
+#~ msgid "WALLET_MENU_BTN_BACK"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_MANUAL_TX"
 #~ msgstr ""
 
