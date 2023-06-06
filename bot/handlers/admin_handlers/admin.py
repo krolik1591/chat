@@ -1,13 +1,10 @@
 from aiogram import F, Router, types
-from aiogram.filters import Command, StateFilter, Text
+from aiogram.filters import Command, Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.handlers.states import Menu, StateKeys
+from bot.handlers.states import StateKeys
 from bot.menus.admin_menus.admin_menu import admin_menu
-from bot.menus.admin_menus.spam_confirm_menu import approve_spam_msg
-from bot.menus.admin_menus.spam_language_menu import spam_language_menu
-from bot.menus.admin_menus.spam_type_menu import spam_type_menu
 from bot.utils.config_reader import config
 
 router = Router()
