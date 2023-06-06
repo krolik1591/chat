@@ -36,7 +36,7 @@ async def set_user_last_active(tg_id):
 # admin
 
 async def get_users_by_lang(lang):
-    users = await User.select(User.user_id).where(User.lang == lang, User.is_blocked is False)
+    users = await User.select(User.user_id).where(User.lang == lang, User.is_blocked == 0)
     result = []
     for user in users:
         result.append(user.user_id)
@@ -44,7 +44,7 @@ async def get_users_by_lang(lang):
 
 
 async def user_blocked_bot(tg_id):
-    return await User.update({User.is_blocked: True}).where(User.user_id == tg_id)
+    return await User.update({User.is_blocked: 1}).where(User.user_id == tg_id)
 
 
 # referrals
@@ -244,7 +244,7 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_users_by_lang('en')
+        x = await get_users_by_lang('uk')
         print(x)
 
 
