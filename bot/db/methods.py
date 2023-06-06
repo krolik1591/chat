@@ -37,9 +37,7 @@ async def set_user_last_active(tg_id):
 
 async def get_users_by_lang(lang):
     users = await User.select(User.user_id).where(User.lang == lang, User.is_blocked == 0)
-    result = []
-    for user in users:
-        result.append(user.user_id)
+    result = [user.user_id for user in users]
     return result
 
 
