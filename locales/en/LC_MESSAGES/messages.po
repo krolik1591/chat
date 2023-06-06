@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-05 17:53+0300\n"
+"POT-Creation-Date: 2023-06-06 18:20+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -26,12 +26,33 @@ msgstr ""
 msgid "CHECK_REF_APPROVE_TEXT"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:39
+#: ../bot/handlers/admin_handlers/spam.py:43
+msgid "ADMIN_SPAM_TEXT_ENTER_RECEIVER_ID)"
+msgstr ""
+
+#: ../bot/handlers/admin_handlers/spam.py:47
+#: ../bot/handlers/admin_handlers/spam.py:87
 msgid "ADMIN_SPAM_TEXT_ENTER_UR_MSG"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:48
+#: ../bot/handlers/admin_handlers/spam.py:75
+msgid "ADMIN_SPAM_TEXT_WHICH_USER_DOESNT_EXIST"
+msgstr ""
+
+#: ../bot/handlers/admin_handlers/spam.py:80
+msgid "ADMIN_SPAM_TEXT_NO_USER_FOUND_ID_IN_BD"
+msgstr ""
+
+#: ../bot/handlers/admin_handlers/spam.py:96
 msgid "ADMIN_SPAM_TEXT_TEMPLATE"
+msgstr ""
+
+#: ../bot/handlers/admin_handlers/spam.py:125
+msgid "ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"
+msgstr ""
+
+#: ../bot/handlers/admin_handlers/spam.py:136
+msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
 #: ../bot/handlers/games_handlers/m06_play_dice.py:33
@@ -225,15 +246,19 @@ msgstr ""
 msgid "MAIN_MENU_BTN_SUPPORT"
 msgstr ""
 
-#: ../bot/menus/utils.py:30
+#: ../bot/menus/utils.py:17
+msgid "ADMIN_UTILS_BTN_FOR_DELETE_SPAM_MSG"
+msgstr ""
+
+#: ../bot/menus/utils.py:36
 msgid "SELECT_BALANCE_BTN_DEMO"
 msgstr ""
 
-#: ../bot/menus/utils.py:31
+#: ../bot/menus/utils.py:37
 msgid "SELECT_BALANCE_BTN_PROMO"
 msgstr ""
 
-#: ../bot/menus/utils.py:32
+#: ../bot/menus/utils.py:38
 msgid "SELECT_BALANCE_BTN_GENERAL"
 msgstr ""
 
@@ -259,8 +284,8 @@ msgstr ""
 
 #: ../bot/menus/account_menus/account_menu.py:30
 #: ../bot/menus/account_menus/referrals_menu.py:51
-#: ../bot/menus/admin_menus/spam_language_menu.py:22
-#: ../bot/menus/admin_menus/spam_type_menu.py:21
+#: ../bot/menus/admin_menus/spam_menus/category_for_spam_menu.py:21
+#: ../bot/menus/admin_menus/spam_menus/language_receiver_menu.py:22
 #: ../bot/menus/game_menus/bet_menus.py:56
 #: ../bot/menus/game_menus/cube_settings.py:55
 #: ../bot/menus/game_menus/select_balance.py:25
@@ -327,32 +352,32 @@ msgstr ""
 msgid "ADMIN_MENU_BTN_STATISTIC"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_confirm_menu.py:6
-msgid "ADMIN_SPAM_CONFIRM_MENU_TEXT"
-msgstr ""
-
-#: ../bot/menus/admin_menus/spam_confirm_menu.py:15
-msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"
-msgstr ""
-
-#: ../bot/menus/admin_menus/spam_confirm_menu.py:16
-msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"
-msgstr ""
-
-#: ../bot/menus/admin_menus/spam_language_menu.py:8
-msgid "ADMIN_SPAM_LANGUAGE_MENU_TEXT"
-msgstr ""
-
-#: ../bot/menus/admin_menus/spam_type_menu.py:6
+#: ../bot/menus/admin_menus/spam_menus/category_for_spam_menu.py:6
 msgid "ADMIN_SPAM_TYPE_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_type_menu.py:15
+#: ../bot/menus/admin_menus/spam_menus/category_for_spam_menu.py:15
 msgid "ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_type_menu.py:18
+#: ../bot/menus/admin_menus/spam_menus/category_for_spam_menu.py:18
 msgid "ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_menus/confirm_menu.py:6
+msgid "ADMIN_SPAM_CONFIRM_MENU_TEXT"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_menus/confirm_menu.py:15
+msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_menus/confirm_menu.py:16
+msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"
+msgstr ""
+
+#: ../bot/menus/admin_menus/spam_menus/language_receiver_menu.py:8
+msgid "ADMIN_SPAM_LANGUAGE_MENU_TEXT"
 msgstr ""
 
 #: ../bot/menus/game_menus/bet_menus.py:14
