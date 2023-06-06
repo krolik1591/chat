@@ -12,6 +12,12 @@ def kb_del_msg():
     ]])
 
 
+def kb_del_msg_for_spam():
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text=_('ADMIN_UTILS_BTN_FOR_DELETE_SPAM_MSG'), callback_data="delete_message")
+    ]])
+
+
 def balances_text(balances):
     return '\n'.join([balance_text(i) for i in balances.items()])
 
