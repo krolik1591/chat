@@ -41,8 +41,8 @@ async def get_users_by_lang(lang):
     return result
 
 
-async def user_blocked_bot(tg_id):
-    return await User.update({User.is_blocked: 1}).where(User.user_id == tg_id)
+async def user_blocked_bot(tg_id, is_blocked=True):
+    return await User.update({User.is_blocked: is_blocked}).where(User.user_id == tg_id)
 
 
 # referrals
