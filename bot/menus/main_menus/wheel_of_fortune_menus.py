@@ -27,10 +27,10 @@ def buy_ticket_menu():
     return text, kb
 
 
-def buy_selected_num_menu():
-    text = _('WOF_MENU_BUY_SELECTED_TICKET_TEXT')
+def buy_selected_num_menu(ticket_num=''):
+    text = _('WOF_MENU_BUY_SELECTED_TICKET_TEXT').format(ticket_num=ticket_num)
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_this_num")],
+        [InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_this_ticket")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
 
@@ -40,7 +40,7 @@ def buy_selected_num_menu():
 def buy_random_num_menu():
     text = _('WOF_MENU_BUY_RANDOM_TICKET_TEXT')
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_('WOF_BTN_BUY_RANDOM_NUM_MENU'), callback_data="buy_this_num")],
+        [InlineKeyboardButton(text=_('WOF_BTN_BUY_RANDOM_NUM_MENU'), callback_data="buy_this_ticket")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
 
