@@ -46,3 +46,14 @@ def _keyboard():
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)
+
+
+def incorrect_user_menu(not_exist_text, another_lang_text, spam_lang):
+    text = _("ADMIN_SPAM_TEXT_WHICH_USER_DOESNT_EXIST").format(not_exist_receiver=not_exist_text,
+                                                               another_lang=another_lang_text)
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_('ADMIN_SPAM_INCORRECT_USER_MENU_BTN_BACK'), callback_data="spam_lang" + spam_lang), ],
+        [InlineKeyboardButton(text=_('ADMIN_SPAM_INCORRECT_USER_MENU_BTN_GO_NEXT'), callback_data="list_for_spam_approved"), ],
+    ])
+
+    return text, kb

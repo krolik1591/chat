@@ -9,7 +9,7 @@ from aiogram.utils.i18n import gettext as _
 
 from bot.db import db
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.admin_menus import admin_menu, approve_spam_msg, spam_language_menu, spam_type_menu
+from bot.menus.admin_menus import admin_menu, approve_spam_msg, spam_language_menu, spam_type_menu, incorrect_user_menu
 from bot.menus.utils import kb_del_msg, kb_del_msg_for_spam
 
 router = Router()
@@ -68,13 +68,6 @@ async def enter_spam_receivers_id(message: Message, state: FSMContext):
         except ValueError:
             not_exist_receivers.append(user_id)
 
-    if not_exist_receivers or another_lang_receivers:
-        not_exist_text = ', '.join(not_exist_receivers)
-        another_lang_text = get_text_for_incorrect_receivers(another_lang_receivers)
-        text = _("ADMIN_SPAM_TEXT_WHICH_USER_DOESNT_EXIST").format(not_exist_receiver=not_exist_text,
-                                                                   another_lang=another_lang_text)
-        await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=kb_del_msg())
-
     if not normal_receivers:
         await message.answer(_('ADMIN_SPAM_TEXT_NO_USER_FOUND_ID_IN_BD'), reply_markup=kb_del_msg())
         text, kb = spam_type_menu()
@@ -82,8 +75,24 @@ async def enter_spam_receivers_id(message: Message, state: FSMContext):
         return
 
     await state.update_data(**{StateKeys.ID_RECEIVERS: normal_receivers})
+
+    if not_exist_receivers or another_lang_receivers:
+        not_exist_text = ', '.join(not_exist_receivers)
+        another_lang_text = get_text_for_incorrect_receivers(another_lang_receivers)
+        spam_lang = (await state.get_data()).get(StateKeys.SPAM_LANG)
+
+        text, kb = incorrect_user_menu(not_exist_text, another_lang_text, spam_lang)
+        await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=kb)
+        return
+
     await state.set_state(Menu.enter_spam_msg)
-    msg = await message.answer(text=_("ADMIN_SPAM_TEXT_ENTER_UR_MSG"))
+    await state.bot.edit_message_text(_("ADMIN_SPAM_TEXT_ENTER_UR_MSG"), message.from_user.id, last_msg_id)
+
+
+@router.callback_query(Text("list_for_spam_approved"))
+async def hui(call: types.CallbackQuery, state: FSMContext):
+    await state.set_state(Menu.enter_spam_msg)
+    msg = await call.message.edit_text(_("ADMIN_SPAM_TEXT_ENTER_UR_MSG"))
     await state.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
 
 
