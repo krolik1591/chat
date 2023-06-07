@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 
 from peewee import fn
 
-from bot.db.models import GameLog, WithdrawTx, Transactions, User, Wallets_key
+from bot.db.models import GameLog, WheelOfFortune, WithdrawTx, Transactions, User, Wallets_key
 
 
 # users
@@ -240,9 +240,17 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
                                 bet=bet, result=result, timestamp=datetime.utcnow())
 
 
+# Wheel of Fortune
+
+
+async def add_new_ticket(user_id, ticket_num):
+    return await WheelOfFortune.create(user_id=user_id, ticket_num=ticket_num,
+                                       timestamp_buy_last_ticket=datetime.utcnow())
+
+
 if __name__ == "__main__":
     async def test():
-        x = await get_users_by_lang('uk')
+        x = await add_new_ticket(123124, 12423452)
         print(x)
 
 

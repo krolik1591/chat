@@ -12,6 +12,8 @@ class Menu(StatesGroup):
     # admin
     enter_spam_msg = State()
     get_id_spam_receiver = State()
+    # WheelOfFortune
+    enter_ticket_num = State()
 
 
 class StateKeys:
