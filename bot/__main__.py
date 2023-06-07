@@ -7,6 +7,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
+from bot import backend
 from bot.db import first_start
 from bot.handlers import routers
 from bot.middlewares.throttling import ThrottlingMiddleware
@@ -64,4 +65,6 @@ async def set_bot_commands(bot: Bot):
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    loop = asyncio.get_event_loop()
+    loop.create_task(main())
+    backend.run(loop=loop)
