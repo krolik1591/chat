@@ -32,7 +32,7 @@ async def main():
     for router in routers:
         dp.include_router(router)
 
-    i18n_path = Path(__file__).parent.parent / 'locales'
+    i18n_path = Path(__file__).parent / 'locales'
     i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
 
     dp.message.middleware(ThrottlingMiddleware())
