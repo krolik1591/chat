@@ -1,9 +1,11 @@
 import asyncio
 import logging
+from pathlib import Path
 
 from aiogram import Bot, Dispatcher, types
-from aiogram.dispatcher.fsm.storage.memory import MemoryStorage
-from aiogram.dispatcher.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
 from bot.db import first_start
 from bot.handlers import routers
@@ -30,7 +32,13 @@ async def main():
     for router in routers:
         dp.include_router(router)
 
+    i18n_path = Path(__file__).parent.parent / 'locales'
+    i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
+
     dp.message.middleware(ThrottlingMiddleware())
+    dp.callback_query.middleware(ThrottlingMiddleware())  # todo check if it works
+
+    dp.update.middleware(FSMI18nMiddleware(i18n))
 
     await set_bot_commands(bot)
 
@@ -39,8 +47,8 @@ async def main():
     ton_wrapper = await TonWrapper.create_archival(master_wallet_mnemon=config.wallet_seed)
     TonWrapper.INSTANCE = ton_wrapper
 
-    asyncio.create_task(watch_txs(ton_wrapper, bot))
-    asyncio.create_task(find_and_reject_lost_tx(bot))
+    asyncio.create_task(watch_txs(ton_wrapper, bot, i18n))
+    asyncio.create_task(find_and_reject_lost_tx(bot, i18n))
 
     try:
         print("me:", await bot.get_me())

@@ -23,16 +23,28 @@ class User(manager.Model):
     username = CharField(default='', null=True)
     lang = CharField(default='en')
     referrer = BigIntegerField(null=True)
+    total_ref_withdraw = DecimalField(default=0)
 
+    balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
     balance_promo = DecimalField(default=0)
-    balance_general = DecimalField(default=0)
+
+    is_blocked = BooleanField(default=0)
 
     timestamp_registered = DateTimeField()
     timestamp_last_active = DateTimeField()
+    timestamp_ref_withdraw = DateTimeField(null=True)
 
     def __str__(self):
         return f'USER: {self.user_id}; {self.lang=}'
+
+
+class WheelOfFortune(manager.Model):
+    wheeloffortune_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='WheelOfFortune')
+
+    ticket_num = BigIntegerField()
+    timestamp_buy_last_ticket = DateTimeField()
 
 
 class WithdrawTx(manager.Model):
@@ -68,9 +80,14 @@ class GameLog(manager.Model):
     balance_type = CharField()
     game = CharField()
     game_info = TextField()
-    bet = BigIntegerField()
-    result = BigIntegerField()
+    bet = DecimalField()
+    result = DecimalField()
     timestamp = DateTimeField()
 
     def __str__(self):
         return f'GAMELOG: {self.user_id=} {self.token_id=} {self.bet=} {self.result=} {self.timestamp=}'
+
+
+class Settings(manager.Model):
+    key = CharField(primary_key=True)
+    value = CharField()

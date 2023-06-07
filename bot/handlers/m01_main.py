@@ -1,14 +1,16 @@
 from TonTools.Contracts.Wallet import Wallet
 from aiogram import F, Router, types
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Command, Text
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
+from aiogram.utils.i18n import gettext as _
 
 from bot.consts.const import START_POINTS
-from bot.consts.texts import CHECK_REF_APPROVE_TEXT, CHECK_REF_DENIED_TEXT
 from bot.db import db
 from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
+from bot.menus.utils import kb_del_msg
 from bot.tokens.token_ton import TonWrapper
 
 flags = {"throttling_key": "default"}
@@ -17,7 +19,8 @@ router = Router()
 
 async def send_main_menu(context: Context, msg_id=None):
     balances = await db.get_user_balances(context.user_id)
-    text, keyboard = main_menu(balances)
+    lang = await db.get_user_lang(context.user_id)
+    text, keyboard = main_menu(balances, lang)
 
     if msg_id is None:
         msg = await context.fsm_context.bot.send_message(context.user_id, text, reply_markup=keyboard)
@@ -29,10 +32,18 @@ async def send_main_menu(context: Context, msg_id=None):
     await context.fsm_context.set_state(Menu.delete_message)
 
 
-@router.message(F.chat.type == "private", commands="start", flags=flags)
-async def cmd_start(message: Message, state: FSMContext):
+@router.message(F.chat.type == "private", Command("start"), flags=flags)
+async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
+
     try:
-        await db.get_user_lang(message.from_user.id)
+        user_lang = await db.get_user_lang(message.from_user.id)
+
+        # todo only if blocked
+        await db.user_blocked_bot(message.from_user.id, False)
+        await db.set_user_last_active(message.from_user.id)
+
+        await i18n_middleware.set_locale(state, user_lang)
+
     except ValueError:
         invite_sender = None
         if len(message.text.split()) == 2:
@@ -40,11 +51,15 @@ async def cmd_start(message: Message, state: FSMContext):
                 invite_sender = int(message.text.split()[1])
                 await db.get_user_lang(invite_sender)
             except ValueError:
-                await message.answer(CHECK_REF_DENIED_TEXT)
+                await message.answer(_('CHECK_REF_DENIED_TEXT'))
                 return
 
-            await state.bot.send_message(invite_sender, CHECK_REF_APPROVE_TEXT.
-                                         format(id=message.from_user.id, name=message.from_user.first_name))
+            user_lang = await db.get_user_lang(invite_sender)
+            await i18n_middleware.set_locale(state, user_lang)
+            kb = kb_del_msg()
+            await state.bot.send_message(invite_sender, _('CHECK_REF_APPROVE_TEXT').
+                                         format(id=message.from_user.id, name=message.from_user.first_name),
+                                         reply_markup=kb)
 
         await db.create_new_user(message.from_user.id, message.from_user.username, invite_sender, START_POINTS)
 
@@ -56,7 +71,7 @@ async def cmd_start(message: Message, state: FSMContext):
     await send_main_menu(context)
 
 
-@router.callback_query(text=["main_menu"])
+@router.callback_query(Text("main_menu"))
 async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     await send_main_menu(context, msg_id=call.message.message_id)

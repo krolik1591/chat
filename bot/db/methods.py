@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 
 from peewee import fn
 
-from bot.db.models import GameLog, WithdrawTx, Transactions, User, Wallets_key
+from bot.db.models import GameLog, WheelOfFortune, WithdrawTx, Transactions, User, Wallets_key
 
 
 # users
@@ -31,6 +31,65 @@ async def set_user_lang(tg_id, new_lang):
 
 async def set_user_last_active(tg_id):
     return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
+
+
+# admin
+
+async def get_users_by_lang(lang):
+    users = await User.select(User.user_id).where(User.lang == lang, User.is_blocked == 0)
+    result = [user.user_id for user in users]
+    return result
+
+
+async def user_blocked_bot(tg_id, is_blocked=True):
+    return await User.update({User.is_blocked: is_blocked}).where(User.user_id == tg_id)
+
+
+# referrals
+
+
+async def update_datetime_and_amount_ref_withdraw(tg_id, amount):
+    return await User.update({User.total_ref_withdraw: fn.Round(User.total_ref_withdraw + amount, 2),
+                              User.timestamp_ref_withdraw: datetime.utcnow()}).where(User.user_id == tg_id)
+
+
+async def get_date_last_total_ref_withdraw(tg_id):
+    result = await User.select().where(User.user_id == tg_id)
+    return result[0].timestamp_ref_withdraw
+
+
+async def get_total_ref_withdraw(tg_id):
+    result = await User.select().where(User.user_id == tg_id)
+    return result[0].total_ref_withdraw or 0
+
+
+async def get_user_referrer(tg_id):
+    user_ref = await User.select().where(User.user_id == tg_id)
+    return user_ref[0].referrer
+
+
+async def get_count_all_user_referrals(tg_id):
+    result = await User.select().where(User.referrer == tg_id)
+    return len(result)
+
+
+async def get_referrals_bets_from_last_withdraw(referrer):
+    time_ = await User.select().where(User.user_id == referrer)
+    time_ = time_[0].timestamp_ref_withdraw or 0
+
+    result = (await User
+              .select(fn.SUM(GameLog.bet).alias('total_bets'))
+              .join(GameLog)
+              .where(User.referrer == referrer, GameLog.timestamp > time_, GameLog.balance_type == "general").scalar())
+    return result or 0
+
+
+async def get_all_referrals_bets(referrer):
+    result = (await User
+              .select(fn.SUM(GameLog.bet).alias('total_bets'))
+              .join(GameLog)
+              .where(User.referrer == referrer, GameLog.balance_type == "general").scalar())
+    return result or 0
 
 
 # balances
@@ -104,7 +163,7 @@ async def get_last_transaction(tg_id, token_id):
 
 
 async def get_last_tx_by_tx_type(tx_type):
-    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime))\
+    result = await Transactions.select(Transactions.tx_hash, fn.Max(Transactions.utime)) \
         .where(Transactions.tx_type == tx_type)
     return result[0]
 
@@ -140,7 +199,8 @@ async def get_withdraw_tx_by_id(tx_id):
 
 
 async def get_last_withdraw_transaction(user_id, token_id):
-    result = await WithdrawTx.select(WithdrawTx.withdrawtx_id, WithdrawTx.withdraw_state, fn.Max(WithdrawTx.utime)).where(
+    result = await WithdrawTx.select(WithdrawTx.withdrawtx_id, WithdrawTx.withdraw_state,
+                                     fn.Max(WithdrawTx.utime)).where(
         WithdrawTx.user_id == user_id,
         WithdrawTx.token_id == token_id,
         (WithdrawTx.withdraw_state == 'moderating') | (WithdrawTx.withdraw_state == 'pending')
@@ -180,9 +240,17 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
                                 bet=bet, result=result, timestamp=datetime.utcnow())
 
 
+# Wheel of Fortune
+
+
+async def add_new_ticket(user_id, ticket_num):
+    return await WheelOfFortune.create(user_id=user_id, ticket_num=ticket_num,
+                                       timestamp_buy_last_ticket=datetime.utcnow())
+
+
 if __name__ == "__main__":
     async def test():
-        x = await get_last_withdraw_transaction(12345, 'general')
+        x = await add_new_ticket(123124, 12423452)
         print(x)
 
 

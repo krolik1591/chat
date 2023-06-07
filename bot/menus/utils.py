@@ -1,12 +1,20 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from bot.consts.texts import BALANCE_TEXT, TON_FUNDS_ICON, DEMO_FUNDS_ICON
+from aiogram.utils.i18n import gettext as _
+
+from bot.consts.balance import BALANCE_TEXT, PROMO_FUNDS_ICON, TON_FUNDS_ICON, DEMO_FUNDS_ICON
 from bot.utils.rounding import round_down
 
 
 def kb_del_msg():
     return InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text='OK', callback_data="delete_message")
+    ]])
+
+
+def kb_del_msg_for_spam():
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text=_('ADMIN_UTILS_BTN_FOR_DELETE_SPAM_MSG'), callback_data="delete_message")
     ]])
 
 
@@ -18,15 +26,24 @@ def balance_text(item):
     type_, amount = item
     return BALANCE_TEXT.format(
         icon=get_balance_icon(type_),
-        name=type_.upper(),
+        name=get_balance_name(type_),
         amount=round_down(amount, 2)
     )
+
+
+def get_balance_name(item):
+    BALANCES_NAMES = {
+        'demo': _('SELECT_BALANCE_BTN_DEMO'),
+        'promo': _('SELECT_BALANCE_BTN_PROMO'),
+        'general': _('SELECT_BALANCE_BTN_GENERAL')
+    }
+    return BALANCES_NAMES[item]
 
 
 BALANCE_ICONS = {
     'demo': DEMO_FUNDS_ICON,
     'general': TON_FUNDS_ICON,
-    'promo': "🎁",
+    'promo': PROMO_FUNDS_ICON,
 }
 
 

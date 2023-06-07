@@ -3,7 +3,8 @@ import time
 import tonsdk.utils
 from TonTools import Address
 from aiogram import Router, types
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Text, StateFilter
+from aiogram.fsm.context import FSMContext
 
 from bot import tokens
 from bot.consts.const import MAXIMUM_WITHDRAW, MAXIMUM_WITHDRAW_DAILY, MIN_WITHDRAW
@@ -19,7 +20,7 @@ router = Router()
 TOKEN_ID = "ton"
 
 
-@router.callback_query(text=["withdraw"])
+@router.callback_query(Text("withdraw"))
 async def withdraw_input_amount_menu(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.TOKEN_ID: TOKEN_ID})
     token = await tokens.get_token_by_id(TOKEN_ID)
@@ -31,7 +32,7 @@ async def withdraw_input_amount_menu(call: types.CallbackQuery, state: FSMContex
     await state.set_state(Menu.withdraw_amount)
 
 
-@router.message(state=Menu.withdraw_amount)
+@router.message(StateFilter(Menu.withdraw_amount))
 async def withdraw_input_amount_handler(message: types.Message, state: FSMContext):
     await message.delete()
 
@@ -57,7 +58,7 @@ async def withdraw_input_address_menu(context: Context):
     await context.fsm_context.set_state(Menu.withdraw_address)
 
 
-@router.message(state=Menu.withdraw_address)
+@router.message(StateFilter(Menu.withdraw_address))
 async def withdraw_input_address_handler(message: types.Message, state: FSMContext):
     await message.delete()
     try:
@@ -94,7 +95,7 @@ async def withdraw_approve_menu(context: Context):
     await context.fsm_context.set_state(Menu.withdraw_amount_approve)
 
 
-@router.message(state=Menu.withdraw_amount_approve)
+@router.message(StateFilter(Menu.withdraw_amount_approve))
 async def withdraw_input_amount_handler_at_approve(message: types.Message, state: FSMContext):
     await message.delete()
     amount = await validate_amount(message, token_id=TOKEN_ID)
@@ -107,7 +108,7 @@ async def withdraw_input_amount_handler_at_approve(message: types.Message, state
     await withdraw_approve_menu(context)
 
 
-@router.callback_query(text=["withdraw_queued"])
+@router.callback_query(Text("withdraw_queued"))
 async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.delete_message)
 

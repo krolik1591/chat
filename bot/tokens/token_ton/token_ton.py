@@ -1,5 +1,5 @@
-from bot.consts.texts import TON_FUNDS_ICON
-from bot.tokens.base_token import Token, InsufficientFunds
+from bot.consts.balance import TON_FUNDS_ICON
+from bot.tokens.base_token import InsufficientFunds, Token
 from bot.tokens.token_ton.tonwrapper.tonwrapper import TonWrapper
 
 

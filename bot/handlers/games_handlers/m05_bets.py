@@ -1,5 +1,6 @@
 from aiogram import Router, types
-from aiogram.dispatcher.fsm.context import FSMContext
+from aiogram.filters import Text, StateFilter
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.consts.const import CHANGE_BET, MAX_BET, MIN_BET
@@ -24,13 +25,13 @@ async def bet_menu(context: Context, msg_id=None):
     await context.fsm_context.set_state(Menu.bet)
 
 
-@router.callback_query(text=["bet"])
+@router.callback_query(Text("bet"))
 async def bet_show(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     await bet_menu(context, msg_id=call.message.message_id)
 
 
-@router.callback_query(text=["bet_minus", "bet_plus", "bet_min", "bet_max", "bet_x2"])
+@router.callback_query(Text(["bet_minus", "bet_plus", "bet_min", "bet_max", "bet_x2"]))
 async def bet_change(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
     user_bet = context.bet
@@ -61,7 +62,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
     await bet_menu(context, msg_id=call.message.message_id)
 
 
-@router.message(state=Menu.bet)
+@router.message(StateFilter(Menu.bet))
 async def bet_change_text(message: Message, state: FSMContext):
     await bet_change_state(message, state)
 

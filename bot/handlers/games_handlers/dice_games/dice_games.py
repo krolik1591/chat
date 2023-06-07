@@ -1,4 +1,6 @@
-from bot.consts import rewards, texts
+from aiogram.utils.i18n import gettext as _
+
+from bot.consts import rewards
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.dice_games import slots_check, texts as gtexts
 from bot.handlers.games_handlers.dice_games.base_dice_game import Dice
@@ -8,11 +10,17 @@ from bot.handlers.states import Games, StateKeys
 class DiceCube(Dice):
     EMOJI = "🎲"
 
+    async def get_result(self, context: Context, dice_value: int):
+        is_win = self._get_coefficient(context, dice_value) > 0  # win at least one bet
+        await self._update_lose_streak(context, is_win)
+        return await super().get_result(context, dice_value)
+
     def get_text(self, context, dice_value, score_change, balance_icon):
         streak = context.state[StateKeys.CUBE_LOSE_STREAK]
-        dice_number_emoji = gtexts.NUMBERS_EMOJI[dice_value]
-        return gtexts.CUBE_TEXTS[streak].format(score_change=score_change, token_icon=balance_icon,
-                                               cube_lose_streak=streak, dice_number_emoji=dice_number_emoji)
+        dice_number_emoji = gtexts.numbers_emoji(dice_value)
+        cube_coef = self._get_coefficient(context, dice_value) * context.bet
+        return gtexts.cube_texts(streak).format(score_change=round(cube_coef, 2), token_icon=balance_icon,
+                                                cube_lose_streak=streak, dice_number_emoji=dice_number_emoji)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         win = 0
@@ -28,14 +36,19 @@ class DiceCube(Dice):
 
     def _get_score_change(self, context, dice_value):
         coefficient = self._get_coefficient(context, dice_value)
-        return context.bet * (coefficient - len(context.game_settings))
+        return context.bet * coefficient - context.bet * len(context.game_settings)
 
     def pre_check(self, context: Context):
         if context.game_settings is None or len(context.game_settings or []) == 0:
-            return texts.GAME_ERR_BET_NOT_SELECTED
+            return _('GAME_ERR_BET_NOT_SELECTED')
 
         if context.bet * len(context.game_settings) > context.balance:
-            return texts.GAME_ERR_BET_TOO_BIG
+            return _('GAME_ERR_BET_TOO_BIG')
+
+    async def _update_lose_streak(self, context: Context, is_win: bool):
+        lose_streak = 0 if is_win else context.state.get(StateKeys.CUBE_LOSE_STREAK, 0) + 1
+        await context.fsm_context.update_data(**{StateKeys.CUBE_LOSE_STREAK: lose_streak})
+        context.state[StateKeys.CUBE_LOSE_STREAK] = lose_streak
 
 
 class DiceSlots(Dice):
@@ -43,8 +56,8 @@ class DiceSlots(Dice):
 
     def get_text(self, context, dice_value, score_change, balance_icon):
         if score_change == 0:
-            return texts.LOSE_TEXT
-        return texts.WIN_TEXT.format(score_change=score_change, token_icon=balance_icon)
+            return _('LOSE_TEXT')
+        return _('WIN_TEXT').format(score_change=score_change, token_icon=balance_icon)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         return slots_check.get_coefficient(dice_value, rewards.SLOTS_REWARDS)
@@ -54,7 +67,8 @@ class DiceBasket(Dice):
     EMOJI = "🏀"
 
     def get_text(self, context, dice_value, score_change, balance_icon):
-        return gtexts.BASKET_TEXTS[dice_value].format(score_change=score_change, token_icon=balance_icon)
+        basket_text = gtexts.basket_texts(dice_value)
+        return basket_text.format(score_change=score_change, token_icon=balance_icon)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         return rewards.BASKET_REWARDS.get(dice_value, 0)
@@ -64,7 +78,8 @@ class DiceDarts(Dice):
     EMOJI = "🎯"
 
     def get_text(self, context, dice_value, score_change, balance_icon):
-        return gtexts.DARTS_TEXTS[dice_value].format(score_change=score_change, token_icon=balance_icon)
+        darts_text = gtexts.darts_texts(dice_value)
+        return darts_text.format(score_change=score_change, token_icon=balance_icon)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         return rewards.DARTS_REWARDS.get(dice_value, 0)
@@ -74,7 +89,8 @@ class DiceBowling(Dice):
     EMOJI = "🎳"
 
     def get_text(self, context, dice_value, score_change, balance_icon):
-        return gtexts.BOWLING_TEXTS[dice_value].format(score_change=score_change, token_icon=balance_icon)
+        bowling_text = gtexts.bowling_texts(dice_value)
+        return bowling_text.format(score_change=score_change, token_icon=balance_icon)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         return rewards.BOWLING_REWARDS.get(dice_value, 0)
@@ -84,7 +100,8 @@ class DiceFootball(Dice):
     EMOJI = "⚽️"
 
     def get_text(self, context, dice_value, score_change, balance_icon):
-        return gtexts.FOOTBALL_TEXTS[dice_value].format(score_change=score_change, token_icon=balance_icon)
+        football_text = gtexts.football_texts(dice_value)
+        return football_text.format(score_change=score_change, token_icon=balance_icon)
 
     def _get_coefficient(self, context: Context, dice_value: int) -> float:
         return rewards.FOOTBALL_REWARDS.get(dice_value, 0)

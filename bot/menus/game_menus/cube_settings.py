@@ -1,15 +1,15 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.utils.i18n import gettext as _
 
 from bot.menus.utils import get_balance_icon
-from bot.consts.texts import CUBE_BET_BUTTON, CUBE_PLAY_TEXT, CUBE_SETTINGS_TEXT
 
 
 def cube_settings(selected_setting, balance, bet, balance_type):
     balance_icon = get_balance_icon(balance_type)
     general_bet = len(selected_setting) * bet
-    text = CUBE_SETTINGS_TEXT.format(balance=balance, token_icon=balance_icon, general_bet=general_bet)
-    bet_text = CUBE_BET_BUTTON.format(bet=bet, token_icon=balance_icon)
-    kb = _keyboard(bet_text, selected_setting, play_text=CUBE_PLAY_TEXT)
+    text = _('CUBE_SETTINGS_TEXT').format(balance=balance, token_icon=balance_icon, general_bet=general_bet)
+    bet_text = _('CUBE_BET_BUTTON').format(bet=bet, token_icon=balance_icon)
+    kb = _keyboard(bet_text, selected_setting, play_text=_('CUBE_PLAY_TEXT'))
 
     return text, kb
 
@@ -20,23 +20,22 @@ CUBE_VARIANTS = [
     ['246', '135']
 ]
 
-# todo i18n
-CUBE_NAMES = {
-    '1': '1',
-    '2': '2',
-    '3': '3',
-    '4': '4',
-    '5': '5',
-    '6': '6',
-    '12': '1-2',
-    '34': '3-4',
-    '56': '5-6',
-    '246': 'Парне',
-    '135': 'Непарне',
-}
-
 
 def _keyboard(bet_text, selected_setting, play_text):
+    CUBE_NAMES = {
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5',
+        '6': '6',
+        '12': '1-2',
+        '34': '3-4',
+        '56': '5-6',
+        '246': _('CUBE_SETTINGS_BTN_EVEN'),
+        '135': _('CUBE_SETTINGS_BTN_ODD'),
+    }
+
     def btn_text(key_name):
         name = CUBE_NAMES[key_name]
         if key_name in selected_setting:
@@ -50,10 +49,10 @@ def _keyboard(bet_text, selected_setting, play_text):
 
     kb = [
         [InlineKeyboardButton(text=bet_text, callback_data="bet"),
-         InlineKeyboardButton(text='Скинути все', callback_data="cube_game_settings_RESET")],
+         InlineKeyboardButton(text=_('CUBE_SETTINGS_BTN_RESET_ALL_BETS'), callback_data="cube_game_settings_RESET")],
         *settings_btns,
         [
-            InlineKeyboardButton(text='‹ Назад', callback_data="select_balance_type"),
+            InlineKeyboardButton(text=_('BTN_BACK'), callback_data="select_balance_type"),
             InlineKeyboardButton(text=play_text, callback_data="game_play")
         ]
     ]
