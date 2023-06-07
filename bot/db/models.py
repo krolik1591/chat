@@ -39,6 +39,14 @@ class User(manager.Model):
         return f'USER: {self.user_id}; {self.lang=}'
 
 
+class WheelOfFortune(manager.Model):
+    wheeloffortune_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='WheelOfFortune')
+
+    ticket_num = BigIntegerField()
+    timestamp_buy_last_ticket = DateTimeField()
+
+
 class WithdrawTx(manager.Model):
     withdrawtx_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='WithdrawTx')
