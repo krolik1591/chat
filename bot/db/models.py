@@ -86,3 +86,8 @@ class GameLog(manager.Model):
 
     def __str__(self):
         return f'GAMELOG: {self.user_id=} {self.token_id=} {self.bet=} {self.result=} {self.timestamp=}'
+
+
+class Settings(manager.Model):
+    key = CharField(primary_key=True)
+    value = CharField()
