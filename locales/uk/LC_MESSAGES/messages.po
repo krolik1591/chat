@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-07 14:33+0300\n"
+"POT-Creation-Date: 2023-06-07 15:29+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -26,32 +26,32 @@ msgstr "Невірне реферальне посилання. Уважніше
 msgid "CHECK_REF_APPROVE_TEXT"
 msgstr "<a href='tg://user?id={id}'>{name}</a> став вашим поддіваном"
 
-#: ../bot/handlers/admin_handlers/spam.py:41
+#: ../bot/handlers/admin_handlers/spam.py:40
 msgid "ADMIN_SPAM_TEXT_ENTER_RECEIVER_ID)"
 msgstr ""
 "Введіть ID у наступному форматі: \n"
 "\n"
 "userid1,userid2,userid3..."
 
-#: ../bot/handlers/admin_handlers/spam.py:44
-#: ../bot/handlers/admin_handlers/spam.py:90
-#: ../bot/handlers/admin_handlers/spam.py:96
+#: ../bot/handlers/admin_handlers/spam.py:43
+#: ../bot/handlers/admin_handlers/spam.py:89
+#: ../bot/handlers/admin_handlers/spam.py:95
 msgid "ADMIN_SPAM_TEXT_ENTER_UR_MSG"
 msgstr "Введіть (можна переслати) повідомлення:"
 
-#: ../bot/handlers/admin_handlers/spam.py:73
+#: ../bot/handlers/admin_handlers/spam.py:72
 msgid "ADMIN_SPAM_TEXT_NO_USER_FOUND_ID_IN_BD"
 msgstr "Жодного юзера не знайдено в бд"
 
-#: ../bot/handlers/admin_handlers/spam.py:105
+#: ../bot/handlers/admin_handlers/spam.py:104
 msgid "ADMIN_SPAM_TEXT_TEMPLATE"
 msgstr "Ваше повідомлення:"
 
-#: ../bot/handlers/admin_handlers/spam.py:131
+#: ../bot/handlers/admin_handlers/spam.py:130
 msgid "ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"
 msgstr "З мовою {lang} не знайдено юзерів!"
 
-#: ../bot/handlers/admin_handlers/spam.py:142
+#: ../bot/handlers/admin_handlers/spam.py:141
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 "Не отримали повідомлення:\n"
@@ -332,6 +332,10 @@ msgstr "Налаштування"
 #: ../bot/menus/game_menus/select_game.py:43
 #: ../bot/menus/main_menus/guides_menus.py:34
 #: ../bot/menus/main_menus/language_menu.py:28
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:13
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:24
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:34
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:44
 #: ../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -577,6 +581,84 @@ msgstr ""
 #: ../bot/menus/main_menus/language_menu.py:7
 msgid "LANGUAGE_TEXT"
 msgstr "Обери потрібну мову:"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:6
+msgid "WHEEL_OF_FORTUNE_TEXT_MENU"
+msgstr ""
+"☘️ Колесо фортуни \n"
+"Купуй більше, щоб підвищити шанс!\n"
+"\n"
+"Вартість білету:\n"
+"Скіко в мене:\n"
+"Коли крутимо:\n"
+"Наперемогав:"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:8
+msgid "WHEEL_FORTUNE_BTN_BUY_TICKET"
+msgstr "Купити білет"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:9
+msgid "WHEEL_FORTUNE_BTN_MY_NUMBERS"
+msgstr "Мої білети"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:10
+msgid "WHEEL_FORTUNE_BTN_BUY_TICKET_CHECK_MY_STATUS"
+msgstr "Перевірити статус"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:11
+msgid "WHEEL_FORTUNE_BTN_SPIN_RESULT"
+msgstr "Останні переможці"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:12
+msgid "WHEEL_FORTUNE_BTN_CLAIM_WIN"
+msgstr "Забрати нагороду"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:20
+msgid "WOF_MENU_BUY_TICKET_TEXT"
+msgstr ""
+"🎟 Купи свій білет!\n"
+"💫 Обери свій щасливий номер або купи відразу багато білетів з випадковими номерами! \n"
+"\n"
+"Баланс:\n"
+"Скіко білетів можна купити:\n"
+"Вартість білету: \n"
+"Скіко в мене: "
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:22
+msgid "WOF_BTN_BUY_TICKET_MENU_SELECT_NUM"
+msgstr "Обрати номер"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:23
+msgid "WOF_BTN_BUY_TICKET_MENU_RANDOM_NUM"
+msgstr "Взяти випадкові номери"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:31
+msgid "WOF_MENU_BUY_SELECTED_TICKET_TEXT"
+msgstr ""
+"🎟 Надішліть 7 будь-яких цифр (приклад: 7777777)\n"
+"Ваш номер: \n"
+"\n"
+"Баланс:\n"
+"Скіко білетів можна купити:\n"
+"Вартість білету: \n"
+"Скіко в мене: "
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:33
+msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
+msgstr "Купити білет"
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:41
+msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
+msgstr "🎟 Скіко білетів треба?\n"
+"Оберіть або введіть необхідну к-сть білетів\n\n"
+"Баланс:\n"
+"Скіко білетів можна купити:\n"
+"Вартість білету: \n"
+"Скіко в мене: "
+
+#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:43
+msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
+msgstr "Купити білет"
 
 #: ../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
