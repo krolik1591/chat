@@ -253,16 +253,29 @@ async def add_new_ticket(user_id, ticket_num):
                                    timestamp_buy_last_ticket=datetime.utcnow())
 
 
-async def get_ticket_cost():
-    return await Settings.select().where(Settings.key == 'ticket_cost').first()
+async def get_wheel_info():
+    result = await WoFSettings.select().where(WoFSettings.is_active == 1)
+    if len(result) == 0:
+        return None
+    return result[0]
 
 
+async def get_user_tickets(tg_id):
+    result = await WoFTickets.select().where(WoFTickets.user_id == tg_id)
+    if len(result) == 0:
+        return 0
+    return len(result)
+
+
+async def get_user_wof_win(tg_id):
+    result = await User.select(User.wof_win).where(User.user_id == tg_id)
+    return result[0].total_wof_win
 
 
 if __name__ == "__main__":
     async def test():
-        x = await add_wheel_of_fortune_settings('coleso', {'a': 1, 'b': 2})
-        print(x)
+        x = await get_wheel_info()
+        print(bool(x))
 
 
     import asyncio

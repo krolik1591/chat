@@ -24,6 +24,7 @@ class User(manager.Model):
     lang = CharField(default='en')
     referrer = BigIntegerField(null=True)
     total_ref_withdraw = DecimalField(default=0)
+    wof_win = DecimalField(default=0)
 
     balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
@@ -56,6 +57,8 @@ class WoFSettings(manager.Model):
 
     timestamp_start = DateTimeField()
     timestamp_end = DateTimeField(null=True)
+
+    is_active = BooleanField(default=1)
 
 
 class WithdrawTx(manager.Model):
