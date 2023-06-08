@@ -261,10 +261,8 @@ async def get_wheel_info():
 
 
 async def get_user_tickets(tg_id):
-    result = await WoFTickets.select().where(WoFTickets.user_id == tg_id)
-    if len(result) == 0:
-        return 0
-    return len(result)
+    result = await WoFTickets.select().where(WoFTickets.user_id == tg_id).count()
+    return result
 
 
 async def get_user_wof_win(tg_id):
@@ -272,10 +270,26 @@ async def get_user_wof_win(tg_id):
     return result[0].wof_win
 
 
+async def get_all_tickets_num():
+    result = await WoFTickets.select()
+    all_ticket = set()
+    for ticket in result:
+        all_ticket.add(ticket.ticket_num)
+    return all_ticket
+
+
+async def check_ticket_in_db(ticket_num):
+    result = await WoFTickets.select().where(WoFTickets.ticket_num == ticket_num)
+    if len(result) == 0:
+        return False
+    return True
+
+
 if __name__ == "__main__":
     async def test():
-        x = await get_wheel_info()
-        print(bool(x))
+        x = await get_user_tickets(7575)
+        print(x)
+
 
 
     import asyncio

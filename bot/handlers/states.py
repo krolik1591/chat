@@ -34,6 +34,8 @@ class StateKeys:
     SPAM_LANG = 'spam_lang'
     SPAM_MSG_ID = 'spam_msg_id'
     ID_RECEIVERS = 'id_receiver'
+    # WheelOfFortune
+    TICKET_NUM = 'ticket_num'
 
 
 class Games:
