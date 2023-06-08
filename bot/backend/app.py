@@ -1,9 +1,12 @@
+import hashlib
+import hmac
 import json
 import time
+from urllib.parse import unquote
 
+import aiohttp_cors
 from aiohttp import web
 from aiohttp.web_request import Request
-import aiohttp_cors
 
 from bot.db.methods import add_wheel_of_fortune_settings
 
@@ -17,6 +20,8 @@ async def hello(request: Request):
 
 @routes.get('/get_fortune_wheel')
 async def is_exist_wheel(request: Request):
+    assert check_auth(request.headers.get("X-Auth"), request.app['bot'].token), "Invalid auth"
+
     hui = {
         'ticket_cost': 10,
         'date_creature': '2021-10-10',
@@ -28,10 +33,11 @@ async def is_exist_wheel(request: Request):
 
 @routes.post('/create_fortune_wheel')
 async def create_fortune_wheel(request: Request):
+    assert check_auth(request.headers.get("X-Auth"), request.app['bot'].token), "Invalid auth"
+
     form_data = await request.json()
-    ticket_cost = form_data['ticket_cost']
     try:
-        ticket_cost = int(ticket_cost)
+        ticket_cost = int(form_data['ticket_cost'])
     except ValueError:
         return web.Response(text='"Ticket cost must be a number"', status=400)
 
@@ -40,8 +46,19 @@ async def create_fortune_wheel(request: Request):
         return web.Response(text='"Date end must be in the future"')
 
     winner_list = json.dumps(form_data['distribution'])
-    await add_wheel_of_fortune_settings(form_data['ticket_cost'], form_data['commission'], winner_list, form_data['end_date'])
+    await add_wheel_of_fortune_settings(ticket_cost, form_data['commission'], winner_list, form_data['end_date'])
     return web.Response(text='{"ok": "ok"}')
+
+
+# todo as middleware
+def check_auth(auth: str, bot_token: str):
+    bot_token = hashlib.sha256(bot_token.encode()).digest()
+
+    auth = json.loads(unquote(auth))
+    token = "\n".join(sorted([f"{k}={v}" for k, v in auth.items() if k != "hash"]))
+    token_hash = hmac.new(bot_token, token.encode(), hashlib.sha256).hexdigest()
+
+    return auth["hash"] == token_hash
 
 
 def run(port=8080, loop=None, bot=None):
@@ -59,4 +76,7 @@ def run(port=8080, loop=None, bot=None):
 
 
 if __name__ == "__main__":
-    run()
+    from aiogram import Bot
+    from bot.utils.config_reader import config
+    bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
+    run(bot=bot)

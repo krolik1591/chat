@@ -16,10 +16,8 @@ from bot.tokens.withdraw_timeout_watcher import find_and_reject_lost_tx
 from bot.utils.config_reader import config
 
 
-async def main():
+async def main(bot):
     logging.basicConfig(level=logging.WARNING)
-
-    bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
 
     if config.fsm_mode == "redis":
         storage = RedisStorage.from_url(url=config.redis, connection_kwargs={"decode_responses": True})
@@ -66,5 +64,8 @@ async def set_bot_commands(bot: Bot):
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
-    loop.create_task(main())
-    backend.run(loop=loop)
+
+    bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
+
+    loop.create_task(main(bot))
+    backend.run(loop=loop, bot=bot)
