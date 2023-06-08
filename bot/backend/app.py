@@ -1,4 +1,5 @@
 import json
+import time
 
 from aiohttp import web
 from aiohttp.web_request import Request
@@ -28,12 +29,18 @@ async def is_exist_wheel(request: Request):
 @routes.post('/create_fortune_wheel')
 async def create_fortune_wheel(request: Request):
     form_data = await request.json()
-    # form_data.ticket_cost  # is number
-    # form_data.date_end  # is future date
-    print(form_data)
+    ticket_cost = form_data['ticket_cost']
+    try:
+        ticket_cost = int(ticket_cost)
+    except ValueError:
+        return web.Response(text='"Ticket cost must be a number"', status=400)
+
+    date_end = form_data['end_date']
+    if date_end < time.time():
+        return web.Response(text='"Date end must be in the future"')
+
     winner_list = json.dumps(form_data['distribution'])
     await add_wheel_of_fortune_settings(form_data['ticket_cost'], form_data['commission'], winner_list, form_data['end_date'])
-    # todo validate and put to db
     return web.Response(text='{"ok": "ok"}')
 
 
