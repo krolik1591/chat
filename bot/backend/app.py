@@ -4,6 +4,8 @@ from aiohttp import web
 from aiohttp.web_request import Request
 import aiohttp_cors
 
+from bot.db.methods import add_wheel_of_fortune_settings
+
 routes = web.RouteTableDef()
 
 
@@ -29,6 +31,8 @@ async def create_fortune_wheel(request: Request):
     # form_data.ticket_cost  # is number
     # form_data.date_end  # is future date
     print(form_data)
+    winner_list = json.dumps(form_data['distribution'])
+    await add_wheel_of_fortune_settings(form_data['ticket_cost'], form_data['commission'], winner_list, form_data['end_date'])
     # todo validate and put to db
     return web.Response(text='{"ok": "ok"}')
 

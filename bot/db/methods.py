@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 
 from peewee import fn
 
-from bot.db.models import GameLog, WheelOfFortune, WithdrawTx, Transactions, User, Wallets_key
+from bot.db.models import GameLog, Settings, Transactions, User, Wallets_key, WithdrawTx, WoFSettings, WoFTickets
 
 
 # users
@@ -243,14 +243,25 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 # Wheel of Fortune
 
 
+async def add_wheel_of_fortune_settings(ticket_cost, commission, who_win, date_end):
+    return await WoFSettings.create(ticket_cost=ticket_cost, commission=commission, who_win=who_win,
+                                    timestamp_end=date_end, timestamp_start=datetime.utcnow())
+
+
 async def add_new_ticket(user_id, ticket_num):
-    return await WheelOfFortune.create(user_id=user_id, ticket_num=ticket_num,
-                                       timestamp_buy_last_ticket=datetime.utcnow())
+    return await WoFTickets.create(user_id=user_id, ticket_num=ticket_num,
+                                   timestamp_buy_last_ticket=datetime.utcnow())
+
+
+async def get_ticket_cost():
+    return await Settings.select().where(Settings.key == 'ticket_cost').first()
+
+
 
 
 if __name__ == "__main__":
     async def test():
-        x = await add_new_ticket(123124, 12423452)
+        x = await add_wheel_of_fortune_settings('coleso', {'a': 1, 'b': 2})
         print(x)
 
 
