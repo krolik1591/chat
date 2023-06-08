@@ -20,16 +20,3 @@ services:
             # Путь к каталогу, где будет лежать дамп базы Redis
             - "./redis/data:/data"
         command: "redis-server /usr/local/etc/redis/redis.conf"
-
-    nginx:
-        build: ./nginx
-        depends_on:
-            - bot
-        volumes:
-            - ./run:/run
-            - ./nginx:/etc/nginx/conf.d
-            - ./nginx/letsencrypt:/etc/letsencrypt
-            - ./nginx/www:/www
-        ports:
-            - 80:80
-            - 443:443
