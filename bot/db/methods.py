@@ -269,7 +269,7 @@ async def get_user_tickets(tg_id):
 
 async def get_user_wof_win(tg_id):
     result = await User.select(User.wof_win).where(User.user_id == tg_id)
-    return result[0].total_wof_win
+    return result[0].wof_win
 
 
 if __name__ == "__main__":
