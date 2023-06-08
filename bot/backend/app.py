@@ -9,6 +9,7 @@ from aiohttp import web
 from aiohttp.web_request import Request
 
 from bot.db.methods import add_wheel_of_fortune_settings
+from bot.utils.cert import get_ssl_context
 
 routes = web.RouteTableDef()
 
@@ -61,7 +62,7 @@ def check_auth(auth: str, bot_token: str):
     return auth["hash"] == token_hash
 
 
-def run(port=8080, loop=None, bot=None):
+def run(port=8080, loop=None, bot=None, ssl_context=None):
     app = web.Application()
     app['bot'] = bot
     app.add_routes(routes)
@@ -72,6 +73,7 @@ def run(port=8080, loop=None, bot=None):
     for route in list(app.router.routes()):
         cors.add(route)
 
+    web.run_app(app, port=port, ssl_context=ssl_context)
     web.run_app(app, port=port, loop=loop)
 
 
@@ -79,4 +81,4 @@ if __name__ == "__main__":
     from aiogram import Bot
     from bot.utils.config_reader import config
     bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
-    run(bot=bot)
+    run(bot=bot, ssl_context=get_ssl_context("0.0.0.0"))

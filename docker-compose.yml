@@ -11,6 +11,8 @@ services:
             - "./db:/app/db"
         depends_on:
             - redis
+        ports:
+            - "8080:8080"
     redis:
         image: redis:7
         restart: "always"
