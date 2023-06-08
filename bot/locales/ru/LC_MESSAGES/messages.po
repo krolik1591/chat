@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-07 15:29+0300\n"
+"POT-Creation-Date: 2023-06-08 19:05+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -18,671 +18,678 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../bot/handlers/m01_main.py:54
+#: ../../bot/handlers/m01_main.py:54
 msgid "CHECK_REF_DENIED_TEXT"
 msgstr ""
 
-#: ../bot/handlers/m01_main.py:60
+#: ../../bot/handlers/m01_main.py:60
 msgid "CHECK_REF_APPROVE_TEXT"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:40
+#: ../../bot/handlers/admin_handlers/spam.py:40
 msgid "ADMIN_SPAM_TEXT_ENTER_RECEIVER_ID)"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:43
-#: ../bot/handlers/admin_handlers/spam.py:89
-#: ../bot/handlers/admin_handlers/spam.py:95
+#: ../../bot/handlers/admin_handlers/spam.py:43
+#: ../../bot/handlers/admin_handlers/spam.py:89
+#: ../../bot/handlers/admin_handlers/spam.py:95
 msgid "ADMIN_SPAM_TEXT_ENTER_UR_MSG"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:72
+#: ../../bot/handlers/admin_handlers/spam.py:72
 msgid "ADMIN_SPAM_TEXT_NO_USER_FOUND_ID_IN_BD"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:104
+#: ../../bot/handlers/admin_handlers/spam.py:104
 msgid "ADMIN_SPAM_TEXT_TEMPLATE"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:130
+#: ../../bot/handlers/admin_handlers/spam.py:130
 msgid "ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"
 msgstr ""
 
-#: ../bot/handlers/admin_handlers/spam.py:141
+#: ../../bot/handlers/admin_handlers/spam.py:141
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/m06_play_dice.py:33
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:33
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/base_dice_game.py:29
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:46
+#: ../../bot/handlers/games_handlers/dice_games/base_dice_game.py:29
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:46
 msgid "GAME_ERR_BET_TOO_BIG"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:43
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:43
 msgid "GAME_ERR_BET_NOT_SELECTED"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:59
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:59
 msgid "LOSE_TEXT"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/dice_games.py:60
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:60
 msgid "WIN_TEXT"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:6
-#: ../bot/handlers/games_handlers/dice_games/texts.py:17
-#: ../bot/handlers/games_handlers/dice_games/texts.py:29
-#: ../bot/handlers/games_handlers/dice_games/texts.py:41
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:6
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:17
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:29
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:41
 msgid "DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:7
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:7
 msgid "BASKET_TEXT_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:8
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:8
 msgid "BASKET_TEXT_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:9
-#: ../bot/handlers/games_handlers/dice_games/texts.py:21
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:9
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:21
 msgid "DARTS_TEXT_5_OR_BASKET_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:10
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:10
 msgid "BASKET_TEXT_5"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:18
-#: ../bot/handlers/games_handlers/dice_games/texts.py:30
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:18
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:30
 msgid "DARTS_OR_BOWLING_TEXT_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:19
-#: ../bot/handlers/games_handlers/dice_games/texts.py:31
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:19
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:31
 msgid "DARTS_OR_BOWLING_TEXT_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:20
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:20
 msgid "DARTS_TEXT_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:22
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:22
 msgid "DARTS_TEXT_6"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:32
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:32
 msgid "BOWLING_TEXT_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:33
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:33
 msgid "BOWLING_TEXT_5"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:34
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:34
 msgid "BOWLING_TEXT_6"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:42
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:42
 msgid "FOOTBALL_TEXT_LOSE"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:43
-#: ../bot/handlers/games_handlers/dice_games/texts.py:44
-#: ../bot/handlers/games_handlers/dice_games/texts.py:45
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:43
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:44
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:45
 msgid "FOOTBALL_TEXT_WIN"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:53
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:53
 msgid "CUBE_TEXT_0"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:54
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:54
 msgid "CUBE_TEXT_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:55
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:55
 msgid "CUBE_TEXT_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:56
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:56
 msgid "CUBE_TEXT_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:63
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:63
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_1"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:64
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:64
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_2"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:65
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:65
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_3"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:66
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:66
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_4"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:67
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:67
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_5"
 msgstr ""
 
-#: ../bot/handlers/games_handlers/dice_games/texts.py:68
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:68
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:25
+#: ../../bot/handlers/my_account_heandlers/referrals.py:25
 msgid "REFERRALS_REFRESHED_TEXT"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:36
+#: ../../bot/handlers/my_account_heandlers/referrals.py:36
 msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:43
+#: ../../bot/handlers/my_account_heandlers/referrals.py:43
 msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:68
+#: ../../bot/handlers/my_account_heandlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:68
+#: ../../bot/handlers/my_account_heandlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:70
+#: ../../bot/handlers/my_account_heandlers/referrals.py:70
 msgid "REFERRALS_SEND_INVITATION_TEXT"
 msgstr ""
 
-#: ../bot/handlers/my_account_heandlers/referrals.py:72
+#: ../../bot/handlers/my_account_heandlers/referrals.py:72
 msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
 msgstr ""
 
-#: ../bot/handlers/other_handlers/language.py:26
+#: ../../bot/handlers/other_handlers/language.py:26
 msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
-#: ../bot/menus/account_menus/account_menu.py:8
-#: ../bot/menus/game_menus/select_balance.py:10
-#: ../bot/menus/game_menus/select_game.py:9 ../bot/menus/main_menu.py:8
+#: ../../bot/menus/account_menus/account_menu.py:8
+#: ../../bot/menus/game_menus/select_balance.py:10
+#: ../../bot/menus/game_menus/select_game.py:9 ../../bot/menus/main_menu.py:8
 msgid "MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/main_menu.py:17
+#: ../../bot/menus/main_menu.py:17
 msgid "MAIN_MENU_BTN_GAMES"
 msgstr ""
 
-#: ../bot/menus/main_menu.py:20
+#: ../../bot/menus/main_menu.py:20
 msgid "MAIN_MENU_BTN_WHEEL_OF_FORTUNE"
 msgstr ""
 
-#: ../bot/menus/main_menu.py:23
+#: ../../bot/menus/main_menu.py:23
 msgid "MAIN_MENU_BTN_DEPOSIT"
 msgstr ""
 
-#: ../bot/menus/main_menu.py:26
+#: ../../bot/menus/main_menu.py:26
 msgid "MAIN_NEMU_BTN_ACCOUNT"
 msgstr ""
 
-#: ../bot/menus/main_menu.py:27
+#: ../../bot/menus/main_menu.py:27
 msgid "MAIN_BTN_CHANGE_LANG"
 msgstr ""
 
-#: ../bot/menus/main_menu.py:31
+#: ../../bot/menus/main_menu.py:31
 msgid "MAIN_MENU_BTN_GUIDES"
 msgstr ""
 
-#: ../bot/menus/main_menu.py:32
+#: ../../bot/menus/main_menu.py:32
 msgid "MAIN_MENU_BTN_SUPPORT"
 msgstr ""
 
-#: ../bot/menus/utils.py:17
+#: ../../bot/menus/utils.py:17
 msgid "ADMIN_UTILS_BTN_FOR_DELETE_SPAM_MSG"
 msgstr ""
 
-#: ../bot/menus/utils.py:36
+#: ../../bot/menus/utils.py:36
 msgid "SELECT_BALANCE_BTN_DEMO"
 msgstr ""
 
-#: ../bot/menus/utils.py:37
+#: ../../bot/menus/utils.py:37
 msgid "SELECT_BALANCE_BTN_PROMO"
 msgstr ""
 
-#: ../bot/menus/utils.py:38
+#: ../../bot/menus/utils.py:38
 msgid "SELECT_BALANCE_BTN_GENERAL"
 msgstr ""
 
-#: ../bot/menus/account_menus/account_menu.py:17
+#: ../../bot/menus/account_menus/account_menu.py:17
 msgid "ACCOUNT_MENU_BTN_REFERRALS"
 msgstr ""
 
-#: ../bot/menus/account_menus/account_menu.py:20
+#: ../../bot/menus/account_menus/account_menu.py:20
 msgid "ACCOUNT_MENU_BTN_PROMO_CODES"
 msgstr ""
 
-#: ../bot/menus/account_menus/account_menu.py:23
+#: ../../bot/menus/account_menus/account_menu.py:23
 msgid "ACCOUNT_MENU_BTN_TROPHIES"
 msgstr ""
 
-#: ../bot/menus/account_menus/account_menu.py:26
+#: ../../bot/menus/account_menus/account_menu.py:26
 msgid "ACCOUNT_MENU_BTN_SEND_GIFT"
 msgstr ""
 
-#: ../bot/menus/account_menus/account_menu.py:27
+#: ../../bot/menus/account_menus/account_menu.py:27
 msgid "ACCOUNT_MENU_SETTINGS"
 msgstr ""
 
-#: ../bot/menus/account_menus/account_menu.py:30
-#: ../bot/menus/account_menus/referrals_menu.py:51
-#: ../bot/menus/admin_menus/spam_menus.py:12
-#: ../bot/menus/admin_menus/spam_menus.py:45
-#: ../bot/menus/game_menus/bet_menus.py:56
-#: ../bot/menus/game_menus/cube_settings.py:55
-#: ../bot/menus/game_menus/select_balance.py:25
-#: ../bot/menus/game_menus/select_game.py:43
-#: ../bot/menus/main_menus/guides_menus.py:34
-#: ../bot/menus/main_menus/language_menu.py:28
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:13
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:24
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:34
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:44
-#: ../bot/menus/wallet_menus/deposit_menu.py:36
-#: ../bot/menus/wallet_menus/wallet_menu.py:23
-#: ../bot/menus/wallet_menus/withdraw_menu.py:14
-#: ../bot/menus/wallet_menus/withdraw_menu.py:23
-#: ../bot/menus/wallet_menus/withdraw_menu.py:36
+#: ../../bot/menus/account_menus/account_menu.py:30
+#: ../../bot/menus/account_menus/referrals_menu.py:51
+#: ../../bot/menus/admin_menus/spam_menus.py:12
+#: ../../bot/menus/admin_menus/spam_menus.py:45
+#: ../../bot/menus/game_menus/bet_menus.py:56
+#: ../../bot/menus/game_menus/cube_settings.py:55
+#: ../../bot/menus/game_menus/select_balance.py:25
+#: ../../bot/menus/game_menus/select_game.py:43
+#: ../../bot/menus/main_menus/guides_menus.py:34
+#: ../../bot/menus/main_menus/language_menu.py:28
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:14
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:25
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:50
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:60
+#: ../../bot/menus/wallet_menus/deposit_menu.py:36
+#: ../../bot/menus/wallet_menus/wallet_menu.py:23
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:14
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:23
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:36
 msgid "BTN_BACK"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:11
+#: ../../bot/menus/account_menus/referrals_menu.py:11
 msgid "REF_LVL_1_ADEPT"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:12
+#: ../../bot/menus/account_menus/referrals_menu.py:12
 msgid "REF_LVL_2_EXPERIENCED"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:13
+#: ../../bot/menus/account_menus/referrals_menu.py:13
 msgid "REF_LVL_3_CONNOISSEUR"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:14
+#: ../../bot/menus/account_menus/referrals_menu.py:14
 msgid "REF_LVL_4_EXPERT"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:15
+#: ../../bot/menus/account_menus/referrals_menu.py:15
 msgid "REF_LVL_5_MAESTRO"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:28
+#: ../../bot/menus/account_menus/referrals_menu.py:28
 msgid "REFERRAL_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:39
+#: ../../bot/menus/account_menus/referrals_menu.py:39
 msgid "REFERRALS_MENU_SEND_INVITE"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:42
+#: ../../bot/menus/account_menus/referrals_menu.py:42
 msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:45
+#: ../../bot/menus/account_menus/referrals_menu.py:45
 msgid "REFERRALS_MENU_BTN_REFRESH_REF_INFO"
 msgstr ""
 
-#: ../bot/menus/account_menus/referrals_menu.py:48
+#: ../../bot/menus/account_menus/referrals_menu.py:48
 msgid "REFERRALS_MENU_HOW_IT_WORKS"
 msgstr ""
 
-#: ../bot/menus/admin_menus/admin_menu.py:6
+#: ../../bot/menus/admin_menus/admin_menu.py:6
 msgid "ADMIN_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/admin_menus/admin_menu.py:15
+#: ../../bot/menus/admin_menus/admin_menu.py:15
 msgid "ADMIN_MENU_BTN_SPAM"
 msgstr ""
 
-#: ../bot/menus/admin_menus/admin_menu.py:18
+#: ../../bot/menus/admin_menus/admin_menu.py:18
 msgid "ADMIN_MENU_BTN_STATISTIC"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:8
+#: ../../bot/menus/admin_menus/spam_menus.py:8
 msgid "ADMIN_SPAM_TYPE_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:10
+#: ../../bot/menus/admin_menus/spam_menus.py:10
 msgid "ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:11
+#: ../../bot/menus/admin_menus/spam_menus.py:11
 msgid "ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:19
+#: ../../bot/menus/admin_menus/spam_menus.py:19
 msgid "ADMIN_SPAM_CONFIRM_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:22
+#: ../../bot/menus/admin_menus/spam_menus.py:22
 msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:23
+#: ../../bot/menus/admin_menus/spam_menus.py:23
 msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:31
+#: ../../bot/menus/admin_menus/spam_menus.py:31
 msgid "ADMIN_SPAM_LANGUAGE_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:52
+#: ../../bot/menus/admin_menus/spam_menus.py:52
 msgid "ADMIN_SPAM_TEXT_WHICH_USER_DOESNT_EXIST"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:55
+#: ../../bot/menus/admin_menus/spam_menus.py:55
 msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_BACK"
 msgstr ""
 
-#: ../bot/menus/admin_menus/spam_menus.py:56
+#: ../../bot/menus/admin_menus/spam_menus.py:56
 msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_GO_NEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:14
+#: ../../bot/menus/game_menus/bet_menus.py:14
 msgid "SLOTS_PLAY_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:16
+#: ../../bot/menus/game_menus/bet_menus.py:16
 msgid "FOOTBALL_PLAY_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:18
+#: ../../bot/menus/game_menus/bet_menus.py:18
 msgid "DARTS_PLAY_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:21
-#: ../bot/menus/game_menus/cube_settings.py:12
+#: ../../bot/menus/game_menus/bet_menus.py:21
+#: ../../bot/menus/game_menus/cube_settings.py:12
 msgid "CUBE_PLAY_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:24
+#: ../../bot/menus/game_menus/bet_menus.py:24
 msgid "DEFAULT_PLAY_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:33
+#: ../../bot/menus/game_menus/bet_menus.py:33
 msgid "DEFAULT_BALANCE_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:51
+#: ../../bot/menus/game_menus/bet_menus.py:51
 msgid "BET_MENUS_BTN_MINIMUM"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:53
+#: ../../bot/menus/game_menus/bet_menus.py:53
 msgid "BET_MENUS_BTN_MAXIMUM"
 msgstr ""
 
-#: ../bot/menus/game_menus/bet_menus.py:65
+#: ../../bot/menus/game_menus/bet_menus.py:65
 msgid "BET_MENUS_BTN_GIVEMEMONEY"
 msgstr ""
 
-#: ../bot/menus/game_menus/cube_settings.py:10
+#: ../../bot/menus/game_menus/cube_settings.py:10
 msgid "CUBE_SETTINGS_TEXT"
 msgstr ""
 
-#: ../bot/menus/game_menus/cube_settings.py:11
+#: ../../bot/menus/game_menus/cube_settings.py:11
 msgid "CUBE_BET_BUTTON"
 msgstr ""
 
-#: ../bot/menus/game_menus/cube_settings.py:35
+#: ../../bot/menus/game_menus/cube_settings.py:35
 msgid "CUBE_SETTINGS_BTN_EVEN"
 msgstr ""
 
-#: ../bot/menus/game_menus/cube_settings.py:36
+#: ../../bot/menus/game_menus/cube_settings.py:36
 msgid "CUBE_SETTINGS_BTN_ODD"
 msgstr ""
 
-#: ../bot/menus/game_menus/cube_settings.py:52
+#: ../../bot/menus/game_menus/cube_settings.py:52
 msgid "CUBE_SETTINGS_BTN_RESET_ALL_BETS"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_balance.py:26
+#: ../../bot/menus/game_menus/select_balance.py:26
 msgid "SELECT_BALANCE_BTN_RULES"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:26
+#: ../../bot/menus/game_menus/select_game.py:26
 msgid "SELECT_GAME_BTN_CASINO"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:27
+#: ../../bot/menus/game_menus/select_game.py:27
 msgid "SELECT_GAME_BTN_CUBE"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:28
+#: ../../bot/menus/game_menus/select_game.py:28
 msgid "SELECT_GAME_BTN_BASKET"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:29
+#: ../../bot/menus/game_menus/select_game.py:29
 msgid "SELECT_GAME_BTN_DARTS"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:30
+#: ../../bot/menus/game_menus/select_game.py:30
 msgid "SELECT_GAME_BTN_BOWLING"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:31
+#: ../../bot/menus/game_menus/select_game.py:31
 msgid "SELECT_GAME_BTN_FOOTBALL"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:32
+#: ../../bot/menus/game_menus/select_game.py:32
 msgid "SELECT_GAME_BTN_MINES"
 msgstr ""
 
-#: ../bot/menus/game_menus/select_game.py:33
+#: ../../bot/menus/game_menus/select_game.py:33
 msgid "SELECT_GAME_BTN_CUEFA"
 msgstr ""
 
-#: ../bot/menus/main_menus/guides_menus.py:7
+#: ../../bot/menus/main_menus/guides_menus.py:7
 msgid "GUIDES_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/main_menus/guides_menus.py:16
+#: ../../bot/menus/main_menus/guides_menus.py:16
 msgid "GUIDES_MENU_BTN_ABOUT_CASINO"
 msgstr ""
 
-#: ../bot/menus/main_menus/guides_menus.py:19
+#: ../../bot/menus/main_menus/guides_menus.py:19
 msgid "GUIDES_MENU_BTN_HOW_TO_DEPOSIT"
 msgstr ""
 
-#: ../bot/menus/main_menus/guides_menus.py:22
+#: ../../bot/menus/main_menus/guides_menus.py:22
 msgid "GUIDES_MENU_BTN_WITHDRAWALS"
 msgstr ""
 
-#: ../bot/menus/main_menus/guides_menus.py:25
+#: ../../bot/menus/main_menus/guides_menus.py:25
 msgid "GUIDES_MENU_BTN_GAMES_AND_RULES"
 msgstr ""
 
-#: ../bot/menus/main_menus/guides_menus.py:28
+#: ../../bot/menus/main_menus/guides_menus.py:28
 msgid "GUIDES_MENU_BTN_PROMO_CODES"
 msgstr ""
 
-#: ../bot/menus/main_menus/guides_menus.py:31
+#: ../../bot/menus/main_menus/guides_menus.py:31
 msgid "GUIDES_MENU_BTN_REFERRAL_PROGRAM"
 msgstr ""
 
-#: ../bot/menus/main_menus/language_menu.py:7
+#: ../../bot/menus/main_menus/language_menu.py:7
 msgid "LANGUAGE_TEXT"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:6
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:6
 msgid "WHEEL_OF_FORTUNE_TEXT_MENU"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:8
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:9
 msgid "WHEEL_FORTUNE_BTN_BUY_TICKET"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:9
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:10
 msgid "WHEEL_FORTUNE_BTN_MY_NUMBERS"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:10
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:11
 msgid "WHEEL_FORTUNE_BTN_BUY_TICKET_CHECK_MY_STATUS"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:11
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:12
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:23
 msgid "WHEEL_FORTUNE_BTN_SPIN_RESULT"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:12
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:13
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:24
 msgid "WHEEL_FORTUNE_BTN_CLAIM_WIN"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:20
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:21
+msgid "WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:34
 msgid "WOF_MENU_BUY_TICKET_TEXT"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:22
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:38
 msgid "WOF_BTN_BUY_TICKET_MENU_SELECT_NUM"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:23
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:39
 msgid "WOF_BTN_BUY_TICKET_MENU_RANDOM_NUM"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:31
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:47
 msgid "WOF_MENU_BUY_SELECTED_TICKET_TEXT"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:33
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:49
 msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:41
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:57
 msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
 msgstr ""
 
-#: ../bot/menus/main_menus/wheel_of_fortune_menus.py:43
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:59
 msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:11
+#: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:13
+#: ../../bot/menus/wallet_menus/deposit_menu.py:13
 msgid "DEPOSIT_INITIATION_ERROR"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:20
+#: ../../bot/menus/wallet_menus/deposit_menu.py:20
 msgid "DEPOSIT_SUCCESSFUL"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:25
+#: ../../bot/menus/wallet_menus/deposit_menu.py:25
 msgid "DEPOSIT_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:33
+#: ../../bot/menus/wallet_menus/deposit_menu.py:33
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/deposit_menu.py:34
+#: ../../bot/menus/wallet_menus/deposit_menu.py:34
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:9
+#: ../../bot/menus/wallet_menus/wallet_menu.py:9
 msgid "WALLET_MENU_TEXT"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:19
+#: ../../bot/menus/wallet_menus/wallet_menu.py:19
 msgid "WALLET_MENU_BTN_DEPOSIT"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:20
+#: ../../bot/menus/wallet_menus/wallet_menu.py:20
 msgid "WALLET_MENU_BTN_WITHDRAW"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/wallet_menu.py:22
+#: ../../bot/menus/wallet_menus/wallet_menu.py:22
 msgid "WALLET_MENU_BTN_HOW_TO_BUY"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:11
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:11
 msgid "WITHDRAW_MENU_TEXT1"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:21
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:21
 msgid "WITHDRAW_MENU_TEXT2"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:30
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:30
 msgid "WITHDRAW_MENU_TEXT3"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:35
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:35
 msgid "WITHDRAW_MENU_BTN_STEP_3_APPROVE"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:44
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:44
 msgid "WITHDRAW_APPROVE"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:47
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:47
 msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:67
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:67
 msgid "ADMIN_APPROVE_TX"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:72
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:72
 msgid "ADMIN_REJECT_TX"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:79
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:79
 msgid "PAYMENT_CONFIRMED"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:81
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:81
 msgid "PAYMENT_DENIED"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu.py:89
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:89
 msgid "PAYMENT_LOST"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:9
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:9
 msgid "PREVIOUS_WITHDRAW_IN_PROCESS"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:14
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:14
 msgid "REACHED_DAILY_LIMIT"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:18
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:18
 msgid "WITHDRAW_TOO_BIG"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:23
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:23
 msgid "AMOUNT_TOO_SMALL"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:27
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:27
 msgid "INSUFFICIENT_FUNDS_MASTER"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:31
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:31
 msgid "INSUFFICIENT_FUNDS"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:35
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:35
 msgid "WRONG_ADDRESS"
 msgstr ""
 
-#: ../bot/menus/wallet_menus/withdraw_menu_err.py:39
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:39
 msgid "TON_TESTNET_ADDRESS"
 msgstr ""
 
