@@ -9,12 +9,12 @@ from bot.db.methods import add_wheel_of_fortune_settings
 routes = web.RouteTableDef()
 
 
-@routes.get('/backend')
+@routes.get('/')
 async def hello(request: Request):
     return web.Response(text="Hello, world")
 
 
-@routes.get('/backend/get_fortune_wheel')
+@routes.get('/get_fortune_wheel')
 async def is_exist_wheel(request: Request):
     hui = {
         'ticket_cost': 10,
@@ -25,7 +25,7 @@ async def is_exist_wheel(request: Request):
     return web.json_response(text='false')
 
 
-@routes.post('/backend/create_fortune_wheel')
+@routes.post('/create_fortune_wheel')
 async def create_fortune_wheel(request: Request):
     form_data = await request.json()
     # form_data.ticket_cost  # is number
