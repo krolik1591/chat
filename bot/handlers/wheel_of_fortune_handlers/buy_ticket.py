@@ -1,11 +1,10 @@
-from aiogram import Router, types, exceptions
+from aiogram import Router, exceptions, types
 from aiogram.filters import StateFilter, Text
 from aiogram.fsm.context import FSMContext
 
 from bot.db import db
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.main_menus.wheel_of_fortune_menus import buy_random_num_menu, buy_selected_num_menu, buy_ticket_menu, \
-    wheel_of_fortune_menu
+from bot.menus.main_menus.wheel_of_fortune_menus import buy_random_num_menu, buy_selected_num_menu, buy_ticket_menu
 from bot.menus.utils import kb_del_msg
 
 router = Router()
