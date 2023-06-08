@@ -4,7 +4,7 @@ from aiogram.utils.i18n import gettext as _
 
 def wheel_of_fortune_menu(ticket_cost, date_end, user_tickets, wof_win):
     text = _('WHEEL_OF_FORTUNE_TEXT_MENU').format(ticket_cost=ticket_cost, date_end=date_end, user_tickets=user_tickets,
-                                                  total_wof_win=wof_win)
+                                                  wof_win=wof_win)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_BUY_TICKET'), callback_data="buy_ticket")],
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_MY_NUMBERS'), callback_data="my_numbers")],
@@ -17,8 +17,8 @@ def wheel_of_fortune_menu(ticket_cost, date_end, user_tickets, wof_win):
     return text, kb
 
 
-def wheel_of_fortune_doesnt_exist_menu():
-    text = _('WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU')
+def wheel_of_fortune_doesnt_exist_menu(user_wof_win):
+    text = _('WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU').format(user_wof_win=user_wof_win)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_SPIN_RESULT'), callback_data="spin_result")],
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CLAIM_WIN'), callback_data="claim_win")],
@@ -28,8 +28,12 @@ def wheel_of_fortune_doesnt_exist_menu():
     return text, kb
 
 
-def buy_ticket_menu():
-    text = _('WOF_MENU_BUY_TICKET_TEXT')
+def buy_ticket_menu(wof_info, user_balance, user_tickets):
+    how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
+    ticket_cost = wof_info.ticket_cost
+    text = _('WOF_MENU_BUY_TICKET_TEXT').format(how_much_tickets_can_buy=how_much_tickets_can_buy,
+                                                user_balance=user_balance, ticket_cost=ticket_cost,
+                                                user_tickets=user_tickets)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WOF_BTN_BUY_TICKET_MENU_SELECT_NUM'), callback_data="buy_selected_num")],
         [InlineKeyboardButton(text=_('WOF_BTN_BUY_TICKET_MENU_RANDOM_NUM'), callback_data="buy_random_num")],

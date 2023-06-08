@@ -13,8 +13,11 @@ router = Router()
 @router.callback_query(Text("buy_ticket"))
 async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.delete_message)
+    wof_info = await db.get_wheel_info()
+    user_balance = await db.get_user_balance(call.from_user.id, 'general')
+    user_tickets = await db.get_user_tickets(call.from_user.id)
 
-    text, keyboard = buy_ticket_menu()
+    text, keyboard = buy_ticket_menu(wof_info, user_balance, user_tickets)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
