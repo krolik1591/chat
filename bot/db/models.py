@@ -45,6 +45,7 @@ class WoFTickets(manager.Model):
     user = ForeignKeyField(User, backref='WheelOfFortune')
 
     ticket_num = BigIntegerField()
+    ticket_type = CharField()
     timestamp_buy_last_ticket = DateTimeField()
 
 

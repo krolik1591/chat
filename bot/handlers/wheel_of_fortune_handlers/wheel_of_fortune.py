@@ -1,6 +1,8 @@
 from aiogram import Router, types
 from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.i18n import gettext as _
+
 
 from bot.db import db
 from bot.menus.main_menus.wheel_of_fortune_menus import wheel_of_fortune_doesnt_exist_menu, wheel_of_fortune_menu
@@ -22,3 +24,10 @@ async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext):
 
     text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, wof_info.timestamp_end, user_tickets, user_wof_win)
     await call.message.edit_text(text, reply_markup=keyboard)
+
+
+@router.callback_query(Text("check_status"))
+async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext):
+    wof_info = await db.get_wheel_info()
+
+    await call.answer(_("WHEEL_OF_FORTUNE_CHECK_STATUS").format(wof_info.timestamp_end))

@@ -64,6 +64,7 @@ async def buy_random_ticket(call: types.CallbackQuery, state: FSMContext):
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: how_much_tickets_can_buy})
     else:
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: DEFAULT_TICKET_COUNT})
+        how_much_tickets_can_buy = DEFAULT_TICKET_COUNT
 
     text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, how_much_tickets_can_buy)
     await call.message.edit_text(text, reply_markup=keyboard)
@@ -79,14 +80,14 @@ async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
 
     if count_update == '+':
         if tickets_count >= how_much_tickets_can_buy:
-            await call.message.answer(_('WOF_BUY_TICKET_ERR_CHOOSE_SMALLER_QUANTITY')
-                                      .format(how_much_tickets_can_buy=how_much_tickets_can_buy),
-                                      reply_markup=kb_del_msg())
+            await call.answer(_('WOF_BUY_TICKET_ERR_CHOOSE_SMALLER_QUANTITY')
+                              .format(how_much_tickets_can_buy=how_much_tickets_can_buy),
+                              show_alert=True)
             return
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count + 1})
     else:
         if tickets_count <= 1:
-            await call.message.answer(_('WOF_BUY_TICKET_ERR_MIN_TICKETS_COUNT'), reply_markup=kb_del_msg())
+            await call.answer(_('WOF_BUY_TICKET_ERR_MIN_TICKETS_COUNT'), show_alert=True)
             return
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count - 1})
 
@@ -115,12 +116,14 @@ async def enter_tickets_count(message: types.Message, state: FSMContext):
 
 @router.callback_query(Text(startswith="buy_ticket_"))
 async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
-    ticket_type = call.data.removeprefix("buy_ticket_")
+    buy_ticket_type = call.data.removeprefix("buy_ticket_")
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
     wof_info = await db.get_wheel_info()
 
-    if ticket_type == 'selected_num':
+    if buy_ticket_type == 'selected_num':
         ticket_num = (await state.get_data()).get(StateKeys.TICKET_NUM)
+        ticket_type = 'selected'
+
         if await db.check_ticket_in_db(ticket_num):
             await call.answer(_('WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS'), show_alert=True)
             return
@@ -128,6 +131,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
 
     else:
         tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
+        ticket_type = 'random'
         tickets = await create_random_tickets(tickets_count)
 
     if user_balance < wof_info.ticket_cost * len(tickets):
@@ -136,7 +140,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
 
     with manager.pw_database.atomic():
         for ticket in tickets:
-            await db.add_new_ticket(call.from_user.id, ticket)
+            await db.add_new_ticket(call.from_user.id, ticket, ticket_type)
         await db.update_user_balance(call.from_user.id, 'general', -wof_info.ticket_cost * len(tickets))
 
     await call.answer(_('WOF_BUY_TICKET_SUCCESS'), show_alert=True)
@@ -144,7 +148,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
     user_tickets = await db.get_user_tickets(call.from_user.id)
 
-    if ticket_type == 'selected_num':
+    if buy_ticket_type == 'selected_num':
         text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets)
         await call.message.edit_text(text, reply_markup=keyboard)
     else:
@@ -182,16 +186,9 @@ async def check_ticket_count(message, tickets_count, how_much_tickets_can_buy):
     try:
         tickets_count = int(tickets_count)
     except ValueError:
-        await message.answer(_('WOF_BUY_TICKET_ERR_ENTER_DIGITS'), reply_markup=kb_del_msg())
         return True
 
     if tickets_count <= 0:
-        await message.answer(_('WOF_BUY_TICKET_ERR_ENTER_POSITIVE_NUM'), reply_markup=kb_del_msg())
-        return True
-
-    if tickets_count > how_much_tickets_can_buy:
-        await message.answer(_('WOF_BUY_TICKET_ERR_CHOOSE_SMALLER_QUANTITY')
-                             .format(how_much_tickets_can_buy=how_much_tickets_can_buy), reply_markup=kb_del_msg())
         return True
 
     return False

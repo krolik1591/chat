@@ -248,8 +248,8 @@ async def add_wheel_of_fortune_settings(ticket_cost, commission, who_win, date_e
                                     timestamp_end=date_end, timestamp_start=datetime.utcnow())
 
 
-async def add_new_ticket(user_id, ticket_num):
-    return await WoFTickets.create(user_id=user_id, ticket_num=ticket_num,
+async def add_new_ticket(user_id, ticket_num, ticket_type):
+    return await WoFTickets.create(user_id=user_id, ticket_num=ticket_num, ticket_type=ticket_type,
                                    timestamp_buy_last_ticket=datetime.utcnow())
 
 
