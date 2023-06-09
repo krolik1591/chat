@@ -73,8 +73,7 @@ def run(port=8080, loop=None, bot=None, ssl_context=None):
     for route in list(app.router.routes()):
         cors.add(route)
 
-    web.run_app(app, port=port, ssl_context=ssl_context)
-    web.run_app(app, port=port, loop=loop)
+    web.run_app(app, port=port, loop=loop, ssl_context=ssl_context)
 
 
 if __name__ == "__main__":
