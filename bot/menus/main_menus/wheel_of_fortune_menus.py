@@ -72,3 +72,14 @@ def buy_random_num_menu(wof_info, user_balance, user_tickets, ticket_count=10):
     ])
 
     return text, kb
+
+
+def check_status_menu(selected_tickets, random_tickets):
+    text = _('WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1').format(selected_tickets=selected_tickets, random_tickets=random_tickets)
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE'), callback_data="ticket_page_next")],
+        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE'), callback_data="ticket_page_previous")],
+        [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="wheel_of_fortune")],
+    ])
+
+    return text, kb
