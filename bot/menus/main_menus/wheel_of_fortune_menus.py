@@ -50,17 +50,24 @@ def buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num=''):
                                                          user_balance=user_balance, ticket_cost=ticket_cost,
                                                          user_tickets=user_tickets, ticket_num=ticket_num)
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_this_ticket")],
+        [InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_ticket_selected_num")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
 
     return text, kb
 
 
-def buy_random_num_menu():
-    text = _('WOF_MENU_BUY_RANDOM_TICKET_TEXT')
+def buy_random_num_menu(wof_info, user_balance, user_tickets, ticket_count=10):
+    how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
+    ticket_cost = wof_info.ticket_cost
+    text = _('WOF_MENU_BUY_RANDOM_TICKET_TEXT').format(how_much_tickets_can_buy=how_much_tickets_can_buy,
+                                                       user_balance=user_balance, ticket_cost=ticket_cost,
+                                                       user_tickets=user_tickets)
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_('WOF_BTN_BUY_RANDOM_NUM_MENU'), callback_data="buy_this_ticket")],
+        [InlineKeyboardButton(text='-', callback_data="change_tickets_count_-"),
+         InlineKeyboardButton(text=ticket_count, callback_data="display_count_ticket"),
+         InlineKeyboardButton(text='+', callback_data="change_tickets_count_+")],
+        [InlineKeyboardButton(text=_('WOF_BTN_BUY_RANDOM_NUM_MENU'), callback_data="buy_ticket_random_num")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
 

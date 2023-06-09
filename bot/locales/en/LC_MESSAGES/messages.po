@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-08 20:12+0300\n"
+"POT-Creation-Date: 2023-06-09 19:37+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -209,24 +209,41 @@ msgstr "GO!"
 msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:66
-msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:82
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:117
+msgid "WOF_BUY_TICKET_ERR_CHOOSE_SMALLER_QUANTITY"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:70
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:90
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:89
+msgid "WOF_BUY_TICKET_ERR_MIN_TICKETS_COUNT"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:109
+msgid "WOF_BUY_TICKET_ERR_ENTER_DIGITS"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:113
+msgid "WOF_BUY_TICKET_ERR_ENTER_POSITIVE_NUM"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:137
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:187
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:77
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:146
+msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:154
 msgid "WOF_BUY_TICKET_SUCCESS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:82
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:179
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:86
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:183
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr ""
 
@@ -314,7 +331,7 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:25
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:64
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -590,11 +607,11 @@ msgstr ""
 msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:61
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:63
 msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:63
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:70
 msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-08 20:12+0300\n"
+"POT-Creation-Date: 2023-06-09 19:37+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -247,24 +247,41 @@ msgstr "Іду"
 msgid "SETTINGS_LANG_CHANGED"
 msgstr "Мову змінено!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:66
-msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
-msgstr "У вас недостатньо грошей!"
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:82
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:117
+msgid "WOF_BUY_TICKET_ERR_CHOOSE_SMALLER_QUANTITY"
+msgstr "Ви можете купити не більше {how_much_tickets_can_buy} квитків!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:70
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:90
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:89
+msgid "WOF_BUY_TICKET_ERR_MIN_TICKETS_COUNT"
+msgstr "Ви не можете купити менше одного квитка!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:109
+msgid "WOF_BUY_TICKET_ERR_ENTER_DIGITS"
+msgstr "Введене значення має бути числом!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:113
+msgid "WOF_BUY_TICKET_ERR_ENTER_POSITIVE_NUM"
+msgstr "Не наїбеш, вводь позитивне число!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:137
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:187
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr "Білет з таким номером вже існує!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:77
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:146
+msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
+msgstr "У вас недостатньо грошей!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:154
 msgid "WOF_BUY_TICKET_SUCCESS"
 msgstr "✅ Білет куплено"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:82
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:179
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr "Введіть тільки цифри!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:86
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:183
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr "Введіть тільки 7 цифр!"
 
@@ -357,7 +374,7 @@ msgstr "Налаштування"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:25
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:64
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -649,10 +666,10 @@ msgstr ""
 "🎟 Купи свій білет!\n"
 "💫 Обери свій щасливий номер або купи відразу багато білетів з випадковими номерами! \n"
 "\n"
-"Баланс: {user_balance}\n"
-"Скіко білетів можна купити: {how_much_tickets_can_buy}\n"
-"Вартість білету: {ticket_cost}\n"
-"Скіко в мене: {user_tickets}"
+"Баланс: {user_balance} 💎\n"
+"Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
+"Вартість білету: {ticket_cost} 💎\n"
+"Скіко в мене: {user_tickets} 🎟"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:38
 msgid "WOF_BTN_BUY_TICKET_MENU_SELECT_NUM"
@@ -666,29 +683,30 @@ msgstr "Взяти випадкові номери"
 msgid "WOF_MENU_BUY_SELECTED_TICKET_TEXT"
 msgstr ""
 "🎟 Надішліть 7 будь-яких цифр (приклад: 7777777)\n"
-"Ваш номер: {ticket_num}\n"
 "\n"
-"Баланс: {user_balance}\n"
-"Скіко білетів можна купити: {how_much_tickets_can_buy}\n"
-"Вартість білету: {ticket_cost}\n"
-"Скіко в мене: {user_tickets}"
+"Ваш номер: <b>{ticket_num}</b> 🎟\n"
+"\n"
+"Баланс: {user_balance} 💎\n"
+"Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
+"Вартість білету: {ticket_cost} 💎\n"
+"Скіко в мене: {user_tickets} 🎟"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:53
 msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
 msgstr "Купити білет"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:61
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:63
 msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
 msgstr ""
 "🎟 Скіко білетів треба?\n"
 "Оберіть або введіть необхідну к-сть білетів\n"
 "\n"
-"Баланс:\n"
-"Скіко білетів можна купити:\n"
-"Вартість білету: \n"
-"Скіко в мене: "
+"Баланс: {user_balance} 💎\n"
+"Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
+"Вартість білету: {ticket_cost} 💎\n"
+"Скіко в мене: {user_tickets} 🎟"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:63
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:70
 msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
 msgstr "Купити білет"
 
