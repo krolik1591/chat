@@ -46,7 +46,7 @@ class WoFTickets(manager.Model):
 
     ticket_num = BigIntegerField()
     ticket_type = CharField()
-    timestamp_buy_last_ticket = DateTimeField()
+    buy_timestamp = DateTimeField()
 
 
 class WoFSettings(manager.Model):

@@ -58,7 +58,7 @@ async def buy_random_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.enter_tickets_count)
 
     wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
-    how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
+    how_much_tickets_can_buy = int(user_balance // wof_info.ticket_cost)
 
     if how_much_tickets_can_buy <= DEFAULT_TICKET_COUNT:
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: how_much_tickets_can_buy})
@@ -79,15 +79,9 @@ async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
     tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
 
     if count_update == '+':
-        if tickets_count >= how_much_tickets_can_buy:
-            await call.answer(_('WOF_BUY_TICKET_ERR_CHOOSE_SMALLER_QUANTITY')
-                              .format(how_much_tickets_can_buy=how_much_tickets_can_buy),
-                              show_alert=True)
-            return
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count + 1})
     else:
-        if tickets_count <= 1:
-            await call.answer(_('WOF_BUY_TICKET_ERR_MIN_TICKETS_COUNT'), show_alert=True)
+        if int(tickets_count) <= 1:
             return
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count - 1})
 
@@ -107,7 +101,7 @@ async def enter_tickets_count(message: types.Message, state: FSMContext):
     if await check_ticket_count(message, tickets_count, how_much_tickets_can_buy):
         return
 
-    await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count})
+    await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: int(tickets_count)})
 
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
     text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, tickets_count)
@@ -139,8 +133,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
         return
 
     with manager.pw_database.atomic():
-        for ticket in tickets:
-            await db.add_new_ticket(call.from_user.id, ticket, ticket_type)
+        await db.add_new_ticket(call.from_user.id, tickets, ticket_type)
         await db.update_user_balance(call.from_user.id, 'general', -wof_info.ticket_cost * len(tickets))
 
     await call.answer(_('WOF_BUY_TICKET_SUCCESS'), show_alert=True)
