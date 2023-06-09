@@ -146,7 +146,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     await call.answer(_('WOF_BUY_TICKET_SUCCESS'), show_alert=True)
 
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
-    user_tickets = await db.get_user_tickets(call.from_user.id)
+    user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
 
     if buy_ticket_type == 'selected_num':
         text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets)
@@ -197,5 +197,5 @@ async def check_ticket_count(message, tickets_count, how_much_tickets_can_buy):
 async def display_wof_info(user_id):
     wof_info = await db.get_wheel_info()
     user_balance = await db.get_user_balance(user_id, 'general')
-    user_tickets = await db.get_user_tickets(user_id)
+    user_tickets = await db.get_count_user_tickets(user_id, 'all')
     return wof_info, user_balance, user_tickets

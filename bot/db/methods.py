@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 
 from peewee import fn
 
-from bot.db.models import GameLog, Settings, Transactions, User, Wallets_key, WithdrawTx, WoFSettings, WoFTickets
+from bot.db.models import GameLog, Transactions, User, Wallets_key, WithdrawTx, WoFSettings, WoFTickets
 
 
 # users
@@ -260,9 +260,23 @@ async def get_wheel_info():
     return result[0]
 
 
-async def get_user_tickets(tg_id):
-    result = await WoFTickets.select().where(WoFTickets.user_id == tg_id).count()
+async def get_count_user_tickets(tg_id, type_):
+    if type_ == 'all':
+        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id).count()
+    else:
+        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_).count()
     return result
+
+
+async def get_number_of_user_tickets(tg_id, type_):
+    if type_ == 'all':
+        result = await WoFTickets.select(WoFTickets.ticket_num).where(WoFTickets.user_id == tg_id)
+        tickets = [ticket.ticket_num for ticket in result]
+    else:
+        result = await WoFTickets.select(WoFTickets.ticket_num).where(WoFTickets.user_id == tg_id,
+                                                                      WoFTickets.ticket_type == type_)
+        tickets = [ticket.ticket_num for ticket in result]
+    return tickets
 
 
 async def get_user_wof_win(tg_id):
@@ -287,7 +301,7 @@ async def check_ticket_in_db(ticket_num):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_user_tickets(7575)
+        x = await get_number_of_user_tickets(357108179, 'all')
         print(x)
 
 
