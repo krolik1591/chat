@@ -15,6 +15,7 @@ class Menu(StatesGroup):
     # WheelOfFortune
     enter_ticket_num = State()
     enter_tickets_count = State()
+    enter_pages = State()
 
 
 class StateKeys:
@@ -38,6 +39,8 @@ class StateKeys:
     # WheelOfFortune
     TICKET_NUM = 'ticket_num'
     RANDOM_TICKETS_COUNT = 'random_tickets_count'
+    TICKETS_TO_DISPLAY = 'tickets_to_display'
+    CURRENT_PAGE = 'current_page'
 
 
 class Games:
