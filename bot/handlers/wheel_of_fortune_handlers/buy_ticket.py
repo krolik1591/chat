@@ -112,7 +112,7 @@ async def enter_tickets_count(message: types.Message, state: FSMContext):
 async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     buy_ticket_type = call.data.removeprefix("buy_ticket_")
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
-    wof_info = await db.get_wheel_info()
+    wof_info = await db.get_active_wheel_info()
 
     if buy_ticket_type == 'selected_num':
         ticket_num = (await state.get_data()).get(StateKeys.TICKET_NUM)
@@ -188,7 +188,7 @@ async def check_ticket_count(message, tickets_count, how_much_tickets_can_buy):
 
 
 async def display_wof_info(user_id):
-    wof_info = await db.get_wheel_info()
+    wof_info = await db.get_active_wheel_info()
     user_balance = await db.get_user_balance(user_id, 'general')
     user_tickets = await db.get_count_user_tickets(user_id, 'all')
     return wof_info, user_balance, user_tickets

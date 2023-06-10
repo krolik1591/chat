@@ -54,7 +54,8 @@ class WoFSettings(manager.Model):
 
     ticket_cost = BigIntegerField()
     commission = BigIntegerField()
-    who_win = CharField()
+    rewards = CharField()
+    winners = CharField()
 
     timestamp_start = DateTimeField()
     timestamp_end = DateTimeField(null=True)

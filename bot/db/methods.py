@@ -243,8 +243,8 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 # Wheel of Fortune
 
 
-async def add_wheel_of_fortune_settings(ticket_cost, commission, who_win, date_end):
-    return await WoFSettings.create(ticket_cost=ticket_cost, commission=commission, who_win=who_win,
+async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, date_end):
+    return await WoFSettings.create(ticket_cost=ticket_cost, commission=commission, rewards=rewards, winners=[],
                                     timestamp_end=date_end, timestamp_start=datetime.utcnow())
 
 
@@ -257,8 +257,15 @@ async def add_new_ticket(user_id, tickets_num, ticket_type):
     await WoFTickets.bulk_create(ticket_objects)
 
 
-async def get_wheel_info():
+async def get_active_wheel_info():
     result = await WoFSettings.select().where(WoFSettings.is_active == 1)
+    if len(result) == 0:
+        return None
+    return result[0]
+
+
+async def get_last_deactivate_wheel_info():
+    result = await WoFSettings.select().where(WoFSettings.is_active == 0).order_by(WoFSettings.timestamp_end.desc())
     if len(result) == 0:
         return None
     return result[0]
@@ -305,7 +312,7 @@ async def check_ticket_in_db(ticket_num):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_number_of_user_tickets(357108179, 'all')
+        x = await add_wheel_of_fortune_settings(20, 10, [70, 20], datetime.utcnow())
         print(x)
 
 
