@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-10 14:05+0300\n"
+"POT-Creation-Date: 2023-06-10 15:02+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -274,10 +274,22 @@ msgstr "Введіть тільки 7 цифр!"
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr "Нема білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:42
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:37
 msgid "WOF_CHECK_STATUS_ANSWER"
-msgstr "Ваш статус:\n"
+msgstr ""
+"Ваш статус:\n"
 "Дата наступного спіна: {date_end}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:44
+msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
+msgstr "Усе попереду!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:48
+msgid "WOF_SPIN_RESULT_ANSWER"
+msgstr ""
+"Дата останнього спіна: {date_end}\n\n"
+"Щасливі номери:\n"
+"{text}"
 
 #: ../../bot/menus/account_menus/account_menu.py:8
 #: ../../bot/menus/game_menus/select_balance.py:10

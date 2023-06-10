@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from aiogram import Router, types
 from aiogram.filters import Text
@@ -35,6 +36,22 @@ async def check_status_menu(call: types.CallbackQuery, state: FSMContext):
     wof_info = await db.get_active_wheel_info()
     locale_datetime = await get_locale_datetime(state, wof_info.timestamp_end)
     await call.answer(_('WOF_CHECK_STATUS_ANSWER').format(date_end=locale_datetime), show_alert=True)
+
+
+@router.callback_query(Text("spin_result"))
+async def spin_result_answer(call: types.CallbackQuery, state: FSMContext):
+    last_wof_info = await db.get_last_deactivate_wheel_info()
+    if not last_wof_info:
+        await call.answer(_('WOF_SPIN_RESULT_ANSWER_ERROR'), show_alert=True)
+        return
+
+    winners = json.loads(last_wof_info.winners)
+    text = ''
+    for place, winner in enumerate(winners, start=1):
+        text += f'{place} - {winner}\n'
+
+    locale_datetime = await get_locale_datetime(state, last_wof_info.timestamp_end)
+    await call.answer(_('WOF_SPIN_RESULT_ANSWER').format(date_end=locale_datetime, text=text), show_alert=True)
 
 
 async def get_locale_datetime(state, date_end):

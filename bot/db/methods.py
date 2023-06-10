@@ -312,7 +312,9 @@ async def check_ticket_in_db(ticket_num):
 
 if __name__ == "__main__":
     async def test():
-        x = await add_wheel_of_fortune_settings(20, 10, [70, 20], datetime.utcnow())
+        x = [70, 20]
+        y = json.dumps(x)
+        x = await add_wheel_of_fortune_settings(5, 5, y, datetime.utcnow())
         print(x)
 
 

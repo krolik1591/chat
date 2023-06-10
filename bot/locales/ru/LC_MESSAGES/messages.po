@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-10 14:05+0300\n"
+"POT-Creation-Date: 2023-06-10 15:02+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -236,8 +236,16 @@ msgstr ""
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:42
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:37
 msgid "WOF_CHECK_STATUS_ANSWER"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:44
+msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:48
+msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 
 #: ../../bot/menus/account_menus/account_menu.py:8
