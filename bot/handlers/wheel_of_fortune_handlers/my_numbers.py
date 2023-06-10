@@ -29,9 +29,15 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
     what_ticket_display = call.data.removeprefix("display_tickets_")
     if what_ticket_display == 'selected':
         user_selected_tickets = await db.get_number_of_user_tickets(call.from_user.id, 'selected')
+        if len(user_selected_tickets) == 0:
+            await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
+            return
         tickets_text = get_display_tickets_num_text(user_selected_tickets)
     else:
         user_random_tickets = await db.get_number_of_user_tickets(call.from_user.id, 'random')
+        if len(user_random_tickets) == 0:
+            await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
+            return
         tickets_text = get_display_tickets_num_text(user_random_tickets)
 
     await state.update_data(**{StateKeys.TICKETS_TO_DISPLAY: tickets_text})

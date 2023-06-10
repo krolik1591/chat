@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-10 12:57+0300\n"
+"POT-Creation-Date: 2023-06-10 13:40+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -268,6 +268,12 @@ msgstr "Введіть тільки цифри!"
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr "Введіть тільки 7 цифр!"
 
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:17
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:33
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:39
+msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
+msgstr "Нема білетів!"
+
 #: ../../bot/menus/account_menus/account_menu.py:8
 #: ../../bot/menus/game_menus/select_balance.py:10
 #: ../../bot/menus/game_menus/select_game.py:9 ../../bot/menus/main_menu.py:8
@@ -358,7 +364,7 @@ msgstr "Налаштування"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:95
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
@@ -697,16 +703,18 @@ msgstr "Купити білет"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:78
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
-msgstr "Знаєш скіко?\n\n"
+msgstr ""
+"Знаєш скіко?\n"
+"\n"
 "Усі білети: {all_tickets}\n"
 "Обрані вами: {selected_tickets}\n"
 "Згенеровані: {random_tickets}"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:81
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:82
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"
 msgstr "Обрані білетики"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:82
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM"
 msgstr "Згенеровані білетики"
 
@@ -717,12 +725,12 @@ msgstr ""
 "{tickets_text}"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93
-msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
-msgstr "Наступна сторінка"
-
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
 msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr "Попередня сторінка"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
+msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
+msgstr "Наступна сторінка"
 
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"

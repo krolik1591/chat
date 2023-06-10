@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-10 12:57+0300\n"
+"POT-Creation-Date: 2023-06-10 13:40+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -230,6 +230,12 @@ msgstr ""
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr ""
 
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:17
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:33
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:39
+msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
+msgstr ""
+
 #: ../../bot/menus/account_menus/account_menu.py:8
 #: ../../bot/menus/game_menus/select_balance.py:10
 #: ../../bot/menus/game_menus/select_game.py:9 ../../bot/menus/main_menu.py:8
@@ -315,7 +321,7 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:95
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
@@ -604,11 +610,11 @@ msgstr ""
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:81
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:82
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:82
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM"
 msgstr ""
 
@@ -617,11 +623,11 @@ msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
 msgstr ""
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93
-msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
+msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr ""
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
-msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
+msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
 msgstr ""
 
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
