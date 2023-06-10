@@ -25,5 +25,6 @@ async def update_language(call: types.CallbackQuery, state: FSMContext, i18n_mid
 
     await call.answer(_('SETTINGS_LANG_CHANGED'))
 
+    last_msg_id = (await state.get_data()).get('last_msg_id')
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await send_main_menu(context)
+    await send_main_menu(context, last_msg_id)
