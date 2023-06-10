@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-10 15:02+0300\n"
+"POT-Creation-Date: 2023-06-10 15:58+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -274,22 +274,32 @@ msgstr "Введіть тільки 7 цифр!"
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr "Нема білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:37
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:31
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:43
+msgid "WOF_NO_DATE_END"
+msgstr "скоро буде"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:44
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr ""
 "Ваш статус:\n"
 "Дата наступного спіна: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:44
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:48
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:60
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
-"Дата останнього спіна: {date_end}\n\n"
+"Дата останнього спіна: {date_end}\n"
+"\n"
 "Щасливі номери:\n"
 "{text}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:72
+msgid "WOF_REMAINING_TIME"
+msgstr "через "
 
 #: ../../bot/menus/account_menus/account_menu.py:8
 #: ../../bot/menus/game_menus/select_balance.py:10

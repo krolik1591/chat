@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-10 15:02+0300\n"
+"POT-Creation-Date: 2023-06-10 15:58+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -236,16 +236,25 @@ msgstr ""
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:37
-msgid "WOF_CHECK_STATUS_ANSWER"
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:31
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:43
+msgid "WOF_NO_DATE_END"
 msgstr ""
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:44
+msgid "WOF_CHECK_STATUS_ANSWER"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:48
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:60
 msgid "WOF_SPIN_RESULT_ANSWER"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:72
+msgid "WOF_REMAINING_TIME"
 msgstr ""
 
 #: ../../bot/menus/account_menus/account_menu.py:8
