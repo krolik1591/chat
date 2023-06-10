@@ -303,6 +303,10 @@ async def get_all_tickets_num():
     return all_ticket
 
 
+async def get_all_tickets():
+    return await WoFTickets.select()
+
+
 async def check_ticket_in_db(ticket_num):
     result = await WoFTickets.select().where(WoFTickets.ticket_num == ticket_num)
     if len(result) == 0:

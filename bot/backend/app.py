@@ -8,7 +8,7 @@ import aiohttp_cors
 from aiohttp import web
 from aiohttp.web_request import Request
 
-from bot.db.methods import add_wheel_of_fortune_settings
+from bot.db import db
 from bot.utils.cert import get_ssl_context
 
 routes = web.RouteTableDef()
@@ -20,16 +20,19 @@ async def hello(request: Request):
 
 
 @routes.get('/get_fortune_wheel')
-async def is_exist_wheel(request: Request):
+async def get_fortune_wheel(request: Request):
     assert check_auth(request.headers.get("X-Auth"), request.app['bot'].token), "Invalid auth"
+    wheel = await db.get_active_wheel_info()
+    if not wheel:
+        return web.Response(text="null")
 
-    hui = {
-        'ticket_cost': 10,
-        'date_creature': '2021-10-10',
-        'date_end': '2021-10-11',
+    tickets = await db.get_all_tickets()
+    result = {
+        'wheel': wheel.__data__,
+        'tickets': [t.__data__ for t in tickets]
     }
-    # return web.Response(text=json.dumps(hui))
-    return web.json_response(text='false')
+
+    return web.json_response(text=json.dumps(result, default=str))
 
 
 @routes.post('/create_fortune_wheel')
@@ -39,15 +42,12 @@ async def create_fortune_wheel(request: Request):
     form_data = await request.json()
     try:
         ticket_cost = int(form_data['ticket_cost'])
-    except ValueError:
-        return web.Response(text='"Ticket cost must be a number"', status=400)
-
-    date_end = form_data['end_date']
-    if date_end < time.time():
-        return web.Response(text='"Date end must be in the future"')
-
-    winner_list = json.dumps(form_data['distribution'])
-    await add_wheel_of_fortune_settings(ticket_cost, form_data['commission'], winner_list, form_data['end_date'])
+        commission = int(form_data['commission'])
+        date_end = int(form_data['end_date'])
+        winner_list = json.dumps(form_data['distribution'])
+        await db.add_wheel_of_fortune_settings(ticket_cost, commission, winner_list, date_end)
+    except Exception as e:
+        return web.Response(text=f"Error: {e}", status=400)
     return web.Response(text='{"ok": "ok"}')
 
 

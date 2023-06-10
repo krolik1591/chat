@@ -48,7 +48,7 @@ async def enter_ticket_num(message: types.Message, state: FSMContext):
     try:
         await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=keyboard)
     except exceptions.TelegramBadRequest as e:
-        print("User enter the same ticket num")
+        print("User enter the same ticket num", e)
 
     await state.update_data(**{StateKeys.TICKET_NUM: ticket_num})
 
