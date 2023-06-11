@@ -302,7 +302,7 @@ msgstr "Усе попереду!"
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:68
 msgid "WOF_CLAIM_REWARD_ANSWER"
-msgstr "Ваш виграш {} токенів, зарахован на ваш баланс!"
+msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
 msgid "WOF_NO_DATE_END"
@@ -683,7 +683,7 @@ msgstr "Забрати нагороду"
 msgid "WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU"
 msgstr ""
 "Розіграш завершено! \n"
-"Ваша нагорода за минулий розіграш: {user_wof_win}\n"
+"За минулий розіграш ви ще не забрали: {user_wof_win}\n"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:34
 msgid "WOF_MENU_BUY_TICKET_TEXT"

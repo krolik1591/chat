@@ -330,10 +330,8 @@ async def update_wof_result(winners):
 
 if __name__ == "__main__":
     async def test():
-        x = [70, 20]
-        y = json.dumps(x)
-        x = await add_wheel_of_fortune_settings(5, 5, y, datetime.utcnow())
-        print(x)
+        x = await get_user_wof_win(357108179)
+        print(bool(x))
 
 
     import asyncio

@@ -16,18 +16,22 @@ router = Router()
 
 @router.callback_query(Text("wheel_of_fortune"))
 async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext):
-    wof_info = await db.get_active_wheel_info()
-    user_wof_win = await db.get_user_wof_win(call.from_user.id)
-
-    if not wof_info:
-        text, keyboard = wheel_of_fortune_doesnt_exist_menu(user_wof_win)
-        await call.message.edit_text(text, reply_markup=keyboard)
+    if not await get_correct_wof_menu(call, state):
         return
+
+
+async def get_correct_wof_menu(call, state):
+    wof_info = await db.get_active_wheel_info()
+    wof_reward = await db.get_user_wof_win(call.from_user.id)
+    if not wof_info:
+        text, keyboard = wheel_of_fortune_doesnt_exist_menu(wof_reward)
+        await call.message.edit_text(text, reply_markup=keyboard)
+        return True
 
     user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
     time_diff_text = await get_time_diff_text(state, wof_info.timestamp_end)
 
-    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_diff_text, user_tickets, user_wof_win)
+    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_diff_text, user_tickets, wof_reward)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
@@ -56,16 +60,18 @@ async def spin_result_answer(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text("claim_reward"))
 async def claim_reward(call: types.CallbackQuery, state: FSMContext):
-    reward = db.get_user_wof_win(call.from_user.id)
-    if not reward:
+    wof_reward = await db.get_user_wof_win(call.from_user.id)
+    if not wof_reward:
         await call.answer(_('WOF_CLAIM_REWARD_ANSWER_ERROR'), show_alert=True)
         return
 
+    await call.answer(_('WOF_CLAIM_REWARD_ANSWER').format(wof_reward=wof_reward), show_alert=True)
+
     with manager.pw_database.atomic():
-        await db.update_user_balance(call.from_user.id, 'general', reward)
+        await db.update_user_balance(call.from_user.id, 'general', wof_reward)
         await db.update_user_wof_win(call.from_user.id, 0)
 
-    await call.answer(_('WOF_CLAIM_REWARD_ANSWER').format(reward=reward), show_alert=True)
+    await get_correct_wof_menu(call, state)
 
 
 async def get_time_diff_text(state, date):
