@@ -323,6 +323,11 @@ async def whose_ticket(ticket_num):
     return result[0].user_id
 
 
+async def update_wof_result(winners):
+    return await WoFSettings.update({WoFSettings.is_active: 0, WoFSettings.winners: winners})\
+        .where(WoFSettings.is_active == 1)
+
+
 if __name__ == "__main__":
     async def test():
         x = [70, 20]
