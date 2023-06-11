@@ -266,7 +266,7 @@ msgstr "Введіть тільки цифри!"
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:168
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
-msgstr "Введіть тільки 7 цифр!"
+msgstr "Введіть не більше 7 цифр!"
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:17
 #: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:33

@@ -1,16 +1,15 @@
-from random import randint
+import random
 
 from aiogram import Router, exceptions, types
 from aiogram.filters import StateFilter, Text
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.i18n import gettext as _
 
-from bot.consts.const import DEFAULT_TICKET_COUNT, WOF_MAX_NUM, WOF_MIN_NUM
+from bot.consts.const import DEFAULT_TICKET_COUNT, MAX_BUY_TICKETS_PER_ONE_CLICK, WOF_MAX_NUM, WOF_MIN_NUM
 from bot.db import db, manager
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.main_menus.wheel_of_fortune_menus import buy_random_num_menu, buy_selected_num_menu, buy_ticket_menu
 from bot.menus.utils import kb_del_msg
-
-from aiogram.utils.i18n import gettext as _
 
 router = Router()
 
@@ -73,7 +72,6 @@ async def buy_random_ticket(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(startswith="change_tickets_count_"))
 async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
     wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
-    how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
 
     count_update = call.data.removeprefix("change_tickets_count_")
     tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
@@ -123,10 +121,13 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
             return
         tickets = [ticket_num]
 
-    else:
+    else:   # buy_ticket_type == 'random_num'
         tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
         ticket_type = 'random'
         tickets = await create_random_tickets(tickets_count)
+        if not tickets:
+            await call.answer(_('WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS'), show_alert=True)
+            return
 
     if user_balance < wof_info.ticket_cost * len(tickets):
         await call.answer(_('WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY'), show_alert=True)
@@ -150,13 +151,21 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
 
 
 async def create_random_tickets(tickets_count):
-    result = []
-    for item in range(int(tickets_count)):
-        ticket_num = randint(WOF_MIN_NUM, WOF_MAX_NUM)
-        while await db.check_ticket_in_db(ticket_num):
-            ticket_num = randint(WOF_MIN_NUM, WOF_MAX_NUM)
-        result.append(ticket_num)
-    return result
+    if tickets_count > MAX_BUY_TICKETS_PER_ONE_CLICK:
+        return
+    if tickets_count < 500:
+        result = []
+        for item in range(int(tickets_count)):
+            ticket_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
+            while await db.check_ticket_in_db(ticket_num):
+                ticket_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
+            result.append(ticket_num)
+        return result
+    else:
+        possible_tickets = set(range(WOF_MIN_NUM, WOF_MAX_NUM + 1))
+        purchased_tickets = await db.get_all_purchased_tickets_num()
+        available_tickets = list(possible_tickets - purchased_tickets)
+        return random.sample(available_tickets, tickets_count)
 
 
 async def check_ticket_num(message, ticket_num):
@@ -164,7 +173,7 @@ async def check_ticket_num(message, ticket_num):
         await message.answer(_('WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS'), reply_markup=kb_del_msg())
         return True
 
-    if len(ticket_num) != 7:
+    if len(ticket_num) > 7:
         await message.answer(_('WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL'), reply_markup=kb_del_msg())
         return True
 
