@@ -29,7 +29,7 @@ async def get_correct_wof_menu(call, state):
         return True
 
     user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
-    time_diff_text = await get_time_diff_text(state, wof_info.timestamp_end)
+    time_diff_text = await get_time_diff_text_to_spin(state, wof_info.timestamp_end)
 
     text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_diff_text, user_tickets, wof_reward)
     await call.message.edit_text(text, reply_markup=keyboard)
@@ -38,8 +38,18 @@ async def get_correct_wof_menu(call, state):
 @router.callback_query(Text("check_status"))
 async def check_status_menu(call: types.CallbackQuery, state: FSMContext):
     wof_info = await db.get_active_wheel_info()
-    time_diff_text = await get_time_diff_text(state, wof_info.timestamp_end)
-    await call.answer(_('WOF_CHECK_STATUS_ANSWER').format(date_end=time_diff_text), show_alert=True)
+    time_diff_text = await get_time_diff_text_to_spin(state, wof_info.timestamp_end)
+
+    if not wof_info:
+        await call.answer(_('WOF_CHECK_STATUS_ANSWER'), show_alert=True)
+        return
+
+    user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
+    if user_tickets == 0:
+        await call.answer(_('WOF_CHECK_STATUS_NO_TICKETS').format(date_end=time_diff_text), show_alert=True)
+    else:
+        await call.answer(_('WOF_CHECK_STATUS_TICKETS').format(date_end=time_diff_text, user_tickets=user_tickets),
+                          show_alert=True)
 
 
 @router.callback_query(Text("spin_result"))
@@ -74,7 +84,7 @@ async def claim_reward(call: types.CallbackQuery, state: FSMContext):
     await get_correct_wof_menu(call, state)
 
 
-async def get_time_diff_text(state, date):
+async def get_time_diff_text_to_spin(state, date):
     if date:
         time_diff = await get_time_difference_to_spin(state, date)
     else:

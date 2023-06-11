@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-11 15:48+0300\n"
+"POT-Creation-Date: 2023-06-11 17:49+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -248,7 +248,7 @@ msgid "SETTINGS_LANG_CHANGED"
 msgstr "Мову змінено!"
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:120
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:181
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:182
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr "Білет з таким номером вже існує!"
 
@@ -256,19 +256,19 @@ msgstr "Білет з таким номером вже існує!"
 msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
 msgstr "Ви не можете купити більше {maximum_ticket} білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:133
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:134
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
 msgstr "У вас недостатньо грошей!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:140
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:141
 msgid "WOF_BUY_TICKET_SUCCESS"
 msgstr "✅ Білет куплено"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:173
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:174
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr "Введіть тільки цифри!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:177
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:178
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr "Введіть не більше 7 цифр!"
 
@@ -278,17 +278,26 @@ msgstr "Введіть не більше 7 цифр!"
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr "Нема білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:38
-msgid "WOF_CHECK_STATUS_ANSWER"
-msgstr ""
-"Ваш статус:\n"
-"Дата наступного спіна: {date_end}"
-
 #: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:45
+msgid "WOF_CHECK_STATUS_NO_TICKETS"
+msgstr "Ви ще не берете участь, купіть білет!\n"
+"Наступний спін: {date_end}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:46
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
+msgid "WOF_CHECK_STATUS_ANSWER"
+msgstr "Чекайте!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:49
+msgid "WOF_CHECK_STATUS_TICKETS"
+msgstr "Ви приймаєте участь, у вас {user_tickets} білетів!\n"
+"Наступний спін: {date_end}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:54
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:68
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 "Дата останнього спіна: {date_end}\n"
@@ -296,15 +305,15 @@ msgstr ""
 "Щасливі номери:\n"
 "{text}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:61
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:68
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:78
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:91
 msgid "WOF_NO_DATE_END"
 msgstr "скоро буде"
 
