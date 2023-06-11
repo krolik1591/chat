@@ -1,12 +1,11 @@
 import datetime
 import json
-import humanize
 
+import humanize
 from aiogram import Router, types
 from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
-from babel.dates import format_timedelta
 
 from bot.db import db
 from bot.menus.main_menus.wheel_of_fortune_menus import wheel_of_fortune_doesnt_exist_menu, \
@@ -26,23 +25,17 @@ async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext):
         return
 
     user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
-    if wof_info.timestamp_end:
-        locale_datetime = await get_locale_datetime(state, wof_info.timestamp_end)
-    else:
-        locale_datetime = _('WOF_NO_DATE_END')
+    time_diff_text = await get_time_diff_text(state, wof_info.timestamp_end)
 
-    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, locale_datetime, user_tickets, user_wof_win)
+    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_diff_text, user_tickets, user_wof_win)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
 @router.callback_query(Text("check_status"))
 async def check_status_menu(call: types.CallbackQuery, state: FSMContext):
     wof_info = await db.get_active_wheel_info()
-    if wof_info.timestamp_end:
-        locale_datetime = await get_locale_datetime(state, wof_info.timestamp_end)
-    else:
-        locale_datetime = _('WOF_NO_DATE_END')
-    await call.answer(_('WOF_CHECK_STATUS_ANSWER').format(date_end=locale_datetime), show_alert=True)
+    time_diff_text = await get_time_diff_text(state, wof_info.timestamp_end)
+    await call.answer(_('WOF_CHECK_STATUS_ANSWER').format(date_end=time_diff_text), show_alert=True)
 
 
 @router.callback_query(Text("spin_result"))
@@ -57,19 +50,24 @@ async def spin_result_answer(call: types.CallbackQuery, state: FSMContext):
     for place, winner in enumerate(winners, start=1):
         text += f'{place} - {winner}\n'
 
-    locale_datetime = await get_locale_datetime(state, last_wof_info.timestamp_end)
-    await call.answer(_('WOF_SPIN_RESULT_ANSWER').format(date_end=locale_datetime, text=text), show_alert=True)
+    time_diff = await get_time_difference_to_spin(state, last_wof_info.timestamp_end)
+    await call.answer(_('WOF_SPIN_RESULT_ANSWER').format(date_end=time_diff, text=text), show_alert=True)
 
 
-async def get_locale_datetime(state, date_end):
+async def get_time_diff_text(state, date):
+    if date:
+        time_diff = await get_time_difference_to_spin(state, date)
+    else:
+        time_diff = _('WOF_NO_DATE_END')
+    return time_diff
+
+
+async def get_time_difference_to_spin(state, date_end):
     if isinstance(date_end, int):
         timestamp = date_end / 1000  # Ділимо на 1000, оскільки ми працюємо з мілісекундами
         date_end = datetime.datetime.fromtimestamp(timestamp)
 
     locale = (await state.get_data()).get('locale')
-    # current_time = datetime.datetime.now()
-    # remaining_time = date_end - current_time
 
-    _t = humanize.i18n.activate(locale)
-    x = humanize.naturaltime(date_end)
-    return x
+    humanize.i18n.activate(locale)
+    return humanize.naturaltime(date_end)
