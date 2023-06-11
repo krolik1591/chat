@@ -1,5 +1,6 @@
 import datetime
 import json
+import humanize
 
 from aiogram import Router, types
 from aiogram.filters import Text
@@ -66,8 +67,9 @@ async def get_locale_datetime(state, date_end):
         date_end = datetime.datetime.fromtimestamp(timestamp)
 
     locale = (await state.get_data()).get('locale')
-    current_time = datetime.datetime.now()
-    remaining_time = date_end - current_time
+    # current_time = datetime.datetime.now()
+    # remaining_time = date_end - current_time
 
-    text = _('WOF_REMAINING_TIME')
-    return text + format_timedelta(remaining_time, locale=locale)
+    _t = humanize.i18n.activate(locale)
+    x = humanize.naturaltime(date_end)
+    return x
