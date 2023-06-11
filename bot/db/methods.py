@@ -295,7 +295,7 @@ async def get_user_wof_win(tg_id):
     return result[0].wof_win
 
 
-async def get_all_purchased_tickets_num():
+async def get_all_sold_tickets_num():
     result = await WoFTickets.select()
     all_ticket = set()
     for ticket in result:
@@ -312,6 +312,15 @@ async def check_ticket_in_db(ticket_num):
     if len(result) == 0:
         return False
     return True
+
+
+async def update_user_wof_win(tg_id, win):
+    return await User.update({User.wof_win: win}).where(User.user_id == tg_id)
+
+
+async def whose_ticket(ticket_num):
+    result = await WoFTickets.select().where(WoFTickets.ticket_num == ticket_num)
+    return result[0].user_id
 
 
 if __name__ == "__main__":
