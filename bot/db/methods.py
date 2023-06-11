@@ -243,8 +243,8 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 # Wheel of Fortune
 
 
-async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, date_end):
-    return await WoFSettings.create(ticket_cost=ticket_cost, commission=commission, rewards=rewards, winners=[],
+async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, date_end=None):
+    return await WoFSettings.create(ticket_cost=ticket_cost, commission=commission, rewards=rewards,
                                     timestamp_end=date_end, timestamp_start=datetime.utcnow())
 
 
@@ -330,7 +330,7 @@ async def update_wof_result(winners):
 
 if __name__ == "__main__":
     async def test():
-        x = await get_user_wof_win(357108179)
+        x = await add_wheel_of_fortune_settings(2, 7, [50, 30, 20])
         print(bool(x))
 
 
