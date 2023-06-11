@@ -7,7 +7,7 @@ from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
 
-from bot.db import db
+from bot.db import db, manager
 from bot.menus.main_menus.wheel_of_fortune_menus import wheel_of_fortune_doesnt_exist_menu, \
     wheel_of_fortune_menu
 
@@ -52,6 +52,20 @@ async def spin_result_answer(call: types.CallbackQuery, state: FSMContext):
 
     time_diff = await get_time_difference_to_spin(state, last_wof_info.timestamp_end)
     await call.answer(_('WOF_SPIN_RESULT_ANSWER').format(date_end=time_diff, text=text), show_alert=True)
+
+
+@router.callback_query(Text("claim_reward"))
+async def claim_reward(call: types.CallbackQuery, state: FSMContext):
+    reward = db.get_user_wof_win(call.from_user.id)
+    if not reward:
+        await call.answer(_('WOF_CLAIM_REWARD_ANSWER_ERROR'), show_alert=True)
+        return
+
+    with manager.pw_database.atomic():
+        await db.update_user_balance(call.from_user.id, 'general', reward)
+        await db.update_user_wof_win(call.from_user.id, 0)
+
+    await call.answer(_('WOF_CLAIM_REWARD_ANSWER').format(reward=reward), show_alert=True)
 
 
 async def get_time_diff_text(state, date):
