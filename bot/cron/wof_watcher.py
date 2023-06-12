@@ -38,9 +38,12 @@ async def spin_wheel_of_fortune():
     bank = len(sold_tickets) * wof_info.ticket_cost * wof_info.commission / 100
     rewards = json.loads(wof_info.rewards)
 
-    winner_num = get_winner_ticket(wof_info.random_seed)
+    win_tickets = get_winner_tickets(wof_info.random_seed, len(rewards))
 
-    winners = await detect_winners(winner_num, sold_tickets, len(rewards))
+    winners = [
+        detect_winner(win_ticket, sold_tickets)
+        for win_ticket in win_tickets
+    ]
 
     winners_info = []
     for winner_num, percent_reward in zip(winners, rewards):
@@ -52,19 +55,21 @@ async def spin_wheel_of_fortune():
     await db.update_wof_result(json.dumps(winners_info))
 
 
-def get_winner_ticket(seed):
+def get_winner_tickets(seed, count=1):
     random.seed(seed)
-    winner_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
-    return winner_num
+    return [
+        random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
+        for _ in range(count)
+    ]
 
 
-async def detect_winners(winner_num, sold_tickets, winners_count):
-    scores = [(ticket, calc_score(ticket, winner_num)) for ticket in sold_tickets]
-
-    winners = sorted(scores, key=lambda x: x[1])
-    winners = winners[:winners_count]
-    winners = [x[0] for x in winners]
-    return winners
+def detect_winner(winner_num, sold_tickets):
+    scores = (
+        (ticket, calc_score(ticket, winner_num))
+        for ticket in sold_tickets
+    )
+    winner = min(scores, key=lambda x: x[1])
+    return winner[0]
 
 
 def calc_score(user_number, winning_number):
