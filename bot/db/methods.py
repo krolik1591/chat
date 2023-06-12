@@ -300,7 +300,7 @@ async def get_user_wof_win(tg_id):
 
 
 async def get_all_sold_tickets_num():
-    result = await WoFTickets.select()
+    result = await WoFTickets.select(WoFTickets.ticket_num)
     return set(ticket.ticket_num for ticket in result)
 
 
