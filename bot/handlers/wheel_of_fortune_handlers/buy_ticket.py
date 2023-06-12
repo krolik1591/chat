@@ -185,7 +185,7 @@ async def check_ticket_num(message, ticket_num):
     return False
 
 
-async def check_ticket_count(message, tickets_count, how_much_tickets_can_buy):
+async def check_ticket_count(tickets_count):
     try:
         tickets_count = int(tickets_count)
     except ValueError:

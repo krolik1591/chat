@@ -1,5 +1,6 @@
 import json
-from datetime import datetime, time, timedelta
+import time
+import datetime
 
 from peewee import fn
 
@@ -10,8 +11,8 @@ from bot.db.models import GameLog, Transactions, User, Wallets_key, WithdrawTx, 
 
 
 async def create_new_user(tg_id, username, referrer, start_points):
-    return await User.create(user_id=tg_id, username=username, timestamp_registered=datetime.utcnow(),
-                             timestamp_last_active=datetime.utcnow(), referrer=referrer, balance_demo=start_points)
+    return await User.create(user_id=tg_id, username=username, timestamp_registered=time.time(),
+                             timestamp_last_active=time.time(), referrer=referrer, balance_demo=start_points)
 
 
 async def update_username(tg_id, username):
@@ -30,7 +31,7 @@ async def set_user_lang(tg_id, new_lang):
 
 
 async def set_user_last_active(tg_id):
-    return await User.update({User.timestamp_last_active: datetime.utcnow()}).where(User.user_id == tg_id)
+    return await User.update({User.timestamp_last_active: time.time()}).where(User.user_id == tg_id)
 
 
 # admin
@@ -50,7 +51,7 @@ async def user_blocked_bot(tg_id, is_blocked=True):
 
 async def update_datetime_and_amount_ref_withdraw(tg_id, amount):
     return await User.update({User.total_ref_withdraw: fn.Round(User.total_ref_withdraw + amount, 2),
-                              User.timestamp_ref_withdraw: datetime.utcnow()}).where(User.user_id == tg_id)
+                              User.timestamp_ref_withdraw: time.time()}).where(User.user_id == tg_id)
 
 
 async def get_date_last_total_ref_withdraw(tg_id):
@@ -125,8 +126,8 @@ async def update_user_balance(user_id, balance_type, balance_to_add):
 
 
 async def get_user_daily_total_amount(user_id):
-    today_midnight = datetime.combine(datetime.today().date(), time())
-    next_day_midnight = today_midnight + timedelta(days=1)
+    today_midnight = datetime.datetime.combine(datetime.datetime.today().date(), datetime.time())
+    next_day_midnight = today_midnight + datetime.timedelta(days=1)
 
     result = await Transactions.select(fn.SUM(Transactions.amount)).where(
         Transactions.user_id == user_id,
@@ -237,21 +238,22 @@ async def insert_game_log(user_id, balance_type, game_info, bet, result, game):
 
     return await GameLog.create(user_id=user_id, balance_type=balance_type,
                                 game=game, game_info=game_info,
-                                bet=bet, result=result, timestamp=datetime.utcnow())
+                                bet=bet, result=result, timestamp=time.time())
 
 
 # Wheel of Fortune
 
 
-async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, date_end=None):
+async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, random_seed, date_end=None):
     return await WoFSettings.create(ticket_cost=ticket_cost, commission=commission, rewards=rewards,
-                                    timestamp_end=date_end, timestamp_start=datetime.utcnow())
+                                    timestamp_end=date_end, timestamp_start=time.time(), random_seed=random_seed)
 
 
 async def add_new_ticket(user_id, tickets_num, ticket_type):
+    time_ = time.time()
     ticket_objects = [
         WoFTickets(user_id=user_id, ticket_num=ticket_num, ticket_type=ticket_type,
-                   buy_timestamp=datetime.utcnow())
+                   buy_timestamp=time_)
         for ticket_num in tickets_num
     ]
     await WoFTickets.bulk_create(ticket_objects)
@@ -292,15 +294,12 @@ async def get_number_of_user_tickets(tg_id, type_):
 
 async def get_user_wof_win(tg_id):
     result = await User.select(User.wof_win).where(User.user_id == tg_id)
-    return result[0].wof_win
+    return result[0].wof_win  # todo why fetch all and return only first? why first?
 
 
 async def get_all_sold_tickets_num():
     result = await WoFTickets.select()
-    all_ticket = set()
-    for ticket in result:
-        all_ticket.add(ticket.ticket_num)
-    return all_ticket
+    return set(ticket.ticket_num for ticket in result)
 
 
 async def get_all_tickets():
@@ -330,8 +329,8 @@ async def update_wof_result(winners):
 
 if __name__ == "__main__":
     async def test():
-        x = await add_wheel_of_fortune_settings(2, 7, [50, 30, 20])
-        print(bool(x))
+        x = await get_active_wheel_info()
+        print(x.timestamp_end)
 
 
     import asyncio

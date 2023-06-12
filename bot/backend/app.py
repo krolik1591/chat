@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import json
+import secrets
 from urllib.parse import unquote
 
 import aiohttp_cors
@@ -43,8 +44,10 @@ async def create_fortune_wheel(request: Request):
         ticket_cost = int(form_data['ticket_cost'])
         commission = int(form_data['commission'])
         date_end = int(form_data['end_date'])
+        print(date_end)
         winner_list = json.dumps(form_data['distribution'])
-        await db.add_wheel_of_fortune_settings(ticket_cost, commission, winner_list, date_end)
+        nonce = secrets.token_bytes(16).hex()  # generate a 16-byte (128-bit)
+        await db.add_wheel_of_fortune_settings(ticket_cost, commission, winner_list, nonce, date_end)
     except Exception as e:
         return web.Response(text=f"Error: {e}", status=400)
     return web.Response(text='{"ok": "ok"}')
