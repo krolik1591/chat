@@ -8,6 +8,7 @@ from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
 from bot import backend
+from bot.cron.wof_watcher import start_wof_timer
 from bot.db import first_start
 from bot.handlers import routers
 from bot.middlewares.throttling import ThrottlingMiddleware
@@ -49,6 +50,7 @@ async def main(bot):
 
     asyncio.create_task(watch_txs(ton_wrapper, bot, i18n))
     asyncio.create_task(find_and_reject_lost_tx(bot, i18n))
+    asyncio.create_task(start_wof_timer())
 
     try:
         print("me:", await bot.get_me())

@@ -1,7 +1,6 @@
 import hashlib
 import hmac
 import json
-import time
 from urllib.parse import unquote
 
 import aiohttp_cors
@@ -9,7 +8,6 @@ from aiohttp import web
 from aiohttp.web_request import Request
 
 from bot.db import db
-from bot.handlers.wheel_of_fortune_handlers.wof_start_event import start_wof_timer
 from bot.utils.cert import get_ssl_context
 
 routes = web.RouteTableDef()
@@ -47,8 +45,6 @@ async def create_fortune_wheel(request: Request):
         date_end = int(form_data['end_date'])
         winner_list = json.dumps(form_data['distribution'])
         await db.add_wheel_of_fortune_settings(ticket_cost, commission, winner_list, date_end)
-        if date_end:
-            await start_wof_timer(date_end)
     except Exception as e:
         return web.Response(text=f"Error: {e}", status=400)
     return web.Response(text='{"ok": "ok"}')

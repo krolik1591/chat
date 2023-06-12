@@ -8,13 +8,6 @@ from bot.consts.const import WOF_MAX_NUM, WOF_MIN_NUM
 from bot.utils.rounding import round_down
 
 
-async def start_wof_timer(date_end):
-    now = datetime.utcnow()
-    time_delta = date_end - now
-    seconds = time_delta.total_seconds()
-    asyncio.create_task(asyncio.sleep(seconds, start_wheel_of_fortune()))
-
-
 async def start_wheel_of_fortune():
     wof_info = await db.get_active_wheel_info()
     sold_tickets = list(await db.get_all_sold_tickets_num())
