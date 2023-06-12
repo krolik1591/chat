@@ -165,7 +165,7 @@ async def create_random_tickets(tickets_count):
         return result
     else:
         possible_tickets = set(range(WOF_MIN_NUM, WOF_MAX_NUM + 1))
-        purchased_tickets = await db.get_all_sold_tickets_num()
+        purchased_tickets = await db.get_all_sold_tickets_nums()
         available_tickets = list(possible_tickets - purchased_tickets)
         return random.sample(available_tickets, tickets_count)
 

@@ -58,7 +58,7 @@ async def get_user_wof_win(tg_id):
     return result[0].wof_win  # todo why fetch all and return only first? why first?
 
 
-async def get_all_sold_tickets_num():
+async def get_all_sold_tickets_nums():
     result = await WoFTickets.select(WoFTickets.ticket_num)
     return set(ticket.ticket_num for ticket in result)
 
