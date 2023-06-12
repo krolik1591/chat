@@ -12,6 +12,8 @@ router = Router()
 
 @router.callback_query(Text("my_numbers"))
 async def my_numbers(call: types.CallbackQuery, state: FSMContext):
+    await state.set_state(Menu.delete_message)
+
     all_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
     if all_tickets == 0:
         await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
