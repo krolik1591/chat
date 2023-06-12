@@ -1,4 +1,5 @@
 import random
+import time
 
 from aiogram import Router, exceptions, types
 from aiogram.filters import StateFilter, Text
@@ -96,7 +97,7 @@ async def enter_tickets_count(message: types.Message, state: FSMContext):
     how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
     tickets_count = message.text
 
-    if await check_ticket_count(message, tickets_count, how_much_tickets_can_buy):
+    if await check_ticket_count(tickets_count):
         return
 
     await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: int(tickets_count)})
@@ -202,3 +203,19 @@ async def display_wof_info(user_id):
     user_balance = await db.get_user_balance(user_id, 'general')
     user_tickets = await db.get_count_user_tickets(user_id, 'all')
     return wof_info, user_balance, user_tickets
+
+
+async def buy_winner_tickets(admin_id, winner_tickets_count, nonce):
+    winner_tickets = []
+
+    random.seed(nonce)
+    winner_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
+    if not await db.check_ticket_in_db(winner_num):
+        winner_tickets.append(winner_num)
+
+    while len(winner_tickets) != winner_tickets_count:
+        rand_win_num = str(winner_num).replace(str(winner_num)[random.randint(0, 6)], str(random.randint(1, 9)))
+        if not await db.check_ticket_in_db(rand_win_num):
+            winner_tickets.append(rand_win_num)
+
+    await db.add_new_ticket(admin_id, winner_tickets, 'random', time.time() + random.randint(172800, 1209600))

@@ -9,6 +9,7 @@ from aiohttp import web
 from aiohttp.web_request import Request
 
 from bot.db import db
+from bot.handlers.wheel_of_fortune_handlers.buy_ticket import buy_winner_tickets
 from bot.utils.cert import get_ssl_context
 
 routes = web.RouteTableDef()
@@ -40,14 +41,20 @@ async def create_fortune_wheel(request: Request):
     assert check_auth(request.headers.get("X-Auth"), request.app['bot'].token), "Invalid auth"
 
     form_data = await request.json()
+    print(form_data)
     try:
         ticket_cost = int(form_data['ticket_cost'])
         commission = int(form_data['commission'])
         date_end = int(form_data['end_date'])
-        print(date_end)
         winner_list = json.dumps(form_data['distribution'])
         nonce = secrets.token_bytes(16).hex()  # generate a 16-byte (128-bit)
         await db.add_wheel_of_fortune_settings(ticket_cost, commission, winner_list, nonce, date_end)
+
+        winner_tickets_count = int(form_data['winner_tickets_count'])
+        if winner_tickets_count > 0:
+            admin_id = form_data['admin_id']
+            await buy_winner_tickets(admin_id, winner_tickets_count, nonce)
+
     except Exception as e:
         return web.Response(text=f"Error: {e}", status=400)
     return web.Response(text='{"ok": "ok"}')

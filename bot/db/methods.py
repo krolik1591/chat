@@ -249,11 +249,10 @@ async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, random
                                     timestamp_end=date_end, timestamp_start=time.time(), random_seed=random_seed)
 
 
-async def add_new_ticket(user_id, tickets_num, ticket_type):
-    time_ = time.time()
+async def add_new_ticket(user_id, tickets_num, ticket_type, buy_timestamp=time.time()):
     ticket_objects = [
         WoFTickets(user_id=user_id, ticket_num=ticket_num, ticket_type=ticket_type,
-                   buy_timestamp=time_)
+                   buy_timestamp=buy_timestamp)
         for ticket_num in tickets_num
     ]
     await WoFTickets.bulk_create(ticket_objects)
@@ -281,14 +280,17 @@ async def get_count_user_tickets(tg_id, type_):
     return result
 
 
-async def get_number_of_user_tickets(tg_id, type_):
+async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100):
     if type_ == 'all':
-        result = await WoFTickets.select(WoFTickets.ticket_num).where(WoFTickets.user_id == tg_id)
-        tickets = [ticket.ticket_num for ticket in result]
+        result = await WoFTickets.select(WoFTickets.ticket_num) \
+            .where(WoFTickets.user_id == tg_id) \
+            .offset(offset).limit(limit)
     else:
-        result = await WoFTickets.select(WoFTickets.ticket_num).where(WoFTickets.user_id == tg_id,
-                                                                      WoFTickets.ticket_type == type_)
-        tickets = [ticket.ticket_num for ticket in result]
+        result = await WoFTickets.select(WoFTickets.ticket_num) \
+            .where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_) \
+            .offset(offset).limit(limit)
+
+    tickets = [ticket.ticket_num for ticket in result]
     return tickets
 
 
@@ -323,7 +325,7 @@ async def whose_ticket(ticket_num):
 
 
 async def update_wof_result(winners):
-    return await WoFSettings.update({WoFSettings.is_active: 0, WoFSettings.winners: winners})\
+    return await WoFSettings.update({WoFSettings.is_active: 0, WoFSettings.winners: winners}) \
         .where(WoFSettings.is_active == 1)
 
 
