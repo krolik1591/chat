@@ -1,3 +1,5 @@
+from math import ceil
+
 from aiogram import Router, types
 from aiogram.filters import StateFilter, Text
 from aiogram.fsm.context import FSMContext
@@ -5,22 +7,26 @@ from aiogram.utils.i18n import gettext as _
 
 from bot.db import db
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.main_menus.wheel_of_fortune_menus import display_ticket_num_text, my_numbers_menu
+from bot.menus.main_menus.wheel_of_fortune_menus import display_ticket_num_text_menu, my_numbers_menu
 
 router = Router()
+
+# todo throttling
+
+
+TICKETS_ON_PAGE = 3 * 20
 
 
 @router.callback_query(Text("my_numbers"))
 async def my_numbers(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.delete_message)
 
-    all_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
-    if all_tickets == 0:
-        await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
-        return
-
     selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected')
     random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random')
+
+    if not selected_tickets_count and not random_tickets_count:
+        await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
+        return
 
     text, kb = my_numbers_menu(selected_tickets_count, random_tickets_count)
     await call.message.edit_text(text, reply_markup=kb)
@@ -28,24 +34,22 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text(startswith="display_tickets_"))
 async def my_numbers(call: types.CallbackQuery, state: FSMContext):
-    what_ticket_display = call.data.removeprefix("display_tickets_")
-    if what_ticket_display == 'selected':
-        user_selected_tickets = await db.get_number_of_user_tickets(call.from_user.id, 'selected')
-        if len(user_selected_tickets) == 0:
-            await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
-            return
-        tickets_text = get_display_tickets_num_text(user_selected_tickets)
-    else:
-        user_random_tickets = await db.get_number_of_user_tickets(call.from_user.id, 'random')
-        if len(user_random_tickets) == 0:
-            await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
-            return
-        tickets_text = get_display_tickets_num_text(user_random_tickets)
+    ticket_type = call.data.removeprefix("display_tickets_")
 
-    await state.update_data(**{StateKeys.TICKETS_TO_DISPLAY: tickets_text})
-    await state.update_data(**{StateKeys.CURRENT_PAGE: 1})
+    all_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type)
+    if all_tickets_count == 0:
+        await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
+        return
 
-    text, kb = display_ticket_num_text(tickets_text[0], 1, len(tickets_text))
+    total_pages = ceil(all_tickets_count / TICKETS_ON_PAGE)
+    await state.update_data(**{StateKeys.CURRENT_PAGE: 1,
+                               StateKeys.TOTAL_PAGES: total_pages,
+                               StateKeys.TICKET_TYPE: ticket_type,
+                               })
+
+    tickets_text = await get_tickets_on_page(call.from_user.id, ticket_type, 1)
+    text, kb = display_ticket_num_text_menu(tickets_text, 1, total_pages)
+
     await call.message.edit_text(text, reply_markup=kb)
     await state.set_state(Menu.enter_pages)
 
@@ -53,60 +57,52 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(startswith="ticket_page_"))
 async def scroll_ticket_pages(call: types.CallbackQuery, state: FSMContext):
     scroll = call.data.removeprefix("ticket_page_")
-    tickets_text = (await state.get_data()).get(StateKeys.TICKETS_TO_DISPLAY)
-    page = (await state.get_data()).get(StateKeys.CURRENT_PAGE)
-    if scroll == 'next':
-        if page + 1 > len(tickets_text):
-            await call.answer()
-            return
-        text, kb = display_ticket_num_text(tickets_text[page + 1], page + 1, len(tickets_text))
-        await call.message.edit_text(text, reply_markup=kb)
-        await state.update_data(**{StateKeys.CURRENT_PAGE: page + 1})
+    data = await state.get_data()
 
-    else:
-        if page == 1:
-            await call.answer()
-            return
-        text, kb = display_ticket_num_text(tickets_text[page - 1], page - 1, len(tickets_text))
-        await call.message.edit_text(text, reply_markup=kb)
-        await state.update_data(**{StateKeys.CURRENT_PAGE: page - 1})
+    new_page = data[StateKeys.CURRENT_PAGE] + (1 if scroll == "next" else -1)
+    if new_page < 1 or new_page > data[StateKeys.TOTAL_PAGES]:
+        await call.answer()
+        return
+
+    await state.update_data(**{StateKeys.CURRENT_PAGE: new_page})
+    tickets_text = await get_tickets_on_page(call.from_user.id, data[StateKeys.TICKET_TYPE], new_page)
+
+    text, kb = display_ticket_num_text_menu(tickets_text, new_page, data[StateKeys.TOTAL_PAGES])
+    await call.message.edit_text(text, reply_markup=kb)
 
 
 @router.message(StateFilter(Menu.enter_pages))
 async def enter_pages(message: types.Message, state: FSMContext):
     await message.delete()
+    data = await state.get_data()
 
-    tickets_text = (await state.get_data()).get(StateKeys.TICKETS_TO_DISPLAY)
-    last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
-    page = message.text
     try:
-        page = int(page)
+        new_page = int(message.text)
     except ValueError:
         return
 
-    if page > len(tickets_text) or page < 1:
+    if new_page < 1 or new_page > data[StateKeys.TOTAL_PAGES]:
         return
 
-    text, kb = display_ticket_num_text(tickets_text[page], page, len(tickets_text))
-    await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=kb)
-    await state.update_data(**{StateKeys.CURRENT_PAGE: page})
+    await state.update_data(**{StateKeys.CURRENT_PAGE: new_page})
+    tickets_text = await get_tickets_on_page(message.from_user.id, data[StateKeys.TICKET_TYPE], new_page)
+
+    text, kb = display_ticket_num_text_menu(tickets_text, new_page, data[StateKeys.TOTAL_PAGES])
+    await state.bot.edit_message_text(text, message.from_user.id, data[StateKeys.LAST_MSG_ID], reply_markup=kb)
+
+
+async def get_tickets_on_page(user_id, ticket_type, page):
+    page_tickets = await db.get_user_ticket_numbers(user_id, ticket_type, offset=TICKETS_ON_PAGE * (page - 1), limit=TICKETS_ON_PAGE)
+    tickets_text = get_display_tickets_num_text(page_tickets)
+    return tickets_text
 
 
 def get_display_tickets_num_text(tickets_num):
-    formatted_rows = []
-    max_digits = len(str(max(tickets_num)))
-    row = []
-    block = []
-    for i, num in enumerate(tickets_num, 1):
-        row.append(f"<code>{str(num).zfill(max_digits)}</code>")
-        if i % 3 == 0:
-            block.append(" | ".join(row))
-            row = []
-            if len(block) == 20:
-                formatted_rows.append("\n".join(block))
-                block = []
-    if row:
-        block.append(" | ".join(row))
-    if block:
-        formatted_rows.append("\n".join(block))
-    return formatted_rows
+    items_in_row = 3
+    tickets_rows = [tickets_num[i:i + items_in_row]
+                    for i in range(0, len(tickets_num), items_in_row)]
+
+    return "\n".join(
+        ' | '.join([f"<code>{num:07d}</code>" for num in row])
+        for row in tickets_rows
+    )

@@ -764,7 +764,7 @@ msgstr "Згенеровані білетики"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:91
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
 msgstr ""
-"Ваші білети (сторінка {page} з {pages}):\n"
+"Ваші білети (сторінка {page} з {pages}):\n\n"
 "{tickets_text}"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93

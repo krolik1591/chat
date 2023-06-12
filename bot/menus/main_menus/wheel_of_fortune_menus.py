@@ -87,11 +87,14 @@ def my_numbers_menu(selected_tickets, random_tickets):
     return text, kb
 
 
-def display_ticket_num_text(tickets_text, page, pages):
+def display_ticket_num_text_menu(tickets_text, page, pages):
     text = _('WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1').format(tickets_text=tickets_text, page=page, pages=pages)
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE'), callback_data="ticket_page_previous"),
-         InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE'), callback_data="ticket_page_next"), ],
+        [
+            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE'),
+                                 callback_data="ticket_page_previous"),
+            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE'), callback_data="ticket_page_next"),
+        ],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="my_numbers")],
     ])
 

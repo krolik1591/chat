@@ -39,8 +39,10 @@ class StateKeys:
     # WheelOfFortune
     TICKET_NUM = 'ticket_num'
     RANDOM_TICKETS_COUNT = 'random_tickets_count'
-    TICKETS_TO_DISPLAY = 'tickets_to_display'
+    # WheelOfFortune display my tickets
+    TICKET_TYPE = 'ticket_type'
     CURRENT_PAGE = 'current_page'
+    TOTAL_PAGES = 'tickets_to_display'
 
 
 class Games:
