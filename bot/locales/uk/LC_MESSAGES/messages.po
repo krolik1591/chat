@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-11 17:49+0300\n"
+"POT-Creation-Date: 2023-06-16 19:08+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -215,31 +215,31 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:25
+#: ../../bot/handlers/my_account_handlers/referrals.py:25
 msgid "REFERRALS_REFRESHED_TEXT"
 msgstr "✅ Статистика оновлена!"
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:36
+#: ../../bot/handlers/my_account_handlers/referrals.py:36
 msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
 msgstr "Недостатньо токенів для виведення. Мінімальна сума для виведення - {min_ref_withdraw} токенів."
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:43
+#: ../../bot/handlers/my_account_handlers/referrals.py:43
 msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
 msgstr "Токени виведені на головний баланс!"
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:68
+#: ../../bot/handlers/my_account_handlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
 msgstr "Здарова"
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:68
+#: ../../bot/handlers/my_account_handlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
 msgstr "Здарова заебал"
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:70
+#: ../../bot/handlers/my_account_handlers/referrals.py:70
 msgid "REFERRALS_SEND_INVITATION_TEXT"
 msgstr "Здарова заебал заходь"
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:72
+#: ../../bot/handlers/my_account_handlers/referrals.py:72
 msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
 msgstr "Іду"
 
@@ -247,57 +247,61 @@ msgstr "Іду"
 msgid "SETTINGS_LANG_CHANGED"
 msgstr "Мову змінено!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:120
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:182
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:114
+msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
+msgstr "Колесо фортуни більше не активне!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:122
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:184
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr "Білет з таким номером вже існує!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:129
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:131
 msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
 msgstr "Ви не можете купити більше {maximum_ticket} білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:134
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
 msgstr "У вас недостатньо грошей!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:141
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:143
 msgid "WOF_BUY_TICKET_SUCCESS"
 msgstr "✅ Білет куплено"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:174
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:176
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr "Введіть тільки цифри!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:178
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:180
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr "Введіть не більше 7 цифр!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:17
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:33
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:39
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:28
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:41
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr "Нема білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:45
-msgid "WOF_CHECK_STATUS_NO_TICKETS"
-msgstr "Ви ще не берете участь, купіть білет!\n"
-"Наступний спін: {date_end}"
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:46
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:38
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr "Чекайте!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:49
-msgid "WOF_CHECK_STATUS_TICKETS"
-msgstr "Ви приймаєте участь, у вас {user_tickets} білетів!\n"
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:43
+msgid "WOF_CHECK_STATUS_NO_TICKETS"
+msgstr ""
+"Ви ще не берете участь, купіть білет!\n"
 "Наступний спін: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:45
+msgid "WOF_CHECK_STATUS_TICKETS"
+msgstr ""
+"Ви приймаєте участь, у вас {user_tickets} білетів!\n"
+"Наступний спін: {date_end}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:53
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:68
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:63
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 "Дата останнього спіна: {date_end}\n"
@@ -305,15 +309,15 @@ msgstr ""
 "Щасливі номери:\n"
 "{text}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:70
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:78
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:73
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:91
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:84
 msgid "WOF_NO_DATE_END"
 msgstr "скоро буде"
 
@@ -408,7 +412,7 @@ msgstr "Налаштування"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:95
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:98
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -764,14 +768,15 @@ msgstr "Згенеровані білетики"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:91
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
 msgstr ""
-"Ваші білети (сторінка {page} з {pages}):\n\n"
+"Ваші білети (сторінка {page} з {pages}):\n"
+"\n"
 "{tickets_text}"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
 msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr "Попередня сторінка"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
 msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
 msgstr "Наступна сторінка"
 
@@ -870,33 +875,33 @@ msgstr ""
 msgid "WITHDRAW_MENU_BTN_STEP_3_APPROVE"
 msgstr "✅ Підтвердити"
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:44
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:43
 msgid "WITHDRAW_APPROVE"
 msgstr ""
 "✅ Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!\n"
 "\n"
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:47
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:46
 msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
 msgstr "На головну"
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:67
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:66
 msgid "ADMIN_APPROVE_TX"
 msgstr "Адмін схвалив вашу транзу на виведення {amount} 💎! Очікуйте поповнення :)"
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:72
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:71
 msgid "ADMIN_REJECT_TX"
 msgstr "Транза відхилена адміном. Токени повернені на баланс"
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:79
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:78
 msgid "PAYMENT_CONFIRMED"
 msgstr "✅ Гроші ({ton_amount} TON) зараховані на ваш рахунок!"
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:81
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:80
 msgid "PAYMENT_DENIED"
 msgstr "❌ Гроші ({ton_amount} TON) не зараховані, токени повернені на баланс."
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:89
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:88
 msgid "PAYMENT_LOST"
 msgstr "Транзакція на вивід {ton_amount} TON загублена блокчейном, токени повернені на баланс. \n"
 

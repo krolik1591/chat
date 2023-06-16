@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-11 17:49+0300\n"
+"POT-Creation-Date: 2023-06-16 19:08+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -177,31 +177,31 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:25
+#: ../../bot/handlers/my_account_handlers/referrals.py:25
 msgid "REFERRALS_REFRESHED_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:36
+#: ../../bot/handlers/my_account_handlers/referrals.py:36
 msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
 msgstr ""
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:43
+#: ../../bot/handlers/my_account_handlers/referrals.py:43
 msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
 msgstr ""
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:68
+#: ../../bot/handlers/my_account_handlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:68
+#: ../../bot/handlers/my_account_handlers/referrals.py:68
 msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:70
+#: ../../bot/handlers/my_account_handlers/referrals.py:70
 msgid "REFERRALS_SEND_INVITATION_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/my_account_heandlers/referrals.py:72
+#: ../../bot/handlers/my_account_handlers/referrals.py:72
 msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
 msgstr ""
 
@@ -209,67 +209,69 @@ msgstr ""
 msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:120
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:182
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:114
+msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:122
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:184
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:129
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:131
 msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:134
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:141
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:143
 msgid "WOF_BUY_TICKET_SUCCESS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:174
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:176
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:178
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:180
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:17
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:33
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:39
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:28
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:41
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:45
-msgid "WOF_CHECK_STATUS_NO_TICKETS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:46
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:38
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:49
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:43
+msgid "WOF_CHECK_STATUS_NO_TICKETS"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:45
 msgid "WOF_CHECK_STATUS_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:53
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:68
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:63
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:70
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:78
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:73
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:91
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:84
 msgid "WOF_NO_DATE_END"
 msgstr ""
 
@@ -359,7 +361,7 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:95
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:98
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -659,11 +661,11 @@ msgstr ""
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
 msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
 msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
 msgstr ""
 
@@ -723,31 +725,31 @@ msgstr ""
 msgid "WITHDRAW_MENU_BTN_STEP_3_APPROVE"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:44
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:43
 msgid "WITHDRAW_APPROVE"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:47
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:46
 msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:67
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:66
 msgid "ADMIN_APPROVE_TX"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:72
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:71
 msgid "ADMIN_REJECT_TX"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:79
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:78
 msgid "PAYMENT_CONFIRMED"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:81
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:80
 msgid "PAYMENT_DENIED"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:89
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:88
 msgid "PAYMENT_LOST"
 msgstr ""
 

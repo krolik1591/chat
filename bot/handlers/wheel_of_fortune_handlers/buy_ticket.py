@@ -110,6 +110,9 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     buy_ticket_type = call.data.removeprefix("buy_ticket_")
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
     wof_info = await db.get_active_wheel_info()
+    if not wof_info:
+        await call.answer(_('WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL'), show_alert=True)
+        return
 
     if buy_ticket_type == 'selected_num':
         ticket_num = (await state.get_data()).get(StateKeys.TICKET_NUM)
