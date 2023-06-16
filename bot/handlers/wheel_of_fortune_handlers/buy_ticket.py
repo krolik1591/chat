@@ -118,6 +118,10 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
         ticket_num = (await state.get_data()).get(StateKeys.TICKET_NUM)
         ticket_type = 'selected'
 
+        if not ticket_num:
+            await call.answer()
+            return
+
         if await db.check_ticket_in_db(ticket_num):
             await call.answer(_('WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS'), show_alert=True)
             return
@@ -126,11 +130,17 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     else:   # buy_ticket_type == 'random_num'
         tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
         ticket_type = 'random'
-        tickets = await create_random_tickets(tickets_count)
-        if not tickets:
+
+        if tickets_count > MAX_BUY_TICKETS_PER_ONE_CLICK:
             await call.answer(_('WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS')
                               .format(maximum_ticket=MAX_BUY_TICKETS_PER_ONE_CLICK), show_alert=True)
             return
+
+        tickets = await create_random_tickets(tickets_count)
+
+    if not tickets:
+        await call.answer(_('WOF_BUY_TICKET_ERR_NO_TICKETS'), show_alert=True)
+        return
 
     if user_balance < wof_info.ticket_cost * len(tickets):
         await call.answer(_('WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY'), show_alert=True)
@@ -154,8 +164,6 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
 
 
 async def create_random_tickets(tickets_count):
-    if tickets_count > MAX_BUY_TICKETS_PER_ONE_CLICK:
-        return
     if tickets_count < 500:
         result = []
         for item in range(int(tickets_count)):

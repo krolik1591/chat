@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-16 19:08+0300\n"
+"POT-Creation-Date: 2023-06-16 19:34+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -251,28 +251,32 @@ msgstr "Мову змінено!"
 msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
 msgstr "Колесо фортуни більше не активне!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:122
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:184
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:126
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:191
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr "Білет з таким номером вже існує!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:131
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:135
 msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
 msgstr "Ви не можете купити більше {maximum_ticket} білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:141
+msgid "WOF_BUY_TICKET_ERR_NO_TICKETS"
+msgstr "У вас немає білетів!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:145
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
 msgstr "У вас недостатньо грошей!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:143
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:152
 msgid "WOF_BUY_TICKET_SUCCESS"
 msgstr "✅ Білет куплено"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:176
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:183
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr "Введіть тільки цифри!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:180
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:187
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr "Введіть не більше 7 цифр!"
 
@@ -993,4 +997,7 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 
 #~ msgid "WOF_REMAINING_TIME"
 #~ msgstr "через "
+
+#~ msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
+#~ msgstr "Ви не можете купити більше {maximum_ticket} білетів!"
 
