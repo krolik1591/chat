@@ -55,7 +55,7 @@ async def spin_result_answer(call: types.CallbackQuery, i18n: I18n):
 
     winners = json.loads(last_wof_info.winners)
     text = '\n'.join([
-        f'{place} - {winner}'
+        f'{place} - {winner[0]}'
         for place, winner in enumerate(winners, start=1)
     ])
 
