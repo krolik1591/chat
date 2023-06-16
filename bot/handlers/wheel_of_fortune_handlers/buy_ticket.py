@@ -81,6 +81,7 @@ async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count + 1})
     else:
         if int(tickets_count) <= 1:
+            await call.answer()
             return
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count - 1})
 
