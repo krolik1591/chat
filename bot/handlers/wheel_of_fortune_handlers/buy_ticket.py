@@ -75,18 +75,15 @@ async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
     wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
 
     count_update = call.data.removeprefix("change_tickets_count_")
-    tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
+    data = await state.get_data()
 
-    if count_update == '+':
-        await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count + 1})
-    else:
-        if int(tickets_count) <= 1:
-            await call.answer()
-            return
-        await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: tickets_count - 1})
+    new_tickets_count = data[StateKeys.RANDOM_TICKETS_COUNT] + (1 if count_update == "+" else -1)
+    if new_tickets_count < 1:
+        await call.answer()
+        return
+    await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: new_tickets_count})
 
-    tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
-    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, tickets_count)
+    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, new_tickets_count)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
