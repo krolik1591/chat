@@ -49,7 +49,7 @@ def withdraw_queued(withdraw_amount_token, withdraw_amount_ton):
     return text, kb
 
 
-def admin_manual_tx(user_id, username, token_id, withdraw_amount, id_new_tx):
+def admin_manual_tx(user_id, username, withdraw_amount, id_new_tx):
     text = '@{username} (id: {user_id}) хоче вивести купу грошей: {withdraw_amount}.'\
         .format(user_id=user_id, username=username, withdraw_amount=withdraw_amount)
 
