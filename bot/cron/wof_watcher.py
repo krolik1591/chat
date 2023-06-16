@@ -24,6 +24,7 @@ async def start_wof_timer():
         time_before_wof_finish = wof_info.timestamp_end - time.time()
         logging.info(f"Seconds to WOF: {time_before_wof_finish}")
         if time_before_wof_finish < HOUR:
+            await asyncio.sleep(time_before_wof_finish)
             logging.info("Timer to WOF is started")
             await spin_wheel_of_fortune()
 
@@ -32,6 +33,7 @@ async def start_wof_timer():
 
 async def spin_wheel_of_fortune():
     logging.info('Starting Wheel of Fortune')
+    print('Starting Wheel of Fortune')
 
     wof_info = await db.get_active_wheel_info()
     sold_tickets = list(await db.get_all_sold_tickets_nums())
