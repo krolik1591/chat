@@ -121,7 +121,8 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     token = await tokens.get_token_by_id(token_id)
 
     #  Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!
-    text, keyboard = withdraw_menu.withdraw_queued(withdraw_amount)
+    withdraw_amount_ton = await token.from_gametokens(withdraw_amount)
+    text, keyboard = withdraw_menu.withdraw_queued(withdraw_amount, withdraw_amount_ton)
     await call.message.edit_text(text, reply_markup=keyboard)
 
     can_withdraw_today = await how_much_can_withdraw_today(call.from_user.id)
