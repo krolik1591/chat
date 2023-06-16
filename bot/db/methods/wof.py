@@ -87,3 +87,6 @@ async def update_wof_result(winners):
     return await WoFSettings.update({WoFSettings.is_active: 0, WoFSettings.winners: winners}) \
         .where(WoFSettings.is_active == 1)
 
+
+async def delete_wof_tickets():
+    return await WoFTickets.delete()

@@ -5,7 +5,7 @@ import random
 import time
 
 from bot.consts.const import WOF_MAX_NUM, WOF_MIN_NUM
-from bot.db import db
+from bot.db import db, manager
 from bot.utils.rounding import round_down
 
 HOUR = 3600
@@ -52,7 +52,9 @@ async def spin_wheel_of_fortune():
         winners_info.append((winner_num, tg_id, reward))
         await db.update_user_wof_win(tg_id, reward)
 
-    await db.update_wof_result(json.dumps(winners_info))
+    with manager.pw_database.atomic():
+        await db.update_wof_result(json.dumps(winners_info))
+        await db.delete_wof_tickets()
 
 
 def get_winner_tickets(seed, count=1):
