@@ -6,30 +6,35 @@ from urllib.parse import unquote
 import aiohttp_cors
 from aiohttp import web
 from aiohttp.web import middleware
+from aiohttp.web_request import Request
 
 from bot.backend.wof import routes as wof_routers
 from bot.utils.cert import get_ssl_context
 
 
 @middleware
-async def check_auth_middleware(request, handler):
+async def check_auth_middleware(request: Request, handler):
     bot_token = request.app['bot'].token
-    is_valid, tg_id = check_auth(request.headers.get("X-Auth"), bot_token)
-    if not is_valid or tg_id not in (185520398,):  # todo check admin list
-        return web.Response(text="Unauthorized", status=401)
+    if request.method != "OPTIONS":
+        is_valid, tg_id = check_auth(request.headers.get("X-Auth"), bot_token)
+        if not is_valid or tg_id not in (185520398,):  # todo check admin list
+            return web.Response(text="Unauthorized", status=401)
 
     return await handler(request)
 
 
 # todo as middleware
 def check_auth(auth: str, bot_token: str):
+    if not auth:
+        return None, None
+
     bot_token = hashlib.sha256(bot_token.encode()).digest()
 
     auth = json.loads(unquote(auth))
     token = "\n".join(sorted([f"{k}={v}" for k, v in auth.items() if k != "hash"]))
     token_hash = hmac.new(bot_token, token.encode(), hashlib.sha256).hexdigest()
 
-    return auth["hash"] == token_hash, auth.id
+    return auth["hash"] == token_hash, auth["id"]
 
 
 def run(port=8080, loop=None, bot=None, ssl_context=None):
