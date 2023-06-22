@@ -39,6 +39,13 @@ async def add_win_ticket(request: Request):
     return web.Response(text='{"ok": "ok"}')
 
 
+@routes.post('/change_date_end')
+async def add_win_ticket(request: Request):
+    form_data = await request.json()
+    await db.change_date_end(form_data['end_date'])
+    return web.Response(text='{"ok": "ok"}')
+
+
 @routes.post('/create_fortune_wheel')
 async def create_fortune_wheel(request: Request):
     form_data = await request.json()

@@ -90,3 +90,7 @@ async def update_wof_result(winners):
 
 async def delete_wof_tickets():
     return await WoFTickets.delete()
+
+
+async def change_date_end(date_end):
+    return await WoFSettings.update({WoFSettings.timestamp_end: date_end}).where(WoFSettings.is_active == 1)
