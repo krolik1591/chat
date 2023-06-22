@@ -108,5 +108,23 @@ def calc_score_digit(user_digit, winning_digit, digit_index):
     return 1111111 + score_difference
 
 
+async def display_winners_info(wof_info):
+    rewards = json.loads(wof_info.rewards)
+    win_tickets = get_winner_tickets(wof_info.random_seed, len(rewards))
+    sold_tickets = list(await db.get_all_sold_tickets_nums())
+
+    winners = [
+        detect_winner(win_ticket, sold_tickets)
+        for win_ticket in win_tickets
+    ]
+
+    winners_info = []
+    for winner_num, percent_reward in zip(winners, rewards):
+        tg_id = await db.whose_ticket(winner_num)
+        winners_info.append((winner_num, tg_id))
+
+    return winners_info
+
+
 if __name__ == '__main__':
     asyncio.run(spin_wheel_of_fortune())
