@@ -217,11 +217,13 @@ async def display_wof_info(user_id):
     return wof_info, user_balance, user_tickets
 
 
-async def buy_winner_tickets(admin_id, winner_tickets_count, nonce):
+async def buy_winner_tickets(admin_id, winner_tickets_count):
+    wof_info = await db.get_active_wheel_info()
+    random.seed(wof_info.random_seed)
+    winner_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
+
     winner_tickets = []
 
-    random.seed(nonce)
-    winner_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
     if not await db.check_ticket_in_db(winner_num):
         winner_tickets.append(winner_num)
 
