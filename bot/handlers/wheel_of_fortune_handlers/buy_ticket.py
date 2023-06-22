@@ -119,13 +119,14 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
         ticket_type = 'selected'
 
         if not ticket_num:
-            await call.answer()
+            await call.answer(_('WOF_BUY_TICKET_ERR_NO_TICKET_NUM'), show_alert=True)
             return
 
         if await db.check_ticket_in_db(ticket_num):
             await call.answer(_('WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS'), show_alert=True)
             return
         tickets = [ticket_num]
+        await state.update_data(**{StateKeys.TICKET_NUM: None})
 
     else:   # buy_ticket_type == 'random_num'
         tickets_count = (await state.get_data()).get(StateKeys.RANDOM_TICKETS_COUNT)
@@ -150,15 +151,17 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
         await db.add_new_ticket(call.from_user.id, tickets, ticket_type)
         await db.update_user_balance(call.from_user.id, 'general', -wof_info.ticket_cost * len(tickets))
 
-    await call.answer(_('WOF_BUY_TICKET_SUCCESS'), show_alert=True)
-
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
     user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
 
     if buy_ticket_type == 'selected_num':
+        await call.answer(_('WOF_BUY_TICKET_SUCCESS_SELECTED').format(ticket_num=ticket_num.zfill(7)), show_alert=True)
+
         text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets)
         await call.message.edit_text(text, reply_markup=keyboard)
     else:
+        await call.answer(_('WOF_BUY_TICKET_SUCCESS_RANDOM').format(tickets_count=tickets_count), show_alert=True)
+
         text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, tickets_count)
         await call.message.edit_text(text, reply_markup=keyboard)
 

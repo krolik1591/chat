@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-16 19:34+0300\n"
+"POT-Creation-Date: 2023-06-22 14:47+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -213,32 +213,40 @@ msgstr ""
 msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
 msgstr ""
 
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:122
+msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
+msgstr ""
+
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:126
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:191
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:195
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:135
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
 msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:141
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:143
 msgid "WOF_BUY_TICKET_ERR_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:145
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:147
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:152
-msgid "WOF_BUY_TICKET_SUCCESS"
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:158
+msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:183
-msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:163
+msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
 msgstr ""
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:187
+msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:191
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr ""
 
@@ -362,10 +370,10 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:14
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:25
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:98
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:55
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:72
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:85
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:99
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -637,39 +645,39 @@ msgstr ""
 msgid "WOF_MENU_BUY_SELECTED_TICKET_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:53
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
 msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:63
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:64
 msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:70
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
 msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:78
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:79
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:82
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:91
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:92
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:95
 msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:97
 msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
 msgstr ""
 
@@ -838,5 +846,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_SUCCESS"
 #~ msgstr ""
 
