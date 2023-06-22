@@ -21,6 +21,11 @@ async def start_wof_timer():
             logging.info("WOF TIMER SLEEP")
             continue
 
+        if not wof_info.timestamp_end:
+            await asyncio.sleep(HOUR)
+            logging.info("WOF TIMER SLEEP")
+            continue
+
         time_before_wof_finish = wof_info.timestamp_end - time.time()
         logging.info(f"Seconds to WOF: {time_before_wof_finish}")
         if time_before_wof_finish < HOUR:
