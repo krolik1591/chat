@@ -52,7 +52,7 @@ async def main(bot):
     asyncio.create_task(start_wof_timer())
 
     try:
-        print("me:", await bot.get_me())
+        print("me:", await bot.me())
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
     finally:
         await bot.session.close()

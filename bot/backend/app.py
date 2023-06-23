@@ -9,24 +9,29 @@ from aiohttp.web import middleware
 from aiohttp.web_request import Request
 
 from bot.backend.wof import routes as wof_routers
+from bot.backend.other import routes as other_routers
 
 
 @middleware
 async def check_auth_middleware(request: Request, handler):
-    bot_token = request.app['bot'].token
     if request.method != "OPTIONS":
-        is_valid, tg_id = check_auth(request.headers.get("X-Auth"), bot_token)
-        if not is_valid or tg_id not in (185520398,):  # todo check admin list
-            return web.Response(text="Unauthorized", status=401)
+        auth = request.headers.get("X-Auth")
+        bot_token = request.app['bot'].token
+
+        if not auth or auth == "null":
+            return web.Response(text="No auth header", status=401)
+
+        is_valid, tg_id = check_auth(auth, bot_token)
+        if not is_valid:
+            return web.Response(text="Invalid auth", status=401)
+        if tg_id not in (185520398,):  # todo check admin list
+            return web.Response(text="Not a admin", status=401)
 
     return await handler(request)
 
 
 # todo as middleware
 def check_auth(auth: str, bot_token: str):
-    if not auth:
-        return None, None
-
     bot_token = hashlib.sha256(bot_token.encode()).digest()
 
     auth = json.loads(unquote(auth))
@@ -40,6 +45,7 @@ def run(port=8080, loop=None, bot=None, ssl_context=None):
     app = web.Application(middlewares=[check_auth_middleware])
     app['bot'] = bot
     app.add_routes(wof_routers)
+    app.add_routes(other_routers)
 
     cors = aiohttp_cors.setup(app, defaults={
         "*": aiohttp_cors.ResourceOptions(allow_credentials=True, expose_headers="*", allow_headers="*")
