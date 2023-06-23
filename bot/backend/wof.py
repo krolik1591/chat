@@ -11,7 +11,7 @@ from bot.handlers.wheel_of_fortune_handlers.buy_ticket import buy_winner_tickets
 routes = web.RouteTableDef()
 
 
-@routes.get('/get_fortune_wheel')
+@routes.get('/wof/get')
 async def get_fortune_wheel(request: Request):
     wheel = await db.get_active_wheel_info()
     if not wheel:
@@ -32,21 +32,21 @@ async def get_fortune_wheel(request: Request):
     return web.json_response(text=json.dumps(result, default=str))
 
 
-@routes.post('/add_win_ticket')
+@routes.post('/wof/add_win_ticket')
 async def add_win_ticket(request: Request):
     form_data = await request.json()
     await buy_winner_tickets(form_data['admin_id'], 1)
     return web.Response(text='{"ok": "ok"}')
 
 
-@routes.post('/change_date_end')
+@routes.post('/wof/change_date_end')
 async def add_win_ticket(request: Request):
     form_data = await request.json()
     await db.change_date_end(form_data['end_date'])
     return web.Response(text='{"ok": "ok"}')
 
 
-@routes.post('/create_fortune_wheel')
+@routes.post('/wof/create')
 async def create_fortune_wheel(request: Request):
     form_data = await request.json()
     print(form_data)
