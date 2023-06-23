@@ -14,7 +14,6 @@ from bot.handlers import routers
 from bot.middlewares.throttling import ThrottlingMiddleware
 from bot.tokens.token_ton import TonWrapper, watch_txs
 from bot.tokens.withdraw_timeout_watcher import find_and_reject_lost_tx
-from bot.utils.cert import get_ssl_context
 from bot.utils.config_reader import config
 
 
@@ -71,4 +70,4 @@ if __name__ == '__main__':
     bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
 
     loop.create_task(main(bot))
-    backend.run(loop=loop, bot=bot, ssl_context=get_ssl_context("0.0.0.0"))
+    backend.run(loop=loop, bot=bot)

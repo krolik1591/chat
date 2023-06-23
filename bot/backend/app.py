@@ -9,7 +9,6 @@ from aiohttp.web import middleware
 from aiohttp.web_request import Request
 
 from bot.backend.wof import routes as wof_routers
-from bot.utils.cert import get_ssl_context
 
 
 @middleware
@@ -56,4 +55,4 @@ if __name__ == "__main__":
     from bot.utils.config_reader import config
 
     bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
-    run(bot=bot, ssl_context=get_ssl_context("0.0.0.0"))
+    run(bot=bot)
