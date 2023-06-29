@@ -47,10 +47,12 @@ async def spin_wheel_of_fortune():
 
     win_tickets = get_winner_tickets(wof_info.random_seed, len(rewards))
 
+    numbers_won = []
     winners = [
-        detect_winner(win_ticket, sold_tickets)
+        detect_winner(win_ticket, sold_tickets, numbers_won)
         for win_ticket in win_tickets
     ]
+    winners = [winner for winner in winners if winner is not None]
 
     winners_info = []
     for winner_num, percent_reward in zip(winners, rewards):
@@ -66,18 +68,21 @@ async def spin_wheel_of_fortune():
 
 def get_winner_tickets(seed, count=1):
     random.seed(seed)
-    return [
-        random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
-        for _ in range(count)
-    ]
+    winner_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
+    return [winner_num] * count
 
 
-def detect_winner(winner_num, sold_tickets):
+def detect_winner(winner_num, sold_tickets, number_won):
+    sold_tickets_without_winners = list(set(sold_tickets) - set(number_won))
+    if not sold_tickets_without_winners:
+        return None
+
     scores = (
         (ticket, calc_score(ticket, winner_num))
-        for ticket in sold_tickets
+        for ticket in sold_tickets_without_winners
     )
     winner = min(scores, key=lambda x: x[1])
+    number_won.append(winner[0])
     return winner[0]
 
 
@@ -113,10 +118,12 @@ async def display_winners_info(wof_info):
     win_tickets = get_winner_tickets(wof_info.random_seed, len(rewards))
     sold_tickets = list(await db.get_all_sold_tickets_nums())
 
+    numbers_won = []
     winners = [
-        detect_winner(win_ticket, sold_tickets)
+        detect_winner(win_ticket, sold_tickets, numbers_won)
         for win_ticket in win_tickets
     ]
+    winners = [winner for winner in winners if winner is not None]
 
     winners_info = []
     for winner_num, percent_reward in zip(winners, rewards):
