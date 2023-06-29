@@ -42,7 +42,7 @@ async def spin_wheel_of_fortune():
 
     wof_info = await db.get_active_wheel_info()
     sold_tickets = list(await db.get_all_sold_tickets_nums())
-    bank = len(sold_tickets) * wof_info.ticket_cost * wof_info.commission / 100
+    bank = len(sold_tickets) * wof_info.ticket_cost * (100 - wof_info.commission) / 100
     rewards = json.loads(wof_info.rewards)
 
     win_tickets = get_winner_tickets(wof_info.random_seed, len(rewards))
