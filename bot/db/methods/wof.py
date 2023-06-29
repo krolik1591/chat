@@ -75,6 +75,8 @@ async def check_ticket_in_db(ticket_num):
 
 
 async def update_user_wof_win(tg_id, win):
+    if win == 0:
+        return await User.update({User.wof_win: 0}).where(User.user_id == tg_id)
     return await User.update({User.wof_win: User.wof_win + win}).where(User.user_id == tg_id)
 
 
