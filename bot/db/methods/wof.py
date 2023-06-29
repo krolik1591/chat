@@ -1,6 +1,6 @@
 import time
 
-from bot.db.models import WoFSettings, WoFTickets, User
+from bot.db.models import User, WoFSettings, WoFTickets
 
 
 async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, random_seed, date_end=None):
@@ -75,7 +75,7 @@ async def check_ticket_in_db(ticket_num):
 
 
 async def update_user_wof_win(tg_id, win):
-    return await User.update({User.wof_win: win}).where(User.user_id == tg_id)
+    return await User.update({User.wof_win: User.wof_win + win}).where(User.user_id == tg_id)
 
 
 async def whose_ticket(ticket_num):
