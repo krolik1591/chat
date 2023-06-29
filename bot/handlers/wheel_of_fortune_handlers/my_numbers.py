@@ -7,7 +7,8 @@ from aiogram.utils.i18n import gettext as _
 
 from bot.db import db
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.main_menus.wheel_of_fortune_menus import display_ticket_num_text_menu, my_numbers_menu
+from bot.menus.main_menus.wheel_of_fortune_menus import display_ticket_num_text_menu, my_numbers_menu, \
+    wheel_of_fortune_doesnt_exist_menu
 
 router = Router()
 
@@ -24,6 +25,12 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
     selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected')
     random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random')
 
+    if not await db.get_active_wheel_info():
+        wof_reward = await db.get_user_wof_win(call.from_user.id)
+        text, keyboard = wheel_of_fortune_doesnt_exist_menu(wof_reward)
+        await call.message.edit_text(text, reply_markup=keyboard)
+        return
+
     if not selected_tickets_count and not random_tickets_count:
         await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
         return
@@ -33,7 +40,7 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(Text(startswith="display_tickets_"))
-async def my_numbers(call: types.CallbackQuery, state: FSMContext):
+async def display_user_tickets(call: types.CallbackQuery, state: FSMContext):
     ticket_type = call.data.removeprefix("display_tickets_")
 
     all_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type)

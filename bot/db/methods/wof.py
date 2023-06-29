@@ -96,3 +96,14 @@ async def delete_wof_tickets():
 
 async def change_date_end(date_end):
     return await WoFSettings.update({WoFSettings.timestamp_end: date_end}).where(WoFSettings.is_active == 1)
+
+
+if __name__ == '__main__':
+    async def test():
+        x = await get_last_deactivate_wheel_info()
+        print(x.winners)
+
+
+    import asyncio
+
+    asyncio.run(test())
