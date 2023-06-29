@@ -58,6 +58,7 @@ async def spin_wheel_of_fortune():
     for winner_num, percent_reward in zip(winners, rewards):
         tg_id = await db.whose_ticket(winner_num)
         reward = round_down(bank * percent_reward / 100, 2)
+        print(f'Winner: {tg_id}, num: {winner_num}, reward: {reward}')
         winners_info.append((winner_num, tg_id, reward))
         await db.update_user_wof_win(tg_id, reward)
 
@@ -68,8 +69,10 @@ async def spin_wheel_of_fortune():
 
 def get_winner_tickets(seed, count=1):
     random.seed(seed)
-    winner_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
-    return [winner_num] * count
+    return [
+        random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
+        for _ in range(count)
+    ]
 
 
 def detect_winner(winner_num, sold_tickets, number_won):
