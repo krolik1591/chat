@@ -1,6 +1,7 @@
 import datetime
 import json
 
+import aiogram.exceptions
 import humanize
 from aiogram import Router, types
 from aiogram.filters import Text
@@ -32,12 +33,17 @@ async def wheel_of_fortune(call: types.CallbackQuery, i18n: I18n):
 @router.callback_query(Text("check_status"))
 async def check_status_menu(call: types.CallbackQuery, i18n: I18n):
     wof_info = await db.get_active_wheel_info()
-    time_end_text = await get_time_to_spin_text(wof_info.timestamp_end, i18n.current_locale)
+
+    try:
+        await wheel_of_fortune(call, i18n)
+    except aiogram.exceptions.TelegramBadRequest as e:
+        print('Try send the same msg: ', e)
 
     if not wof_info:
         await call.answer(_('WOF_CHECK_STATUS_ANSWER'), show_alert=True)
         return
 
+    time_end_text = await get_time_to_spin_text(wof_info.timestamp_end, i18n.current_locale)
     user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
     if user_tickets == 0:
         await call.answer(_('WOF_CHECK_STATUS_NO_TICKETS').format(date_end=time_end_text), show_alert=True)
@@ -55,7 +61,7 @@ async def spin_result_answer(call: types.CallbackQuery, i18n: I18n):
 
     winners = json.loads(last_wof_info.winners)
     text = '\n'.join([
-        f'{place} - {winner[0]}'
+        f'{place} - {str(winner[0]).zfill(7)}'
         for place, winner in enumerate(winners, start=1)
     ])
 
