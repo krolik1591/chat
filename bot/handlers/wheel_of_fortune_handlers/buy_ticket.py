@@ -1,3 +1,4 @@
+import asyncio
 import random
 import time
 
@@ -217,19 +218,5 @@ async def display_wof_info(user_id):
     return wof_info, user_balance, user_tickets
 
 
-async def buy_winner_tickets(admin_id, winner_tickets_count):
-    wof_info = await db.get_active_wheel_info()
-    random.seed(wof_info.random_seed)
-    winner_num = random.randint(WOF_MIN_NUM, WOF_MAX_NUM)
-
-    winner_tickets = []
-
-    if not await db.check_ticket_in_db(winner_num):
-        winner_tickets.append(winner_num)
-
-    while len(winner_tickets) != winner_tickets_count:
-        rand_win_num = str(winner_num).replace(str(winner_num)[random.randint(0, 6)], str(random.randint(1, 9)))
-        if not await db.check_ticket_in_db(rand_win_num):
-            winner_tickets.append(rand_win_num)
-
-    await db.add_new_ticket(admin_id, winner_tickets, 'random', time.time() + random.randint(172800, 1209600))
+if __name__ == '__main__':
+    pass
