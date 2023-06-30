@@ -120,6 +120,7 @@ async def display_winners_info(wof_info):
     rewards = json.loads(wof_info.rewards)
     win_tickets = get_winner_tickets(wof_info.random_seed, len(rewards))
     sold_tickets = list(await db.get_all_sold_tickets_nums())
+    bank = len(sold_tickets) * wof_info.ticket_cost * (100 - wof_info.commission) / 100
 
     numbers_won = []
     winners = [
@@ -127,11 +128,18 @@ async def display_winners_info(wof_info):
         for win_ticket in win_tickets
     ]
     winners = [winner for winner in winners if winner is not None]
+    if len(winners) < len(rewards):
+        dif = len(rewards) - len(winners)
+        for _ in range(dif):
+            winners.append(0)
 
     winners_info = []
-    for winner_num, percent_reward in zip(winners, rewards):
-        tg_id = await db.whose_ticket(winner_num)
-        winners_info.append((winner_num, tg_id))
+    for winner_num, percent_reward, win_ticket in zip(winners, rewards, win_tickets):
+        if winner_num == 0:
+            tg_id = 0
+        else:
+            tg_id = await db.whose_ticket(winner_num)
+        winners_info.append((str(winner_num).zfill(7), tg_id, str(win_ticket).zfill(7), bank * percent_reward / 100))
 
     return winners_info
 
