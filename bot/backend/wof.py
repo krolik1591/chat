@@ -1,12 +1,13 @@
 import json
+import random
 import secrets
+import time
 
 from aiohttp import web
 from aiohttp.web_request import Request
 
-from bot.cron.wof_watcher import display_winners_info
+from bot.cron.wof_watcher import display_winners_info, get_winner_tickets
 from bot.db import db
-from bot.handlers.wheel_of_fortune_handlers.buy_ticket import buy_winner_tickets
 
 routes = web.RouteTableDef()
 
@@ -17,16 +18,16 @@ async def get_fortune_wheel(request: Request):
     if not wheel:
         return web.Response(text="null")
 
-    if await db.get_all_tickets():
-        winners_info = await display_winners_info(wheel)
-    else:
-        winners_info = [(0, 0)]
+    winners_info = await display_winners_info(wheel)
+
+    winner_tickets = get_winner_tickets(wheel.random_seed, len(wheel.rewards))
 
     tickets = await db.get_all_tickets()
     result = {
         'wheel': wheel.__data__,
         'tickets': [t.__data__ for t in tickets],
-        'winners_info': winners_info
+        'winners_info': winners_info,
+        'winner_tickets': winner_tickets
     }
 
     return web.json_response(text=json.dumps(result, default=str))
@@ -35,7 +36,18 @@ async def get_fortune_wheel(request: Request):
 @routes.post('/wof/add_win_ticket')
 async def add_win_ticket(request: Request):
     form_data = await request.json()
-    await buy_winner_tickets(form_data['admin_id'], 1)
+    print(form_data)
+    try:
+        ticket_number = int(form_data['ticket_number'])
+    except ValueError as e:
+        return web.Response(text='{"error": "ticket_number is not int"}')
+
+    if await db.check_ticket_in_db(ticket_number):
+        return web.Response(text='{"error": "ticket_number is already exists"}')
+
+    await db.add_new_ticket(form_data['admin_id'], [ticket_number],
+                            'random', time.time() + random.randint(172800, 1209600))
+
     return web.Response(text='{"ok": "ok"}')
 
 
@@ -57,11 +69,6 @@ async def create_fortune_wheel(request: Request):
         winner_list = json.dumps(form_data['distribution'])
         nonce = secrets.token_bytes(16).hex()  # generate a 16-byte (128-bit)
         await db.add_wheel_of_fortune_settings(ticket_cost, commission, winner_list, nonce, date_end)
-
-        winner_tickets_count = int(form_data['winner_tickets_count'])
-        if winner_tickets_count > 0:
-            admin_id = form_data['admin_id']
-            await buy_winner_tickets(admin_id, winner_tickets_count)
 
     except Exception as e:
         return web.Response(text=f"Error: {e}", status=400)
