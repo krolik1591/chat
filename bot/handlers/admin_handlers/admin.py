@@ -51,6 +51,7 @@ async def admin_login(message: Message, state: FSMContext):
     auth = {k: v for k, v in auth.items() if v is not None}
 
     bot_token = state.bot.token.encode()
+    bot_token = hashlib.sha256(bot_token).digest()
     token = "\n".join(sorted([f"{k}={v}" for k, v in auth.items() if k != "hash"]))
     token_hash = hmac.new(bot_token, token.encode(), hashlib.sha256).hexdigest()
     auth["hash"] = token_hash

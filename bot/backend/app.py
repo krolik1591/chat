@@ -8,8 +8,8 @@ from aiohttp import web
 from aiohttp.web import middleware
 from aiohttp.web_request import Request
 
-from bot.backend.wof import routes as wof_routers
 from bot.backend.other import routes as other_routers
+from bot.backend.wof import routes as wof_routers
 
 
 @middleware
@@ -24,7 +24,7 @@ async def check_auth_middleware(request: Request, handler):
         is_valid, tg_id = check_auth(auth, bot_token)
         if not is_valid:
             return web.Response(text="Invalid auth", status=401)
-        if tg_id not in (185520398,):  # todo check admin list
+        if str(tg_id) not in config.admin_ids:
             return web.Response(text="Not a admin", status=401)
 
     return await handler(request)
@@ -33,7 +33,6 @@ async def check_auth_middleware(request: Request, handler):
 # todo as middleware
 def check_auth(auth: str, bot_token: str):
     bot_token = hashlib.sha256(bot_token.encode()).digest()
-
     auth = json.loads(unquote(auth))
     token = "\n".join(sorted([f"{k}={v}" for k, v in auth.items() if k != "hash"]))
     token_hash = hmac.new(bot_token, token.encode(), hashlib.sha256).hexdigest()
