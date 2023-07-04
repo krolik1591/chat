@@ -18,7 +18,6 @@ HOUR = 3600
 
 
 async def start_wof_timer(bot, i18n):
-    await spin_wheel_of_fortune(bot, i18n)
     while True:
         logging.info("WOF TIMER STARTED")
         wof_info = await db.get_active_wheel_info()

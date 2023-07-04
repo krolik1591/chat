@@ -10,6 +10,7 @@ from aiohttp.web_request import Request
 
 from bot.backend.other import routes as other_routers
 from bot.backend.wof import routes as wof_routers
+from bot.backend.users import routes as users_routers
 
 from bot.utils.config_reader import config
 
@@ -47,6 +48,7 @@ def run(port=8080, loop=None, bot=None, ssl_context=None):
     app['bot'] = bot
     app.add_routes(wof_routers)
     app.add_routes(other_routers)
+    app.add_routes(users_routers)
 
     cors = aiohttp_cors.setup(app, defaults={
         "*": aiohttp_cors.ResourceOptions(allow_credentials=True, expose_headers="*", allow_headers="*")
