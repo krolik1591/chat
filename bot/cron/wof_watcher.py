@@ -3,15 +3,22 @@ import json
 import logging
 import random
 import time
+from asyncio import sleep
+
+from aiogram import exceptions
+from aiogram.utils.i18n import gettext as _
 
 from bot.consts.const import WOF_MAX_NUM, WOF_MIN_NUM
 from bot.db import db, manager
+from bot.menus.utils import kb_del_msg_for_spam
+from bot.tokens.token_ton.tx_watcher import set_user_locale_to_i18n
 from bot.utils.rounding import round_down
 
 HOUR = 3600
 
 
-async def start_wof_timer():
+async def start_wof_timer(bot, i18n):
+    await spin_wheel_of_fortune(bot, i18n)
     while True:
         logging.info("WOF TIMER STARTED")
         wof_info = await db.get_active_wheel_info()
@@ -31,12 +38,12 @@ async def start_wof_timer():
         if time_before_wof_finish < HOUR:
             await asyncio.sleep(time_before_wof_finish)
             logging.info("Timer to WOF is started")
-            await spin_wheel_of_fortune()
+            await spin_wheel_of_fortune(bot, i18n)
 
         await asyncio.sleep(HOUR)
 
 
-async def spin_wheel_of_fortune():
+async def spin_wheel_of_fortune(bot, i18n):
     logging.info('Starting Wheel of Fortune')
     print('Starting Wheel of Fortune')
 
@@ -65,6 +72,8 @@ async def spin_wheel_of_fortune():
     with manager.pw_database.atomic():
         await db.update_wof_result(json.dumps(winners_info))
         await db.delete_wof_tickets()
+
+    await send_msg_to_wof_participants(bot, winners_info, i18n)
 
 
 def get_winner_tickets(seed, count=1):
@@ -144,5 +153,37 @@ async def display_winners_info(wof_info):
     return winners_info
 
 
-if __name__ == '__main__':
-    asyncio.run(spin_wheel_of_fortune())
+async def send_msg_to_wof_participants(bot, winners_info, i18n):
+    users = await db.get_user_id_wof_participants()
+    winners = set()
+    for index, winner in enumerate(winners_info, start=1):
+        winners.add(winner[1])
+        await set_user_locale_to_i18n(winner[1], i18n)
+        await send_msg(bot, winner[1], _('WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS')
+                       .format(winner_num=str(winner[0]).zfill(7), reward=winner[2], pos=index))
+
+    loosers = users - winners
+    for looser in loosers:
+        await set_user_locale_to_i18n(looser, i18n)
+        await send_msg(bot, looser, _('WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS'))
+
+
+async def send_msg(bot, user_id, text):
+    for i in range(5):
+        try:
+            await bot.send_message(user_id, text, reply_markup=kb_del_msg_for_spam())
+            return None  # no errors!
+        except exceptions.TelegramRetryAfter as e:
+            print(f"So much messages. Need to sleep {e.retry_after} sec")
+            await sleep(e.retry_after)
+            continue
+
+        except exceptions.TelegramForbiddenError:
+            await db.user_blocked_bot(user_id)
+            return f"{user_id} blocked the bot"
+
+        except exceptions.TelegramBadRequest:
+            return f"{user_id} doesn't exist"
+
+    else:
+        return f"{user_id} flood limit"

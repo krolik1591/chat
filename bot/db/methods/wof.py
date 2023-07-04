@@ -63,6 +63,11 @@ async def get_all_sold_tickets_nums():
     return set(ticket.ticket_num for ticket in result)
 
 
+async def get_user_id_wof_participants():
+    result = await WoFTickets.select(WoFTickets.user_id).distinct()
+    return set(user.user_id for user in result)
+
+
 async def get_all_tickets():
     return await WoFTickets.select()
 
@@ -100,8 +105,8 @@ async def change_date_end(date_end):
 
 if __name__ == '__main__':
     async def test():
-        x = await get_last_deactivate_wheel_info()
-        print(x.winners)
+        x = await get_user_id_wof_participants()
+        print(x)
 
 
     import asyncio

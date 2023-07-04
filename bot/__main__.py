@@ -49,7 +49,7 @@ async def main(bot):
 
     asyncio.create_task(watch_txs(ton_wrapper, bot, i18n))
     asyncio.create_task(find_and_reject_lost_tx(bot, i18n))
-    asyncio.create_task(start_wof_timer())
+    asyncio.create_task(start_wof_timer(bot, i18n))
 
     try:
         print("me:", await bot.me())
