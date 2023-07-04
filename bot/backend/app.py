@@ -11,6 +11,8 @@ from aiohttp.web_request import Request
 from bot.backend.other import routes as other_routers
 from bot.backend.wof import routes as wof_routers
 
+from bot.utils.config_reader import config
+
 
 @middleware
 async def check_auth_middleware(request: Request, handler):
@@ -55,9 +57,9 @@ def run(port=8080, loop=None, bot=None, ssl_context=None):
     web.run_app(app, port=port, loop=loop, ssl_context=ssl_context)
 
 
-if __name__ == "__main__":
-    from aiogram import Bot
-    from bot.utils.config_reader import config
-
-    bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
-    run(bot=bot)
+# if __name__ == "__main__":
+#     from aiogram import Bot
+#     from bot.utils.config_reader import config
+#
+#     bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
+#     run(bot=bot)
