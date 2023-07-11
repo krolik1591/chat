@@ -2,7 +2,7 @@ version: "3.8"
 services:
     bot:
         # Универсальный образ для x86/ARM64
-        build: .
+        build: ./bot
         restart: "always"
         stop_signal: SIGINT
         env_file:
@@ -11,6 +11,8 @@ services:
             - "./db:/app/db"
         depends_on:
             - redis
+        ports:
+            - "8080:8080"
     redis:
         image: redis:7
         restart: "always"

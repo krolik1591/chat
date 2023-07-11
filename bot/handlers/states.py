@@ -14,6 +14,8 @@ class Menu(StatesGroup):
     get_id_spam_receiver = State()
     # WheelOfFortune
     enter_ticket_num = State()
+    enter_tickets_count = State()
+    enter_pages = State()
 
 
 class StateKeys:
@@ -34,6 +36,13 @@ class StateKeys:
     SPAM_LANG = 'spam_lang'
     SPAM_MSG_ID = 'spam_msg_id'
     ID_RECEIVERS = 'id_receiver'
+    # WheelOfFortune
+    TICKET_NUM = 'ticket_num'
+    RANDOM_TICKETS_COUNT = 'random_tickets_count'
+    # WheelOfFortune display my tickets
+    TICKET_TYPE = 'ticket_type'
+    CURRENT_PAGE = 'current_page'
+    TOTAL_PAGES = 'tickets_to_display'
 
 
 class Games:

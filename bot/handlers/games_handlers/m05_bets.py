@@ -64,7 +64,8 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
 
 @router.message(StateFilter(Menu.bet))
 async def bet_change_text(message: Message, state: FSMContext):
-    await bet_change_state(message, state)
+    if not await bet_change_state(message, state):
+        return
 
     context = await Context.from_fsm_context(message.from_user.id, state)
     await bet_menu(context, msg_id=context.last_msg_id)
@@ -90,6 +91,7 @@ async def bet_change_state(message: Message, state: FSMContext):
         return
 
     await state.update_data(**{StateKeys.BET: new_user_bet})
+    return True
 
 
 def normalize_bet(bet, balance):

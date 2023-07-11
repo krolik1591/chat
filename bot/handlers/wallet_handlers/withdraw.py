@@ -121,7 +121,8 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
     token = await tokens.get_token_by_id(token_id)
 
     #  Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!
-    text, keyboard = withdraw_menu.withdraw_queued(withdraw_amount)
+    withdraw_amount_ton = await token.from_gametokens(withdraw_amount)
+    text, keyboard = withdraw_menu.withdraw_queued(withdraw_amount, withdraw_amount_ton)
     await call.message.edit_text(text, reply_markup=keyboard)
 
     can_withdraw_today = await how_much_can_withdraw_today(call.from_user.id)
@@ -136,8 +137,8 @@ async def withdraw_complete(call: types.CallbackQuery, state: FSMContext):
                                           utime=int(time.time()), is_manual=is_manual)
 
     if is_manual:
-        await send_manual_tx_to_admin_chat(state.bot, call.from_user.id, call.from_user.username, token.token_id,
-                                           withdraw_amount, new_tx.withdrawtx_id)
+        await send_manual_tx_to_admin_chat(state.bot, call.from_user.id, call.from_user.username, withdraw_amount,
+                                           new_tx.withdrawtx_id)
         await db.update_withdraw_tx_state(new_tx.withdrawtx_id, 'moderating')
     else:
         await withdraw_cash_to_user(state.bot, withdraw_address, withdraw_amount, call.from_user.id, token,
@@ -176,8 +177,8 @@ async def validate_amount(message, token_id):
     return amount
 
 
-async def send_manual_tx_to_admin_chat(bot, user_id, username, token_id, withdraw_amount, id_new_tx):
-    text, keyboard = withdraw_menu.admin_manual_tx(user_id, username, token_id, withdraw_amount, id_new_tx)
+async def send_manual_tx_to_admin_chat(bot, user_id, username, withdraw_amount, id_new_tx):
+    text, keyboard = withdraw_menu.admin_manual_tx(user_id, username, withdraw_amount, id_new_tx)
     await bot.send_message(chat_id=config.admin_chat_id, text=text, reply_markup=keyboard)
 
 

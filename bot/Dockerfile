@@ -13,6 +13,5 @@ FROM python:3.9-slim-bullseye
 COPY --from=compile-image /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 WORKDIR /app
-COPY bot /app/bot
-COPY locales /app/locales
+COPY . /app/bot
 CMD ["python", "-m", "bot"]

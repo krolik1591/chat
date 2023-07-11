@@ -24,6 +24,7 @@ class User(manager.Model):
     lang = CharField(default='en')
     referrer = BigIntegerField(null=True)
     total_ref_withdraw = DecimalField(default=0)
+    wof_win = DecimalField(default=0)
 
     balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
@@ -39,12 +40,28 @@ class User(manager.Model):
         return f'USER: {self.user_id}; {self.lang=}'
 
 
-class WheelOfFortune(manager.Model):
-    wheeloffortune_id = BigIntegerField(primary_key=True)
+class WoFTickets(manager.Model):
+    woftickets_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='WheelOfFortune')
 
     ticket_num = BigIntegerField()
-    timestamp_buy_last_ticket = DateTimeField()
+    ticket_type = CharField()
+    buy_timestamp = DateTimeField()
+
+
+class WoFSettings(manager.Model):
+    wofsettings_id = BigIntegerField(primary_key=True)
+
+    ticket_cost = BigIntegerField()
+    commission = BigIntegerField()
+    rewards = CharField()
+    winners = CharField(null=True)   # ticket_num: tg_id:reward
+    random_seed = CharField()
+
+    timestamp_start = DateTimeField()
+    timestamp_end = DateTimeField(null=True)
+
+    is_active = BooleanField(default=1)
 
 
 class WithdrawTx(manager.Model):
@@ -90,4 +107,23 @@ class GameLog(manager.Model):
 
 class Settings(manager.Model):
     key = CharField(primary_key=True)
-    value = CharField()
+    value = CharField()     # json format
+
+
+class PromoCodes(manager.Model):
+    name = CharField(primary_key=True)
+    type = CharField()
+    bonus = BigIntegerField()
+    wager = BigIntegerField()
+    number_of_users = DecimalField()
+    number_of_uses = BigIntegerField()
+    status = BooleanField(default=True)
+    date_end = BigIntegerField(null=True)
+
+
+class UsersPromoCodes(manager.Model):
+    userspromocodes_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='userspromocodes')
+    promo_name = CharField()
+    date_of_using = BigIntegerField()
+    date_end = BigIntegerField(null=True)

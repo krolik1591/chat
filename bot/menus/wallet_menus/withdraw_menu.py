@@ -39,10 +39,9 @@ def input_validation(withdraw_amount, withdraw_address, withdraw_amount_token, g
     return text, kb
 
 
-def withdraw_queued(user_withdraw_amount):
-    user_withdraw_amount_ton = user_withdraw_amount / 100  # TODO ????
-    text = _('WITHDRAW_APPROVE').format(user_withdraw_amount=user_withdraw_amount,
-                                        user_withdraw_amount_ton=user_withdraw_amount_ton)
+def withdraw_queued(withdraw_amount_token, withdraw_amount_ton):
+    text = _('WITHDRAW_APPROVE').format(user_withdraw_amount=withdraw_amount_token,
+                                        user_withdraw_amount_ton=withdraw_amount_ton)
     kb = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text=_('WITHDRAW_MENU_BTN_STEP_4_TO_MENU'), callback_data="main_menu")
     ]])
@@ -50,7 +49,7 @@ def withdraw_queued(user_withdraw_amount):
     return text, kb
 
 
-def admin_manual_tx(user_id, username, token_id, withdraw_amount, id_new_tx):
+def admin_manual_tx(user_id, username, withdraw_amount, id_new_tx):
     text = '@{username} (id: {user_id}) хоче вивести купу грошей: {withdraw_amount}.'\
         .format(user_id=user_id, username=username, withdraw_amount=withdraw_amount)
 

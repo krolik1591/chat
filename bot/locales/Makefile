@@ -1,6 +1,6 @@
 .PHONY:extract
 extract:
-	pybabel extract --input-dirs=../bot -o messages.pot --add-comments=NOTE --no-wrap
+	pybabel extract --input-dirs=../../bot -o messages.pot --add-comments=NOTE --no-wrap
 
 .PHONY:init
 init:

@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseSettings, validator, SecretStr, RedisDsn
@@ -34,7 +35,7 @@ class Settings(BaseSettings):
         return v
 
     class Config:
-        env_file = '.env'
+        env_file = Path(__file__).parent.parent / '.env'
         env_file_encoding = 'utf-8'
 
 

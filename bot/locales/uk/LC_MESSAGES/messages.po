@@ -1,0 +1,1025 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2023 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-07-04 11:45+0300\n"
+"PO-Revision-Date: 2023-05-14 20:36+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../bot/cron/wof_watcher.py:88
+msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
+msgstr ""
+"🎉 Вітаємо з перемогою в колесі фортуни, ви зайняли {pos} місце! \n"
+"\n"
+"Виграшний білет: {winner_num}, нагорода: {reward}."
+
+#: ../../bot/cron/wof_watcher.py:93
+msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
+msgstr "Не розстраюйся, наступного разу пощастить! ☺️"
+
+#: ../../bot/handlers/m01_main.py:54
+msgid "CHECK_REF_DENIED_TEXT"
+msgstr "Невірне реферальне посилання. Уважніше."
+
+#: ../../bot/handlers/m01_main.py:60
+msgid "CHECK_REF_APPROVE_TEXT"
+msgstr "<a href='tg://user?id={id}'>{name}</a> став вашим поддіваном"
+
+#: ../../bot/handlers/admin_handlers/spam.py:40
+msgid "ADMIN_SPAM_TEXT_ENTER_RECEIVER_ID)"
+msgstr ""
+"Введіть ID у наступному форматі: \n"
+"\n"
+"userid1,userid2,userid3..."
+
+#: ../../bot/handlers/admin_handlers/spam.py:43
+#: ../../bot/handlers/admin_handlers/spam.py:89
+#: ../../bot/handlers/admin_handlers/spam.py:95
+msgid "ADMIN_SPAM_TEXT_ENTER_UR_MSG"
+msgstr "Введіть (можна переслати) повідомлення:"
+
+#: ../../bot/handlers/admin_handlers/spam.py:72
+msgid "ADMIN_SPAM_TEXT_NO_USER_FOUND_ID_IN_BD"
+msgstr "Жодного юзера не знайдено в бд"
+
+#: ../../bot/handlers/admin_handlers/spam.py:104
+msgid "ADMIN_SPAM_TEXT_TEMPLATE"
+msgstr "Ваше повідомлення:"
+
+#: ../../bot/handlers/admin_handlers/spam.py:130
+msgid "ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"
+msgstr "З мовою {lang} не знайдено юзерів!"
+
+#: ../../bot/handlers/admin_handlers/spam.py:141
+msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
+msgstr ""
+"Не отримали повідомлення:\n"
+"{text}"
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:33
+msgid "DICE_ROLL_TEXT"
+msgstr "🍀 Успіхів!"
+
+#: ../../bot/handlers/games_handlers/dice_games/base_dice_game.py:29
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:46
+msgid "GAME_ERR_BET_TOO_BIG"
+msgstr "❌ Ставка більше балансу!"
+
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:43
+msgid "GAME_ERR_BET_NOT_SELECTED"
+msgstr "❌ Не обраний результат ставки!"
+
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:59
+msgid "LOSE_TEXT"
+msgstr "Наступного разу пощастить!"
+
+#: ../../bot/handlers/games_handlers/dice_games/dice_games.py:60
+msgid "WIN_TEXT"
+msgstr "Перемога! Ізі + {score_change} {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:6
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:17
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:29
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:41
+msgid "DARTS_BOWLING_BASKET_FOOTBALL_TEXT_1"
+msgstr "😐 Мимо"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:7
+msgid "BASKET_TEXT_2"
+msgstr "😲 Майже влучив"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:8
+msgid "BASKET_TEXT_3"
+msgstr "😵 Застряг"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:9
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:21
+msgid "DARTS_TEXT_5_OR_BASKET_4"
+msgstr ""
+"👌 <b>Гарне влучання \n"
+"\n"
+"✅ Ви виграли {score_change}</b> {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:10
+msgid "BASKET_TEXT_5"
+msgstr ""
+"🤑 <b>ЧИСТЕ ВЛУЧАННЯ! 🤑\n"
+"\n"
+"✅ Ви виграли {score_change}</b> {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:18
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:30
+msgid "DARTS_OR_BOWLING_TEXT_2"
+msgstr "🙄 Не пощастило"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:19
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:31
+msgid "DARTS_OR_BOWLING_TEXT_3"
+msgstr "😲 Гарна спроба"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:20
+msgid "DARTS_TEXT_4"
+msgstr ""
+"👌 <b>Непогано \n"
+"\n"
+"✅ Ви виграли {score_change}</b> {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:22
+msgid "DARTS_TEXT_6"
+msgstr ""
+"🍎 <b>ПРЯМО В ЦІЛЬ! 🍏\n"
+"\n"
+"✅ Ви виграли {score_change}</b> {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:32
+msgid "BOWLING_TEXT_4"
+msgstr "🤐 Без коментарів..."
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:33
+msgid "BOWLING_TEXT_5"
+msgstr ""
+"СТРАААЙ...\n"
+"\n"
+"А ні, здалося)"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:34
+msgid "BOWLING_TEXT_6"
+msgstr ""
+"🤑 <b>СТРАААЙК! 🤑\n"
+"\n"
+"✅ Ви виграли {score_change}</b> {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:42
+msgid "FOOTBALL_TEXT_LOSE"
+msgstr "🙄 Відскочив..."
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:43
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:44
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:45
+msgid "FOOTBALL_TEXT_WIN"
+msgstr ""
+"🤑 <b>ГОООООООЛ! 🤑\n"
+"\n"
+"✅ Ви виграли {score_change}</b> {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:53
+msgid "CUBE_TEXT_0"
+msgstr ""
+"{dice_number_emoji}\n"
+"\n"
+"✅ Ви виграли {score_change} {token_icon}"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:54
+msgid "CUBE_TEXT_1"
+msgstr ""
+"{dice_number_emoji}\n"
+"\n"
+"🙄 На жаль, вам не пощастило"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:55
+msgid "CUBE_TEXT_2"
+msgstr ""
+"{dice_number_emoji}\n"
+"\n"
+"🤐 Дідько, знов не пощастило"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:56
+msgid "CUBE_TEXT_3"
+msgstr ""
+"{dice_number_emoji}\n"
+"\n"
+"🔥 Вже {cube_lose_streak} раз не щастить"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:63
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_1"
+msgstr "1️⃣ <b>- непарне</b>"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:64
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_2"
+msgstr "2️⃣ <b>- парне</b>"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:65
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_3"
+msgstr "3️⃣ <b>- непарне</b>"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:66
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_4"
+msgstr "4️⃣ <b>- парне</b>"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:67
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_5"
+msgstr "5️⃣ <b>- непарне</b>"
+
+#: ../../bot/handlers/games_handlers/dice_games/texts.py:68
+msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
+msgstr "6️⃣ <b>- парне</b>"
+
+#: ../../bot/handlers/my_account_handlers/referrals.py:25
+msgid "REFERRALS_REFRESHED_TEXT"
+msgstr "✅ Статистика оновлена!"
+
+#: ../../bot/handlers/my_account_handlers/referrals.py:36
+msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
+msgstr "Недостатньо токенів для виведення. Мінімальна сума для виведення - {min_ref_withdraw} токенів."
+
+#: ../../bot/handlers/my_account_handlers/referrals.py:43
+msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
+msgstr "Токени виведені на головний баланс!"
+
+#: ../../bot/handlers/my_account_handlers/referrals.py:68
+msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
+msgstr "Здарова"
+
+#: ../../bot/handlers/my_account_handlers/referrals.py:68
+msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
+msgstr "Здарова заебал"
+
+#: ../../bot/handlers/my_account_handlers/referrals.py:70
+msgid "REFERRALS_SEND_INVITATION_TEXT"
+msgstr "Здарова заебал заходь"
+
+#: ../../bot/handlers/my_account_handlers/referrals.py:72
+msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
+msgstr "Іду"
+
+#: ../../bot/handlers/other_handlers/language.py:26
+msgid "SETTINGS_LANG_CHANGED"
+msgstr "Мову змінено!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:115
+msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
+msgstr "Колесо фортуни більше не активне!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:123
+msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
+msgstr "Ви не вказали номер білета!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:127
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:196
+msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
+msgstr "Білет з таким номером вже існує!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:137
+msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
+msgstr "Ви не можете купити більше {maximum_ticket} білетів!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:144
+msgid "WOF_BUY_TICKET_ERR_NO_TICKETS"
+msgstr "У вас немає білетів!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:148
+msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
+msgstr "У вас недостатньо грошей!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:159
+msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
+msgstr "✅ Білет номер: {ticket_num} куплено"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:164
+msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
+msgstr "✅ Ви придбали: {tickets_count} білетів"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:188
+msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
+msgstr "Введіть тільки цифри!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:192
+msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
+msgstr "Введіть не більше 7 цифр!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:35
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:48
+msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
+msgstr "Нема білетів!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:43
+msgid "WOF_CHECK_STATUS_ANSWER"
+msgstr "Чекайте!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:49
+msgid "WOF_CHECK_STATUS_NO_TICKETS"
+msgstr ""
+"Ви ще не берете участь, купіть білет!\n"
+"Наступний спін: {date_end}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
+msgid "WOF_CHECK_STATUS_TICKETS"
+msgstr ""
+"Ви приймаєте участь, у вас {user_tickets} білетів!\n"
+"Наступний спін: {date_end}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
+msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
+msgstr "Усе попереду!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:69
+msgid "WOF_SPIN_RESULT_ANSWER"
+msgstr ""
+"Дата останнього спіна: {date_end}\n"
+"\n"
+"Щасливі номери:\n"
+"{text}"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:76
+msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
+msgstr "Усе попереду!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
+msgid "WOF_CLAIM_REWARD_ANSWER"
+msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:90
+msgid "WOF_NO_DATE_END"
+msgstr "скоро буде"
+
+#: ../../bot/menus/account_menus/account_menu.py:8
+#: ../../bot/menus/game_menus/select_balance.py:10
+#: ../../bot/menus/game_menus/select_game.py:9 ../../bot/menus/main_menu.py:8
+msgid "MENU_TEXT"
+msgstr ""
+"💵 Баланс:\n"
+"\n"
+"{balances}\n"
+"\n"
+"Поїхали?"
+
+#: ../../bot/menus/main_menu.py:17
+msgid "MAIN_MENU_BTN_GAMES"
+msgstr "🎲 Ігри"
+
+#: ../../bot/menus/main_menu.py:20
+msgid "MAIN_MENU_BTN_WHEEL_OF_FORTUNE"
+msgstr "🍀 Колесо фортуни"
+
+#: ../../bot/menus/main_menu.py:23
+msgid "MAIN_MENU_BTN_DEPOSIT"
+msgstr "💎 Гаманець"
+
+#: ../../bot/menus/main_menu.py:26
+msgid "MAIN_NEMU_BTN_ACCOUNT"
+msgstr "👤 Аккаунт"
+
+#: ../../bot/menus/main_menu.py:27
+msgid "MAIN_BTN_CHANGE_LANG"
+msgstr "🌐 Мова: {lang}"
+
+#: ../../bot/menus/main_menu.py:31
+msgid "MAIN_MENU_BTN_GUIDES"
+msgstr "🎓 Гайди"
+
+#: ../../bot/menus/main_menu.py:32
+msgid "MAIN_MENU_BTN_SUPPORT"
+msgstr "💬 Підтримка"
+
+#: ../../bot/menus/utils.py:17
+msgid "ADMIN_UTILS_BTN_FOR_DELETE_SPAM_MSG"
+msgstr "💥 Викупив!"
+
+#: ../../bot/menus/utils.py:36
+msgid "SELECT_BALANCE_BTN_DEMO"
+msgstr "DEMO"
+
+#: ../../bot/menus/utils.py:37
+msgid "SELECT_BALANCE_BTN_PROMO"
+msgstr "PROMO"
+
+#: ../../bot/menus/utils.py:38
+msgid "SELECT_BALANCE_BTN_GENERAL"
+msgstr "GENERAL"
+
+#: ../../bot/menus/account_menus/account_menu.py:17
+msgid "ACCOUNT_MENU_BTN_REFERRALS"
+msgstr "Реферали"
+
+#: ../../bot/menus/account_menus/account_menu.py:20
+msgid "ACCOUNT_MENU_BTN_PROMO_CODES"
+msgstr "Промокоди"
+
+#: ../../bot/menus/account_menus/account_menu.py:23
+msgid "ACCOUNT_MENU_BTN_TROPHIES"
+msgstr "Трофеї"
+
+#: ../../bot/menus/account_menus/account_menu.py:26
+msgid "ACCOUNT_MENU_BTN_SEND_GIFT"
+msgstr "Відправити подарунок"
+
+#: ../../bot/menus/account_menus/account_menu.py:27
+msgid "ACCOUNT_MENU_SETTINGS"
+msgstr "Налаштування"
+
+#: ../../bot/menus/account_menus/account_menu.py:30
+#: ../../bot/menus/account_menus/referrals_menu.py:51
+#: ../../bot/menus/admin_menus/spam_menus.py:12
+#: ../../bot/menus/admin_menus/spam_menus.py:45
+#: ../../bot/menus/game_menus/bet_menus.py:56
+#: ../../bot/menus/game_menus/cube_settings.py:55
+#: ../../bot/menus/game_menus/select_balance.py:25
+#: ../../bot/menus/game_menus/select_game.py:43
+#: ../../bot/menus/main_menus/guides_menus.py:34
+#: ../../bot/menus/main_menus/language_menu.py:28
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:14
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:25
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:56
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:73
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:86
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:100
+#: ../../bot/menus/wallet_menus/deposit_menu.py:36
+#: ../../bot/menus/wallet_menus/wallet_menu.py:23
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:14
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:23
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:36
+msgid "BTN_BACK"
+msgstr "‹ Назад"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:11
+msgid "REF_LVL_1_ADEPT"
+msgstr "Адепт"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:12
+msgid "REF_LVL_2_EXPERIENCED"
+msgstr "Досвідчений"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:13
+msgid "REF_LVL_3_CONNOISSEUR"
+msgstr "Знавець"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:14
+msgid "REF_LVL_4_EXPERT"
+msgstr "Експерт"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:15
+msgid "REF_LVL_5_MAESTRO"
+msgstr "Маестро"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:28
+msgid "REFERRAL_MENU_TEXT"
+msgstr ""
+"Запрошуйте друзів та отримайте <b>до 15%</b> від всіх їх ставок. Виграшних та програшних.\n"
+"\n"
+"Кількість рефералів: {referrals_count}\n"
+"Всього зароблено: {all_profit} 💎\n"
+"Виведено на ігровий баланс: {total_ref_withdraw} 💎\n"
+"Доступно для виводу: {money_to_withdraw} 💎\n"
+"Ваш рівень: {ref_level_name}\n"
+"\n"
+"Посилання для запрошень: <code>{invite_link}</code>"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:39
+msgid "REFERRALS_MENU_SEND_INVITE"
+msgstr "Відправити запрошення"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:42
+msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
+msgstr "Вивести на ігровий баланс "
+
+#: ../../bot/menus/account_menus/referrals_menu.py:45
+msgid "REFERRALS_MENU_BTN_REFRESH_REF_INFO"
+msgstr "🔄 Оновити статус"
+
+#: ../../bot/menus/account_menus/referrals_menu.py:48
+msgid "REFERRALS_MENU_HOW_IT_WORKS"
+msgstr "Як це працює?"
+
+#: ../../bot/menus/admin_menus/admin_menu.py:6
+msgid "ADMIN_MENU_TEXT"
+msgstr "Вітаю, пане Адмін! Чого бажаєте?"
+
+#: ../../bot/menus/admin_menus/admin_menu.py:15
+msgid "ADMIN_MENU_BTN_SPAM"
+msgstr "Навалить посилань"
+
+#: ../../bot/menus/admin_menus/admin_menu.py:18
+msgid "ADMIN_MENU_BTN_STATISTIC"
+msgstr "Чекнуть стату"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:8
+msgid "ADMIN_SPAM_TYPE_MENU_TEXT"
+msgstr "Кому навалимо?"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:10
+msgid "ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"
+msgstr "Усім"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:11
+msgid "ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"
+msgstr "Обраним"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:19
+msgid "ADMIN_SPAM_CONFIRM_MENU_TEXT"
+msgstr "Відправляємо?"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:22
+msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"
+msgstr "✅ Так!"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:23
+msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"
+msgstr "❌ Ні"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:31
+msgid "ADMIN_SPAM_LANGUAGE_MENU_TEXT"
+msgstr "А з цих кому?"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:52
+msgid "ADMIN_SPAM_TEXT_WHICH_USER_DOESNT_EXIST"
+msgstr ""
+"В базі даних відсутні наступні ID: \n"
+"{not_exist_receiver}\n"
+"\n"
+"В наступних юзерів інша мова: \n"
+"{another_lang}"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:55
+msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_BACK"
+msgstr "Змінити список"
+
+#: ../../bot/menus/admin_menus/spam_menus.py:56
+msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_GO_NEXT"
+msgstr "Най буде"
+
+#: ../../bot/menus/game_menus/bet_menus.py:14
+msgid "SLOTS_PLAY_TEXT"
+msgstr "🎰 Крутити!"
+
+#: ../../bot/menus/game_menus/bet_menus.py:16
+msgid "FOOTBALL_PLAY_TEXT"
+msgstr "⚽ Удар!"
+
+#: ../../bot/menus/game_menus/bet_menus.py:18
+msgid "DARTS_PLAY_TEXT"
+msgstr "🎯 Кинути!"
+
+#: ../../bot/menus/game_menus/bet_menus.py:21
+#: ../../bot/menus/game_menus/cube_settings.py:12
+msgid "CUBE_PLAY_TEXT"
+msgstr "🎲 Кубісь!"
+
+#: ../../bot/menus/game_menus/bet_menus.py:24
+msgid "DEFAULT_PLAY_TEXT"
+msgstr "Грати"
+
+#: ../../bot/menus/game_menus/bet_menus.py:33
+msgid "DEFAULT_BALANCE_TEXT"
+msgstr ""
+"Ваші гроши: <b>{balance}</b>\n"
+"\n"
+"Обери розмір ставки:"
+
+#: ../../bot/menus/game_menus/bet_menus.py:51
+msgid "BET_MENUS_BTN_MINIMUM"
+msgstr "Мінімум"
+
+#: ../../bot/menus/game_menus/bet_menus.py:53
+msgid "BET_MENUS_BTN_MAXIMUM"
+msgstr "Максимум"
+
+#: ../../bot/menus/game_menus/bet_menus.py:65
+msgid "BET_MENUS_BTN_GIVEMEMONEY"
+msgstr "Віддай гроші"
+
+#: ../../bot/menus/game_menus/cube_settings.py:10
+msgid "CUBE_SETTINGS_TEXT"
+msgstr ""
+"Баланс: <b>{balance}</b> {token_icon}\n"
+"Сума усіх ставок: {general_bet} \n"
+"\n"
+"Обери суму ставки та на що ставиш:"
+
+#: ../../bot/menus/game_menus/cube_settings.py:11
+msgid "CUBE_BET_BUTTON"
+msgstr "⚙️ Ставка • {bet} {token_icon}"
+
+#: ../../bot/menus/game_menus/cube_settings.py:35
+msgid "CUBE_SETTINGS_BTN_EVEN"
+msgstr "Парне"
+
+#: ../../bot/menus/game_menus/cube_settings.py:36
+msgid "CUBE_SETTINGS_BTN_ODD"
+msgstr "Непарне"
+
+#: ../../bot/menus/game_menus/cube_settings.py:52
+msgid "CUBE_SETTINGS_BTN_RESET_ALL_BETS"
+msgstr "Обнуляємось"
+
+#: ../../bot/menus/game_menus/select_balance.py:26
+msgid "SELECT_BALANCE_BTN_RULES"
+msgstr "Правила"
+
+#: ../../bot/menus/game_menus/select_game.py:26
+msgid "SELECT_GAME_BTN_CASINO"
+msgstr "🎰 Казино"
+
+#: ../../bot/menus/game_menus/select_game.py:27
+msgid "SELECT_GAME_BTN_CUBE"
+msgstr "🎲 Кубик"
+
+#: ../../bot/menus/game_menus/select_game.py:28
+msgid "SELECT_GAME_BTN_BASKET"
+msgstr "🏀 Баскет"
+
+#: ../../bot/menus/game_menus/select_game.py:29
+msgid "SELECT_GAME_BTN_DARTS"
+msgstr "🎯 Дартс"
+
+#: ../../bot/menus/game_menus/select_game.py:30
+msgid "SELECT_GAME_BTN_BOWLING"
+msgstr "🎳 Боулінг"
+
+#: ../../bot/menus/game_menus/select_game.py:31
+msgid "SELECT_GAME_BTN_FOOTBALL"
+msgstr "⚽️ Футбол"
+
+#: ../../bot/menus/game_menus/select_game.py:32
+msgid "SELECT_GAME_BTN_MINES"
+msgstr "💣 Міни"
+
+#: ../../bot/menus/game_menus/select_game.py:33
+msgid "SELECT_GAME_BTN_CUEFA"
+msgstr "✌️ ЦУ-Е-ФА"
+
+#: ../../bot/menus/main_menus/guides_menus.py:7
+msgid "GUIDES_MENU_TEXT"
+msgstr ""
+
+#: ../../bot/menus/main_menus/guides_menus.py:16
+msgid "GUIDES_MENU_BTN_ABOUT_CASINO"
+msgstr ""
+
+#: ../../bot/menus/main_menus/guides_menus.py:19
+msgid "GUIDES_MENU_BTN_HOW_TO_DEPOSIT"
+msgstr ""
+
+#: ../../bot/menus/main_menus/guides_menus.py:22
+msgid "GUIDES_MENU_BTN_WITHDRAWALS"
+msgstr ""
+
+#: ../../bot/menus/main_menus/guides_menus.py:25
+msgid "GUIDES_MENU_BTN_GAMES_AND_RULES"
+msgstr ""
+
+#: ../../bot/menus/main_menus/guides_menus.py:28
+msgid "GUIDES_MENU_BTN_PROMO_CODES"
+msgstr ""
+
+#: ../../bot/menus/main_menus/guides_menus.py:31
+msgid "GUIDES_MENU_BTN_REFERRAL_PROGRAM"
+msgstr ""
+
+#: ../../bot/menus/main_menus/language_menu.py:7
+msgid "LANGUAGE_TEXT"
+msgstr "Обери потрібну мову:"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:6
+msgid "WHEEL_OF_FORTUNE_TEXT_MENU"
+msgstr ""
+"☘️ Колесо фортуни \n"
+"Купуй більше, щоб підвищити шанс!\n"
+"\n"
+"Вартість білету: {ticket_cost}\n"
+"Скіко в мене: {user_tickets}\n"
+"Коли крутимо: {date_end}\n"
+"Наперемогав: {wof_win}"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:9
+msgid "WHEEL_FORTUNE_BTN_BUY_TICKET"
+msgstr "Купити білет"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:10
+msgid "WHEEL_FORTUNE_BTN_MY_NUMBERS"
+msgstr "Мої білети"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:11
+msgid "WHEEL_FORTUNE_BTN_BUY_TICKET_CHECK_MY_STATUS"
+msgstr "Перевірити статус"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:12
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:23
+msgid "WHEEL_FORTUNE_BTN_SPIN_RESULT"
+msgstr "Останні переможці"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:13
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:24
+msgid "WHEEL_FORTUNE_BTN_CLAIM_WIN"
+msgstr "Забрати нагороду"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:21
+msgid "WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU"
+msgstr ""
+"Розіграш завершено! \n"
+"За минулий розіграш ви ще не забрали: {user_wof_win}\n"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:34
+msgid "WOF_MENU_BUY_TICKET_TEXT"
+msgstr ""
+"🎟 Купи свій білет!\n"
+"💫 Обери свій щасливий номер або купи відразу багато білетів з випадковими номерами! \n"
+"\n"
+"Баланс: {user_balance} 💎\n"
+"Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
+"Вартість білету: {ticket_cost} 💎\n"
+"Скіко в мене: {user_tickets} 🎟"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:38
+msgid "WOF_BTN_BUY_TICKET_MENU_SELECT_NUM"
+msgstr "Обрати номер"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:39
+msgid "WOF_BTN_BUY_TICKET_MENU_RANDOM_NUM"
+msgstr "Взяти випадкові номери"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:49
+msgid "WOF_MENU_BUY_SELECTED_TICKET_TEXT"
+msgstr ""
+"🎟 Надішліть 7 будь-яких цифр (приклад: 7777777)\n"
+"\n"
+"Ваш номер: <b>{ticket_num}</b> 🎟\n"
+"\n"
+"Баланс: {user_balance} 💎\n"
+"Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
+"Вартість білету: {ticket_cost} 💎\n"
+"Скіко в мене: {user_tickets} 🎟"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
+msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
+msgstr "Купити білет"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:65
+msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
+msgstr ""
+"🎟 Скіко білетів треба?\n"
+"Оберіть або введіть необхідну к-сть білетів\n"
+"\n"
+"Баланс: {user_balance} 💎\n"
+"Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
+"Вартість білету: {ticket_cost} 💎\n"
+"Скіко в мене: {user_tickets} 🎟"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:72
+msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
+msgstr "Купити білет"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:80
+msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
+msgstr ""
+"Знаєш скіко?\n"
+"\n"
+"Усі білети: {all_tickets}\n"
+"Обрані вами: {selected_tickets}\n"
+"Згенеровані: {random_tickets}"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
+msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"
+msgstr "Обрані білетики"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:85
+msgid "WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM"
+msgstr "Згенеровані білетики"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93
+msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
+msgstr ""
+"Ваші білети (сторінка {page} з {pages}):\n"
+"\n"
+"{tickets_text}"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
+msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
+msgstr "Попередня сторінка"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:98
+msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
+msgstr "Наступна сторінка"
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:11
+msgid "DEPOSIT_ACCOUNT_INITIATED"
+msgstr ""
+"✅ Одноразовиій платіж за ініціацію вашого особистого TON-гаманця ({init_pay_ton} TON) пройшов успішно :)\n"
+"\n"
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:13
+msgid "DEPOSIT_INITIATION_ERROR"
+msgstr ""
+"❌ Недостатньо коштів!\n"
+"\n"
+"Одноразовий платіж за ініціацію вашого особистого TON-гаманця - {init_pay_ton} TON"
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:20
+msgid "DEPOSIT_SUCCESSFUL"
+msgstr ""
+"✅ Баланс успішно поповнений на {amount}💎!\n"
+"\n"
+"Вдалих спінів, друже 😉"
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:25
+msgid "DEPOSIT_MENU_TEXT"
+msgstr ""
+"📥 <b>Поповнити Toncoin</b>\n"
+"\n"
+"Переведіть <b>Toncoin</b> на свою депозитну адресу в <b>The Open Network – TON</b>\n"
+"\n"
+"<b>Адреса</b>:\n"
+"<code>{wallet_address}</code>"
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:33
+msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
+msgstr "Відкрити Tonkeeper"
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:34
+msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
+msgstr "Відкрити Tonkeeper"
+
+#: ../../bot/menus/wallet_menus/wallet_menu.py:9
+msgid "WALLET_MENU_TEXT"
+msgstr ""
+"💸 <b>Мій гаманець</b> \n"
+"\n"
+"<b>Баланс</b>: \n"
+"\n"
+"{balances} \n"
+"\n"
+"<b>Курс</b>: {token_price}💎 = 1 TON\n"
+"\n"
+
+#: ../../bot/menus/wallet_menus/wallet_menu.py:19
+msgid "WALLET_MENU_BTN_DEPOSIT"
+msgstr "📥 Поповнити"
+
+#: ../../bot/menus/wallet_menus/wallet_menu.py:20
+msgid "WALLET_MENU_BTN_WITHDRAW"
+msgstr "📤 Вивести"
+
+#: ../../bot/menus/wallet_menus/wallet_menu.py:22
+msgid "WALLET_MENU_BTN_HOW_TO_BUY"
+msgstr "💳 Як придбати TON?"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:11
+msgid "WITHDRAW_MENU_TEXT1"
+msgstr ""
+"📤 Виведення • крок 1/3 \n"
+"\n"
+"Ваш баланс: {general_balance} 💎\n"
+"⚠️ Мін. сума виведення: {min_withdraw} 💎 ({ton_amount} TON)\n"
+"\n"
+"Надішліть суму 💎 для виведення:"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:21
+msgid "WITHDRAW_MENU_TEXT2"
+msgstr ""
+"📤 Виведення • крок 2/3 \n"
+"\n"
+"Надішліть адресу вашого гаманця:"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:30
+msgid "WITHDRAW_MENU_TEXT3"
+msgstr ""
+"📤 Виведення • крок 3/3 \n"
+"\n"
+"<b>Ваш баланс:</b> {general_balance} 💎\n"
+"Сума: {user_withdraw_amount} 💎 ({user_withdraw_amount_ton} TON)\n"
+"Адрес:\n"
+"<code>{user_withdraw_address}</code>\n"
+"\n"
+"Підтвердіть або надішліть іншу кількість 💎 на виведення"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:35
+msgid "WITHDRAW_MENU_BTN_STEP_3_APPROVE"
+msgstr "✅ Підтвердити"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:43
+msgid "WITHDRAW_APPROVE"
+msgstr ""
+"✅ Заявка на виплату {user_withdraw_amount_ton} TON • {user_withdraw_amount} 💎 прийнята!\n"
+"\n"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:46
+msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
+msgstr "На головну"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:66
+msgid "ADMIN_APPROVE_TX"
+msgstr "Адмін схвалив вашу транзу на виведення {amount} 💎! Очікуйте поповнення :)"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:71
+msgid "ADMIN_REJECT_TX"
+msgstr "Транза відхилена адміном. Токени повернені на баланс"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:78
+msgid "PAYMENT_CONFIRMED"
+msgstr "✅ Гроші ({ton_amount} TON) зараховані на ваш рахунок!"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:80
+msgid "PAYMENT_DENIED"
+msgstr "❌ Гроші ({ton_amount} TON) не зараховані, токени повернені на баланс."
+
+#: ../../bot/menus/wallet_menus/withdraw_menu.py:88
+msgid "PAYMENT_LOST"
+msgstr "Транзакція на вивід {ton_amount} TON загублена блокчейном, токени повернені на баланс. \n"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:9
+msgid "PREVIOUS_WITHDRAW_IN_PROCESS"
+msgstr "Дочекайтесь оброблення попередньої транзакції"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:14
+msgid "REACHED_DAILY_LIMIT"
+msgstr "Досягнутий денний ліміт на вивід! Сьогодні ще можна вивести: {allowable_amount} 💎"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:18
+msgid "WITHDRAW_TOO_BIG"
+msgstr "Максимальний денний ліміт - {daily_limit} 💎 ({daily_limit_token} TON)"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:23
+msgid "AMOUNT_TOO_SMALL"
+msgstr "Мінімальна сума для виведення: {min_withdraw} 💎 ({ton_amount} TON)"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:27
+msgid "INSUFFICIENT_FUNDS_MASTER"
+msgstr "На мастер-рахунку не вистачає грошей. Токени повернені на баланс"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:31
+msgid "INSUFFICIENT_FUNDS"
+msgstr "❌ Бажаної суми виводу нема на вашому рахунку"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:35
+msgid "WRONG_ADDRESS"
+msgstr "❌ Невірно введено адресу"
+
+#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:39
+msgid "TON_TESTNET_ADDRESS"
+msgstr "❌ Голова, це тест-нетівська адреса, будь уважніше"
+
+#~ msgid "MAIN_MENU_BTN_CABINET"
+#~ msgstr "🏠 Мій кабінет"
+
+#~ msgid "MAIN_MENU_BTN_SETTINGS"
+#~ msgstr "⚙️ Налаштування"
+
+#~ msgid "MAIN_MENU_BTN_ADS"
+#~ msgstr "📢 Реклама"
+
+#~ msgid "SETTING_TEXT"
+#~ msgstr ""
+#~ "Вітаю у налаштуваннях!\n"
+#~ "\n"
+#~ "А ви вже налаштувались взяти баночку?"
+
+#~ msgid "CABINET_MENU_TEXT"
+#~ msgstr ""
+#~ "Дякую тобі мій мілорд за науку. Я створив цю затишну домівку для твоїх синів та моїх братів. \n"
+#~ "\n"
+#~ "StillNoWoman."
+
+#~ msgid "CABINET_MENU_BTN_DEPOSIT"
+#~ msgstr "Мій гаманець"
+
+#~ msgid "SETTING_BTN_CHANGE_LANG"
+#~ msgstr "Змінити мову"
+
+#~ msgid "CABINET_MENU_BTN_REFERRALS"
+#~ msgstr "👬 Реферали"
+
+#~ msgid "DEPOSIT_MENU_BTN_BACK"
+#~ msgstr "‹ Мій гаманець"
+
+#~ msgid "WALLET_MENU_BTN_BACK"
+#~ msgstr "‹ Меню"
+
+#~ msgid "WITHDRAW_MANUAL_TX"
+#~ msgstr "@{username} (id: {user_id}) хоче вивести купу грошей: {withdraw_amount}."
+
+#~ msgid "Відправляємо?"
+#~ msgstr "Ваше повідомлення:"
+
+#~ msgid "WOF_BUY_TICKET_ERR_ENTER_DIGITS"
+#~ msgstr "Введене значення має бути числом!"
+
+#~ msgid "WOF_BUY_TICKET_ERR_ENTER_POSITIVE_NUM"
+#~ msgstr "Не наїбеш, вводь позитивне число!"
+
+#~ msgid "WOF_BUY_TICKET_ERR_CHOOSE_SMALLER_QUANTITY"
+#~ msgstr "Ви можете купити не більше {how_much_tickets_can_buy} квитків!"
+
+#~ msgid "WOF_BUY_TICKET_ERR_MIN_TICKETS_COUNT"
+#~ msgstr "Ви не можете купити менше одного квитка!"
+
+#~ msgid "WOF_REMAINING_TIME"
+#~ msgstr "через "
+
+#~ msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
+#~ msgstr "Ви не можете купити більше {maximum_ticket} білетів!"
+
+#~ msgid "WOF_BUY_TICKET_SUCCESS"
+#~ msgstr "✅ Білет номер {ticket_num} куплено"
+
