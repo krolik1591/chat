@@ -108,3 +108,22 @@ class GameLog(manager.Model):
 class Settings(manager.Model):
     key = CharField(primary_key=True)
     value = CharField()     # json format
+
+
+class PromoCodes(manager.Model):
+    name = CharField(primary_key=True)
+    type = CharField()
+    bonus = BigIntegerField()
+    wager = BigIntegerField()
+    number_of_users = DecimalField()
+    number_of_uses = BigIntegerField()
+    status = BooleanField(default=True)
+    date_end = BigIntegerField(null=True)
+
+
+class UsersPromoCodes(manager.Model):
+    userspromocodes_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='userspromocodes')
+    promo_name = CharField()
+    date_of_using = BigIntegerField()
+    date_end = BigIntegerField(null=True)
