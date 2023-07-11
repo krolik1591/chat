@@ -1,10 +1,12 @@
 import time
 
-from bot.db.models import PromoCodes, UsersPromoCodes
+from bot.db.models import PromoCodes, Transactions, UsersPromoCodes
 
 
-async def add_new_promo_code(name, type, bonus, wager, number_of_users=float('Infinity'), number_of_uses=1, date_end=None):
-    return await PromoCodes.create(name=name, bonus=bonus, wager=wager, date_end=date_end, number_of_uses=number_of_uses,
+async def add_new_promo_code(name, type, bonus, wager, number_of_users=float('Infinity'), number_of_uses=1,
+                             date_end=None):
+    return await PromoCodes.create(name=name, bonus=bonus, wager=wager, date_end=date_end,
+                                   number_of_uses=number_of_uses,
                                    number_of_users=number_of_users, type=type)
 
 
@@ -22,16 +24,46 @@ async def get_all_active_promo_code():
     return result
 
 
+async def need_a_bonus(user_id):
+    now = time.time()
+    active_promo_code = await UsersPromoCodes.select(UsersPromoCodes.date_of_using, UsersPromoCodes.date_end,
+                                                     UsersPromoCodes.promo_name) \
+        .where(UsersPromoCodes.user_id == user_id, UsersPromoCodes.date_of_using < now < UsersPromoCodes.date_end,
+               ).dicts().first()
+    if not active_promo_code:
+        return
+
+    all_tx = await Transactions.select() \
+        .where(active_promo_code['date_of_using'] < Transactions.utime < active_promo_code['date_end'],
+               Transactions.user_id == user_id).count()
+
+    return all_tx
+
+
 if __name__ == "__main__":
     import asyncio
+    from bot.db import db
+
 
     async def test():
-        # await add_new_promo_code('pizda', 'balance', 20, 200)
-        # x = await get_promo_code_info('hui')
-        # print(x.number_of_users > 9999)
-        # await user_activated_promo_code(357108179, 'hui')
-        x = await get_all_active_promo_code()
-        print(x)
+        # await add_new_promo_code('huuuuuuiii', 'balance', 20, 200)
+        # x = await get_promo_code_info('huuuuuuiii')
+        # print(x)
+        # await user_activated_promo_code(357108179, 'huuuuuuiii')
+        x = await need_a_bonus(357108179)
+        # print(x)
+
+        # await db.add_new_transaction(
+        #     user_id=357108179,
+        #     token_id="ton",
+        #     amount=500,
+        #     tx_type=3,  # withdraw
+        #     tx_address='qgr4hgr',
+        #     tx_hash='gwrgher5gh',
+        #     logical_time=6516541641,
+        #     utime=time.time(),
+        #     comment='pohui'),
+        pass
 
 
     asyncio.run(test())
