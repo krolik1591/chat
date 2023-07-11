@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-04 11:45+0300\n"
+"POT-Creation-Date: 2023-07-11 15:19+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -18,14 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../../bot/cron/wof_watcher.py:88
+#: ../../bot/cron/wof_watcher.py:161
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
 msgstr ""
 "🎉 Вітаємо з перемогою в колесі фортуни, ви зайняли {pos} місце! \n"
 "\n"
 "Виграшний білет: {winner_num}, нагорода: {reward}."
 
-#: ../../bot/cron/wof_watcher.py:93
+#: ../../bot/cron/wof_watcher.py:167
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
 msgstr "Не розстраюйся, наступного разу пощастить! ☺️"
 
@@ -401,25 +401,26 @@ msgstr "GENERAL"
 
 #: ../../bot/menus/account_menus/account_menu.py:17
 msgid "ACCOUNT_MENU_BTN_REFERRALS"
-msgstr "Реферали"
+msgstr "💰 Реферали"
 
 #: ../../bot/menus/account_menus/account_menu.py:20
 msgid "ACCOUNT_MENU_BTN_PROMO_CODES"
-msgstr "Промокоди"
+msgstr "🔥 Промокоди"
 
 #: ../../bot/menus/account_menus/account_menu.py:23
 msgid "ACCOUNT_MENU_BTN_TROPHIES"
-msgstr "Трофеї"
+msgstr "🏆 Трофеї"
 
 #: ../../bot/menus/account_menus/account_menu.py:26
 msgid "ACCOUNT_MENU_BTN_SEND_GIFT"
-msgstr "Відправити подарунок"
+msgstr "🎁 Відправити подарунок"
 
 #: ../../bot/menus/account_menus/account_menu.py:27
 msgid "ACCOUNT_MENU_SETTINGS"
-msgstr "Налаштування"
+msgstr "⚙️ Налаштування"
 
 #: ../../bot/menus/account_menus/account_menu.py:30
+#: ../../bot/menus/account_menus/account_menu.py:41
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -443,6 +444,14 @@ msgstr "Налаштування"
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:36
 msgid "BTN_BACK"
 msgstr "‹ Назад"
+
+#: ../../bot/menus/account_menus/account_menu.py:38
+msgid "ACCOUNT_MENU_PROMO_CODES_TEXT"
+msgstr "Відправте номер промокода для активації!"
+
+#: ../../bot/menus/account_menus/account_menu.py:40
+msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_BTN"
+msgstr "🔥 Активні промокоди"
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11
 msgid "REF_LVL_1_ADEPT"
