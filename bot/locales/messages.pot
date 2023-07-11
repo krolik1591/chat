@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-11 15:19+0300\n"
+"POT-Creation-Date: 2023-07-11 15:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -366,6 +366,7 @@ msgstr ""
 
 #: ../../bot/menus/account_menus/account_menu.py:30
 #: ../../bot/menus/account_menus/account_menu.py:41
+#: ../../bot/menus/account_menus/account_menu.py:50
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -396,6 +397,10 @@ msgstr ""
 
 #: ../../bot/menus/account_menus/account_menu.py:40
 msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/account_menu.py:48
+msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT"
 msgstr ""
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11

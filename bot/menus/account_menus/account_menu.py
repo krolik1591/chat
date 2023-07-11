@@ -42,3 +42,12 @@ def promo_code_menu():
     ])
 
     return text, kb
+
+
+def active_promo_code_menu(text):
+    text = _('ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT').format(text=text)
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="promo_codes")]
+    ])
+
+    return text, kb
