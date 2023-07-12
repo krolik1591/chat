@@ -128,3 +128,4 @@ class UsersPromoCodes(manager.Model):
     min_wager = DecimalField(null=True)
     wager = DecimalField(null=True)
     date_activated = BigIntegerField()
+    # won = BooleanField(null=True)

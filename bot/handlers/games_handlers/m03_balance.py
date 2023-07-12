@@ -11,6 +11,8 @@ from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.games_handlers.m05_bets import bet_menu
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.game_menus import select_balance_menu
+from aiogram.utils.i18n import gettext as _
+
 
 router = Router()
 
@@ -33,6 +35,11 @@ async def balance_type_show(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(startswith='set_balance_type_'))
 async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
     balance_type = call.data.removeprefix('set_balance_type_')
+    if balance_type == 'promo':
+        sum_bets, min_wager = await db.get_sum_bets_from_activated_promo_and_min_wager(call.from_user.id)
+        if not min_wager or sum_bets > min_wager:
+            await call.answer(_('M03_BALANCE_NOT_ENOUGH_BETS_TO_PLAY_PROMO'), show_alert=True)
+            return
     await state.update_data(**{StateKeys.BALANCE_TYPE: balance_type})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
