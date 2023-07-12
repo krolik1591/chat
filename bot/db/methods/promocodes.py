@@ -1,6 +1,8 @@
 import time
 
-from bot.db.models import PromoCodes, Transactions, UsersPromoCodes
+from peewee import fn
+
+from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes
 
 TWO_WEEK = 1209600  # default time active promo-code
 
@@ -23,8 +25,7 @@ async def get_promo_code_info(name):
 
 async def get_all_active_promo_code():
     now = time.time()
-    result = await PromoCodes.select(PromoCodes.name).where(PromoCodes.date_start < now < PromoCodes.date_end).scalars()
-    return result
+    return await PromoCodes.select(PromoCodes.name).where(PromoCodes.date_start < now < PromoCodes.date_end).scalars()
 
 
 #
@@ -83,16 +84,33 @@ async def update_wagers(user_id, bonus, promo_code):
     )
 
 
+async def get_info_from_user_promo_codes(user_id, promo_name):
+    return await UsersPromoCodes.select().where(
+        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_name).order_by(
+        UsersPromoCodes.date_activated.desc()
+    ).first()
+
+
+async def get_sum_bets_from_activated_promo(user_id):
+    promo_code = await get_active_promo_code(user_id, 'balance')
+    user_promo_info = await get_info_from_user_promo_codes(user_id, promo_code.name)
+    return await GameLog.select(fn.SUM(GameLog.bet)).where(
+        GameLog.user_id == user_id, user_promo_info.date_activated < GameLog.timestamp < promo_code.date_end,
+        GameLog.balance_type == 'general').scalar()
+
+
 if __name__ == "__main__":
     import asyncio
     from bot.db import db
 
 
     async def test():
-        # await add_new_promo_code('pipiska', 'balance', 20)
-        # x = await get_promo_code_info('huuuuuuiii')
+        # await add_new_promo_code('pipiska', 'balance', 100)
         # await user_activated_promo_code(357108179, 'pipiska')
-        x = await need_a_bonus(357108179)
+        # x = await get_date_activated_promo_by_user(357108179, 'pipiska')
+        # x = await get_promo_code_info('huuuuuuiii')
+        # x = await need_a_bonus(357108179)
+        x = await get_sum_bets_from_activated_promo(357108179)
         print(x)
 
         # await db.add_new_transaction(
