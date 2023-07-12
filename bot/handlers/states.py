@@ -16,6 +16,8 @@ class Menu(StatesGroup):
     enter_ticket_num = State()
     enter_tickets_count = State()
     enter_pages = State()
+    # promo-codes
+    enter_promo_code = State()
 
 
 class StateKeys:

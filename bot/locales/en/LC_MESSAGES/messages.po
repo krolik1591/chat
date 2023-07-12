@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-12 17:27+0300\n"
+"POT-Creation-Date: 2023-07-12 18:15+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -64,11 +64,12 @@ msgstr ""
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:64
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:65
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:69
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:75
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
@@ -191,6 +192,18 @@ msgstr ""
 
 #: ../../bot/handlers/games_handlers/dice_games/texts.py:68
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:50
+msgid "PROMO_CODE_DOESNT_EXIST_ERR"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:56
+msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:58
+msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr ""
 
 #: ../../bot/handlers/my_account_handlers/referrals.py:25
