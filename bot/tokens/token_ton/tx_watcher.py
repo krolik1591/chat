@@ -16,6 +16,9 @@ from bot.tokens.token_ton import TonWrapper, ton_token
 
 
 # todo оптимизация: сортировать пользователей по последней активности
+from bot.utils.rounding import round_down
+
+
 async def watch_txs(ton_wrapper: TonWrapper, bot, i18n: I18n):
 
     async def find_new_master_tx():
@@ -160,8 +163,15 @@ async def user_deposited(tx, bot, user_id, user_wallet: Wallet):
     #todo емаунт для поповнення дивитись по грошам що прийшли на мастер воллет
     await send_successful_deposit_msg(bot, user_id, amount_gametokens)
 
+    promo_code = await db.need_a_bonus(user_id)
     with manager.pw_database.atomic():
         await db.update_user_balance(user_id, 'general', amount_gametokens)
+
+        if promo_code:
+            promo_bonus = round_down(amount_gametokens * promo_code.bonus / 100, 2)
+            await db.update_user_balance(user_id, 'promo', promo_bonus)
+            await db.update_wagers(user_id, promo_bonus, promo_code)
+
         await db.add_new_transaction(
             user_id=user_id,
             token_id=ton_token.id,

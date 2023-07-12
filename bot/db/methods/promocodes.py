@@ -72,9 +72,15 @@ async def need_a_bonus(user_id):
     tx_count = await Transactions.select().where(active_promo.date_start < Transactions.utime < active_promo.date_end,
                                                  Transactions.user_id == user_id).count()
     if active_promo.number_of_uses - tx_count > 0:
-        return active_promo.bonus
+        return active_promo
     else:
         return False
+
+
+async def update_wagers(user_id, bonus, promo_code):
+    return await UsersPromoCodes.update({UsersPromoCodes.min_wager: bonus, UsersPromoCodes.wager: bonus * 10}).where(
+        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_code.name
+    )
 
 
 if __name__ == "__main__":
