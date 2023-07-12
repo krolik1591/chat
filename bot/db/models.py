@@ -114,16 +114,15 @@ class PromoCodes(manager.Model):
     name = CharField(primary_key=True)
     type = CharField()
     bonus = BigIntegerField()
-    wager = BigIntegerField()
     number_of_users = DecimalField()
     number_of_uses = BigIntegerField()
-    status = BooleanField(default=True)
-    date_end = BigIntegerField(null=True)
+    date_start = BigIntegerField()
+    date_end = BigIntegerField()
 
 
 class UsersPromoCodes(manager.Model):
     userspromocodes_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='userspromocodes')
     promo_name = CharField()
-    date_of_using = BigIntegerField()
-    date_end = BigIntegerField(null=True)
+    promo_type = CharField()
+    date_activated = BigIntegerField()
