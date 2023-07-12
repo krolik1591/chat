@@ -65,6 +65,10 @@ async def can_play_on_promo_balance(call):
         await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
         return False
 
+    if not min_wager:
+        await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
+        return False
+
     if not sum_bets:
         await call.answer(_('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
                           .format(missing_bets=min_wager, show_alert=True))
