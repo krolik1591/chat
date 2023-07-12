@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-11 15:58+0300\n"
+"POT-Creation-Date: 2023-07-12 17:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,8 +59,16 @@ msgstr ""
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:33
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:37
 msgid "DICE_ROLL_TEXT"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:64
+msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:69
+msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/dice_games/base_dice_game.py:29

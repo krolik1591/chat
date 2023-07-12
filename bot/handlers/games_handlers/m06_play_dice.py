@@ -22,6 +22,10 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     await db.set_user_last_active(call.from_user.id)
     context = await Context.from_fsm_context(call.from_user.id, state)
 
+    if context.balance_type == 'promo':
+        if not await can_play_on_promo_balance(call):
+            return
+
     dice_game: Dice = DICE_GAMES[context.game]
 
     error = dice_game.pre_check(context)
@@ -52,3 +56,23 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     # Send settings menu
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=None)
+
+
+async def can_play_on_promo_balance(call):
+    try:
+        sum_bets, min_wager = await db.get_sum_bets_from_activated_promo_and_min_wager(call.from_user.id)
+    except AttributeError:
+        await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
+        return False
+
+    if not sum_bets:
+        await call.answer(_('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
+                          .format(missing_bets=min_wager, show_alert=True))
+        return False
+
+    if sum_bets < min_wager:
+        missing_bets = min_wager - sum_bets
+        await call.answer(_('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
+                          .format(missing_bets=round_down(missing_bets, 2)), show_alert=True)
+        return False
+    return True

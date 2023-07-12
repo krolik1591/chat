@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-11 15:58+0300\n"
+"POT-Creation-Date: 2023-07-12 17:27+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -68,9 +68,17 @@ msgstr ""
 "Не отримали повідомлення:\n"
 "{text}"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:33
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:37
 msgid "DICE_ROLL_TEXT"
 msgstr "🍀 Успіхів!"
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:64
+msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
+msgstr "Активуйте промокод, щоб грати!"
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:69
+msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
+msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
 #: ../../bot/handlers/games_handlers/dice_games/base_dice_game.py:29
 #: ../../bot/handlers/games_handlers/dice_games/dice_games.py:46
@@ -456,7 +464,9 @@ msgstr "🔥 Активні промокоди"
 
 #: ../../bot/menus/account_menus/account_menu.py:48
 msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT"
-msgstr "Активні промокоди: \n\n"
+msgstr ""
+"Активні промокоди: \n"
+"\n"
 "{text}"
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11
