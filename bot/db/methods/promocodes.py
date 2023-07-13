@@ -15,16 +15,11 @@ async def add_new_promo_code(name, _type, bonus, number_of_users=float('Infinity
                                    number_of_uses=number_of_uses, number_of_users=number_of_users)
 
 
-async def user_activated_promo_code(user_id, promo_name, date_activated=None):
-    if date_activated is None:
-        date_activated = time.time()
-    if date_activated == 0:
-        date_activated = None
-
+async def user_activated_promo_code(user_id, promo_name):
     promo_info = await get_promo_code_info(promo_name)
     return await UsersPromoCodes.create(
         user_id=user_id, promo_name=promo_name, promo_type=promo_info.type,
-        date_activated=date_activated, date_end=time.time() + USER_DEFAULT_PROMO_ACTIVE_TIME)
+        date_activated=time.time(), date_end=time.time() + USER_DEFAULT_PROMO_ACTIVE_TIME)
 
 
 async def get_promo_code_info(name):
@@ -37,16 +32,29 @@ async def get_all_active_promo_code_for_user(user_id):
     result = set()
 
     not_hidden_promo = await PromoCodes.select(PromoCodes.name).where(
-        PromoCodes.date_start < now < PromoCodes.date_end, PromoCodes.is_hidden == 0).scalars()
+        now < PromoCodes.date_end, PromoCodes.is_hidden == 0).scalars()
     for code in not_hidden_promo:
         result.add(code)
 
     hidden_promo = await UsersPromoCodes.select(UsersPromoCodes.promo_name).where(
-        UsersPromoCodes.user_id == user_id, UsersPromoCodes.date_activated == None).scalars()
+        UsersPromoCodes.user_id == user_id, UsersPromoCodes.date_activated == None, now < UsersPromoCodes.date_end)\
+        .scalars()
     for code in hidden_promo:
         result.add(code)
 
     return result
+
+
+async def get_all_active_promo_code_for_watcher():
+    now = time.time()
+
+    not_hidden_promo = await PromoCodes.select(PromoCodes.name).where(
+        now < PromoCodes.date_end, PromoCodes.is_hidden == 0).scalars()
+
+    hidden_promo = await UsersPromoCodes.select(UsersPromoCodes).where(
+        UsersPromoCodes.date_activated == None, now < UsersPromoCodes.date_end).scalars()
+
+    return set(not_hidden_promo + hidden_promo)
 
 
 async def get_active_promo_code_of_user(user_id, promo_type):
@@ -104,14 +112,14 @@ if __name__ == "__main__":
 
 
     async def test():
-        await add_new_promo_code('putin huilo', 'balance', 100)
+        # await add_new_promo_code('putin huilo', 'balance', 100)
         # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_of_user(357108179, 'putin huilo')
         # x = await get_promo_code_info('putin loh')
-        x = await get_all_active_promo_code_for_user(357108179)
-        x = await get_active_promo_code_of_user(357108179, 'balance')
+        # x = await get_all_active_promo_code_for_user(357108179)
+        # x = await get_active_promo_code_of_user(357108179, 'balance')
+        x = await get_all_active_promo_code_for_watcher()
         print(x)
-
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",

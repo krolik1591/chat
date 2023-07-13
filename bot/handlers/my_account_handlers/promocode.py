@@ -49,7 +49,7 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
         await call.answer(err, show_alert=True)
         return
 
-    await db.user_activated_promo_code(357108179, promo_code)
+    await db.user_activated_promo_code(call.from_user.id, promo_code)
     await call.answer(_("PROMO_CODE_IS_ACTIVATED").format(promo_code=promo_code), show_alert=True)
 
 
