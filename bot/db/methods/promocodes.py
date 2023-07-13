@@ -32,7 +32,7 @@ async def get_promo_code_info(name):
 
 
 #   to add hidden promo code need add it to UsersPromoCodes table for display it on user and to PromoCodes for use
-async def get_all_active_promo_code(user_id):
+async def get_all_active_promo_code_for_user(user_id):
     now = time.time()
     result = set()
 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
         # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_of_user(357108179, 'putin huilo')
         # x = await get_promo_code_info('putin loh')
-        x = await get_all_active_promo_code(357108179)
+        x = await get_all_active_promo_code_for_user(357108179)
         x = await get_active_promo_code_of_user(357108179, 'balance')
         print(x)
 

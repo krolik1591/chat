@@ -42,7 +42,7 @@ async def enter_promo_code(message: Message, state: FSMContext):
 async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
     promo_code = (await state.get_data()).get(StateKeys.PROMO_CODE_ENTERED)
     active_promo = await db.get_active_promo_code_of_user(call.from_user.id, 'balance')
-    all_active_promo = await db.get_all_active_promo_code(call.from_user.id)
+    all_active_promo = await db.get_all_active_promo_code_for_user(call.from_user.id)
 
     err = check_enter_promo_code(promo_code, active_promo, all_active_promo)
     if err is not None:
@@ -83,7 +83,7 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
 
 @router.callback_query(Text("promo_code_available"))
 async def active_promo_codes(call: types.CallbackQuery, state: FSMContext):
-    promo_codes = await db.get_all_active_promo_code(call.from_user.id)
+    promo_codes = await db.get_all_active_promo_code_for_user(call.from_user.id)
     text = get_promo_codes_text(promo_codes)
 
     text, keyboard = promocodes_menu.active_promo_code_menu(text)
