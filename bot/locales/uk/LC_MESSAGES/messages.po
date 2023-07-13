@@ -252,7 +252,8 @@ msgstr "❌ Такого промокоду не існує!"
 
 #: ../../bot/handlers/my_account_handlers/promocode.py:95
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
-msgstr "Промокод {promo_code} вже був активован!"
+msgstr "У вас вже є активний промокод: {promo_code}.\n\n"
+"Щоб активувати новий, відмініть цей."
 
 #: ../../bot/handlers/my_account_handlers/promocode.py:101
 msgid "PROMO_CODE_IS_ACTIVATED"
@@ -481,7 +482,8 @@ msgstr "‹ Назад"
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:6
 msgid "PROMOCODES_MENU_PROMO_CODES_TEXT"
-msgstr "Введіть промокод для активації"
+msgstr "Введіть промокод для активації!\n\n"
+"Ваш промокод: {promo_code}"
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:8
 msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"

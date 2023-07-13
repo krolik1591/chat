@@ -2,8 +2,8 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.i18n import gettext as _
 
 
-def promo_code_menu():
-    text = _('PROMOCODES_MENU_PROMO_CODES_TEXT')
+def promo_code_menu(promo_code):
+    text = _('PROMOCODES_MENU_PROMO_CODES_TEXT').format(promo_code=promo_code)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_("ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"), callback_data="active_promo_code")],
         [InlineKeyboardButton(text=_("ACCOUNT_MENU_MY_PROMO_CODE_BTN"), callback_data="my_promo_codes")],
