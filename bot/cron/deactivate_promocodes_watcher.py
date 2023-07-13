@@ -11,7 +11,7 @@ async def start_wof_timer(bot, i18n):
     while True:
         logging.info("DEACTIVATE PROMO CODE TIMER STARTED")
 
-        await db.get_all_active_promo_code_for_user()
+        await db.get_all_available_promo_code_for_user()
 
         await asyncio.sleep(HOUR)
 

@@ -9,8 +9,8 @@ ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
 USER_DEFAULT_PROMO_ACTIVE_TIME = 1209600  # the user's default promo code activity time
 
 
-async def add_new_promo_code(name, _type, bonus, number_of_users=float('Infinity'), number_of_uses=1, is_hidden=False):
-    return await PromoCodes.create(name=name, bonus=bonus, type=_type, is_hidden=is_hidden,
+async def add_new_promo_code(name, _type, bonus, number_of_users=float('Infinity'), number_of_uses=1, special_users=None):
+    return await PromoCodes.create(name=name, bonus=bonus, type=_type, special_users=special_users,
                                    date_start=time.time(), date_end=time.time() + ACTIVE_PROMO_CODE,
                                    number_of_uses=number_of_uses, number_of_users=number_of_users)
 
@@ -26,35 +26,21 @@ async def get_promo_code_info(name):
     return await PromoCodes.select(PromoCodes).where(PromoCodes.name == name).first()
 
 
-#   to add hidden promo code need add it to UsersPromoCodes table for display it on user and to PromoCodes for use
-async def get_all_active_promo_code_for_user(user_id):
-    now = time.time()
-    result = set()
-
-    not_hidden_promo = await PromoCodes.select(PromoCodes.name).where(
-        now < PromoCodes.date_end, PromoCodes.is_hidden == 0).scalars()
-    for code in not_hidden_promo:
-        result.add(code)
-
-    hidden_promo = await UsersPromoCodes.select(UsersPromoCodes.promo_name).where(
-        UsersPromoCodes.user_id == user_id, UsersPromoCodes.date_activated == None, now < UsersPromoCodes.date_end)\
-        .scalars()
-    for code in hidden_promo:
-        result.add(code)
-
-    return result
-
-
-async def get_all_active_promo_code_for_watcher():
+async def get_all_available_promo_code_for_user(user_id):
     now = time.time()
 
-    not_hidden_promo = await PromoCodes.select(PromoCodes.name).where(
-        now < PromoCodes.date_end, PromoCodes.is_hidden == 0).scalars()
+    promo_codes = await PromoCodes.select(PromoCodes.name).where(
+        now < PromoCodes.date_end, PromoCodes.special_users == None).scalars()
 
-    hidden_promo = await UsersPromoCodes.select(UsersPromoCodes).where(
-        UsersPromoCodes.date_activated == None, now < UsersPromoCodes.date_end).scalars()
+    promo_codes = await PromoCodes.select(PromoCodes).where(
+        now < PromoCodes.date_end, PromoCodes.special_users != None)
 
-    return set(not_hidden_promo + hidden_promo)
+    for code in promo_codes:
+        special_users = code.special_users.split(',')
+        if str(user_id) in special_users:
+            promo_codes.append(code.name)
+
+    return set(promo_codes)
 
 
 async def get_active_promo_code_of_user(user_id, promo_type):
@@ -112,13 +98,13 @@ if __name__ == "__main__":
 
 
     async def test():
-        # await add_new_promo_code('putin huilo', 'balance', 100)
+        # await add_new_promo_code('putin huilo 2', 'balance', 100, special_users='12341234,357108179')
         # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_of_user(357108179, 'putin huilo')
         # x = await get_promo_code_info('putin loh')
-        # x = await get_all_active_promo_code_for_user(357108179)
+        # x = await get_all_available_promo_code_for_user(357108179)
         # x = await get_active_promo_code_of_user(357108179, 'balance')
-        x = await get_all_active_promo_code_for_watcher()
+        x = await get_all_available_promo_code_for_user(357108179)
         print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
