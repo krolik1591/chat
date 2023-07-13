@@ -28,7 +28,7 @@ async def promo_codes_handler(call: types.CallbackQuery, state):
 
 @router.callback_query(Text("promo_code_available"))
 async def active_promo_codes(call: types.CallbackQuery, state: FSMContext):
-    promo_codes = await db.get_all_active_promo_code()
+    promo_codes = await db.get_all_active_promo_code(call.from_user.id)
     text = get_promo_codes_text(promo_codes)
 
     text, keyboard = promocodes_menu.active_promo_code_menu(text)
@@ -46,10 +46,10 @@ def get_promo_codes_text(promo_codes):
 
 
 @router.message(StateFilter(Menu.enter_promo_code))
-async def enter_promo_code(message: Message, state):
+async def enter_promo_code(message: Message):
     await message.delete()
     promo_code = message.text
-    all_active_promo = await db.get_all_active_promo_code()
+    all_active_promo = await db.get_all_active_promo_code(message.from_user.id)
 
     if promo_code not in all_active_promo:
         await message.answer(_("PROMO_CODE_DOESNT_EXIST_ERR"), reply_markup=kb_del_msg())
