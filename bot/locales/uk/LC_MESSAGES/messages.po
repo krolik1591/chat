@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-12 18:15+0300\n"
+"POT-Creation-Date: 2023-07-13 08:32+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -73,11 +73,12 @@ msgid "DICE_ROLL_TEXT"
 msgstr "🍀 Успіхів!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:65
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:69
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод, щоб грати!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:69
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:75
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:73
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:79
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -235,15 +236,15 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:50
+#: ../../bot/handlers/my_account_handlers/promocode.py:49
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr "❌ Такого промокоду не існує!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:56
+#: ../../bot/handlers/my_account_handlers/promocode.py:54
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr "Промокод {promo_code} вже був активован!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:58
+#: ../../bot/handlers/my_account_handlers/promocode.py:60
 msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr "✅ Промокод {promo_code} активовано!"
 
@@ -441,8 +442,9 @@ msgid "ACCOUNT_MENU_SETTINGS"
 msgstr "⚙️ Налаштування"
 
 #: ../../bot/menus/account_menus/account_menu.py:30
-#: ../../bot/menus/account_menus/account_menu.py:41
-#: ../../bot/menus/account_menus/account_menu.py:50
+#: ../../bot/menus/account_menus/promocodes_menu.py:11
+#: ../../bot/menus/account_menus/promocodes_menu.py:20
+#: ../../bot/menus/account_menus/promocodes_menu.py:29
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -467,20 +469,33 @@ msgstr "⚙️ Налаштування"
 msgid "BTN_BACK"
 msgstr "‹ Назад"
 
-#: ../../bot/menus/account_menus/account_menu.py:38
-msgid "ACCOUNT_MENU_PROMO_CODES_TEXT"
-msgstr "Відправте номер промокода для активації:"
+#: ../../bot/menus/account_menus/promocodes_menu.py:6
+msgid "PROMOCODES_MENU_PROMO_CODES_TEXT"
+msgstr "Введіть промокод для активації"
 
-#: ../../bot/menus/account_menus/account_menu.py:40
-msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_BTN"
-msgstr "🔥 Активні промокоди"
+#: ../../bot/menus/account_menus/promocodes_menu.py:8
+msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"
+msgstr "▶️ Активувати промокод"
 
-#: ../../bot/menus/account_menus/account_menu.py:48
-msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT"
-msgstr ""
-"Активні промокоди: \n"
-"\n"
-"{text}"
+#: ../../bot/menus/account_menus/promocodes_menu.py:9
+msgid "ACCOUNT_MENU_MY_PROMO_CODE_BTN"
+msgstr "🟢 Мій промокод"
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:10
+msgid "ACCOUNT_MENU_PROMO_CODES_AVAILABLE_BTN"
+msgstr "🔥 Доступні промокоди"
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:18
+msgid "PROMOCODES_MENU_ACTIVE_PROMO_CODES_TEXT"
+msgstr "🔥 Доступні промокоди: \n\n{text}"
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:27
+msgid "PROMOCODES_MENU_MY_PROMO_CODES_TEXT"
+msgstr "Деталі промокоду: \n\n"
+"• Активний промокод:\n"
+"• Ваш бонус:\n"
+"• Ваджер активації:\n"
+"• Ваджер відіграшу:"
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11
 msgid "REF_LVL_1_ADEPT"
@@ -1060,4 +1075,16 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 
 #~ msgid "WOF_BUY_TICKET_SUCCESS"
 #~ msgstr "✅ Білет номер {ticket_num} куплено"
+
+#~ msgid "ACCOUNT_MENU_PROMO_CODES_TEXT"
+#~ msgstr "Відправте номер промокода для активації:"
+
+#~ msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_BTN"
+#~ msgstr "🔥 Активні промокоди"
+
+#~ msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT"
+#~ msgstr ""
+#~ "Активні промокоди: \n"
+#~ "\n"
+#~ "{text}"
 

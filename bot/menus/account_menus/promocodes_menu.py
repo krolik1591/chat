@@ -3,7 +3,7 @@ from aiogram.utils.i18n import gettext as _
 
 
 def promo_code_menu():
-    text = _('ACCOUNT_MENU_PROMO_CODES_TEXT')
+    text = _('PROMOCODES_MENU_PROMO_CODES_TEXT')
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_("ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"), callback_data="active_promo_code")],
         [InlineKeyboardButton(text=_("ACCOUNT_MENU_MY_PROMO_CODE_BTN"), callback_data="my_promo_codes")],
@@ -15,18 +15,18 @@ def promo_code_menu():
 
 
 def active_promo_code_menu(text):
-    text = _('ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT').format(text=text)
+    text = _('PROMOCODES_MENU_ACTIVE_PROMO_CODES_TEXT').format(text=text)
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="my_account")]
+        [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="promo_codes")]
     ])
 
     return text, kb
 
 
 def my_promo_code_menu():
-    text = _('ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT')
+    text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT')
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="my_account")]
+        [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="promo_codes")]
     ])
 
     return text, kb

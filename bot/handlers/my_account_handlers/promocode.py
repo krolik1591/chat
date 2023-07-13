@@ -20,6 +20,12 @@ async def promo_codes_handler(call: types.CallbackQuery, state):
     await state.set_state(Menu.delete_message)
 
 
+@router.callback_query(Text("my_promo_codes"))
+async def promo_codes_handler(call: types.CallbackQuery, state):
+    text, keyboard = promocodes_menu.my_promo_code_menu()
+    await call.message.edit_text(text, reply_markup=keyboard)
+
+
 @router.callback_query(Text("promo_code_available"))
 async def active_promo_codes(call: types.CallbackQuery, state: FSMContext):
     promo_codes = await db.get_all_active_promo_code()

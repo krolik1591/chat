@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-12 18:15+0300\n"
+"POT-Creation-Date: 2023-07-13 08:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,11 +64,12 @@ msgid "DICE_ROLL_TEXT"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:65
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:69
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:69
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:75
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:73
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:79
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
@@ -193,15 +194,15 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:50
+#: ../../bot/handlers/my_account_handlers/promocode.py:49
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:56
+#: ../../bot/handlers/my_account_handlers/promocode.py:54
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:58
+#: ../../bot/handlers/my_account_handlers/promocode.py:60
 msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr ""
 
@@ -386,8 +387,9 @@ msgid "ACCOUNT_MENU_SETTINGS"
 msgstr ""
 
 #: ../../bot/menus/account_menus/account_menu.py:30
-#: ../../bot/menus/account_menus/account_menu.py:41
-#: ../../bot/menus/account_menus/account_menu.py:50
+#: ../../bot/menus/account_menus/promocodes_menu.py:11
+#: ../../bot/menus/account_menus/promocodes_menu.py:20
+#: ../../bot/menus/account_menus/promocodes_menu.py:29
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -412,16 +414,28 @@ msgstr ""
 msgid "BTN_BACK"
 msgstr ""
 
-#: ../../bot/menus/account_menus/account_menu.py:38
-msgid "ACCOUNT_MENU_PROMO_CODES_TEXT"
+#: ../../bot/menus/account_menus/promocodes_menu.py:6
+msgid "PROMOCODES_MENU_PROMO_CODES_TEXT"
 msgstr ""
 
-#: ../../bot/menus/account_menus/account_menu.py:40
-msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_BTN"
+#: ../../bot/menus/account_menus/promocodes_menu.py:8
+msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"
 msgstr ""
 
-#: ../../bot/menus/account_menus/account_menu.py:48
-msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODES_TEXT"
+#: ../../bot/menus/account_menus/promocodes_menu.py:9
+msgid "ACCOUNT_MENU_MY_PROMO_CODE_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:10
+msgid "ACCOUNT_MENU_PROMO_CODES_AVAILABLE_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:18
+msgid "PROMOCODES_MENU_ACTIVE_PROMO_CODES_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:27
+msgid "PROMOCODES_MENU_MY_PROMO_CODES_TEXT"
 msgstr ""
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11
