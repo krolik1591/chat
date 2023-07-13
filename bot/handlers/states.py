@@ -45,6 +45,8 @@ class StateKeys:
     TICKET_TYPE = 'ticket_type'
     CURRENT_PAGE = 'current_page'
     TOTAL_PAGES = 'tickets_to_display'
+    # promo codes
+    PROMO_CODE_ENTERED = 'promo_code_entered'
 
 
 class Games:
