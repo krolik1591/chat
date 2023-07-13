@@ -53,9 +53,8 @@ async def get_active_promo_code(user_id, promo_type):
     now = time.time()
     user_promo_code = await UsersPromoCodes.select().where(
         UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_type == promo_type,
-        UsersPromoCodes.date_activated < now < UsersPromoCodes.date_end).order_by(
-        UsersPromoCodes.date_activated.desc()
-    ).first()
+        now < UsersPromoCodes.date_end).order_by(UsersPromoCodes.userspromocodes_id.desc()
+                                                 ).first()
 
     if not user_promo_code:
         return None
@@ -106,12 +105,12 @@ if __name__ == "__main__":
 
     async def test():
         # await add_new_promo_code('putin huilo', 'balance', 100)
-        await user_activated_promo_code(357108179, 'putin huilo', 0)
+        # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code(357108179, 'putin huilo')
         # x = await get_promo_code_info('putin loh')
-        # x = await get_all_active_promo_code(357108179)
-        # x = await get_active_promo_code(357108179, 'balance')
-        # print(x)
+        x = await get_all_active_promo_code(357108179)
+        x = await get_active_promo_code(357108179, 'balance')
+        print(x)
 
         # await db.add_new_transaction(
         #     user_id=357108179,
