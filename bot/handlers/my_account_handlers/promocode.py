@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
 
-from bot.db import db
+from bot.db import db, manager
 from bot.handlers.states import Menu
 from bot.menus.account_menus import promocodes_menu
 from bot.menus.utils import kb_del_msg
@@ -21,9 +21,32 @@ async def promo_codes_handler(call: types.CallbackQuery, state):
 
 
 @router.callback_query(Text("my_promo_codes"))
-async def promo_codes_handler(call: types.CallbackQuery, state):
+async def promo_codes_handler(call: types.CallbackQuery):
+    is_active = await db.get_active_promo_code(call.from_user.id, 'balance')
+    if not is_active:
+        await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"))
+        return
+
     text, keyboard = promocodes_menu.my_promo_code_menu()
     await call.message.edit_text(text, reply_markup=keyboard)
+
+
+@router.callback_query(Text("claim_reward"))
+async def promo_code_claim_reward(call: types.CallbackQuery):
+    try:
+        sum_bets, min_wager, wager = await db.get_sum_bets_from_activated_promo_min_wager_and_wager(call.from_user.id)
+    except TypeError:
+        await call.answer('poshel nahui', show_alert=True)
+        return
+
+    if sum_bets < wager:
+        await call.answer(_("PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"), show_alert=True)
+        return
+
+    balances = await db.get_user_balances(call.from_user.id)
+    with manager.pw_database.atomic():
+        await db.update_user_balance(call.from_user.id, 'general', balances['promo'])
+        await db.update_user_balance(call.from_user.id, 'promo', 0)
 
 
 @router.callback_query(Text("promo_code_available"))

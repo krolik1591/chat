@@ -26,6 +26,7 @@ def active_promo_code_menu(text):
 def my_promo_code_menu():
     text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT')
     kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_("PROMOCODES_MENU_CLAIM_REWARD"), callback_data="claim_reward")],
         [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="promo_codes")]
     ])
 

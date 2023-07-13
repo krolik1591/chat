@@ -90,13 +90,13 @@ async def get_info_from_user_promo_codes(user_id, promo_name):
     ).first()
 
 
-async def get_sum_bets_from_activated_promo_and_min_wager(user_id):
+async def get_sum_bets_from_activated_promo_min_wager_and_wager(user_id):
     promo_code = await get_active_promo_code(user_id, 'balance')
     user_promo_info = await get_info_from_user_promo_codes(user_id, promo_code.name)
     result = await GameLog.select(fn.SUM(GameLog.bet)).where(
         GameLog.user_id == user_id, user_promo_info.date_activated < GameLog.timestamp < promo_code.date_end,
         GameLog.balance_type == 'general').scalar()
-    return result, user_promo_info.min_wager
+    return result, user_promo_info.min_wager, user_promo_info.wager
 
 
 if __name__ == "__main__":
@@ -106,12 +106,12 @@ if __name__ == "__main__":
 
     async def test():
         # await add_new_promo_code('putin huilo', 'balance', 100)
-        # await user_activated_promo_code(357108179, 'putin huilo', 0)
+        await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code(357108179, 'putin huilo')
         # x = await get_promo_code_info('putin loh')
-        x = await get_all_active_promo_code(357108179)
+        # x = await get_all_active_promo_code(357108179)
         # x = await get_active_promo_code(357108179, 'balance')
-        print(x)
+        # print(x)
 
         # await db.add_new_transaction(
         #     user_id=357108179,
