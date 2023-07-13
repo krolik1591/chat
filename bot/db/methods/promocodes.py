@@ -4,19 +4,21 @@ from peewee import fn
 
 from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes
 
-TWO_WEEK = 1209600  # default time active promo-code
+# 1209600 == 2 week
+ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
+USER_DEFAULT_PROMO_ACTIVE_TIME = 1209600  # the user's default promo code activity time
 
 
 async def add_new_promo_code(name, _type, bonus, number_of_users=float('Infinity'), number_of_uses=1):
     return await PromoCodes.create(name=name, bonus=bonus, type=_type,
-                                   date_start=time.time(), date_end=time.time() + TWO_WEEK,
+                                   date_start=time.time(), date_end=time.time() + ACTIVE_PROMO_CODE,
                                    number_of_uses=number_of_uses, number_of_users=number_of_users)
 
 
-async def user_activated_promo_code(user_id, promo_name):
+async def user_activated_promo_code(user_id, promo_name, date_end=time.time() + USER_DEFAULT_PROMO_ACTIVE_TIME):
     promo_info = await get_promo_code_info(promo_name)
     return await UsersPromoCodes.create(user_id=user_id, promo_name=promo_name, promo_type=promo_info.type,
-                                        date_activated=time.time())
+                                        date_activated=time.time(), date_end=date_end)
 
 
 async def get_promo_code_info(name):
@@ -28,41 +30,19 @@ async def get_all_active_promo_code():
     return await PromoCodes.select(PromoCodes.name).where(PromoCodes.date_start < now < PromoCodes.date_end).scalars()
 
 
-#
-# async def need_a_bonus(user_id):
-#     now = time.time()
-#     active_promo_code = await UsersPromoCodes.select(UsersPromoCodes.date_of_using, UsersPromoCodes.date_end,
-#                                                      UsersPromoCodes.promo_name) \
-#         .where(UsersPromoCodes.user_id == user_id, UsersPromoCodes.date_of_using < now < UsersPromoCodes.date_end,
-#                ).dicts().first()
-#     if not active_promo_code:
-#         return
-#
-#     all_tx = await Transactions.select() \
-#         .where(active_promo_code['date_of_using'] < Transactions.utime < active_promo_code['date_end'],
-#                Transactions.user_id == user_id).count()
-#
-#     return all_tx
-
-
 async def get_active_promo_code(user_id, promo_type):
     now = time.time()
+    user_promo_code = await UsersPromoCodes.select().where(
+        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_type == promo_type,
+        UsersPromoCodes.date_activated < now < UsersPromoCodes.date_end).order_by(
+        UsersPromoCodes.date_activated.desc()
+    ).first()
 
-    user_promo_codes = await UsersPromoCodes.select().where(UsersPromoCodes.user_id == user_id,
-                                                            UsersPromoCodes.promo_type == promo_type).order_by(
-        UsersPromoCodes.date_activated.desc()).dicts()
-
-    if not user_promo_codes:
+    if not user_promo_code:
         return None
 
-    active_promo = None
-    for promo_code in user_promo_codes[:3]:
-        promo_info = await get_promo_code_info(promo_code["promo_name"])
-        if promo_info.date_start < now < promo_info.date_end:
-            active_promo = promo_info
-            break
-
-    return active_promo
+    promo_code_info = await get_promo_code_info(user_promo_code.promo_name)
+    return promo_code_info
 
 
 async def need_a_bonus(user_id):
@@ -106,12 +86,12 @@ if __name__ == "__main__":
 
 
     async def test():
-        # await add_new_promo_code('pipiska', 'balance', 100)
-        # await user_activated_promo_code(357108179, 'pipiska')
-        # x = await get_date_activated_promo_by_user(357108179, 'pipiska')
+        # await add_new_promo_code('putin loh', 'balance', 100)
+        # await user_activated_promo_code(357108179, 'putin loh')
+        # x = await get_date_activated_promo_by_user(357108179, 'putin huilo')
         # x = await get_promo_code_info('huuuuuuiii')
         # x = await need_a_bonus(357108179)
-        x = await get_sum_bets_from_activated_promo_and_min_wager(357108179)
+        x = await get_active_promo_code(357108179, 'balance')
         print(x)
 
         # await db.add_new_transaction(
