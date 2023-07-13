@@ -1,4 +1,3 @@
-import pydantic.error_wrappers
 from aiogram import Router, types
 from aiogram.filters import StateFilter, Text
 from aiogram.fsm.context import FSMContext
@@ -7,7 +6,7 @@ from aiogram.utils.i18n import gettext as _
 
 from bot.db import db
 from bot.handlers.states import Menu
-from bot.menus.account_menus.account_menu import active_promo_code_menu, promo_code_menu
+from bot.menus.account_menus import promocodes_menu
 from bot.menus.utils import kb_del_msg
 
 router = Router()
@@ -15,18 +14,18 @@ router = Router()
 
 @router.callback_query(Text("promo_codes"))
 async def promo_codes_handler(call: types.CallbackQuery, state):
-    text, keyboard = promo_code_menu()
+    text, keyboard = promocodes_menu.promo_code_menu()
     await call.message.edit_text(text, reply_markup=keyboard)
 
     await state.set_state(Menu.delete_message)
 
 
-@router.callback_query(Text("active_promo_codes"))
+@router.callback_query(Text("promo_code_available"))
 async def active_promo_codes(call: types.CallbackQuery, state: FSMContext):
     promo_codes = await db.get_all_active_promo_code()
     text = get_promo_codes_text(promo_codes)
 
-    text, keyboard = active_promo_code_menu(text)
+    text, keyboard = promocodes_menu.active_promo_code_menu(text)
     await call.message.edit_text(text, reply_markup=keyboard)
 
     await state.set_state(Menu.enter_promo_code)
