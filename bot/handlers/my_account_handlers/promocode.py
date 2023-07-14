@@ -26,16 +26,17 @@ async def promo_codes_handler(call: types.CallbackQuery, state: FSMContext):
 @router.message(StateFilter(Menu.enter_promo_code))
 async def enter_promo_code(message: Message, state: FSMContext):
     await message.delete()
-    promo_code = message.text
-    await state.update_data({StateKeys.PROMO_CODE_ENTERED: promo_code})
 
+    promo_code = message.text
+    previous_promo_code = (await state.get_data()).get(StateKeys.PROMO_CODE_ENTERED)
+    if previous_promo_code == promo_code:
+        return
+
+    await state.update_data({StateKeys.PROMO_CODE_ENTERED: promo_code})
     last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
 
     text, keyboard = promocodes_menu.promo_code_menu(promo_code)
-    try:
-        await state.bot.edit_message_text(text, message.from_user.id, last_msg, reply_markup=keyboard)
-    except exceptions.TelegramBadRequest as e:
-        print("User enter the same promo code", e)
+    await state.bot.edit_message_text(text, message.from_user.id, last_msg, reply_markup=keyboard)
 
 
 @router.callback_query(Text("active_promo_code"))
