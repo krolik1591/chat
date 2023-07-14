@@ -22,13 +22,14 @@ async def warning_about_expiration_promo_code(bot, i18n):
 
         users = await db.get_users_whose_promo_code_expire(TIME_OF_DURATION)
         if not users:
-            await asyncio.sleep(HOUR)
+            await asyncio.sleep(TIME_OF_DURATION)
             continue
 
         for user_id in users:
-            await set_user_locale_to_i18n(user_id, i18n)
             promo_code = await db.get_active_promo_code_from_user_promo_codes(user_id, 'balance')
             hours, minutes = convert_seconds_to_hours_minutes(promo_code.date_end - time.time())
+
+            await set_user_locale_to_i18n(user_id, i18n)
             if not promo_code.min_wager:
                 await send_msg(bot, user_id, _("DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT").format(
                     promo_code_name=promo_code.promo_name, hours=int(hours), minutes=int(minutes)))
