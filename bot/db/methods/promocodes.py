@@ -112,20 +112,27 @@ async def min_wager_condition_accepted(user_id, promo_name):
     )
 
 
+async def deactivate_user_promo_code(user_id, promo_name):
+    now = time.time()
+    return await UsersPromoCodes.update({UsersPromoCodes.is_active: 0}).where(
+        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_name, now < UsersPromoCodes.date_end,
+        UsersPromoCodes.is_active == 1)
+
+
 if __name__ == "__main__":
     import asyncio
     from bot.db import db
 
 
     async def test():
-        # await add_new_promo_code('putin huilo', 'balance', 100, 3600 * 6)
+        # await add_new_promo_code('putin huilo3', 'balance', 100, 3600 * 6)
         # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
-        # x = await user_activated_promo_code(357108179, 'putin huilo')
+        # x = await user_activated_promo_code(357108179, 'putin huilo3')
         # x = await get_all_available_promo_code_for_user(357108179)
-        x = await get_active_promo_code_from_promo_codes(357108179, 'balance')
-        x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
-        print(x.won)
+        # x = await get_active_promo_code_from_promo_codes(357108179, 'balance')
+        x = await deactivate_user_promo_code(357108179, 'putin huilo3')
+        print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",

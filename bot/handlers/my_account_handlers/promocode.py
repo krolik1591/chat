@@ -84,6 +84,7 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
     with manager.pw_database.atomic():
         await db.update_user_balance(call.from_user.id, 'general', balances['promo'])
         await db.update_user_balance(call.from_user.id, 'promo', 0)
+        await db.deactivate_user_promo_code(call.from_user.id, promo_info.promo_name)
 
 
 @router.callback_query(Text("promo_code_available"))
