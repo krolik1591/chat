@@ -28,8 +28,10 @@ async def get_promo_code_info(name):
 
 
 async def get_users_whose_promo_code_expire(time_to_end):
+    print(time_to_end, time_to_end - 3600)
     return await UsersPromoCodes.select(UsersPromoCodes.user_id).where(
-        time_to_end > UsersPromoCodes.date_end > time_to_end - 3600, UsersPromoCodes.won == 0).scalars()
+        time_to_end > UsersPromoCodes.date_end > time_to_end - 3600, UsersPromoCodes.won == 0,
+        UsersPromoCodes.is_active == 1).scalars()
 
 
 async def get_all_available_promo_code_for_user(user_id):
@@ -83,7 +85,8 @@ async def need_a_bonus(user_id):
 
 async def update_wagers_and_bonus(user_id, bonus, promo_code):
     return await UsersPromoCodes.update({
-        UsersPromoCodes.min_wager: int(promo_code.min_wager) * bonus, UsersPromoCodes.wager: int(promo_code.wager) * bonus,
+        UsersPromoCodes.min_wager: int(promo_code.min_wager) * bonus,
+        UsersPromoCodes.wager: int(promo_code.wager) * bonus,
         UsersPromoCodes.bonus: bonus}).where(
         UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_code.name
     )
@@ -127,11 +130,12 @@ if __name__ == "__main__":
         # await add_new_promo_code('putin huilo3', 'balance', 100, 3600 * 6)
         # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
-        # x = await user_activated_promo_code(357108179, 'putin huilo3')
-        x = await get_all_available_promo_code_for_user(357108179)
-        # x = await get_users_whose_promo_code_expire(3600 * 7)
+        x = await user_activated_promo_code(357108179, 'putin loh')
+        # x = await get_all_available_promo_code_for_user(357108179)
+        y = await get_users_whose_promo_code_expire(int(time.time()) + 3600 * 5)
         # x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
-        print(x)
+        print(x.date_end < int(time.time()) + 3600 * 5)
+        print(y)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
