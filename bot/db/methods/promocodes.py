@@ -29,7 +29,7 @@ async def get_promo_code_info(name):
 
 async def get_users_whose_promo_code_expire(time_to_end):
     return await UsersPromoCodes.select(UsersPromoCodes.user_id).where(
-        UsersPromoCodes.date_end - time_to_end > time.time()).scalars()
+        UsersPromoCodes.date_end - time_to_end > time.time(), UsersPromoCodes.won == 0).scalars()
 
 
 async def get_all_available_promo_code_for_user(user_id):
