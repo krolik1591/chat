@@ -8,10 +8,10 @@ from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes
 ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
 
 
-async def add_new_promo_code(name, _type, bonus, duration, min_wager=1, wager=10,
+async def add_new_promo_code(name, _type, bonus, duration, min_wager=1, wager=10, existence_promo=ACTIVE_PROMO_CODE,
                              number_of_users=float('Infinity'), number_of_uses=1, special_users=None):
     return await PromoCodes.create(name=name, bonus=bonus, type=_type, special_users=special_users,
-                                   date_start=time.time(), date_end=time.time() + ACTIVE_PROMO_CODE,
+                                   date_start=time.time(), date_end=time.time() + existence_promo,
                                    number_of_uses=number_of_uses, number_of_users=number_of_users,
                                    duration=duration, min_wager=min_wager, wager=wager)
 
@@ -83,7 +83,7 @@ async def need_a_bonus(user_id):
 
 async def update_wagers_and_bonus(user_id, bonus, promo_code):
     return await UsersPromoCodes.update({
-        UsersPromoCodes.min_wager: promo_code.min_wager * bonus, UsersPromoCodes.wager: promo_code.wager * bonus,
+        UsersPromoCodes.min_wager: int(promo_code.min_wager) * bonus, UsersPromoCodes.wager: int(promo_code.wager) * bonus,
         UsersPromoCodes.bonus: bonus}).where(
         UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_code.name
     )
@@ -128,10 +128,10 @@ if __name__ == "__main__":
         # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
         # x = await user_activated_promo_code(357108179, 'putin huilo3')
-        # x = await get_all_available_promo_code_for_user(357108179)
-        x = await get_users_whose_promo_code_expire(3600 * 7)
-        x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
-
+        x = await get_all_available_promo_code_for_user(357108179)
+        # x = await get_users_whose_promo_code_expire(3600 * 7)
+        # x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
+        print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
