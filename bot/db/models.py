@@ -119,6 +119,8 @@ class PromoCodes(manager.Model):
     date_start = BigIntegerField()
     date_end = BigIntegerField()
     duration = IntegerField()
+    min_wager = DecimalField()
+    wager = DecimalField()
     special_users = CharField(null=True)
 
 
@@ -127,6 +129,7 @@ class UsersPromoCodes(manager.Model):
     user = ForeignKeyField(User, backref='userspromocodes')
     promo_name = CharField()
     promo_type = CharField()
+    bonus = DecimalField(null=True)
     min_wager = DecimalField(null=True)
     wager = DecimalField(null=True)
     date_activated = BigIntegerField(null=True)

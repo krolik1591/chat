@@ -8,12 +8,12 @@ from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes
 ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
 
 
-async def add_new_promo_code(name, _type, bonus, duration,
+async def add_new_promo_code(name, _type, bonus, duration, min_wager=1, wager=10,
                              number_of_users=float('Infinity'), number_of_uses=1, special_users=None):
     return await PromoCodes.create(name=name, bonus=bonus, type=_type, special_users=special_users,
                                    date_start=time.time(), date_end=time.time() + ACTIVE_PROMO_CODE,
                                    number_of_uses=number_of_uses, number_of_users=number_of_users,
-                                   duration=duration)
+                                   duration=duration, min_wager=min_wager, wager=wager)
 
 
 async def user_activated_promo_code(user_id, promo_name):
@@ -77,8 +77,10 @@ async def need_a_bonus(user_id):
         return False
 
 
-async def update_wagers(user_id, bonus, promo_code):
-    return await UsersPromoCodes.update({UsersPromoCodes.min_wager: bonus, UsersPromoCodes.wager: bonus * 10}).where(
+async def update_wagers_and_bonus(user_id, bonus, promo_code):
+    return await UsersPromoCodes.update({
+        UsersPromoCodes.min_wager: promo_code.min_wager * bonus, UsersPromoCodes.wager: promo_code.wager * bonus,
+        UsersPromoCodes.bonus: bonus}).where(
         UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_code.name
     )
 

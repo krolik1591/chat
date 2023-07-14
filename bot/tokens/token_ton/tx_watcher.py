@@ -164,7 +164,7 @@ async def user_deposited(tx, bot, user_id, user_wallet: Wallet):
         if promo_code:
             promo_bonus = round_down(amount_gametokens * promo_code.bonus / 100, 2)
             await db.update_user_balance(user_id, 'promo', promo_bonus)
-            await db.update_wagers(user_id, promo_bonus, promo_code)
+            await db.update_wagers_and_bonus(user_id, promo_bonus, promo_code)
 
         await db.update_user_balance(user_id, 'general', amount_gametokens)
         await db.add_new_transaction(
