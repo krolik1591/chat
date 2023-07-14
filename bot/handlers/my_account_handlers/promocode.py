@@ -61,7 +61,7 @@ async def my_promo_codes(call: types.CallbackQuery):
         await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
         return
 
-    sum_bets, min_wager, wager = await db.get_sum_bets_from_activated_promo_min_wager_and_wager(call.from_user.id)
+    sum_bets, min_wager, wager = await db.get_sum_bets_and_promo_info(call.from_user.id)
 
     text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, min_wager, wager, promo_code)
     await call.message.edit_text(text, reply_markup=keyboard)
@@ -69,7 +69,7 @@ async def my_promo_codes(call: types.CallbackQuery):
 
 @router.callback_query(Text("claim_reward"))
 async def promo_code_claim_reward(call: types.CallbackQuery):
-    sum_bets, min_wager, wager = await db.get_sum_bets_from_activated_promo_min_wager_and_wager(call.from_user.id)
+    sum_bets, min_wager, wager = await db.get_sum_bets_and_promo_info(call.from_user.id)
 
     err = check_promo_claim_reward_err(sum_bets, min_wager, wager)
     if err is not None:

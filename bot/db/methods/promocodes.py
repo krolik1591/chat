@@ -52,7 +52,7 @@ async def get_all_available_promo_code_for_user(user_id):
 
 async def get_active_promo_code_of_user(user_id, promo_type):
     now = time.time()
-    user_promo_code = await UsersPromoCodes.select().where(
+    user_promo_code = await UsersPromoCodes.select(UsersPromoCodes).where(
         UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_type == promo_type, UsersPromoCodes.is_active == 1,
         now < UsersPromoCodes.date_end).order_by(UsersPromoCodes.userspromocodes_id.desc()
                                                  ).first()
@@ -92,13 +92,19 @@ async def get_info_from_user_promo_codes(user_id, promo_name):
     ).first()
 
 
-async def get_sum_bets_from_activated_promo_min_wager_and_wager(user_id):
+async def get_sum_bets_and_promo_info(user_id):
     promo_code = await get_active_promo_code_of_user(user_id, 'balance')
     user_promo_info = await get_info_from_user_promo_codes(user_id, promo_code.name)
     result = await GameLog.select(fn.SUM(GameLog.bet)).where(
         GameLog.user_id == user_id, user_promo_info.date_activated < GameLog.timestamp < promo_code.date_end,
         GameLog.balance_type == 'general').scalar()
-    return result, user_promo_info.min_wager, user_promo_info.wager
+    return result, user_promo_info
+
+
+async def min_wager_condition_accepted(user_id, promo_name):
+    return await UsersPromoCodes.update({UsersPromoCodes.won: True}).where(
+        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_name
+    )
 
 
 if __name__ == "__main__":
@@ -112,8 +118,9 @@ if __name__ == "__main__":
         # x = await get_active_promo_code_of_user(357108179, 'putin huilo')
         # x = await user_activated_promo_code(357108179, 'putin huilo')
         # x = await get_all_available_promo_code_for_user(357108179)
+        # x = await get_active_promo_code_of_user(357108179, 'balance')
         x = await get_active_promo_code_of_user(357108179, 'balance')
-        print(x)
+        print(x.min_wager)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",

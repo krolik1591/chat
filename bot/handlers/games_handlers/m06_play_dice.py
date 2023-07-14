@@ -23,7 +23,9 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
 
     if context.balance_type == 'promo':
-        if not await can_play_on_promo_balance(call):
+        promo_code = await db.get_active_promo_code_of_user(call.from_user.id, 'balance')
+        x = promo_code.won
+        if not await can_play_on_promo_balance_and_update_won_status_promo_code(call):
             return
 
     dice_game: Dice = DICE_GAMES[context.game]
@@ -58,25 +60,27 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     await settings_menu(context, msg_id=None)
 
 
-async def can_play_on_promo_balance(call):
+async def can_play_on_promo_balance_and_update_won_status_promo_code(call):
     try:
-        sum_bets, min_wager, wager = await db.get_sum_bets_from_activated_promo_min_wager_and_wager(call.from_user.id)
+        sum_bets, promo_info = await db.get_sum_bets_and_promo_info(call.from_user.id)
     except AttributeError:
         await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
         return False
 
-    if not min_wager:
+    if not promo_info.min_wager:
         await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
         return False
 
     if not sum_bets:
         await call.answer(_('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
-                          .format(missing_bets=min_wager), show_alert=True)
+                          .format(missing_bets=promo_info.min_wager), show_alert=True)
         return False
 
-    if sum_bets < min_wager:
-        missing_bets = min_wager - sum_bets
+    if sum_bets < promo_info.min_wager:
+        missing_bets = promo_info.min_wager - sum_bets
         await call.answer(_('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
                           .format(missing_bets=round_down(missing_bets, 2)), show_alert=True)
         return False
+
+    await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
     return True

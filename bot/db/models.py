@@ -135,4 +135,4 @@ class UsersPromoCodes(manager.Model):
     date_activated = BigIntegerField(null=True)
     date_end = BigIntegerField()
     is_active = BooleanField()
-    # won = BooleanField(null=True)
+    won = BooleanField(default=False)
