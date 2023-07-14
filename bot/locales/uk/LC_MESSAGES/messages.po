@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-13 18:56+0300\n"
+"POT-Creation-Date: 2023-07-14 14:09+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -17,6 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: ../../bot/cron/deactivate_promocodes_watcher.py:27
+msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
+msgstr "Ви ще не поповнили баланс за промокодом {promo_code_name}, а через {time_of_duration} він вже зникне!\n\n"
+"Поспішайте!"
+
+#: ../../bot/cron/deactivate_promocodes_watcher.py:29
+msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
+msgstr "Якщо ви не відіграєте ще {min_wager} на основному балансі, то ваш промокод {promo_code_name} зникне через {time_of_duration} годин!"
 
 #: ../../bot/cron/wof_watcher.py:161
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
@@ -74,13 +83,13 @@ msgstr "🍀 Успіхів!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:65
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:69
-#: ../../bot/handlers/my_account_handlers/promocode.py:45
+#: ../../bot/handlers/my_account_handlers/promocode.py:109
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод та поповніть баланс!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:73
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:79
-#: ../../bot/handlers/my_account_handlers/promocode.py:49
+#: ../../bot/handlers/my_account_handlers/promocode.py:112
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -238,26 +247,32 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:27
+#: ../../bot/handlers/my_account_handlers/promocode.py:54
+msgid "PROMO_CODE_IS_ACTIVATED"
+msgstr "✅ Промокод {promo_code} активовано!"
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:61
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr "Не активовано жодного промокоду!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:54
-msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
-msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
+#: ../../bot/handlers/my_account_handlers/promocode.py:96
+msgid "PROMO_CODE_U_NEED_ENTER_ERR"
+msgstr "Введіть промокод!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:90
+#: ../../bot/handlers/my_account_handlers/promocode.py:99
+msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
+msgstr ""
+"У вас вже є активний промокод: {promo_code}.\n"
+"\n"
+"Щоб активувати новий, відмініть цей."
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:102
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr "❌ Такого промокоду не існує!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:95
-msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
-msgstr "У вас вже є активний промокод: {promo_code}.\n\n"
-"Щоб активувати новий, відмініть цей."
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:101
-msgid "PROMO_CODE_IS_ACTIVATED"
-msgstr "✅ Промокод {promo_code} активовано!"
+#: ../../bot/handlers/my_account_handlers/promocode.py:115
+msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
+msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
 
 #: ../../bot/handlers/my_account_handlers/referrals.py:25
 msgid "REFERRALS_REFRESHED_TEXT"
@@ -455,7 +470,7 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/account_menus/account_menu.py:30
 #: ../../bot/menus/account_menus/promocodes_menu.py:11
 #: ../../bot/menus/account_menus/promocodes_menu.py:20
-#: ../../bot/menus/account_menus/promocodes_menu.py:40
+#: ../../bot/menus/account_menus/promocodes_menu.py:43
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -482,7 +497,9 @@ msgstr "‹ Назад"
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:6
 msgid "PROMOCODES_MENU_PROMO_CODES_TEXT"
-msgstr "Введіть промокод для активації!\n\n"
+msgstr ""
+"Введіть промокод для активації!\n"
+"\n"
 "Ваш промокод: {promo_code}"
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:8
@@ -504,11 +521,11 @@ msgstr ""
 "\n"
 "{text}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:34
+#: ../../bot/menus/account_menus/promocodes_menu.py:35
 msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
 msgstr "поповніть баланс!"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:37
+#: ../../bot/menus/account_menus/promocodes_menu.py:39
 msgid "PROMOCODES_MENU_MY_PROMO_CODES_TEXT"
 msgstr ""
 "Деталі промокоду: \n"
@@ -518,7 +535,7 @@ msgstr ""
 "• Ваджер активації: {text1}\n"
 "• Ваджер відіграшу: {text2}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:39
+#: ../../bot/menus/account_menus/promocodes_menu.py:42
 msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
 msgstr "Забрати нагороду"
 

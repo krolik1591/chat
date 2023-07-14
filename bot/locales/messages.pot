@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-13 18:56+0300\n"
+"POT-Creation-Date: 2023-07-14 14:09+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: ../../bot/cron/deactivate_promocodes_watcher.py:27
+msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
+msgstr ""
+
+#: ../../bot/cron/deactivate_promocodes_watcher.py:29
+msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
+msgstr ""
 
 #: ../../bot/cron/wof_watcher.py:161
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
@@ -65,13 +73,13 @@ msgstr ""
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:65
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:69
-#: ../../bot/handlers/my_account_handlers/promocode.py:45
+#: ../../bot/handlers/my_account_handlers/promocode.py:109
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:73
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:79
-#: ../../bot/handlers/my_account_handlers/promocode.py:49
+#: ../../bot/handlers/my_account_handlers/promocode.py:112
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
@@ -196,24 +204,28 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:27
+#: ../../bot/handlers/my_account_handlers/promocode.py:54
+msgid "PROMO_CODE_IS_ACTIVATED"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:61
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:54
-msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
+#: ../../bot/handlers/my_account_handlers/promocode.py:96
+msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:90
-msgid "PROMO_CODE_DOESNT_EXIST_ERR"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:95
+#: ../../bot/handlers/my_account_handlers/promocode.py:99
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:101
-msgid "PROMO_CODE_IS_ACTIVATED"
+#: ../../bot/handlers/my_account_handlers/promocode.py:102
+msgid "PROMO_CODE_DOESNT_EXIST_ERR"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:115
+msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
 msgstr ""
 
 #: ../../bot/handlers/my_account_handlers/referrals.py:25
@@ -399,7 +411,7 @@ msgstr ""
 #: ../../bot/menus/account_menus/account_menu.py:30
 #: ../../bot/menus/account_menus/promocodes_menu.py:11
 #: ../../bot/menus/account_menus/promocodes_menu.py:20
-#: ../../bot/menus/account_menus/promocodes_menu.py:40
+#: ../../bot/menus/account_menus/promocodes_menu.py:43
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -444,15 +456,15 @@ msgstr ""
 msgid "PROMOCODES_MENU_ACTIVE_PROMO_CODES_TEXT"
 msgstr ""
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:34
+#: ../../bot/menus/account_menus/promocodes_menu.py:35
 msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
 msgstr ""
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:37
+#: ../../bot/menus/account_menus/promocodes_menu.py:39
 msgid "PROMOCODES_MENU_MY_PROMO_CODES_TEXT"
 msgstr ""
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:39
+#: ../../bot/menus/account_menus/promocodes_menu.py:42
 msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
 msgstr ""
 

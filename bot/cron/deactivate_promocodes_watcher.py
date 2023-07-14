@@ -12,7 +12,7 @@ from aiogram.utils.i18n import gettext as _
 
 
 HOUR = 3600
-TIME_OF_DURATION = HOUR * 12
+TIME_OF_DURATION = HOUR * 5
 
 
 async def warning_about_expiration_promo_code(bot, i18n):
@@ -22,7 +22,14 @@ async def warning_about_expiration_promo_code(bot, i18n):
         users = await db.get_users_whose_promo_code_expire(TIME_OF_DURATION)
         for user_id in users:
             await set_user_locale_to_i18n(user_id, i18n)
-            await send_msg(bot, user_id, _("DEACTIVATE_PROMO_WATCHER_MSG_TEXT"))
+            promo_code = await db.get_active_promo_code_of_user(user_id, 'balance')
+            if not promo_code.min_wager:
+                await send_msg(bot, user_id, _("DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT").format(
+                    promo_code_name=promo_code.name, time_of_duration=TIME_OF_DURATION / 60))
+            else:
+                await send_msg(bot, user_id, _("DEACTIVATE_PROMO_WATCHER_MSG_TEXT").format(
+                    promo_code_name=promo_code.name, time_of_duration=TIME_OF_DURATION / 60,
+                    min_wager=promo_code.min_wager))
 
         await asyncio.sleep(HOUR)
 
