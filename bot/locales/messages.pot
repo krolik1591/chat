@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-14 14:09+0300\n"
+"POT-Creation-Date: 2023-07-14 19:17+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../../bot/cron/deactivate_promocodes_watcher.py:27
+#: ../../bot/cron/deactivate_promocodes_watcher.py:34
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
 msgstr ""
 
-#: ../../bot/cron/deactivate_promocodes_watcher.py:29
+#: ../../bot/cron/deactivate_promocodes_watcher.py:37
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
 msgstr ""
 
@@ -67,19 +67,19 @@ msgstr ""
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:37
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:39
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:65
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:69
-#: ../../bot/handlers/my_account_handlers/promocode.py:109
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:67
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:71
+#: ../../bot/handlers/my_account_handlers/promocode.py:122
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:73
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:79
-#: ../../bot/handlers/my_account_handlers/promocode.py:112
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:75
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:81
+#: ../../bot/handlers/my_account_handlers/promocode.py:125
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
@@ -212,19 +212,23 @@ msgstr ""
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:96
+#: ../../bot/handlers/my_account_handlers/promocode.py:95
+msgid "PROMO_CODE_DECLINE_TEXT"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:109
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:99
+#: ../../bot/handlers/my_account_handlers/promocode.py:112
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:102
+#: ../../bot/handlers/my_account_handlers/promocode.py:115
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:115
+#: ../../bot/handlers/my_account_handlers/promocode.py:128
 msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
 msgstr ""
 
@@ -411,7 +415,7 @@ msgstr ""
 #: ../../bot/menus/account_menus/account_menu.py:30
 #: ../../bot/menus/account_menus/promocodes_menu.py:11
 #: ../../bot/menus/account_menus/promocodes_menu.py:20
-#: ../../bot/menus/account_menus/promocodes_menu.py:43
+#: ../../bot/menus/account_menus/promocodes_menu.py:44
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -466,6 +470,10 @@ msgstr ""
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:42
 msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:43
+msgid "PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"
 msgstr ""
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11

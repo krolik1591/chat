@@ -88,6 +88,13 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
         await db.deactivate_user_promo_code(call.from_user.id, promo_info.promo_name)
 
 
+@router.callback_query(Text("decline_promo_code"))
+async def decline_promo_code(call: types.CallbackQuery):
+    promo_code = await db.get_active_promo_code_from_user_promo_codes(call.from_user.id, 'balance')
+    await db.deactivate_user_promo_code(call.from_user.id, promo_code.promo_name)
+    await call.answer(_("PROMO_CODE_DECLINE_TEXT").format(promo_code=promo_code))
+
+
 @router.callback_query(Text("promo_code_available"))
 async def active_promo_codes(call: types.CallbackQuery, state: FSMContext):
     promo_codes = await db.get_all_available_promo_code_for_user(call.from_user.id)
