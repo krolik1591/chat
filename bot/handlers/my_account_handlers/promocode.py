@@ -73,13 +73,14 @@ async def my_promo_codes(call: types.CallbackQuery):
 @router.callback_query(Text("claim_reward"))
 async def promo_code_claim_reward(call: types.CallbackQuery):
     sum_bets, promo_info = await db.get_sum_bets_and_promo_info(call.from_user.id)
-    if sum_bets > promo_info.min_wager:
-        await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
 
     err = check_promo_claim_reward_err(sum_bets, promo_info.min_wager, promo_info.wager)
     if err is not None:
         await call.answer(err, show_alert=True)
         return
+
+    if sum_bets > promo_info.min_wager:
+        await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
 
     balances = await db.get_user_balances(call.from_user.id)
     with manager.pw_database.atomic():
@@ -89,10 +90,11 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
 
 
 @router.callback_query(Text("decline_promo_code"))
-async def decline_promo_code(call: types.CallbackQuery):
+async def decline_promo_code(call: types.CallbackQuery, state):
     promo_code = await db.get_active_promo_code_from_user_promo_codes(call.from_user.id, 'balance')
     await db.deactivate_user_promo_code(call.from_user.id, promo_code.promo_name)
-    await call.answer(_("PROMO_CODE_DECLINE_TEXT").format(promo_code=promo_code))
+    await call.answer(_("PROMO_CODE_DECLINE_TEXT").format(promo_code=promo_code.promo_name), show_alert=True)
+    await promo_codes_handler(call, state)
 
 
 @router.callback_query(Text("promo_code_available"))
