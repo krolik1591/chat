@@ -56,14 +56,14 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text("my_promo_codes"))
 async def my_promo_codes(call: types.CallbackQuery):
-    is_active = await db.get_active_promo_code_of_user(call.from_user.id, 'balance')
-    if not is_active:
+    promo_code = await db.get_active_promo_code_of_user(call.from_user.id, 'balance')
+    if not promo_code:
         await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
         return
 
     sum_bets, min_wager, wager = await db.get_sum_bets_from_activated_promo_min_wager_and_wager(call.from_user.id)
 
-    text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, min_wager, wager, is_active)
+    text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, min_wager, wager, promo_code)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

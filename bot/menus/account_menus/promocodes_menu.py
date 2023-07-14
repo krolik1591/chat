@@ -29,12 +29,15 @@ def my_promo_code_menu(sum_bets, min_wager, wager, active_promo):
 
     text1 = f'{sum_bets}/{min_wager}'
     text2 = f'{sum_bets}/{wager}'
+    bonus = active_promo.bonus
 
     if min_wager is None or wager is None:
         text1 = _("PROMOCODES_MENU_NEED_DEPOSIT_TEXT")
         text2 = text1
+        bonus = text1
 
-    text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT').format(text1=text1, text2=text2, active_promo=active_promo)
+    text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT').format(text1=text1, text2=text2, active_promo=active_promo,
+                                                           bonus=bonus)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_("PROMOCODES_MENU_CLAIM_REWARD_BTN"), callback_data="claim_reward")],
         [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="promo_codes")]
