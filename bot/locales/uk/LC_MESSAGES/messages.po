@@ -20,12 +20,12 @@ msgstr ""
 
 #: ../../bot/cron/deactivate_promocodes_watcher.py:27
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
-msgstr "Ви ще не поповнили баланс за промокодом {promo_code_name}, а через {time_of_duration} він вже зникне!\n\n"
+msgstr "Ви ще не поповнили баланс за промокодом {promo_code_name}, а через {hours} годин {minutes} хвилин він вже зникне!\n\n"
 "Поспішайте!"
 
 #: ../../bot/cron/deactivate_promocodes_watcher.py:29
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
-msgstr "Якщо ви не відіграєте ще {min_wager} на основному балансі, то ваш промокод {promo_code_name} зникне через {time_of_duration} годин!"
+msgstr "Якщо ви не відіграєте ще {min_wager} на основному балансі, то ваш промокод {promo_code_name} через {hours} годин {minutes} хвилин вже зникне!"
 
 #: ../../bot/cron/wof_watcher.py:161
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"

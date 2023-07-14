@@ -29,7 +29,7 @@ async def get_promo_code_info(name):
 
 async def get_users_whose_promo_code_expire(time_to_end):
     return await UsersPromoCodes.select(UsersPromoCodes.user_id).where(
-        UsersPromoCodes.date_end - time_to_end > time.time(), UsersPromoCodes.won == 0).scalars()
+        time_to_end > UsersPromoCodes.date_end > time_to_end - 3600, UsersPromoCodes.won == 0).scalars()
 
 
 async def get_all_available_promo_code_for_user(user_id):
@@ -51,7 +51,6 @@ async def get_all_available_promo_code_for_user(user_id):
 
 
 async def get_active_promo_code_from_promo_codes(user_id, promo_type):
-    now = time.time()
     user_promo_code = await get_active_promo_code_from_user_promo_codes(user_id, promo_type)
 
     if not user_promo_code:
@@ -130,9 +129,9 @@ if __name__ == "__main__":
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
         # x = await user_activated_promo_code(357108179, 'putin huilo3')
         # x = await get_all_available_promo_code_for_user(357108179)
-        # x = await get_active_promo_code_from_promo_codes(357108179, 'balance')
-        x = await deactivate_user_promo_code(357108179, 'putin huilo3')
-        print(x)
+        x = await get_users_whose_promo_code_expire(3600 * 7)
+        x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
+
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
