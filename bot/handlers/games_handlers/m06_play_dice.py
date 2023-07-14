@@ -23,10 +23,10 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
 
     if context.balance_type == 'promo':
-        promo_code = await db.get_active_promo_code_of_user(call.from_user.id, 'balance')
-        x = promo_code.won
-        if not await can_play_on_promo_balance_and_update_won_status_promo_code(call):
-            return
+        promo_code = await db.get_active_promo_code_from_user_promo_codes(call.from_user.id, 'balance')
+        if not promo_code.won:
+            if not await can_play_on_promo_balance_and_update_won_status_promo_code(call):
+                return
 
     dice_game: Dice = DICE_GAMES[context.game]
 
