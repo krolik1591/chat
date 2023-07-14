@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from datetime import datetime, timedelta
 
@@ -27,7 +28,6 @@ async def warning_about_expiration_promo_code(bot, i18n):
 
 
 if __name__ == '__main__':
-    import asyncio
 
     async def test():
         gmt_timezone = pytz.timezone('Etc/GMT')

@@ -118,8 +118,8 @@ class PromoCodes(manager.Model):
     number_of_uses = BigIntegerField()
     date_start = BigIntegerField()
     date_end = BigIntegerField()
+    duration = IntegerField()
     special_users = CharField(null=True)
-    # duration = IntegerField()
 
 
 class UsersPromoCodes(manager.Model):
@@ -131,5 +131,5 @@ class UsersPromoCodes(manager.Model):
     wager = DecimalField(null=True)
     date_activated = BigIntegerField(null=True)
     date_end = BigIntegerField()
-    # is_active = BooleanField()
+    is_active = BooleanField()
     # won = BooleanField(null=True)

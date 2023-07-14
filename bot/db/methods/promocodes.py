@@ -6,20 +6,21 @@ from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes
 
 # 1209600 == 2 week
 ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
-USER_DEFAULT_PROMO_ACTIVE_TIME = 1209600  # the user's default promo code activity time
 
 
-async def add_new_promo_code(name, _type, bonus, number_of_users=float('Infinity'), number_of_uses=1, special_users=None):
+async def add_new_promo_code(name, _type, bonus, duration,
+                             number_of_users=float('Infinity'), number_of_uses=1, special_users=None):
     return await PromoCodes.create(name=name, bonus=bonus, type=_type, special_users=special_users,
                                    date_start=time.time(), date_end=time.time() + ACTIVE_PROMO_CODE,
-                                   number_of_uses=number_of_uses, number_of_users=number_of_users)
+                                   number_of_uses=number_of_uses, number_of_users=number_of_users,
+                                   duration=duration)
 
 
 async def user_activated_promo_code(user_id, promo_name):
     promo_info = await get_promo_code_info(promo_name)
     return await UsersPromoCodes.create(
         user_id=user_id, promo_name=promo_name, promo_type=promo_info.type,
-        date_activated=time.time(), date_end=time.time() + USER_DEFAULT_PROMO_ACTIVE_TIME)
+        date_activated=time.time(), date_end=time.time() + promo_info.duration, is_active=True)
 
 
 async def get_promo_code_info(name):
@@ -28,24 +29,25 @@ async def get_promo_code_info(name):
 
 async def get_users_whose_promo_code_expire(time_to_end):
     return await UsersPromoCodes.select(UsersPromoCodes.user_id).where(
-        UsersPromoCodes.date_end < time.time() + time_to_end).scalars()
+        UsersPromoCodes.date_end - time_to_end > time.time()).scalars()
 
 
 async def get_all_available_promo_code_for_user(user_id):
     now = time.time()
-
-    promo_codes = await PromoCodes.select(PromoCodes.name).where(
-        now < PromoCodes.date_end, PromoCodes.special_users == None).scalars()
+    result = []
 
     promo_codes = await PromoCodes.select(PromoCodes).where(
-        now < PromoCodes.date_end, PromoCodes.special_users != None)
+        now < PromoCodes.date_end)
 
     for code in promo_codes:
-        special_users = code.special_users.split(',')
-        if str(user_id) in special_users:
-            promo_codes.append(code.name)
+        if code.special_users is None:
+            result.append(code.name)
+        else:
+            special_users = code.special_users.split(',')
+            if str(user_id) in special_users:
+                result.append(code.name)
 
-    return set(promo_codes)
+    return result
 
 
 async def get_active_promo_code_of_user(user_id, promo_type):
@@ -103,10 +105,10 @@ if __name__ == "__main__":
 
 
     async def test():
-        # await add_new_promo_code('putin huilo 2', 'balance', 100, special_users='12341234,357108179')
+        # await add_new_promo_code('putin huilo 2', 'balance', 100, 3600 * 6, special_users='1561,65165')
         # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_of_user(357108179, 'putin huilo')
-        # x = await get_promo_code_info('putin loh')
+        # x = await user_activated_promo_code(357108179, 'putin huilo')
         # x = await get_all_available_promo_code_for_user(357108179)
         # x = await get_active_promo_code_of_user(357108179, 'balance')
         x = await get_all_available_promo_code_for_user(357108179)
