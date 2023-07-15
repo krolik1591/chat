@@ -27,11 +27,16 @@ async def get_promo_code_info(name):
     return await PromoCodes.select(PromoCodes).where(PromoCodes.name == name).first()
 
 
-async def get_users_whose_promo_code_expire(time_to_end):
-    print(time_to_end, time_to_end - 3600)
-    return await UsersPromoCodes.select(UsersPromoCodes.user_id).where(
-        time_to_end > UsersPromoCodes.date_end > time_to_end - 3600, UsersPromoCodes.won == 0,
-        UsersPromoCodes.is_active == 1).scalars()
+async def get_users_whose_promo_code_expire(warning_1, warning_2):
+    warn1 = await UsersPromoCodes.select(UsersPromoCodes.user_id).where(
+        warning_1 > UsersPromoCodes.date_end, UsersPromoCodes.date_end > warning_1 - 3600,
+        UsersPromoCodes.won == 0, UsersPromoCodes.is_active == 1).scalars()
+
+    warn2 = await UsersPromoCodes.select(UsersPromoCodes.user_id).where(
+        warning_2 > UsersPromoCodes.date_end, UsersPromoCodes.date_end > warning_2 - 3600,
+        UsersPromoCodes.won == 0, UsersPromoCodes.is_active == 1).scalars()
+
+    return warn1 + warn2
 
 
 async def get_all_available_promo_code_for_user(user_id):
@@ -71,13 +76,16 @@ async def get_active_promo_code_from_user_promo_codes(user_id, promo_type):
 
 
 async def need_a_bonus(user_id):
-    active_promo = await get_active_promo_code_from_promo_codes(user_id, 'balance')
+    active_promo = await get_active_promo_code_from_user_promo_codes(user_id, 'balance')
+    promo_info = await get_promo_code_info(active_promo.promo_name)
+
     if not active_promo:
         return False
 
-    tx_count = await Transactions.select().where(active_promo.date_start < Transactions.utime < active_promo.date_end,
-                                                 Transactions.user_id == user_id).count()
-    if active_promo.number_of_uses - tx_count > 0:
+    tx_count = await Transactions.select().where(
+        active_promo.date_activated < Transactions.utime, Transactions.utime < active_promo.date_end,
+        Transactions.user_id == user_id).count()
+    if promo_info.number_of_uses - tx_count > 0:
         return active_promo
     else:
         return False
@@ -128,14 +136,15 @@ if __name__ == "__main__":
 
     async def test():
         # await add_new_promo_code('putin huilo3', 'balance', 100, 3600 * 6)
-        # await user_activated_promo_code(357108179, 'putin huilo', 0)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
-        x = await user_activated_promo_code(357108179, 'putin loh')
+        # x = await user_activated_promo_code(357108179, 'putin loh')
         # x = await get_all_available_promo_code_for_user(357108179)
-        y = await get_users_whose_promo_code_expire(int(time.time()) + 3600 * 5)
+        x = await need_a_bonus(357108179)
+        print(x.name)
+        # y = await get_users_whose_promo_code_expire(int(time.time()) + 3600 * 5)
         # x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
-        print(x.date_end < int(time.time()) + 3600 * 5)
-        print(y)
+        # print(x.date_end < int(time.time()) + 3600 * 5)
+        # print(y)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
