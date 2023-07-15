@@ -56,7 +56,7 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text("my_promo_codes"))
 async def my_promo_codes(call: types.CallbackQuery):
-    promo_code = await db.get_active_promo_code_from_promo_codes(call.from_user.id, 'balance')
+    promo_code = await db.get_active_promo_code_from_user_promo_codes(call.from_user.id, 'balance')
     if not promo_code:
         await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
         return
@@ -74,7 +74,7 @@ async def my_promo_codes(call: types.CallbackQuery):
 async def promo_code_claim_reward(call: types.CallbackQuery):
     sum_bets, promo_info = await db.get_sum_bets_and_promo_info(call.from_user.id)
 
-    err = check_promo_claim_reward_err(sum_bets, promo_info.min_wager, promo_info.wager)
+    err = check_promo_claim_reward_err(sum_bets, promo_info.min_wager, promo_info.wager, promo_info)
     if err is not None:
         await call.answer(err, show_alert=True)
         return
@@ -93,6 +93,12 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
 async def decline_promo_code(call: types.CallbackQuery, state):
     promo_code = await db.get_active_promo_code_from_user_promo_codes(call.from_user.id, 'balance')
     await db.deactivate_user_promo_code(call.from_user.id, promo_code.promo_name)
+
+    if not promo_code.bonus:
+        pass
+    else:
+        await db.update_user_balance(call.from_user.id, 'promo', -promo_code.bonus)
+
     await call.answer(_("PROMO_CODE_DECLINE_TEXT").format(promo_code=promo_code.promo_name), show_alert=True)
     await promo_codes_handler(call, state)
 
@@ -119,15 +125,15 @@ def check_enter_promo_code(promo_code, active_promo, all_active_promo):
     return None
 
 
-def check_promo_claim_reward_err(sum_bets, min_wager, wager):
+def check_promo_claim_reward_err(sum_bets, min_wager, wager, promo_info):
     if not min_wager:
         return _('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE')
 
     if not sum_bets:
-        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
+        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=promo_info.wager)
 
     if sum_bets < wager:
-        return _("PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR")
+        return _("PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR").format(missing_bets=promo_info.wager - sum_bets)
 
     return None
 

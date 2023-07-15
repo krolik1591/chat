@@ -86,15 +86,15 @@ async def need_a_bonus(user_id):
         active_promo.date_activated < Transactions.utime, Transactions.utime < active_promo.date_end,
         Transactions.user_id == user_id).count()
     if promo_info.number_of_uses - tx_count > 0:
-        return active_promo
+        return promo_info
     else:
         return False
 
 
 async def update_wagers_and_bonus(user_id, bonus, promo_code):
     return await UsersPromoCodes.update({
-        UsersPromoCodes.min_wager: int(promo_code.min_wager) * bonus,
-        UsersPromoCodes.wager: int(promo_code.wager) * bonus,
+        UsersPromoCodes.min_wager: float(promo_code.min_wager) * bonus,
+        UsersPromoCodes.wager: float(promo_code.wager) * bonus,
         UsersPromoCodes.bonus: bonus}).where(
         UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_code.name
     )
@@ -140,7 +140,7 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh')
         # x = await get_all_available_promo_code_for_user(357108179)
         x = await need_a_bonus(357108179)
-        print(x.name)
+        print(x.promo_name)
         # y = await get_users_whose_promo_code_expire(int(time.time()) + 3600 * 5)
         # x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
         # print(x.date_end < int(time.time()) + 3600 * 5)
