@@ -28,7 +28,7 @@ class User(manager.Model):
 
     balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
-    balance_promo = DecimalField(default=0, constraints=[Check('balance_promo >= 0')])
+    balance_promo = DecimalField(default=0)
 
     is_blocked = BooleanField(default=0)
 

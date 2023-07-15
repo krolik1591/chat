@@ -97,7 +97,12 @@ async def decline_promo_code(call: types.CallbackQuery, state):
     if not promo_code.bonus:
         pass
     else:
-        await db.update_user_balance(call.from_user.id, 'promo', -promo_code.bonus)
+        take_money = promo_code.bonus
+        balances = await db.get_user_balances(call.from_user.id)
+        promo_balance = balances['promo']
+        if promo_balance < promo_code.bonus:
+            take_money = promo_balance
+        await db.update_user_balance(call.from_user.id, 'promo', -take_money)
 
     await call.answer(_("PROMO_CODE_DECLINE_TEXT").format(promo_code=promo_code.promo_name), show_alert=True)
     await promo_codes_handler(call, state)
