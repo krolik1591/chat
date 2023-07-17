@@ -10,6 +10,9 @@ ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
 
 async def add_new_promo_code(name, _type, bonus, duration, min_wager=1, wager=10, existence_promo=ACTIVE_PROMO_CODE,
                              number_of_users=float('Infinity'), number_of_uses=1, special_users=None):
+    if _type == 'ticket':
+        min_wager = 0
+
     return await PromoCodes.create(name=name, bonus=bonus, type=_type, special_users=special_users,
                                    date_start=time.time(), date_end=time.time() + existence_promo,
                                    number_of_uses=number_of_uses, number_of_users=number_of_users,
@@ -58,17 +61,24 @@ async def get_all_available_promo_code_for_user(user_id):
 
 
 async def get_active_promo_code_from_promo_codes(user_id, promo_type):
-    user_promo_code = await get_active_promo_code_from_user_promo_codes(user_id, promo_type)
+    user_promo_codes = await get_active_promo_code_from_user_promo_codes(user_id, promo_type)
 
-    if not user_promo_code:
+    if not user_promo_codes:
         return None
 
-    promo_code_info = await get_promo_code_info(user_promo_code.promo_name)
-    return promo_code_info
+    if len(user_promo_codes) != 1:
+        return [await get_promo_code_info(code.promo_name) for code in user_promo_codes]
+
+    return await get_promo_code_info(user_promo_codes[0].promo_name)
 
 
 async def get_active_promo_code_from_user_promo_codes(user_id, promo_type):
     now = time.time()
+    if promo_type == 'all':
+        return await UsersPromoCodes.select(UsersPromoCodes).where(
+            UsersPromoCodes.user_id == user_id, UsersPromoCodes.is_active == 1,
+            now < UsersPromoCodes.date_end)
+
     return await UsersPromoCodes.select(UsersPromoCodes).where(
         UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_type == promo_type, UsersPromoCodes.is_active == 1,
         now < UsersPromoCodes.date_end).order_by(UsersPromoCodes.userspromocodes_id.desc()
@@ -108,12 +118,32 @@ async def get_info_from_user_promo_codes(user_id, promo_name):
 
 
 async def get_sum_bets_and_promo_info(user_id):
-    promo_code = await get_active_promo_code_from_promo_codes(user_id, 'balance')
-    user_promo_info = await get_info_from_user_promo_codes(user_id, promo_code.name)
-    result = await GameLog.select(fn.SUM(GameLog.bet)).where(
-        GameLog.user_id == user_id, user_promo_info.date_activated < GameLog.timestamp < promo_code.date_end,
-        GameLog.balance_type == 'general').scalar()
-    return result, user_promo_info
+    promo_codes = await get_active_promo_code_from_promo_codes(user_id, 'all')  # in order of activation
+    if promo_codes is None:
+        return
+    if isinstance(promo_codes, list):
+        balance_promo = promo_codes[0] if promo_codes[0].type == 'balance' else promo_codes[1]
+        ticket_promo = promo_codes[1] if balance_promo == promo_codes[0] else promo_codes[0]
+
+        balance_promo_info = await get_info_from_user_promo_codes(user_id, balance_promo.name)
+        ticket_promo_info = await get_info_from_user_promo_codes(user_id, ticket_promo.name)
+
+        first_activated = balance_promo_info \
+            if balance_promo_info.date_activated > ticket_promo_info.date_activated \
+            else ticket_promo_info
+
+        result = await GameLog.select(fn.SUM(GameLog.bet)).where(
+            GameLog.user_id == user_id, first_activated < GameLog.timestamp,
+            GameLog.balance_type == 'general').scalar()
+
+        return result, balance_promo_info, ticket_promo_info
+    else:
+        promo_info = await get_info_from_user_promo_codes(user_id, promo_codes.name)
+        result = await GameLog.select(fn.SUM(GameLog.bet)).where(
+            GameLog.user_id == user_id, promo_info.date_activated < GameLog.timestamp,
+            GameLog.balance_type == 'general').scalar()
+
+        return result, promo_info
 
 
 async def min_wager_condition_accepted(user_id, promo_name):
@@ -135,16 +165,15 @@ if __name__ == "__main__":
 
 
     async def test():
-        # await add_new_promo_code('putin huilo3', 'balance', 100, 3600 * 6)
+        # await add_new_promo_code('putin pidor', 'ticket', 100, 3600 * 6)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
         # x = await user_activated_promo_code(357108179, 'putin loh')
         # x = await get_all_available_promo_code_for_user(357108179)
-        x = await need_a_bonus(357108179)
-        print(x.promo_name)
-        # y = await get_users_whose_promo_code_expire(int(time.time()) + 3600 * 5)
-        # x = await get_active_promo_code_from_user_promo_codes(357108179, 'balance')
-        # print(x.date_end < int(time.time()) + 3600 * 5)
-        # print(y)
+        # x = await need_a_bonus(357108179)
+        # print(x.promo_name)
+        y = await get_sum_bets_and_promo_info(357108179)
+        # x = await get_active_promo_code_from_user_promo_codes(357108179, 'all')
+        print(y)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
