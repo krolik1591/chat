@@ -9,13 +9,13 @@ ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
 
 
 async def add_new_promo_code(name, _type, bonus, duration, min_wager=1, wager=10, existence_promo=ACTIVE_PROMO_CODE,
-                             number_of_users=float('Infinity'), number_of_uses=1, special_users=None):
+                             number_of_users=float('Infinity'), max_deposits=1, special_users=None):
     if _type == 'ticket':
         min_wager = 0
 
     return await PromoCodes.create(name=name, bonus=bonus, type=_type, special_users=special_users,
                                    date_start=time.time(), date_end=time.time() + existence_promo,
-                                   number_of_uses=number_of_uses, number_of_users=number_of_users,
+                                   max_deposits=max_deposits, number_of_users=number_of_users,
                                    duration=duration, min_wager=min_wager, wager=wager)
 
 
@@ -60,15 +60,6 @@ async def get_all_available_promo_code_for_user(user_id):
     return result
 
 
-async def get_active_promo_code_from_promo_codes(user_id, promo_type):
-    user_promo_codes = await get_active_promo_code_from_user_promo_codes(user_id, promo_type)
-
-    if not user_promo_codes:
-        return None
-
-    return await get_promo_code_info(user_promo_codes.promo_name)
-
-
 async def get_all_active_user_promo_codes(user_id):
     now = time.time()
 
@@ -79,20 +70,18 @@ async def get_all_active_user_promo_codes(user_id):
 
 
 async def need_a_bonus(user_id):
-    # todo хуйня
-    active_promo = await get_all_info_user_promo_code(user_id)
-    promo_info = await get_promo_code_info(active_promo.promo_name)
-
+    active_promo = await get_all_info_user_promo_code(user_id, 'balance')
     if not active_promo:
-        return False
+        return 0
 
     tx_count = await Transactions.select().where(
         active_promo.date_activated < Transactions.utime, Transactions.utime < active_promo.date_end,
         Transactions.user_id == user_id).count()
-    if promo_info.number_of_uses - tx_count > 0:
-        return promo_info
+
+    if active_promo.promocode.max_deposits - tx_count > 0:
+        return active_promo
     else:
-        return False
+        return 0
 
 
 async def update_wagers_and_bonus(user_id, bonus, promo_code):
@@ -132,11 +121,10 @@ async def min_wager_condition_accepted(user_id, promo_name):
     )
 
 
-async def deactivate_user_promo_code(user_id, promo_name):
+async def deactivate_user_promo_code(user_id):
     now = time.time()
     return await UsersPromoCodes.update({UsersPromoCodes.is_active: 0}).where(
-        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_name, now < UsersPromoCodes.date_end,
-        UsersPromoCodes.is_active == 1)
+        UsersPromoCodes.user_id == user_id, now < UsersPromoCodes.date_end, UsersPromoCodes.is_active == 1)
 
 
 if __name__ == "__main__":
@@ -150,9 +138,9 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin pidor')
         # x = await get_all_available_promo_code_for_user(357108179)
         # x = await need_a_bonus(357108179)
-        # print(x.promo_name)
+        x = await db.need_a_bonus(357108179)
         # y = await get_all_info_user_promo_code(357108179, 'balance')
-        x = await get_sum_bets_and_promo_info(357108179)
+        # x = await get_sum_bets_and_promo_info(357108179)
         print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
