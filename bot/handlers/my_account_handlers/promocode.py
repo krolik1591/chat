@@ -62,7 +62,7 @@ async def my_promo_codes(call: types.CallbackQuery):
         return
 
     sum_bets, promo_info = await db.get_sum_bets_and_promo_info(call.from_user.id)
-    if sum_bets:
+    if sum_bets and promo_info.min_wager:
         if sum_bets > promo_info.min_wager:
             await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
 
