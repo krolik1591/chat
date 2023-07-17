@@ -84,37 +84,33 @@ async def my_promo_codes(call: types.CallbackQuery):
 
 @router.callback_query(Text("claim_reward"))
 async def promo_code_claim_reward(call: types.CallbackQuery):
-    sum_bets, promo_info = await db.get_sum_bets_and_promo_info(call.from_user.id)
+    bets_sum, balance_promo_code, ticket_promo_code = await db.get_sum_bets_and_promo_info(call.from_user.id)
 
-    err = check_promo_claim_reward_err(sum_bets, promo_info.min_wager, promo_info.wager, promo_info)
+    err = check_promo_claim_reward_err(bets_sum, balance_promo_code.promocode.min_wager,
+                                       balance_promo_code.promocode.wager)
     if err is not None:
         await call.answer(err, show_alert=True)
         return
 
-    if sum_bets > promo_info.min_wager:
-        await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
+    if bets_sum > balance_promo_code.promocode.min_wager:
+        await db.min_wager_condition_accepted(call.from_user.id, balance_promo_code.promo_name)
 
     balances = await db.get_user_balances(call.from_user.id)
     with manager.pw_database.atomic():
         await db.update_user_balance(call.from_user.id, 'general', balances['promo'])
-        await db.update_user_balance(call.from_user.id, 'promo', 0)
-        await db.deactivate_user_promo_code(call.from_user.id, promo_info.promo_name)
+        await db.update_user_balance(call.from_user.id, 'promo', -balances['promo'])
+        await db.deactivate_user_promo_code(call.from_user.id)
 
 
 @router.callback_query(Text("decline_promo_code"))
 async def decline_promo_code(call: types.CallbackQuery, state):
-    promo_code = await db.get_active_promo_code_from_user_promo_codes(call.from_user.id, 'balance')
-    await db.deactivate_user_promo_code(call.from_user.id, promo_code.promo_name)
+    promo_code = await db.get_all_info_user_promo_code(call.from_user.id, 'balance')
+    await db.deactivate_user_promo_code(call.from_user.id)
 
-    if not promo_code.bonus:
-        pass
-    else:
-        take_money = promo_code.bonus
-        balances = await db.get_user_balances(call.from_user.id)
-        promo_balance = balances['promo']
-        if promo_balance < promo_code.bonus:
-            take_money = promo_balance
-        await db.update_user_balance(call.from_user.id, 'promo', -take_money)
+    balances = await db.get_user_balances(call.from_user.id)
+    promo_balance = balances['promo']
+    if promo_balance > 0:
+        await db.update_user_balance(call.from_user.id, 'promo', -promo_balance)
 
     await call.answer(_("PROMO_CODE_DECLINE_TEXT").format(promo_code=promo_code.promo_name), show_alert=True)
     await promo_codes_handler(call, state)
@@ -142,15 +138,15 @@ def check_enter_promo_code(promo_code, active_promo, all_active_promo):
     return None
 
 
-def check_promo_claim_reward_err(sum_bets, min_wager, wager, promo_info):
+def check_promo_claim_reward_err(sum_bets, min_wager, wager):
     if not min_wager:
         return _('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE')
 
     if not sum_bets:
-        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=promo_info.wager)
+        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=wager)
 
     if sum_bets < wager:
-        return _("PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR").format(missing_bets=promo_info.wager - sum_bets)
+        return _("PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR").format(missing_bets=wager - sum_bets)
 
     return None
 
