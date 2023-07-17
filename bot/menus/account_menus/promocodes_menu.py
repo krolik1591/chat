@@ -24,64 +24,67 @@ def active_promo_code_menu(text):
 
 
 def my_promo_code_menu(sum_bets, balance_promo, ticket_promo):
-    if balance_promo is None:
+    def format_wager(sum_bets, deposited_wager):
+        return f"{sum_bets}/{deposited_wager}" if sum_bets < deposited_wager else "✅"
+
+    def format_promo_names():
+        r = []
+        if balance_promo:
+            r.append(_("MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE").format(balance_bonus=balance_promo.promo_name_id))
+        if ticket_promo:
+            r.append(_("MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET").format(bonus_tickets=ticket_promo.promo_name_id))
+        return ' | '.join(r)
+
+    def format_wof_promo():
         min_wager = '✅'
-        if ticket_promo.deposited_wager is None:
+        if ticket_promo.deposited_wager == 0:
             wager = _("PROMOCODES_MENU_NEED_WOF_WIN")
             bonus = str(ticket_promo.promocode.bonus) + ' 🎟'
         else:
-            wager = f"{sum_bets}/{ticket_promo.deposited_wager}" if sum_bets < ticket_promo.deposited_wager else "✅"
+            wager = format_wager(sum_bets, ticket_promo.deposited_wager)
             bonus = ticket_promo.deposited_bonus
 
-        text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT').format(min_wager=min_wager, wager=wager, bonus=bonus,
-                                                               active_promo=ticket_promo.promo_name_id)
+        return min_wager, wager, bonus
 
-    elif ticket_promo is None:
-        if balance_promo.deposited_bonus is None:
-            min_wager = _("PROMOCODES_MENU_NEED_DEPOSIT_TEXT")
-            wager = min_wager
-            bonus = min_wager
+    def format_balance_promo():
+        if balance_promo.deposited_bonus == 0:
+            t = _("PROMOCODES_MENU_NEED_DEPOSIT_TEXT")
+            return t, t, t
+
+        min_wager = format_wager(sum_bets, balance_promo.deposited_min_wager)
+        wager = format_wager(sum_bets, balance_promo.deposited_wager)
+        bonus = balance_promo.deposited_bonus
+
+        return min_wager, wager, bonus
+
+    def format_both_promos():
+        sum_bonus = balance_promo.deposited_bonus + ticket_promo.deposited_bonus
+        min_wager = format_wager(sum_bets, balance_promo.deposited_min_wager)
+        wager = format_wager(sum_bets, balance_promo.deposited_wager + ticket_promo.deposited_wager)
+
+        return min_wager, wager, sum_bonus
+
+    balance_bonus = balance_promo.deposited_bonus if balance_promo else 0
+    bonus_tickets = ticket_promo.promocode.bonus if ticket_promo else 0
+
+    if balance_promo and ticket_promo:
+        if balance_bonus == 0 and bonus_tickets == 0:
+            t = _("PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE")
+            min_wager, wager, bonus = t, t, t
         else:
-            min_wager = f'{sum_bets}/{balance_promo.deposited_min_wager}' if sum_bets < balance_promo.deposited_min_wager else "✅"
-            wager = f'{sum_bets}/{balance_promo.deposited_wager}' if sum_bets < balance_promo.deposited_wager else "✅"
-            bonus = balance_promo.deposited_bonus
-
-        text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT').format(min_wager=min_wager, wager=wager, bonus=bonus,
-                                                               active_promo=balance_promo.promo_name_id)
-
+            min_wager, wager, bonus = format_both_promos()
+    elif balance_promo:
+        min_wager, wager, bonus = format_balance_promo()
+    elif ticket_promo:
+        min_wager, wager, bonus = format_wof_promo()
     else:
-        balance_bonus = 0
-        bonus_tickets = 0
+        raise Exception("kek")
 
-        if balance_promo.deposited_bonus is None and ticket_promo.deposited_bonus is None:
-            sum_bonus = _("PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE")
-            min_wager = sum_bonus
-            wager = sum_bonus
-
-        elif balance_promo.deposited_bonus is None:
-            sum_bonus = ticket_promo.deposited_bonus
-            min_wager = '✅'
-            wager = f'{sum_bets}/{ticket_promo.deposited_wager}' if sum_bets < ticket_promo.deposited_wager else "✅"
-            bonus_tickets = ticket_promo.promocode.bonus
-
-        elif ticket_promo.deposited_bonus is None:
-            sum_bonus = balance_promo.deposited_bonus
-            min_wager = f'{sum_bets}/{balance_promo.deposited_min_wager}' if sum_bets < balance_promo.deposited_min_wager else "✅"
-            wager = f'{sum_bets}/{balance_promo.deposited_wager}' if sum_bets < balance_promo.deposited_wager else "✅"
-            balance_bonus = balance_promo.deposited_bonus
-            bonus_tickets = ticket_promo.promocode.bonus or 0
-
-        else:
-            sum_bonus = balance_promo.deposited_bonus + ticket_promo.deposited_bonus
-            min_wager = f'{sum_bets}/{balance_promo.deposited_min_wager}' if sum_bets < balance_promo.deposited_min_wager else "✅"
-            wager = f'{sum_bets}/{balance_promo.deposited_wager + ticket_promo.deposited_wager}' \
-                if sum_bets < balance_promo.deposited_wager + ticket_promo.deposited_wager else "✅"
-            balance_bonus = balance_promo.deposited_bonus
-            bonus_tickets = ticket_promo.promocode.bonus
-
-        text = _("PROMOCODES_MENU_MY_PROMO_CODES_2_CODES_TEXT").format(
-            balance_promo_name=balance_promo.promo_name_id, ticket_promo_name=ticket_promo.promo_name_id,
-            text1=min_wager, text2=wager, balance_bonus=balance_bonus, bonus_tickets=bonus_tickets, sum_bonus=sum_bonus)
+    active_promo_codes = format_promo_names()
+    text = _("PROMOCODES_MENU_MY_PROMO_CODES_2_CODES_TEXT").format(
+        active_promocodes=active_promo_codes,
+        min_wager=min_wager, wager=wager, sum_bonus=bonus,
+        balance_bonus=balance_bonus, bonus_tickets=bonus_tickets)
 
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_("PROMOCODES_MENU_CLAIM_REWARD_BTN"), callback_data="claim_reward")],
@@ -90,7 +93,6 @@ def my_promo_code_menu(sum_bets, balance_promo, ticket_promo):
     ])
 
     return text, kb
-
 
 # def two_active_promo_code_text(sum_bets, balance_promo, ticket_promo, bonus_tickets):
 #     if bonus_tickets is None:

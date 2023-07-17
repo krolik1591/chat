@@ -133,9 +133,9 @@ if __name__ == "__main__":
 
 
     async def test():
-        # await add_new_promo_code('putin pidor', 'balance', 100, 3600 * 6)
+        # await add_new_promo_code('putin loh', 'ticket', 100, 3600 * 6)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
-        x = await user_activated_promo_code(357108179, 'putin pidor')
+        # x = await user_activated_promo_code(357108179, 'putin loh')
         # x = await get_all_available_promo_code_for_user(357108179)
         # x = await need_a_bonus(357108179)
         # x = await db.need_a_bonus(357108179)

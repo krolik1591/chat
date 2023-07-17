@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-17 14:17+0300\n"
+"POT-Creation-Date: 2023-07-17 23:52+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -18,14 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../../bot/cron/deactivate_promocodes_watcher.py:35
+#: ../../bot/cron/deactivate_promocodes_watcher.py:36
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
 msgstr ""
 "Ви ще не поповнили баланс за промокодом {promo_code_name}, а через {hours} годин {minutes} хвилин він вже зникне!\n"
 "\n"
 "Поспішайте!"
 
-#: ../../bot/cron/deactivate_promocodes_watcher.py:38
+#: ../../bot/cron/deactivate_promocodes_watcher.py:39
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
 msgstr "Якщо ви не відіграєте ще {min_wager} на основному балансі, то ваш промокод {promo_code_name} через {hours} годин {minutes} хвилин вже зникне!"
 
@@ -85,13 +85,13 @@ msgstr "🍀 Успіхів!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:67
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:71
-#: ../../bot/handlers/my_account_handlers/promocode.py:147
+#: ../../bot/handlers/my_account_handlers/promocode.py:132
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод та поповніть баланс!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:75
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:81
-#: ../../bot/handlers/my_account_handlers/promocode.py:150
+#: ../../bot/handlers/my_account_handlers/promocode.py:135
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -257,26 +257,26 @@ msgstr "✅ Промокод {promo_code} активовано!"
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr "Не активовано жодного промокоду!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:119
+#: ../../bot/handlers/my_account_handlers/promocode.py:104
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr "Промокод {promo_code} скасовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:134
+#: ../../bot/handlers/my_account_handlers/promocode.py:119
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr "Введіть промокод!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:137
+#: ../../bot/handlers/my_account_handlers/promocode.py:122
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr ""
 "У вас вже є активний промокод: {promo_code}.\n"
 "\n"
 "Щоб активувати новий, відмініть цей."
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:140
+#: ../../bot/handlers/my_account_handlers/promocode.py:125
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr "❌ Такого промокоду не існує!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:153
+#: ../../bot/handlers/my_account_handlers/promocode.py:138
 msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
 
@@ -476,7 +476,7 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/account_menus/account_menu.py:30
 #: ../../bot/menus/account_menus/promocodes_menu.py:11
 #: ../../bot/menus/account_menus/promocodes_menu.py:20
-#: ../../bot/menus/account_menus/promocodes_menu.py:38
+#: ../../bot/menus/account_menus/promocodes_menu.py:104
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -527,24 +527,24 @@ msgstr ""
 "\n"
 "{text}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:36
-msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
-msgstr "Забрати нагороду"
+#: ../../bot/menus/account_menus/promocodes_menu.py:33
+msgid "MY_PROMO_CODE_MENU_2_ACTIVE_PROMO"
+msgstr "🎁 {balance_bonus}| 🎟 {bonus_tickets}"
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:35
+msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE"
+msgstr "🎁 {balance_bonus}"
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:37
-msgid "PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"
-msgstr "Скасувати промокод"
+msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET"
+msgstr "🎟 {bonus_tickets}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:47
-msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
-msgstr "поповніть баланс!"
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:58
-#: ../../bot/menus/account_menus/promocodes_menu.py:62
+#: ../../bot/menus/account_menus/promocodes_menu.py:44
 msgid "PROMOCODES_MENU_NEED_WOF_WIN"
 msgstr "дочекайтесь прокрутки колеса!"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:65
+#: ../../bot/menus/account_menus/promocodes_menu.py:50
+#: ../../bot/menus/account_menus/promocodes_menu.py:64
 msgid "PROMOCODES_MENU_MY_PROMO_CODES_TEXT"
 msgstr ""
 "Деталі промокоду: \n"
@@ -554,23 +554,34 @@ msgstr ""
 "• Ваджер активації: {min_wager}\n"
 "• Ваджер відіграшу: {wager}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:76
+#: ../../bot/menus/account_menus/promocodes_menu.py:56
+msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
+msgstr "поповніть баланс!"
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:72
 msgid "PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE"
 msgstr "поповніть баланс або чекайте прокрутку колеса"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:100
+#: ../../bot/menus/account_menus/promocodes_menu.py:97
 msgid "PROMOCODES_MENU_MY_PROMO_CODES_2_CODES_TEXT"
 msgstr ""
 "Деталі промокоду: \n"
 "\n"
-"• Активні промокоди:\n"
-"🎁 {balance_promo_name} | 🎟 {ticket_promo_name}\n"
+"{active_promocodes}\n"
 "\n"
 "• Ваш бонус: {sum_bonus}\n"
-"• Ваджер активації: {text1}\n"
-"• Ваджер відіграшу: {text2}\n"
+"• Ваджер активації: {min_wager}\n"
+"• Ваджер відіграшу: {wager}\n"
 "\n"
 "Промо: 🎁 {balance_bonus}| 🎟 {bonus_tickets}"
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:102
+msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
+msgstr "Забрати нагороду"
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:103
+msgid "PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"
+msgstr "Скасувати промокод"
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11
 msgid "REF_LVL_1_ADEPT"
