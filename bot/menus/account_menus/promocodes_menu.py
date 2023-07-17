@@ -28,7 +28,7 @@ def my_promo_code_menu(sum_bets, balance_promo, ticket_promo):
         min_wager = '✅'
         if ticket_promo.deposited_wager is None:
             wager = _("PROMOCODES_MENU_NEED_WOF_WIN")
-            bonus = wager
+            bonus = str(ticket_promo.promocode.bonus) + ' 🎟'
         else:
             wager = f"{sum_bets}/{ticket_promo.deposited_wager}" if sum_bets < ticket_promo.deposited_wager else "✅"
             bonus = ticket_promo.deposited_bonus
@@ -44,7 +44,7 @@ def my_promo_code_menu(sum_bets, balance_promo, ticket_promo):
         else:
             min_wager = f'{sum_bets}/{balance_promo.deposited_min_wager}' if sum_bets < balance_promo.deposited_min_wager else "✅"
             wager = f'{sum_bets}/{balance_promo.deposited_wager}' if sum_bets < balance_promo.deposited_wager else "✅"
-            bonus = balance_promo.bonus
+            bonus = balance_promo.deposited_bonus
 
         text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT').format(min_wager=min_wager, wager=wager, bonus=bonus,
                                                                active_promo=balance_promo.promo_name_id)
@@ -68,7 +68,8 @@ def my_promo_code_menu(sum_bets, balance_promo, ticket_promo):
             sum_bonus = balance_promo.deposited_bonus
             min_wager = f'{sum_bets}/{balance_promo.deposited_min_wager}' if sum_bets < balance_promo.deposited_min_wager else "✅"
             wager = f'{sum_bets}/{balance_promo.deposited_wager}' if sum_bets < balance_promo.deposited_wager else "✅"
-            balance_bonus = balance_promo.bonus
+            balance_bonus = balance_promo.deposited_bonus
+            bonus_tickets = ticket_promo.promocode.bonus or 0
 
         else:
             sum_bonus = balance_promo.deposited_bonus + ticket_promo.deposited_bonus
