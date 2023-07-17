@@ -23,21 +23,13 @@ def active_promo_code_menu(text):
     return text, kb
 
 
-def my_promo_code_menu(sum_bets, min_wager, wager, active_promo):
+def my_promo_code_menu(sum_bets, balance_promo, ticket_promo=0):
     if sum_bets is None:
         sum_bets = 0
 
-    text1 = f'{sum_bets}/{min_wager}'
-    text2 = f'{sum_bets}/{wager}'
-    bonus = active_promo.bonus
+    if ticket_promo == 0:
+        text = one_active_promo_code_text(sum_bets, balance_promo)
 
-    if min_wager is None or wager is None:
-        text1 = _("PROMOCODES_MENU_NEED_DEPOSIT_TEXT")
-        text2 = text1
-        bonus = text1
-
-    text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT').format(text1=text1, text2=text2, active_promo=active_promo,
-                                                           bonus=bonus)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_("PROMOCODES_MENU_CLAIM_REWARD_BTN"), callback_data="claim_reward")],
         [InlineKeyboardButton(text=_("PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"), callback_data="decline_promo_code")],
@@ -45,3 +37,30 @@ def my_promo_code_menu(sum_bets, min_wager, wager, active_promo):
     ])
 
     return text, kb
+
+
+def one_active_promo_code_text(sum_bets, balance_promo):
+    if balance_promo.promo_type == "balance":
+        if balance_promo.wager is None:
+            text1 = _("PROMOCODES_MENU_NEED_DEPOSIT_TEXT")
+            text2 = text1
+            bonus = text1
+        else:
+            text1 = f'{sum_bets}/{balance_promo.min_wager}' if sum_bets < balance_promo.min_wager else "✅"
+            text2 = f'{sum_bets}/{balance_promo.wager}' if sum_bets < balance_promo.wager else "✅"
+            bonus = balance_promo.bonus
+
+    else:  # balance_promo.promo_type == 'ticket':
+        text1 = '✅'
+        if balance_promo.wager is None:
+            text2 = _("PROMOCODES_MENU_NEED_WOF_WIN")
+            bonus = text2
+        else:
+            text2 = f"{sum_bets}/{balance_promo.bonus * balance_promo.wager}" if sum_bets < balance_promo.wager else "✅"
+            bonus = balance_promo.bonus if balance_promo.bonus is not None else _("PROMOCODES_MENU_NEED_WOF_WIN")
+
+    sticker = '🎁 ' if balance_promo.promo_type == 'balance' else '🎟 '
+    text = _('PROMOCODES_MENU_MY_PROMO_CODES_TEXT').format(text1=text1, text2=text2, bonus=bonus,
+                                                           active_promo=sticker + balance_promo.promo_name)
+
+    return text
