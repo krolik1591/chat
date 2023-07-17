@@ -57,28 +57,18 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text("my_promo_codes"))
 async def my_promo_codes(call: types.CallbackQuery):
     try:
-        result = await db.get_sum_bets_and_promo_info(call.from_user.id)
+        sum_bets, balance_promo, ticket_promo = await db.get_sum_bets_and_promo_info(call.from_user.id)
     except TypeError as e:
         await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
         return
 
-    if len(result) == 2:
-        sum_bets, promo_info = result
-        if promo_info.promo_type == 'balance':
-            if sum_bets and promo_info.min_wager:
-                if sum_bets > promo_info.min_wager:
-                    await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
+    if balance_promo.promocode.min_wager and sum_bets:
+        if sum_bets > balance_promo.promocode.min_wager:
+            await db.min_wager_condition_accepted(call.from_user.id, balance_promo.promo_name)
 
-        text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, promo_info)
+    print(balance_promo.promo_name, type(balance_promo.promo_name))
 
-    else:
-        sum_bets, balance_promo, ticket_promo = result
-        if sum_bets and balance_promo.min_wager:
-            if sum_bets > balance_promo.min_wager:
-                await db.min_wager_condition_accepted(call.from_user.id, balance_promo.promo_name)
-        bonus_tickets = (await db.get_promo_code_info(ticket_promo.promo_name)).bonus
-        text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, balance_promo, ticket_promo, bonus_tickets)
-
+    text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, balance_promo, ticket_promo)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

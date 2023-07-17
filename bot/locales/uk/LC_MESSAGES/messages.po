@@ -551,8 +551,8 @@ msgstr ""
 "\n"
 "• Активний промокод: {active_promo}\n"
 "• Ваш бонус: {bonus}\n"
-"• Ваджер активації: {text1}\n"
-"• Ваджер відіграшу: {text2}"
+"• Ваджер активації: {min_wager}\n"
+"• Ваджер відіграшу: {wager}"
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:76
 msgid "PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE"
