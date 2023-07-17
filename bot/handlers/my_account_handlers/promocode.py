@@ -70,17 +70,16 @@ async def my_promo_codes(call: types.CallbackQuery):
                     await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
 
         text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, promo_info)
-        await call.message.edit_text(text, reply_markup=keyboard)
-        return
 
-    if len(result == 3):
+    else:
         sum_bets, balance_promo, ticket_promo = result
         if sum_bets and balance_promo.min_wager:
             if sum_bets > balance_promo.min_wager:
                 await db.min_wager_condition_accepted(call.from_user.id, balance_promo.promo_name)
+        bonus_tickets = (await db.get_promo_code_info(ticket_promo.promo_name)).bonus
+        text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, balance_promo, ticket_promo, bonus_tickets)
 
-        text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, balance_promo, ticket_promo)
-        await call.message.edit_text(text, reply_markup=keyboard)
+    await call.message.edit_text(text, reply_markup=keyboard)
 
 
 @router.callback_query(Text("claim_reward"))
