@@ -24,7 +24,7 @@ class User(manager.Model):
     lang = CharField(default='en')
     referrer = BigIntegerField(null=True)
     total_ref_withdraw = DecimalField(default=0)
-    wof_win = DecimalField(default=0)
+    wof_win = CharField(default='{"general": 0, "promo": 0}')
 
     balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
@@ -47,6 +47,8 @@ class WoFTickets(manager.Model):
     ticket_num = BigIntegerField()
     ticket_type = CharField()
     buy_timestamp = DateTimeField()
+
+    is_promo = BooleanField(default=False)
 
 
 class WoFSettings(manager.Model):
