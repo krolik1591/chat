@@ -18,7 +18,8 @@ router = Router()
 @router.callback_query(Text("wheel_of_fortune"))
 async def wheel_of_fortune(call: types.CallbackQuery, i18n: I18n):
     wof_info = await db.get_active_wheel_info()
-    wof_reward = await db.get_user_wof_win(call.from_user.id)
+    wof_reward_json = await db.get_user_wof_win(call.from_user.id)
+    wof_reward = json.loads(wof_reward_json)
     if not wof_info:
         text, keyboard = wheel_of_fortune_doesnt_exist_menu(wof_reward)
         await call.message.edit_text(text, reply_markup=keyboard)
@@ -84,10 +85,12 @@ async def claim_reward(call: types.CallbackQuery, i18n: I18n):
 
     elif not wof_rewards['general']:
         await process_update_balance(call, wof_rewards, 'promo', PROMO_FUNDS_ICON)
+        promo_code = await db.get_all_info_user_promo_code(call.from_user.id, 'ticket')
+        await db.update_wagers_and_bonus(call.from_user.id, wof_rewards['promo'], promo_code)
         await wheel_of_fortune(call, i18n)
 
     else:
-        text, kb = what_balance_withdraw_menu()
+        text, kb = what_balance_withdraw_menu(wof_rewards)
         await call.message.edit_text(text, reply_markup=kb)
 
 

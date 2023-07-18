@@ -1,10 +1,20 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.i18n import gettext as _
 
+from bot.consts.balance import PROMO_FUNDS_ICON, TON_FUNDS_ICON
+
 
 def wheel_of_fortune_menu(ticket_cost, date_end, user_tickets, wof_win):
+    if not wof_win['promo']:
+        display_win = str(wof_win['general']) + ' ' + TON_FUNDS_ICON
+    elif not wof_win['general']:
+        display_win = str(wof_win['promo']) + ' ' + PROMO_FUNDS_ICON
+    else:
+        display_win = f"{str(wof_win['general']) + ' ' + TON_FUNDS_ICON} | " \
+                      f"{str(wof_win['promo']) + ' ' + PROMO_FUNDS_ICON}"
+
     text = _('WHEEL_OF_FORTUNE_TEXT_MENU').format(ticket_cost=ticket_cost, date_end=date_end, user_tickets=user_tickets,
-                                                  wof_win=wof_win)
+                                                  wof_win=display_win)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_BUY_TICKET'), callback_data="buy_ticket")],
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_MY_NUMBERS'), callback_data="my_numbers")],
@@ -103,13 +113,14 @@ def display_ticket_num_text_menu(tickets_text, page, pages):
     return text, kb
 
 
-def what_balance_withdraw_menu():
+def what_balance_withdraw_menu(wof_rewards):
     text = _('WHEEL_OF_FORTUNE_WHAT_BALANCE_WITHDRAW_TEXT')
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_GENERAL'),
-                                 callback_data="claim_wof_balance_general"),
-            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO'), callback_data="claim_wof_balance_promo"),
+            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_GENERAL').format(
+                general_balance=str(wof_rewards['general']) + ' ' + TON_FUNDS_ICON), callback_data="claim_wof_balance_general"),
+            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO').format(
+                promo_balance=str(wof_rewards['promo']) + ' ' + PROMO_FUNDS_ICON), callback_data="claim_wof_balance_promo"),
         ],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="wheel_of_fortune")],
     ])

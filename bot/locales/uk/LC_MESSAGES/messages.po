@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-17 23:52+0300\n"
+"POT-Creation-Date: 2023-07-18 13:33+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -29,14 +29,14 @@ msgstr ""
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
 msgstr "Якщо ви не відіграєте ще {min_wager} на основному балансі, то ваш промокод {promo_code_name} через {hours} годин {minutes} хвилин вже зникне!"
 
-#: ../../bot/cron/wof_watcher.py:161
+#: ../../bot/cron/wof_watcher.py:171
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
 msgstr ""
 "🎉 Вітаємо з перемогою в колесі фортуни, ви зайняли {pos} місце! \n"
 "\n"
 "Виграшний білет: {winner_num}, нагорода: {reward}."
 
-#: ../../bot/cron/wof_watcher.py:167
+#: ../../bot/cron/wof_watcher.py:177
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
 msgstr "Не розстраюйся, наступного разу пощастить! ☺️"
 
@@ -358,27 +358,27 @@ msgstr "Введіть не більше 7 цифр!"
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr "Нема білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:43
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:45
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr "Чекайте!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:49
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
 msgid "WOF_CHECK_STATUS_NO_TICKETS"
 msgstr ""
 "Ви ще не берете участь, купіть білет!\n"
 "Наступний спін: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:53
 msgid "WOF_CHECK_STATUS_TICKETS"
 msgstr ""
 "Ви приймаєте участь, у вас {user_tickets} білетів!\n"
 "Наступний спін: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:61
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:69
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:71
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 "Дата останнього спіна: {date_end}\n"
@@ -386,15 +386,15 @@ msgstr ""
 "Щасливі номери:\n"
 "{text}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:76
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:110
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:90
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:120
 msgid "WOF_NO_DATE_END"
 msgstr "скоро буде"
 
@@ -476,7 +476,7 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/account_menus/account_menu.py:30
 #: ../../bot/menus/account_menus/promocodes_menu.py:11
 #: ../../bot/menus/account_menus/promocodes_menu.py:20
-#: ../../bot/menus/account_menus/promocodes_menu.py:104
+#: ../../bot/menus/account_menus/promocodes_menu.py:92
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -486,13 +486,14 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/game_menus/select_game.py:43
 #: ../../bot/menus/main_menus/guides_menus.py:34
 #: ../../bot/menus/main_menus/language_menu.py:28
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:14
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:25
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:56
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:73
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:86
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:100
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:24
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:35
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:50
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:66
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:110
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:124
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -528,33 +529,18 @@ msgstr ""
 "{text}"
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:33
-msgid "MY_PROMO_CODE_MENU_2_ACTIVE_PROMO"
-msgstr "🎁 {balance_bonus}| 🎟 {bonus_tickets}"
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:35
 msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE"
 msgstr "🎁 {balance_bonus}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:37
+#: ../../bot/menus/account_menus/promocodes_menu.py:35
 msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET"
 msgstr "🎟 {bonus_tickets}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:44
+#: ../../bot/menus/account_menus/promocodes_menu.py:41
 msgid "PROMOCODES_MENU_NEED_WOF_WIN"
 msgstr "дочекайтесь прокрутки колеса!"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:50
-#: ../../bot/menus/account_menus/promocodes_menu.py:64
-msgid "PROMOCODES_MENU_MY_PROMO_CODES_TEXT"
-msgstr ""
-"Деталі промокоду: \n"
-"\n"
-"• Активний промокод: {active_promo}\n"
-"• Ваш бонус: {bonus}\n"
-"• Ваджер активації: {min_wager}\n"
-"• Ваджер відіграшу: {wager}"
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:56
+#: ../../bot/menus/account_menus/promocodes_menu.py:51
 msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
 msgstr "поповніть баланс!"
 
@@ -562,7 +548,7 @@ msgstr "поповніть баланс!"
 msgid "PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE"
 msgstr "поповніть баланс або чекайте прокрутку колеса"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:97
+#: ../../bot/menus/account_menus/promocodes_menu.py:84
 msgid "PROMOCODES_MENU_MY_PROMO_CODES_2_CODES_TEXT"
 msgstr ""
 "Деталі промокоду: \n"
@@ -575,11 +561,11 @@ msgstr ""
 "\n"
 "Промо: 🎁 {balance_bonus}| 🎟 {bonus_tickets}"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:102
+#: ../../bot/menus/account_menus/promocodes_menu.py:90
 msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
 msgstr "Забрати нагороду"
 
-#: ../../bot/menus/account_menus/promocodes_menu.py:103
+#: ../../bot/menus/account_menus/promocodes_menu.py:91
 msgid "PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"
 msgstr "Скасувати промокод"
 
@@ -821,7 +807,7 @@ msgstr ""
 msgid "LANGUAGE_TEXT"
 msgstr "Обери потрібну мову:"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:6
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:16
 msgid "WHEEL_OF_FORTUNE_TEXT_MENU"
 msgstr ""
 "☘️ Колесо фортуни \n"
@@ -832,35 +818,35 @@ msgstr ""
 "Коли крутимо: {date_end}\n"
 "Наперемогав: {wof_win}"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:9
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:19
 msgid "WHEEL_FORTUNE_BTN_BUY_TICKET"
 msgstr "Купити білет"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:10
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:20
 msgid "WHEEL_FORTUNE_BTN_MY_NUMBERS"
 msgstr "Мої білети"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:11
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:21
 msgid "WHEEL_FORTUNE_BTN_BUY_TICKET_CHECK_MY_STATUS"
 msgstr "Перевірити статус"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:12
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:23
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:22
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:33
 msgid "WHEEL_FORTUNE_BTN_SPIN_RESULT"
 msgstr "Останні переможці"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:13
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:24
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:23
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:34
 msgid "WHEEL_FORTUNE_BTN_CLAIM_WIN"
 msgstr "Забрати нагороду"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:21
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:31
 msgid "WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU"
 msgstr ""
 "Розіграш завершено! \n"
 "За минулий розіграш ви ще не забрали: {user_wof_win}\n"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:34
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:44
 msgid "WOF_MENU_BUY_TICKET_TEXT"
 msgstr ""
 "🎟 Купи свій білет!\n"
@@ -871,15 +857,15 @@ msgstr ""
 "Вартість білету: {ticket_cost} 💎\n"
 "Скіко в мене: {user_tickets} 🎟"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:38
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:48
 msgid "WOF_BTN_BUY_TICKET_MENU_SELECT_NUM"
 msgstr "Обрати номер"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:39
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:49
 msgid "WOF_BTN_BUY_TICKET_MENU_RANDOM_NUM"
 msgstr "Взяти випадкові номери"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:49
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:59
 msgid "WOF_MENU_BUY_SELECTED_TICKET_TEXT"
 msgstr ""
 "🎟 Надішліть 7 будь-яких цифр (приклад: 7777777)\n"
@@ -891,11 +877,11 @@ msgstr ""
 "Вартість білету: {ticket_cost} 💎\n"
 "Скіко в мене: {user_tickets} 🎟"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:64
 msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
 msgstr "Купити білет"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:65
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:75
 msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
 msgstr ""
 "🎟 Скіко білетів треба?\n"
@@ -906,11 +892,11 @@ msgstr ""
 "Вартість білету: {ticket_cost} 💎\n"
 "Скіко в мене: {user_tickets} 🎟"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:72
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:82
 msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
 msgstr "Купити білет"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:80
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:90
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
 msgstr ""
 "Знаєш скіко?\n"
@@ -919,28 +905,41 @@ msgstr ""
 "Обрані вами: {selected_tickets}\n"
 "Згенеровані: {random_tickets}"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"
 msgstr "Обрані білетики"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:85
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:95
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM"
 msgstr "Згенеровані білетики"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:103
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
 msgstr ""
 "Ваші білети (сторінка {page} з {pages}):\n"
 "\n"
 "{tickets_text}"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:106
 msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr "Попередня сторінка"
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:98
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:108
 msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
 msgstr "Наступна сторінка"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:117
+msgid "WHEEL_OF_FORTUNE_WHAT_BALANCE_WITHDRAW_TEXT"
+msgstr "Забирай шо забажаєш! \n\n"
+"Чого бажаєш?"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:120
+msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_GENERAL"
+msgstr "{general_balance}"
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:122
+msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
+msgstr "{promo_balance}"
 
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
@@ -1176,4 +1175,16 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 
 #~ msgid "PROMOCODES_MENU_CLAIM_REWARD"
 #~ msgstr ""
+
+#~ msgid "MY_PROMO_CODE_MENU_2_ACTIVE_PROMO"
+#~ msgstr "🎁 {balance_bonus}| 🎟 {bonus_tickets}"
+
+#~ msgid "PROMOCODES_MENU_MY_PROMO_CODES_TEXT"
+#~ msgstr ""
+#~ "Деталі промокоду: \n"
+#~ "\n"
+#~ "• Активний промокод: {active_promo}\n"
+#~ "• Ваш бонус: {bonus}\n"
+#~ "• Ваджер активації: {min_wager}\n"
+#~ "• Ваджер відіграшу: {wager}"
 
