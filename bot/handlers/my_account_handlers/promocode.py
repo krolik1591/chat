@@ -8,6 +8,7 @@ from bot.db import db, manager
 from bot.handlers.states import Menu, StateKeys
 from bot.handlers.wheel_of_fortune_handlers.buy_ticket import create_random_tickets
 from bot.menus.account_menus import promocodes_menu
+from bot.menus.account_menus.promocodes_menu import approve_decline_promo_code_menu
 
 router = Router()
 
@@ -104,9 +105,14 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
         await db.deactivate_user_promo_code(call.from_user.id)
 
 
+@router.callback_query(Text("approve_decline_promo_code"))
+async def approve_decline_promo_code(call: types.CallbackQuery, state):
+    text, kb = approve_decline_promo_code_menu()
+    await call.message.edit_text(text, reply_markup=kb)
+
+
 @router.callback_query(Text("decline_promo_code"))
 async def decline_promo_code(call: types.CallbackQuery, state):
-    promo_code = await db.get_all_info_user_promo_code(call.from_user.id, 'balance')
     await db.deactivate_user_promo_code(call.from_user.id)
 
     balances = await db.get_user_balances(call.from_user.id)
@@ -114,7 +120,7 @@ async def decline_promo_code(call: types.CallbackQuery, state):
     if promo_balance > 0:
         await db.update_user_balance(call.from_user.id, 'promo', -promo_balance)
 
-    await call.answer(_("PROMO_CODE_DECLINE_TEXT").format(promo_code=promo_code.promo_name), show_alert=True)
+    await call.answer(_("PROMO_CODE_DECLINE_TEXT"), show_alert=True)
     await promo_codes_handler(call, state)
 
 

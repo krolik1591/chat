@@ -88,8 +88,18 @@ def my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets
 
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_("PROMOCODES_MENU_CLAIM_REWARD_BTN"), callback_data="claim_reward")],
-        [InlineKeyboardButton(text=_("PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"), callback_data="decline_promo_code")],
+        [InlineKeyboardButton(text=_("PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"), callback_data="approve_decline_promo_code")],
         [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="promo_codes")]
+    ])
+
+    return text, kb
+
+
+def approve_decline_promo_code_menu():
+    text = _('PROMOCODES_MENU_APPROVE_DECLINE_PROMO_TEXT')
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_("PROMOCODES_MENU_APPROVE_DECLINE_PROMO_BTN"), callback_data="decline_promo_code")],
+        [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="promo_codes")],
     ])
 
     return text, kb
