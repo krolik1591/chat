@@ -25,7 +25,7 @@ async def create_fortune_wheel(request: Request):
     special_users = None if special_users == "" else special_users
 
     await db.add_new_promo_code(ticket_name, type_promo, bonus, time_of_duration, min_wager=min_wager, wager=wager,
-                                number_of_users=number_of_users, number_of_uses=number_of_uses,
+                                number_of_users=number_of_users, max_deposits=number_of_uses,
                                 existence_promo=time_of_existence, special_users=special_users)
 
     return web.Response(text='{"ok": "ok"}')
