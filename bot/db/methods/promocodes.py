@@ -111,7 +111,7 @@ async def update_wagers_and_bonus(user_id, bonus, promo_code):
         UsersPromoCodes.deposited_wager: float(promo_code.promocode.wager) * bonus,
         UsersPromoCodes.deposited_bonus: bonus}).where(
         UsersPromoCodes.user_id == user_id,
-        UsersPromoCodes.promo_name == promo_code.promo_name
+        UsersPromoCodes.promo_name == promo_code.promo_name_id
     )
 
 
@@ -157,13 +157,13 @@ if __name__ == "__main__":
     async def test():
         # await add_new_promo_code('putin loh1', 'balance', 100, 3600 * 6)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
-        x = await user_activated_promo_code(228, 'deposit_1')
+        # x = await user_activated_promo_code(228, 'deposit_1')
         # x = await get_all_available_promo_code_for_user(357108179)
         # x = await need_a_bonus(357108179)
         # x = await db.need_a_bonus(357108179)
         # y = await get_all_info_user_promo_code(357108179, 'balance')
-        x = await get_all_available_promo_code_for_user(357108179)
-        print(x)
+        x = await db.get_all_info_user_promo_code(357108179, 'ticket')
+        print(x.promocode.wager)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",

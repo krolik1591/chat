@@ -5,16 +5,10 @@ from bot.consts.balance import PROMO_FUNDS_ICON, TON_FUNDS_ICON
 
 
 def wheel_of_fortune_menu(ticket_cost, date_end, user_tickets, wof_win):
-    if not wof_win['promo']:
-        display_win = str(wof_win['general']) + ' ' + TON_FUNDS_ICON
-    elif not wof_win['general']:
-        display_win = str(wof_win['promo']) + ' ' + PROMO_FUNDS_ICON
-    else:
-        display_win = f"{str(wof_win['general']) + ' ' + TON_FUNDS_ICON} | " \
-                      f"{str(wof_win['promo']) + ' ' + PROMO_FUNDS_ICON}"
+    reward_text = get_user_rewards_text(wof_win)
 
     text = _('WHEEL_OF_FORTUNE_TEXT_MENU').format(ticket_cost=ticket_cost, date_end=date_end, user_tickets=user_tickets,
-                                                  wof_win=display_win)
+                                                  wof_win=reward_text)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_BUY_TICKET'), callback_data="buy_ticket")],
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_MY_NUMBERS'), callback_data="my_numbers")],
@@ -27,8 +21,10 @@ def wheel_of_fortune_menu(ticket_cost, date_end, user_tickets, wof_win):
     return text, kb
 
 
-def wheel_of_fortune_doesnt_exist_menu(user_wof_win):
-    text = _('WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU').format(user_wof_win=user_wof_win)
+def wheel_of_fortune_doesnt_exist_menu(wof_win):
+    reward_text = get_user_rewards_text(wof_win)
+
+    text = _('WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU').format(user_wof_win=reward_text)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_SPIN_RESULT'), callback_data="spin_result")],
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CLAIM_WIN'), callback_data="claim_wof_reward")],
@@ -36,6 +32,16 @@ def wheel_of_fortune_doesnt_exist_menu(user_wof_win):
     ])
 
     return text, kb
+
+
+def get_user_rewards_text(wof_win):
+    if not wof_win['promo']:
+        return str(wof_win['general']) + ' ' + TON_FUNDS_ICON
+    elif not wof_win['general']:
+        return str(wof_win['promo']) + ' ' + PROMO_FUNDS_ICON
+    else:
+        return f"{str(wof_win['general']) + ' ' + TON_FUNDS_ICON} | " \
+               f"{str(wof_win['promo']) + ' ' + PROMO_FUNDS_ICON}"
 
 
 def buy_ticket_menu(wof_info, user_balance, user_tickets):
