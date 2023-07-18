@@ -84,10 +84,10 @@ async def get_times_promo_used(promo_name):
 async def get_all_active_user_promo_codes(user_id):
     now = time.time()
 
-    return await UsersPromoCodes.select(UsersPromoCodes.promo_name).where(
+    return await UsersPromoCodes.select(UsersPromoCodes, PromoCodes).where(
         UsersPromoCodes.user_id == user_id,
         UsersPromoCodes.is_active == 1,
-        now < UsersPromoCodes.date_end).scalars()
+        now < UsersPromoCodes.date_end).join(PromoCodes, attr=('promocode'))
 
 
 async def need_a_bonus(user_id):
@@ -162,8 +162,8 @@ if __name__ == "__main__":
         # x = await need_a_bonus(357108179)
         # x = await db.need_a_bonus(357108179)
         # y = await get_all_info_user_promo_code(357108179, 'balance')
-        x = await db.get_all_info_user_promo_code(357108179, 'ticket')
-        print(x.promocode.wager)
+        x = await db.get_all_active_user_promo_codes(357108179)
+        print(x[0].promocode.type)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",

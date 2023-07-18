@@ -44,6 +44,7 @@ async def enter_promo_code(message: Message, state: FSMContext):
 async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
     promo_code = (await state.get_data()).get(StateKeys.PROMO_CODE_ENTERED)
     active_promo = await db.get_all_active_user_promo_codes(call.from_user.id)
+    active_promo = [code.promo_name_id for code in active_promo]
     all_available_promo = await db.get_all_available_promo_code_for_user(call.from_user.id)
     active_promo_info = [await db.get_promo_code_info(code) for code in active_promo]
     new_promo_info = await db.get_promo_code_info(promo_code)

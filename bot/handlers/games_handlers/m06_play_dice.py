@@ -23,10 +23,12 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
 
     if context.balance_type == 'promo':
-        promo_code = await db.get_active_promo_code_from_user_promo_codes(call.from_user.id, 'balance')
-        if not promo_code.won:
-            if not await can_play_on_promo_balance_and_update_won_status_promo_code(call):
-                return
+        promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
+        for code in promo_codes:
+            if code.promocode.type == 'balance':
+                if not code.won:
+                    if not await can_play_on_promo_balance_and_update_won_status_promo_code(call):
+                        return
 
     dice_game: Dice = DICE_GAMES[context.game]
 
@@ -62,25 +64,28 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
 
 async def can_play_on_promo_balance_and_update_won_status_promo_code(call):
     try:
-        sum_bets, promo_info = await db.get_sum_bets_and_promo_info(call.from_user.id)
+        bets_sum, balance_promo_code, ticket_promo_code = await db.get_sum_bets_and_promo_info(call.from_user.id)
     except AttributeError:
         await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
         return False
 
-    if not promo_info.min_wager:
+    if ticket_promo_code.deposited_wager and balance_promo_code.deposited_min_wager == 0:
+        return True
+
+    if not balance_promo_code.deposited_min_wager:
         await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
         return False
 
-    if not sum_bets:
+    if not bets_sum:
         await call.answer(_('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
-                          .format(missing_bets=promo_info.min_wager), show_alert=True)
+                          .format(missing_bets=balance_promo_code.deposited_min_wager), show_alert=True)
         return False
 
-    if sum_bets < promo_info.min_wager:
-        missing_bets = promo_info.min_wager - sum_bets
+    if bets_sum < balance_promo_code.deposited_min_wager:
+        missing_bets = balance_promo_code.deposited_min_wager - bets_sum
         await call.answer(_('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO')
                           .format(missing_bets=round_down(missing_bets, 2)), show_alert=True)
         return False
 
-    await db.min_wager_condition_accepted(call.from_user.id, promo_info.promo_name)
+    await db.min_wager_condition_accepted(call.from_user.id, balance_promo_code.promo_name_id)
     return True
