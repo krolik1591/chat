@@ -8,10 +8,10 @@ async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, random
                                     timestamp_end=date_end, timestamp_start=time.time(), random_seed=random_seed)
 
 
-async def add_new_ticket(user_id, tickets_num, ticket_type, buy_timestamp=time.time()):
+async def add_new_ticket(user_id, tickets_num, ticket_type, is_promo=False, buy_timestamp=time.time()):
     ticket_objects = [
         WoFTickets(user_id=user_id, ticket_num=ticket_num, ticket_type=ticket_type,
-                   buy_timestamp=buy_timestamp)
+                   buy_timestamp=buy_timestamp, is_promo=is_promo)
         for ticket_num in tickets_num
     ]
     await WoFTickets.bulk_create(ticket_objects)
@@ -54,8 +54,8 @@ async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100):
 
 
 async def get_user_wof_win(tg_id):
-    result = await User.select(User.wof_win).where(User.user_id == tg_id)
-    return result[0].wof_win  # todo why fetch all and return only first? why first?
+    result = await User.select(User).where(User.user_id == tg_id).first()
+    return result.wof_win  # todo why fetch all and return only first? why first?
 
 
 async def get_all_sold_tickets_nums():
@@ -66,6 +66,11 @@ async def get_all_sold_tickets_nums():
 async def get_user_id_wof_participants():
     result = await WoFTickets.select(WoFTickets.user_id).distinct()
     return set(user.user_id for user in result)
+
+
+async def ticket_is_promo(ticket_tum):
+    result = await WoFTickets.select(WoFTickets).where(WoFTickets.ticket_num == ticket_tum).first()
+    return result.is_promo
 
 
 async def get_all_tickets():
@@ -82,7 +87,7 @@ async def check_ticket_in_db(ticket_num):
 async def update_user_wof_win(tg_id, win):
     if win == 0:
         return await User.update({User.wof_win: 0}).where(User.user_id == tg_id)
-    return await User.update({User.wof_win: User.wof_win + win}).where(User.user_id == tg_id)
+    return await User.update({User.wof_win: win}).where(User.user_id == tg_id)
 
 
 async def whose_ticket(ticket_num):
@@ -104,9 +109,11 @@ async def change_date_end(date_end):
 
 
 if __name__ == '__main__':
+    import json
     async def test():
-        x = await get_user_id_wof_participants()
-        print(x)
+        # x = await add_new_ticket(357108179, [159159], 'random', True)
+        x = await get_user_wof_win(357108179)
+        print(json.loads(x)['general'] + 23.55)
 
 
     import asyncio
