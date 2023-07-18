@@ -62,10 +62,13 @@ async def my_promo_codes(call: types.CallbackQuery):
         await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
         return
 
+    if not balance_promo and not ticket_promo:
+        await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
+        return
+
     if balance_promo and sum_bets:
         if sum_bets > balance_promo.promocode.min_wager:
             await db.min_wager_condition_accepted(call.from_user.id, balance_promo.promo_name)
-
 
     text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, balance_promo, ticket_promo)
     await call.message.edit_text(text, reply_markup=keyboard)
