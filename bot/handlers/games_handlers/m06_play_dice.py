@@ -5,7 +5,7 @@ from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
 
-from bot.consts.const import THROTTLE_TIME_SPIN
+from bot.consts.const import MIN_BET, THROTTLE_TIME_SPIN
 from bot.db import db, manager
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.dice_games import DICE_GAMES, Dice
@@ -23,12 +23,16 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
 
     if context.balance_type == 'promo':
+        if context.balance < MIN_BET:
+            await db.update_user_balance(call.from_user.id, 'promo', -context.balance)
+            await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"))
+            return
+
         promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
         for code in promo_codes:
-            if code.promocode.type == 'balance':
-                if not code.won:
-                    if not await can_play_on_promo_balance_and_update_won_status_promo_code(call):
-                        return
+            if code.promocode.type == 'balance' and not code.won:
+                if not await can_play_on_promo_balance_and_update_won_status_promo_code(call):
+                    return
 
     dice_game: Dice = DICE_GAMES[context.game]
 

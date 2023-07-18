@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-18 17:58+0300\n"
+"POT-Creation-Date: 2023-07-20 17:54+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -79,17 +79,22 @@ msgstr ""
 "Не отримали повідомлення:\n"
 "{text}"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:41
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:28
+msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
+msgstr "Баланс промо-рахунку менший за мінімальну ставку!\n\n"
+"Тому ми турботливо ресетнули твої копійки до нуля 😘"
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:45
 msgid "DICE_ROLL_TEXT"
 msgstr "🍀 Успіхів!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:70
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:77
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:74
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:81
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод та поповніть баланс!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:81
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:87
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:85
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:91
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -284,7 +289,7 @@ msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
 msgstr "Атата! Відіграй мінімальний вагер ({min_wager}) і приходь знову :)"
 
 #: ../../bot/handlers/my_account_handlers/promocode.py:159
-#: ../../bot/handlers/my_account_handlers/promocode.py:163
+#: ../../bot/handlers/my_account_handlers/promocode.py:164
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
 msgstr "Знов не те! Відіграй вагер ({wager}) і приходь!"
 

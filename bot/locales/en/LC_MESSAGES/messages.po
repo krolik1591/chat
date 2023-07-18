@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-18 17:58+0300\n"
+"POT-Creation-Date: 2023-07-20 17:54+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -68,17 +68,21 @@ msgstr ""
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:41
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:28
+msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:45
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:70
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:77
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:74
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:81
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:81
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:87
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:85
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:91
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
@@ -237,7 +241,7 @@ msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
 msgstr ""
 
 #: ../../bot/handlers/my_account_handlers/promocode.py:159
-#: ../../bot/handlers/my_account_handlers/promocode.py:163
+#: ../../bot/handlers/my_account_handlers/promocode.py:164
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
 msgstr ""
 
