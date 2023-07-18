@@ -41,7 +41,7 @@ def my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets
             wager = _("PROMOCODES_MENU_NEED_WOF_WIN")
             bonus = str(ticket_promo.promocode.bonus) + ' 🎟'
         else:
-            wager = format_wager(sum_bets_min_wager, ticket_promo.deposited_wager)
+            wager = format_wager(sum_bets_wager, ticket_promo.deposited_wager)
             bonus = ticket_promo.deposited_bonus
 
         return min_wager, wager, bonus
@@ -52,7 +52,7 @@ def my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets
             return t, t, t
 
         min_wager = format_wager(sum_bets_min_wager, balance_promo.deposited_min_wager)
-        wager = format_wager(sum_bets_wager + sum_bets_min_wager, balance_promo.deposited_wager)
+        wager = format_wager(sum_bets_wager, balance_promo.deposited_wager)
         bonus = balance_promo.deposited_bonus
 
         return min_wager, wager, bonus
@@ -60,7 +60,7 @@ def my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets
     def format_both_promos():
         sum_bonus = balance_promo.deposited_bonus + ticket_promo.deposited_bonus
         min_wager = format_wager(sum_bets_min_wager, balance_promo.deposited_min_wager)
-        wager = format_wager(sum_bets_wager + sum_bets_min_wager, balance_promo.deposited_wager + ticket_promo.deposited_wager)
+        wager = format_wager(sum_bets_wager, balance_promo.deposited_wager + ticket_promo.deposited_wager)
 
         return min_wager, wager, sum_bonus
 

@@ -89,8 +89,7 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
     balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager = \
         await db.get_sum_bets_and_promo_info(call.from_user.id)
 
-    err = check_promo_claim_reward_err(bets_sum_min_wager, balance_promo_code.promocode.min_wager,
-                                       balance_promo_code.promocode.wager)
+    err = check_promo_claim_reward_err(balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager)
     if err is not None:
         await call.answer(err, show_alert=True)
         return
@@ -150,15 +149,34 @@ def check_enter_promo_code(new_promo_info, active_promo, all_available_promo, pr
     return None
 
 
-def check_promo_claim_reward_err(sum_bets, min_wager, wager):
-    if not min_wager:
-        return _('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE')
+def check_promo_claim_reward_err(balance_promo, ticket_promo, bets_sum_min_wager, bets_sum_wager):
+    if balance_promo and ticket_promo:
 
-    if not sum_bets:
-        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=wager)
+        if bets_sum_min_wager == 0:
+            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS").format(min_wager=balance_promo.deposited_min_wager)
 
-    if sum_bets < wager:
-        return _("PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR").format(missing_bets=wager - sum_bets)
+        if bets_sum_wager < balance_promo.deposited_wager + ticket_promo.deposited_wager:
+            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS").format(
+                wager=balance_promo.deposited_wager + ticket_promo.deposited_wager - bets_sum_wager)
+
+    if ticket_promo:
+        if bets_sum_wager == 0 or ticket_promo.deposited_wager < bets_sum_wager:
+            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS").format(wager=ticket_promo.deposited_wager - bets_sum_wager)
+
+    if balance_promo:
+        if balance_promo.deposited_wager > bets_sum_wager:
+            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS").format(wager=balance_promo.deposited_wager - bets_sum_wager)
+
+
+
+    # if not min_wager:
+    #     return _('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE')
+    #
+    # if not sum_bets:
+    #     return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=wager)
+    #
+    # if sum_bets < wager:
+    #     return _("PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR").format(missing_bets=wager - sum_bets)
 
     return None
 

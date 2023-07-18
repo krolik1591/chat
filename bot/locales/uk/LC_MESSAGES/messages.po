@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-18 17:00+0300\n"
+"POT-Creation-Date: 2023-07-18 17:58+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -29,14 +29,14 @@ msgstr ""
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
 msgstr "Якщо ви не відіграєте ще {min_wager} на основному балансі, то ваш промокод {promo_code_name} через {hours} годин {minutes} хвилин вже зникне!"
 
-#: ../../bot/cron/wof_watcher.py:171
+#: ../../bot/cron/wof_watcher.py:172
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
 msgstr ""
 "🎉 Вітаємо з перемогою в колесі фортуни, ви зайняли {pos} місце! \n"
 "\n"
 "Виграшний білет: {winner_num}, нагорода: {reward}."
 
-#: ../../bot/cron/wof_watcher.py:177
+#: ../../bot/cron/wof_watcher.py:178
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
 msgstr "Не розстраюйся, наступного разу пощастить! ☺️"
 
@@ -85,13 +85,11 @@ msgstr "🍀 Успіхів!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:70
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:77
-#: ../../bot/handlers/my_account_handlers/promocode.py:155
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод та поповніть баланс!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:81
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:87
-#: ../../bot/handlers/my_account_handlers/promocode.py:158
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -249,41 +247,50 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:62
+#: ../../bot/handlers/my_account_handlers/promocode.py:63
 msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr "✅ Промокод {promo_code} активовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:71
-#: ../../bot/handlers/my_account_handlers/promocode.py:75
+#: ../../bot/handlers/my_account_handlers/promocode.py:72
+#: ../../bot/handlers/my_account_handlers/promocode.py:76
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr "Не активовано жодного промокоду!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:123
+#: ../../bot/handlers/my_account_handlers/promocode.py:122
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr "Промокоди та бонуси скасовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:138
+#: ../../bot/handlers/my_account_handlers/promocode.py:137
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr "Введіть промокод!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:141
+#: ../../bot/handlers/my_account_handlers/promocode.py:140
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr "Промокод {promo_code} вже активовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:144
+#: ../../bot/handlers/my_account_handlers/promocode.py:143
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr "❌ Такого промокоду не існує!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:148
+#: ../../bot/handlers/my_account_handlers/promocode.py:147
 msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
 msgstr ""
 "Не може бути активно 2 промокоди однакового типу!\n"
 "\n"
 "Деактивуйте попередній промокод, щоб активувати новий :)"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:161
-msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
-msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
+#: ../../bot/handlers/my_account_handlers/promocode.py:156
+msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
+msgstr "Атата! Відіграй мінімальний вагер ({min_wager}) і приходь знову :)"
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:159
+#: ../../bot/handlers/my_account_handlers/promocode.py:163
+msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
+msgstr "Знов не те! Відіграй вагер ({wager}) і приходь!"
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:168
+msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS"
+msgstr ""
 
 #: ../../bot/handlers/my_account_handlers/referrals.py:25
 msgid "REFERRALS_REFRESHED_TEXT"
@@ -1203,4 +1210,7 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 #~ "• Ваш бонус: {bonus}\n"
 #~ "• Ваджер активації: {min_wager}\n"
 #~ "• Ваджер відіграшу: {wager}"
+
+#~ msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
+#~ msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
 
