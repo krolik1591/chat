@@ -130,11 +130,17 @@ async def get_sum_bets_and_promo_info(user_id):
     first_activated = min(getattr(balance_promo_code, 'date_activated', float('Infinity')),
                           getattr(ticket_promo_code, 'date_activated', float('Infinity')))
 
-    bets_sum = await GameLog.select(fn.SUM(GameLog.bet)).where(
+    bets_sum_min_wager = await GameLog.select(fn.SUM(GameLog.bet)).where(
         GameLog.user_id == user_id, first_activated < GameLog.timestamp,
         GameLog.balance_type == 'general').scalar() or 0
 
-    return bets_sum, balance_promo_code, ticket_promo_code
+    bets_sum_promo = await GameLog.select(fn.SUM(GameLog.bet)).where(
+        GameLog.user_id == user_id, first_activated < GameLog.timestamp,
+        GameLog.balance_type == 'promo').scalar() or 0
+
+    bets_sum_wager = bets_sum_min_wager + bets_sum_promo
+
+    return balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager
 
 
 async def min_wager_condition_accepted(user_id, promo_name):
@@ -162,8 +168,8 @@ if __name__ == "__main__":
         # x = await need_a_bonus(357108179)
         # x = await db.need_a_bonus(357108179)
         # y = await get_all_info_user_promo_code(357108179, 'balance')
-        x = await db.get_all_active_user_promo_codes(357108179)
-        print(x[0].promocode.type)
+        x = await db.get_sum_bets_and_promo_info(357108179)
+        print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
