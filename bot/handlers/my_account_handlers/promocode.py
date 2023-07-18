@@ -6,6 +6,7 @@ from aiogram.utils.i18n import gettext as _
 
 from bot.db import db, manager
 from bot.handlers.states import Menu, StateKeys
+from bot.handlers.wheel_of_fortune_handlers.buy_ticket import create_random_tickets
 from bot.menus.account_menus import promocodes_menu
 
 router = Router()
@@ -51,6 +52,10 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
     if err is not None:
         await call.answer(err, show_alert=True)
         return
+
+    if new_promo_info.type == 'ticket':
+        promo_tickets = await create_random_tickets(new_promo_info.bonus)
+        await db.add_new_ticket(357108179, promo_tickets, 'random', is_promo=True)
 
     await db.user_activated_promo_code(call.from_user.id, promo_code)
     await call.answer(_("PROMO_CODE_IS_ACTIVATED").format(promo_code=promo_code), show_alert=True)

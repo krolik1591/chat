@@ -22,8 +22,8 @@ async def add_new_promo_code(name, _type, bonus, duration, min_wager=1, wager=10
 async def user_activated_promo_code(user_id, promo_name):
     promo_info = await get_promo_code_info(promo_name)
     return await UsersPromoCodes.create(
-        user_id=user_id, promo_name=promo_name, promo_type=promo_info.type,
-        date_activated=time.time(), date_end=time.time() + promo_info.duration, is_active=True)
+        user_id=user_id, promo_name=promo_name, is_active=True,
+        date_activated=time.time(), date_end=time.time() + promo_info.duration)
 
 
 async def get_promo_code_info(name):
