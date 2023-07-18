@@ -66,7 +66,17 @@ async def spin_wheel_of_fortune(bot, i18n):
         reward = round_down(bank * percent_reward / 100, 2)
         print(f'Winner: {tg_id}, num: {winner_num}, reward: {reward}')
         winners_info.append((winner_num, tg_id, reward))
-        await db.update_user_wof_win(tg_id, reward)
+
+        won_json = await db.get_user_wof_win(tg_id)
+        won = json.loads(won_json)
+
+        is_promo = await db.ticket_is_promo(winner_num)
+        if is_promo:
+            won['promo'] = won['promo'] + reward
+        else:
+            won['general'] = won['general'] + reward
+
+        await db.update_user_wof_win(tg_id, json.dumps(won))
 
     with manager.pw_database.atomic():
         await db.update_wof_result(json.dumps(winners_info))
