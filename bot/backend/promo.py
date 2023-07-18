@@ -12,6 +12,9 @@ async def create_fortune_wheel(request: Request):
     ticket_name = form_data['ticket_name']
     bonus = float(form_data['bonus'])
     type_promo = int(form_data['type'])
+    if type_promo not in [1, 2]:
+        return web.Response(text="null")
+
     number_of_uses = int(form_data['number_of_uses'])
     number_of_users = int(form_data['number_of_users'])
     time_of_existence = float(form_data['time_of_existence']) * 3600 * 24
