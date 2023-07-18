@@ -2,6 +2,7 @@ import time
 
 from peewee import fn
 
+from bot.db.methods import get_active_wheel_info
 from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes
 
 # 1209600 == 2 week
@@ -46,8 +47,14 @@ async def get_all_available_promo_code_for_user(user_id):
     now = time.time()
     result = []
 
-    promo_codes = await PromoCodes.select(PromoCodes).where(
-        now < PromoCodes.date_end)
+    wof_info = await get_active_wheel_info()
+    if wof_info:
+        promo_codes = await PromoCodes.select(PromoCodes).where(
+            now < PromoCodes.date_end)
+    else:
+        promo_codes = await PromoCodes.select(PromoCodes).where(
+            now < PromoCodes.date_end,
+            PromoCodes.type == 'balance')
 
     for code in promo_codes:
         if code.special_users is None:
