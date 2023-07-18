@@ -42,10 +42,12 @@ async def enter_promo_code(message: Message, state: FSMContext):
 @router.callback_query(Text("active_promo_code"))
 async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
     promo_code = (await state.get_data()).get(StateKeys.PROMO_CODE_ENTERED)
-    active_promo = await db.get_active_promo_code_from_promo_codes(call.from_user.id, 'balance')
-    all_active_promo = await db.get_all_available_promo_code_for_user(call.from_user.id)
+    active_promo = await db.get_all_active_user_promo_codes(call.from_user.id)
+    all_available_promo = await db.get_all_available_promo_code_for_user(call.from_user.id)
+    active_promo_info = [await db.get_promo_code_info(code) for code in active_promo]
+    new_promo_info = await db.get_promo_code_info(promo_code)
 
-    err = check_enter_promo_code(promo_code, active_promo, all_active_promo)
+    err = check_enter_promo_code(new_promo_info, active_promo, all_available_promo, active_promo_info)
     if err is not None:
         await call.answer(err, show_alert=True)
         return
@@ -117,15 +119,19 @@ async def active_promo_codes(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
-def check_enter_promo_code(promo_code, active_promo, all_active_promo):
-    if not promo_code:
+def check_enter_promo_code(new_promo_info, active_promo, all_available_promo, promo_codes_info):
+    if not new_promo_info:
         return _("PROMO_CODE_U_NEED_ENTER_ERR")
 
-    if active_promo:
-        return _("PROMO_CODE_IS_ALREADY_ACTIVATED").format(promo_code=active_promo)
+    if new_promo_info.name in active_promo:
+        return _("PROMO_CODE_IS_ALREADY_ACTIVATED").format(promo_code=new_promo_info.name)
 
-    if promo_code not in all_active_promo:
+    if new_promo_info.name not in all_available_promo:
         return _("PROMO_CODE_DOESNT_EXIST_ERR")
+
+    for code in promo_codes_info:
+        if code.type == new_promo_info.type:
+            return _("PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE")
 
     return None
 

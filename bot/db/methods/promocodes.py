@@ -63,10 +63,10 @@ async def get_all_available_promo_code_for_user(user_id):
 async def get_all_active_user_promo_codes(user_id):
     now = time.time()
 
-    return await UsersPromoCodes.select(UsersPromoCodes).where(
+    return await UsersPromoCodes.select(UsersPromoCodes.promo_name).where(
         UsersPromoCodes.user_id == user_id,
         UsersPromoCodes.is_active == 1,
-        now < UsersPromoCodes.date_end)
+        now < UsersPromoCodes.date_end).scalars()
 
 
 async def need_a_bonus(user_id):
@@ -134,15 +134,15 @@ if __name__ == "__main__":
 
 
     async def test():
-        # await add_new_promo_code('putin loh', 'ticket', 100, 3600 * 6)
+        # await add_new_promo_code('putin loh1', 'balance', 100, 3600 * 6)
         # x = await get_active_promo_code_from_promo_codes(357108179, 'putin huilo')
-        # x = await user_activated_promo_code(357108179, 'putin loh')
+        # x = await user_activated_promo_code(357108179, 'putin loh1')
         # x = await get_all_available_promo_code_for_user(357108179)
         # x = await need_a_bonus(357108179)
         # x = await db.need_a_bonus(357108179)
         # y = await get_all_info_user_promo_code(357108179, 'balance')
-        # x, balance, ticket = await get_sum_bets_and_promo_info(357108179)
-        # print(balance.promo_name_id)
+        x = await get_all_active_user_promo_codes(357108179)
+        print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",

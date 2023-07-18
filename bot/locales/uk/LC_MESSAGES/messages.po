@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-18 13:33+0300\n"
+"POT-Creation-Date: 2023-07-18 14:11+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -85,13 +85,13 @@ msgstr "🍀 Успіхів!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:67
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:71
-#: ../../bot/handlers/my_account_handlers/promocode.py:132
+#: ../../bot/handlers/my_account_handlers/promocode.py:141
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод та поповніть баланс!"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:75
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:81
-#: ../../bot/handlers/my_account_handlers/promocode.py:135
+#: ../../bot/handlers/my_account_handlers/promocode.py:144
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -249,34 +249,37 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:54
+#: ../../bot/handlers/my_account_handlers/promocode.py:56
 msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr "✅ Промокод {promo_code} активовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:62
+#: ../../bot/handlers/my_account_handlers/promocode.py:64
+#: ../../bot/handlers/my_account_handlers/promocode.py:68
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr "Не активовано жодного промокоду!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:104
+#: ../../bot/handlers/my_account_handlers/promocode.py:109
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr "Промокод {promo_code} скасовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:119
+#: ../../bot/handlers/my_account_handlers/promocode.py:124
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr "Введіть промокод!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:122
+#: ../../bot/handlers/my_account_handlers/promocode.py:127
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
-msgstr ""
-"У вас вже є активний промокод: {promo_code}.\n"
-"\n"
-"Щоб активувати новий, відмініть цей."
+msgstr "Промокод {promo_code} вже активовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:125
+#: ../../bot/handlers/my_account_handlers/promocode.py:130
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr "❌ Такого промокоду не існує!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:138
+#: ../../bot/handlers/my_account_handlers/promocode.py:134
+msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
+msgstr "Не може бути активно 2 промокоди однакового типу!\n\n"
+"Деактивуйте попередній промокод, щоб активувати новий :)"
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:147
 msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
 
@@ -390,11 +393,11 @@ msgstr ""
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:110
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:112
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:120
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:122
 msgid "WOF_NO_DATE_END"
 msgstr "скоро буде"
 
@@ -493,7 +496,7 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:83
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:110
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:124
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:125
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -930,7 +933,9 @@ msgstr "Наступна сторінка"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:117
 msgid "WHEEL_OF_FORTUNE_WHAT_BALANCE_WITHDRAW_TEXT"
-msgstr "Забирай шо забажаєш! \n\n"
+msgstr ""
+"Забирай шо забажаєш! \n"
+"\n"
 "Чого бажаєш?"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:120
