@@ -7,8 +7,9 @@ from aiogram import Router, types
 from aiogram.filters import Text
 from aiogram.utils.i18n import I18n, gettext as _
 
+from bot.consts.balance import PROMO_FUNDS_ICON, TON_FUNDS_ICON
 from bot.db import db, manager
-from bot.menus.main_menus.wheel_of_fortune_menus import wheel_of_fortune_doesnt_exist_menu, \
+from bot.menus.main_menus.wheel_of_fortune_menus import what_balance_withdraw_menu, wheel_of_fortune_doesnt_exist_menu, \
     wheel_of_fortune_menu
 
 router = Router()
@@ -69,20 +70,48 @@ async def spin_result_answer(call: types.CallbackQuery, i18n: I18n):
     await call.answer(_('WOF_SPIN_RESULT_ANSWER').format(date_end=time_end_text, text=text), show_alert=True)
 
 
-@router.callback_query(Text("claim_reward"))
+@router.callback_query(Text("claim_wof_reward"))
 async def claim_reward(call: types.CallbackQuery, i18n: I18n):
-    wof_reward = await db.get_user_wof_win(call.from_user.id)
-    if not wof_reward:
+    wof_rewards_json = await db.get_user_wof_win(call.from_user.id)
+    wof_rewards = json.loads(wof_rewards_json)
+    if not wof_rewards['general'] and not wof_rewards['promo']:
         await call.answer(_('WOF_CLAIM_REWARD_ANSWER_ERROR'), show_alert=True)
         return
 
-    await call.answer(_('WOF_CLAIM_REWARD_ANSWER').format(wof_reward=wof_reward), show_alert=True)
+    if not wof_rewards['promo']:
+        await process_update_balance(call, wof_rewards, 'general', TON_FUNDS_ICON)
+        await wheel_of_fortune(call, i18n)
 
-    with manager.pw_database.atomic():
-        await db.update_user_balance(call.from_user.id, 'general', wof_reward)
-        await db.update_user_wof_win(call.from_user.id, 0)
+    elif not wof_rewards['general']:
+        await process_update_balance(call, wof_rewards, 'promo', PROMO_FUNDS_ICON)
+        await wheel_of_fortune(call, i18n)
+
+    else:
+        text, kb = what_balance_withdraw_menu()
+        await call.message.edit_text(text, reply_markup=kb)
+
+
+@router.callback_query(Text(startswith="claim_wof_balance_"))
+async def wof_balance_withdraw(call: types.CallbackQuery, i18n: I18n):
+    balance_type = call.data.removeprefix('claim_wof_balance_')
+    wof_rewards_json = await db.get_user_wof_win(call.from_user.id)
+    wof_rewards = json.loads(wof_rewards_json)
+
+    if balance_type == 'general':
+        await process_update_balance(call, wof_rewards, balance_type, TON_FUNDS_ICON)
+    if balance_type == 'promo':
+        await process_update_balance(call, wof_rewards, balance_type, PROMO_FUNDS_ICON)
 
     await wheel_of_fortune(call, i18n)
+
+
+async def process_update_balance(call, wof_rewards, balance_type, emoji):
+    await call.answer(_('WOF_CLAIM_REWARD_ANSWER').format(wof_reward=str(wof_rewards[balance_type]) + emoji), show_alert=True)
+
+    with manager.pw_database.atomic():
+        await db.update_user_balance(call.from_user.id, balance_type, wof_rewards[balance_type])
+        wof_rewards[balance_type] = 0
+        await db.update_user_wof_win(call.from_user.id, json.dumps(wof_rewards))
 
 
 async def get_time_to_spin_text(timestamp, locale):

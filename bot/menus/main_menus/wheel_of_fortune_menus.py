@@ -10,7 +10,7 @@ def wheel_of_fortune_menu(ticket_cost, date_end, user_tickets, wof_win):
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_MY_NUMBERS'), callback_data="my_numbers")],
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_BUY_TICKET_CHECK_MY_STATUS'), callback_data="check_status")],
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_SPIN_RESULT'), callback_data="spin_result")],
-        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CLAIM_WIN'), callback_data="claim_reward")],
+        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CLAIM_WIN'), callback_data="claim_wof_reward")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu")],
     ])
 
@@ -21,7 +21,7 @@ def wheel_of_fortune_doesnt_exist_menu(user_wof_win):
     text = _('WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU').format(user_wof_win=user_wof_win)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_SPIN_RESULT'), callback_data="spin_result")],
-        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CLAIM_WIN'), callback_data="claim_reward")],
+        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CLAIM_WIN'), callback_data="claim_wof_reward")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu")],
     ])
 
@@ -98,6 +98,20 @@ def display_ticket_num_text_menu(tickets_text, page, pages):
             InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE'), callback_data="ticket_page_next"),
         ],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="my_numbers")],
+    ])
+
+    return text, kb
+
+
+def what_balance_withdraw_menu():
+    text = _('WHEEL_OF_FORTUNE_WHAT_BALANCE_WITHDRAW_TEXT')
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_GENERAL'),
+                                 callback_data="claim_wof_balance_general"),
+            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO'), callback_data="claim_wof_balance_promo"),
+        ],
+        [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="wheel_of_fortune")],
     ])
 
     return text, kb
