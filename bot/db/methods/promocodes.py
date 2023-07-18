@@ -86,10 +86,11 @@ async def need_a_bonus(user_id):
 
 async def update_wagers_and_bonus(user_id, bonus, promo_code):
     return await UsersPromoCodes.update({
-        UsersPromoCodes.min_wager: float(promo_code.min_wager) * bonus,
-        UsersPromoCodes.wager: float(promo_code.wager) * bonus,
-        UsersPromoCodes.bonus: bonus}).where(
-        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_code.name
+        UsersPromoCodes.deposited_min_wager: float(promo_code.promocode.min_wager) * bonus,
+        UsersPromoCodes.deposited_wager: float(promo_code.promocode.wager) * bonus,
+        UsersPromoCodes.deposited_bonus: bonus}).where(
+        UsersPromoCodes.user_id == user_id,
+        UsersPromoCodes.promo_name == promo_code.promo_name
     )
 
 
