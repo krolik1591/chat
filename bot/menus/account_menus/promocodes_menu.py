@@ -68,7 +68,7 @@ def my_promo_code_menu(sum_bets, balance_promo, ticket_promo):
     bonus_tickets = ticket_promo.promocode.bonus if ticket_promo else 0
 
     if balance_promo and ticket_promo:
-        if balance_bonus == 0 and bonus_tickets == 0:
+        if balance_bonus == 0 and ticket_promo.deposited_bonus == 0:
             t = _("PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE")
             min_wager, wager, bonus = t, t, t
         else:
