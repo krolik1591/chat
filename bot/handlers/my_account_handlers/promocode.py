@@ -65,7 +65,8 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text("my_promo_codes"))
 async def my_promo_codes(call: types.CallbackQuery):
     try:
-        sum_bets, balance_promo, ticket_promo = await db.get_sum_bets_and_promo_info(call.from_user.id)
+        balance_promo, ticket_promo, sum_bets_min_wager, sum_bets_wager = \
+            await db.get_sum_bets_and_promo_info(call.from_user.id)
     except TypeError as e:
         await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
         return
@@ -74,26 +75,27 @@ async def my_promo_codes(call: types.CallbackQuery):
         await call.answer(_("MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"), show_alert=True)
         return
 
-    if balance_promo and sum_bets:
-        if sum_bets > balance_promo.promocode.min_wager:
-            await db.min_wager_condition_accepted(call.from_user.id, balance_promo.promo_name)
+    if balance_promo and sum_bets_min_wager:
+        if sum_bets_min_wager > balance_promo.promocode.min_wager:
+            await db.min_wager_condition_accepted(call.from_user.id, balance_promo.promo_name_id)
 
-    text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets, balance_promo, ticket_promo)
+    text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets_wager)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
 @router.callback_query(Text("claim_reward"))
 async def promo_code_claim_reward(call: types.CallbackQuery):
-    bets_sum, balance_promo_code, ticket_promo_code = await db.get_sum_bets_and_promo_info(call.from_user.id)
+    balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager = \
+        await db.get_sum_bets_and_promo_info(call.from_user.id)
 
-    err = check_promo_claim_reward_err(bets_sum, balance_promo_code.promocode.min_wager,
+    err = check_promo_claim_reward_err(bets_sum_min_wager, balance_promo_code.promocode.min_wager,
                                        balance_promo_code.promocode.wager)
     if err is not None:
         await call.answer(err, show_alert=True)
         return
 
-    if bets_sum > balance_promo_code.promocode.min_wager:
-        await db.min_wager_condition_accepted(call.from_user.id, balance_promo_code.promo_name)
+    if bets_sum_min_wager > balance_promo_code.promocode.min_wager:
+        await db.min_wager_condition_accepted(call.from_user.id, balance_promo_code.promo_name_id)
 
     balances = await db.get_user_balances(call.from_user.id)
     with manager.pw_database.atomic():
