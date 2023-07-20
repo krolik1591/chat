@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-20 17:54+0300\n"
+"POT-Creation-Date: 2023-07-20 18:02+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -66,6 +66,10 @@ msgstr ""
 
 #: ../../bot/handlers/admin_handlers/spam.py:141
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m03_balance.py:42
+msgid "M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:28

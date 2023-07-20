@@ -5,12 +5,13 @@ from aiogram.filters import Text
 from aiogram.fsm.context import FSMContext
 
 from bot.db import db
-from bot.consts.const import START_POINTS
+from bot.consts.const import MIN_BET, START_POINTS
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.games_handlers.m05_bets import bet_menu
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.game_menus import select_balance_menu
+from aiogram.utils.i18n import gettext as _
 
 
 router = Router()
@@ -37,6 +38,9 @@ async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.BALANCE_TYPE: balance_type})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
+    if balance_type != 'demo' and context.balance < MIN_BET:
+        await call.answer(_("M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"))
+        return
     await settings_menu(context, msg_id=call.message.message_id)
 
 

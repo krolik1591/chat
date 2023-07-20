@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-20 17:54+0300\n"
+"POT-Creation-Date: 2023-07-20 18:02+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -79,9 +79,15 @@ msgstr ""
 "Не отримали повідомлення:\n"
 "{text}"
 
+#: ../../bot/handlers/games_handlers/m03_balance.py:42
+msgid "M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"
+msgstr "Баланс менший за мінімальну ставку!"
+
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:28
 msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
-msgstr "Баланс промо-рахунку менший за мінімальну ставку!\n\n"
+msgstr ""
+"Баланс промо-рахунку менший за мінімальну ставку!\n"
+"\n"
 "Тому ми турботливо ресетнули твої копійки до нуля 😘"
 
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:45
