@@ -74,8 +74,9 @@ async def can_play_on_promo_balance_and_update_won_status_promo_code(call):
         await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
         return False
 
-    if ticket_promo_code.deposited_wager and balance_promo_code.deposited_min_wager == 0:
-        return True
+    if ticket_promo_code and balance_promo_code:
+        if ticket_promo_code.deposited_wager and balance_promo_code.deposited_bonus == 0:
+            return True
 
     if not balance_promo_code.deposited_min_wager:
         await call.answer(_('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE'), show_alert=True)
