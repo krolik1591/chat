@@ -1,16 +1,12 @@
 import asyncio
 import logging
 import time
-from datetime import datetime, timedelta
+
+from aiogram.utils.i18n import gettext as _
 
 from bot.cron.wof_watcher import send_msg
 from bot.db import db
-
-import pytz
-
 from bot.tokens.token_ton.tx_watcher import set_user_locale_to_i18n
-from aiogram.utils.i18n import gettext as _
-
 
 HOUR = 3600
 WARN_BEFORE_1 = HOUR * 6
@@ -20,9 +16,8 @@ WARN_BEFORE_2 = HOUR * 24
 async def warning_about_expiration_promo_code(bot, i18n):
     while True:
         logging.info("DEACTIVATE PROMO CODE TIMER STARTED")
-        # todo with humanize bible and fix
-        users = await db.get_users_whose_promo_code_expire(WARN_BEFORE_1 + time.time(), WARN_BEFORE_1 + time.time() + HOUR)
-        users += await db.get_users_whose_promo_code_expire(WARN_BEFORE_2 + time.time(), WARN_BEFORE_2 + time.time() + HOUR)
+        users = await db.get_users_whose_promo_code_expire(WARN_BEFORE_1 + time.time(), WARN_BEFORE_1 + time.time() - HOUR)
+        users += await db.get_users_whose_promo_code_expire(WARN_BEFORE_2 + time.time(), WARN_BEFORE_2 + time.time() - HOUR)
         if not users:
             await asyncio.sleep(HOUR)
             continue
@@ -53,12 +48,8 @@ def convert_seconds_to_hours_minutes(seconds):
 if __name__ == '__main__':
 
     async def test():
-        gmt_timezone = pytz.timezone('Etc/GMT')
-        current_datetime = datetime.now(gmt_timezone)
-        next_day = current_datetime + timedelta(days=1)
-        next_day = next_day.replace(hour=0, minute=0, second=0, microsecond=0)
-        unix_timestamp = next_day.timestamp()
-        print(unix_timestamp)
+        pass
+        print()
 
 
     asyncio.run(test())
