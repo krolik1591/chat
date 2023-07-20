@@ -39,7 +39,11 @@ async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
 
     context = await Context.from_fsm_context(call.from_user.id, state)
     if balance_type != 'demo' and context.balance < MIN_BET:
-        await call.answer(_("M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"))
+        if context.balance_type == 'promo' and context.balance < MIN_BET and context.balance != 0:
+            await db.update_user_balance(call.from_user.id, 'promo', -context.balance)
+            await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"), show_alert=True)
+            return
+        await call.answer(_("M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"), show_alert=True)
         return
     await settings_menu(context, msg_id=call.message.message_id)
 

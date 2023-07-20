@@ -25,7 +25,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     if context.balance_type == 'promo':
         if context.balance < MIN_BET:
             await db.update_user_balance(call.from_user.id, 'promo', -context.balance)
-            await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"))
+            await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"), show_alert=True)
             return
 
         promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
