@@ -8,7 +8,7 @@ from bot.db import db, manager
 from bot.handlers.states import Menu, StateKeys
 from bot.handlers.wheel_of_fortune_handlers.buy_ticket import create_random_tickets
 from bot.menus.account_menus import promocodes_menu
-from bot.menus.account_menus.promocodes_menu import approve_decline_promo_code_menu
+from bot.menus.account_menus.promocodes_menu import approve_activation_balance_promo, approve_decline_promo_code_menu
 
 router = Router()
 
@@ -44,13 +44,18 @@ async def enter_promo_code(message: Message, state: FSMContext):
 @router.callback_query(Text("active_promo_code"))
 async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
     promo_code_entered = (await state.get_data()).get(StateKeys.PROMO_CODE_ENTERED)
-    active_promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
+    active_promos = await db.get_all_active_user_promo_codes(call.from_user.id)
     all_available_promo = await db.get_all_available_promo_code_for_user(call.from_user.id)
     new_promo_info = await db.get_promo_code_info(promo_code_entered)
 
-    err = check_enter_promo_code(new_promo_info, active_promo_codes, all_available_promo)
+    err = check_enter_promo_code(new_promo_info, active_promos, all_available_promo)
     if err is not None:
         await call.answer(err, show_alert=True)
+        return
+
+    if len(active_promos) == 1 and active_promos[0].promocode.type == 'ticket' and new_promo_info.type == 'balance':
+        text, kb = approve_activation_balance_promo(active_promos[0].promo_name_id, new_promo_info.name)
+        await call.message.edit_text(text, reply_markup=kb)
         return
 
     if new_promo_info.type == 'ticket':
@@ -59,6 +64,16 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
 
     await db.user_activated_promo_code(call.from_user.id, promo_code_entered)
     await call.answer(_("PROMO_CODE_IS_ACTIVATED").format(promo_code=promo_code_entered), show_alert=True)
+
+
+@router.callback_query(Text("activate_promo_balance"))
+async def approve_activate_promo_balance(call: types.CallbackQuery, state: FSMContext):
+    promo_code_entered = (await state.get_data()).get(StateKeys.PROMO_CODE_ENTERED)
+
+    await db.user_activated_promo_code(call.from_user.id, promo_code_entered)
+    await call.answer(_("PROMO_CODE_IS_ACTIVATED").format(promo_code=promo_code_entered), show_alert=True)
+
+    await promo_codes_handler(call, state)
 
 
 @router.callback_query(Text("my_promo_codes"))
@@ -143,7 +158,7 @@ def check_enter_promo_code(new_promo_info, active_promos, all_available_promo):
         return _("PROMO_CODE_DOESNT_EXIST_ERR")
 
     for code in active_promos:
-        if code.type == new_promo_info.type:
+        if code.promocode.type == new_promo_info.type:
             return _("PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE")
 
     return None

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-20 18:02+0300\n"
+"POT-Creation-Date: 2023-07-20 18:26+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -211,45 +211,45 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:63
+#: ../../bot/handlers/my_account_handlers/promocode.py:66
 msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:72
-#: ../../bot/handlers/my_account_handlers/promocode.py:76
+#: ../../bot/handlers/my_account_handlers/promocode.py:75
+#: ../../bot/handlers/my_account_handlers/promocode.py:79
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:122
+#: ../../bot/handlers/my_account_handlers/promocode.py:125
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:137
+#: ../../bot/handlers/my_account_handlers/promocode.py:142
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:140
+#: ../../bot/handlers/my_account_handlers/promocode.py:145
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:143
+#: ../../bot/handlers/my_account_handlers/promocode.py:148
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:147
+#: ../../bot/handlers/my_account_handlers/promocode.py:152
 msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:156
+#: ../../bot/handlers/my_account_handlers/promocode.py:160
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:159
-#: ../../bot/handlers/my_account_handlers/promocode.py:164
+#: ../../bot/handlers/my_account_handlers/promocode.py:163
+#: ../../bot/handlers/my_account_handlers/promocode.py:168
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:168
+#: ../../bot/handlers/my_account_handlers/promocode.py:172
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS"
 msgstr ""
 
@@ -438,6 +438,7 @@ msgstr ""
 #: ../../bot/menus/account_menus/promocodes_menu.py:20
 #: ../../bot/menus/account_menus/promocodes_menu.py:92
 #: ../../bot/menus/account_menus/promocodes_menu.py:102
+#: ../../bot/menus/account_menus/promocodes_menu.py:113
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -521,6 +522,14 @@ msgstr ""
 
 #: ../../bot/menus/account_menus/promocodes_menu.py:101
 msgid "PROMOCODES_MENU_APPROVE_DECLINE_PROMO_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:109
+msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:111
+msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_BTN"
 msgstr ""
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11
