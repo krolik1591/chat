@@ -292,12 +292,12 @@ msgstr ""
 
 #: ../../bot/handlers/my_account_handlers/promocode.py:160
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
-msgstr "Атата! Відіграй мінімальний вагер ({min_wager}) і приходь знову :)"
+msgstr "Ви ще не відіграли мінімальний вагер! Залишилось зробити спінів на основному балансі на суму {min_wager_remainder} 💎"
 
 #: ../../bot/handlers/my_account_handlers/promocode.py:163
 #: ../../bot/handlers/my_account_handlers/promocode.py:168
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
-msgstr "Знов не те! Відіграй вагер ({wager}) і приходь!"
+msgstr "Ви ще не відіграли вагер! Треба зробити спінів на суму {wager_remainder}. Рахуються спіни на основному та на промо балансі!"
 
 #: ../../bot/handlers/my_account_handlers/promocode.py:172
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS"

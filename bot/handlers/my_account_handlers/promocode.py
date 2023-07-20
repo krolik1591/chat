@@ -166,18 +166,23 @@ def check_enter_promo_code(new_promo_info, active_promos, all_available_promo):
 
 def check_promo_claim_reward_err(balance_promo, ticket_promo, bets_sum_min_wager, bets_sum_wager):
     if balance_promo and ticket_promo:
-        if bets_sum_min_wager == 0:
-            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS").format(min_wager=balance_promo.deposited_min_wager)
+        if balance_promo.deposited_bonus != 0:
+            if balance_promo.deposited_min_wager > bets_sum_min_wager:
+                return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS").format(min_wager_remainder=balance_promo.deposited_min_wager - bets_sum_min_wager)
 
         if bets_sum_wager < balance_promo.deposited_wager + ticket_promo.deposited_wager:
             return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS").format(
-                wager=balance_promo.deposited_wager + ticket_promo.deposited_wager - bets_sum_wager)
+                wager_remainder=balance_promo.deposited_wager + ticket_promo.deposited_wager - bets_sum_wager)
 
     if ticket_promo:
-        if bets_sum_wager == 0 or ticket_promo.deposited_wager < bets_sum_wager:
-            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS").format(wager=ticket_promo.deposited_wager - bets_sum_wager)
+        if ticket_promo.deposited_wager < bets_sum_wager:
+            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS").format(wager_remainder=ticket_promo.deposited_wager - bets_sum_wager)
 
     if balance_promo:
+        if balance_promo.deposited_min_wager > bets_sum_min_wager:
+            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS").format(
+                min_wager_remainder=balance_promo.deposited_min_wager - bets_sum_min_wager)
+
         if balance_promo.deposited_wager > bets_sum_wager:
             return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS").format(wager=balance_promo.deposited_wager - bets_sum_wager)
 
