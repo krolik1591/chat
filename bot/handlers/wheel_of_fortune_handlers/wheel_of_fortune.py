@@ -32,8 +32,10 @@ async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext, i18n: I
         for code in active_codes:
             if code.promocode.type == 'ticket':
                 await state.update_data({StateKeys.ACTIVE_PROMO_NAME: code.promo_name_id})
-            else:
-                await state.update_data({StateKeys.ACTIVE_PROMO_NAME: None})
+
+                promo_tickets = await db.get_available_tickets_count(code.promo_name_id) if code.promo_name_id else 0
+                await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: promo_tickets})
+
     else:
         await state.update_data({StateKeys.ACTIVE_PROMO_NAME: None})
 

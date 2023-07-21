@@ -21,9 +21,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.delete_message)
     wof_info, user_balance, user_tickets, _ = await display_wof_info(call.from_user.id, state)
 
-    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
-    promo_tickets = await db.get_available_tickets_count(promo_name) if promo_name else 0
-    await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: promo_tickets})
+    promo_tickets = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
 
     text, keyboard = buy_ticket_menu(wof_info, user_balance, user_tickets, promo_tickets)
     await call.message.edit_text(text, reply_markup=keyboard)
