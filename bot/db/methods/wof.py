@@ -72,7 +72,7 @@ async def get_user_id_wof_participants():
 
 async def ticket_is_promo(ticket_tum):
     result = await WoFTickets.select(WoFTickets).where(WoFTickets.ticket_num == ticket_tum).first()
-    return result.is_promo
+    return result.promo_id
 
 
 async def get_all_tickets():

@@ -19,7 +19,7 @@ router = Router()
 @router.callback_query(Text("buy_ticket"))
 async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.delete_message)
-    wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
+    wof_info, user_balance, user_tickets, _ = await display_wof_info(call.from_user.id, state)
 
     promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
     promo_tickets = await db.get_available_tickets_count(promo_name) if promo_name else 0
@@ -32,9 +32,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text("buy_selected_num"))
 async def buy_selected_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.enter_ticket_num)
-    wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
-
-    promo_tickets_count = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
+    wof_info, user_balance, user_tickets, promo_tickets_count = await display_wof_info(call.from_user.id, state)
 
     text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets, promo_tickets=promo_tickets_count)
     await call.message.edit_text(text, reply_markup=keyboard)
@@ -46,12 +44,10 @@ async def enter_ticket_num(message: types.Message, state: FSMContext):
 
     ticket_num = message.text
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
-    wof_info, user_balance, user_tickets = await display_wof_info(message.from_user.id)
+    wof_info, user_balance, user_tickets, promo_tickets_count = await display_wof_info(message.from_user.id, state)
 
     if await check_ticket_num(message, ticket_num):
         return
-
-    promo_tickets_count = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
 
     text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num, promo_tickets_count)
     try:
@@ -66,7 +62,7 @@ async def enter_ticket_num(message: types.Message, state: FSMContext):
 async def buy_random_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.enter_tickets_count)
 
-    wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
+    wof_info, user_balance, user_tickets, remaining_promo_tickets = await display_wof_info(call.from_user.id, state)
     how_much_tickets_can_buy = int(user_balance // wof_info.ticket_cost)
 
     if how_much_tickets_can_buy <= DEFAULT_TICKET_COUNT:
@@ -75,13 +71,13 @@ async def buy_random_ticket(call: types.CallbackQuery, state: FSMContext):
         await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: DEFAULT_TICKET_COUNT})
         how_much_tickets_can_buy = DEFAULT_TICKET_COUNT
 
-    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, how_much_tickets_can_buy)
+    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, how_much_tickets_can_buy, remaining_promo_tickets)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
 @router.callback_query(Text(startswith="change_tickets_count_"))
 async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
-    wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
+    wof_info, user_balance, user_tickets, remaining_promo_tickets = await display_wof_info(call.from_user.id, state)
 
     count_update = call.data.removeprefix("change_tickets_count_")
     data = await state.get_data()
@@ -92,7 +88,7 @@ async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
         return
     await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: new_tickets_count})
 
-    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, new_tickets_count)
+    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, new_tickets_count, remaining_promo_tickets)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
@@ -100,8 +96,7 @@ async def update_ticket_count_btn(call: types.CallbackQuery, state: FSMContext):
 async def enter_tickets_count(message: types.Message, state: FSMContext):
     await message.delete()
 
-    wof_info, user_balance, user_tickets = await display_wof_info(message.from_user.id)
-    how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
+    wof_info, user_balance, user_tickets, remaining_promo_tickets = await display_wof_info(message.from_user.id, state)
     tickets_count = message.text
 
     if await check_ticket_count(tickets_count):
@@ -110,7 +105,7 @@ async def enter_tickets_count(message: types.Message, state: FSMContext):
     await state.update_data(**{StateKeys.RANDOM_TICKETS_COUNT: int(tickets_count)})
 
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
-    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, tickets_count)
+    text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, tickets_count, remaining_promo_tickets)
     await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=keyboard)
 
 
@@ -124,9 +119,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
         buy_ticket_type = call.data.removeprefix("buy_promo_ticket_")
         is_promo = True
 
-    user_balance = await db.get_user_balance(call.from_user.id, 'general')
-    wof_info = await db.get_active_wheel_info()
-    promo_tickets_count = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
+    wof_info, user_balance, all_user_tickets, remaining_promo_tickets = await display_wof_info(call.from_user.id, state)
     promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
 
     if not wof_info:
@@ -172,29 +165,26 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
             await db.update_user_balance(call.from_user.id, 'general', -wof_info.ticket_cost * len(tickets))
 
     else:
-        if len(tickets) > promo_tickets_count:
+        if len(tickets) > remaining_promo_tickets:
             await call.answer(_("WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"), show_alert=True)
             return
 
-        await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: promo_tickets_count - len(tickets)})
+        await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: remaining_promo_tickets - len(tickets)})
 
         with manager.pw_database.atomic():
             await db.add_new_ticket(call.from_user.id, tickets, ticket_type, promo=promo_name)
 
-    user_balance = await db.get_user_balance(call.from_user.id, 'general')
-    general_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
-    promo_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all', promo_name)
-    all_tickets = general_user_tickets + promo_user_tickets
+    wof_info, user_balance, all_user_tickets, remaining_promo_tickets = await display_wof_info(call.from_user.id, state)
 
     if buy_ticket_type == 'selected_num':
         await call.answer(_('WOF_BUY_TICKET_SUCCESS_SELECTED').format(ticket_num=ticket_num.zfill(7)), show_alert=True)
 
-        text, keyboard = buy_selected_num_menu(wof_info, user_balance, all_tickets)
+        text, keyboard = buy_selected_num_menu(wof_info, user_balance, all_user_tickets, promo_tickets=remaining_promo_tickets)
         await call.message.edit_text(text, reply_markup=keyboard)
     else:
         await call.answer(_('WOF_BUY_TICKET_SUCCESS_RANDOM').format(tickets_count=tickets_count), show_alert=True)
 
-        text, keyboard = buy_random_num_menu(wof_info, user_balance, all_tickets, tickets_count)
+        text, keyboard = buy_random_num_menu(wof_info, user_balance, all_user_tickets, tickets_count, remaining_promo_tickets)
         await call.message.edit_text(text, reply_markup=keyboard)
 
 
@@ -242,11 +232,18 @@ async def check_ticket_count(tickets_count):
     return False
 
 
-async def display_wof_info(user_id):
+async def display_wof_info(user_id, state):
+    remaining_promo_tickets = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
+    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+
     wof_info = await db.get_active_wheel_info()
     user_balance = await db.get_user_balance(user_id, 'general')
-    user_tickets = await db.get_count_user_tickets(user_id, 'all')
-    return wof_info, user_balance, user_tickets
+    general_user_tickets = await db.get_count_user_tickets(user_id, 'all')
+    promo_user_tickets = await db.get_count_user_tickets(user_id, 'all', promo_name)
+
+    all_user_tickets = general_user_tickets + promo_user_tickets
+
+    return wof_info, user_balance, all_user_tickets, remaining_promo_tickets
 
 
 if __name__ == '__main__':
