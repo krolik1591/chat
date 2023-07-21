@@ -36,7 +36,7 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
         await call.message.edit_text(text, reply_markup=keyboard)
         return
 
-    if not selected_tickets_count and not random_tickets_count:
+    if not selected_tickets_count and not random_tickets_count and not promo_random_tickets_count and not promo_selected_tickets_count:
         await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
         return
 

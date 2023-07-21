@@ -114,7 +114,7 @@ if __name__ == '__main__':
     import json
     async def test():
         # x = await add_new_ticket(357108179, [159159], 'random', promo='tickets')
-        x = await get_user_ticket_numbers(357108179, 'random')
+        x = await ticket_is_promo(159159)
         print(x)
         # print(json.loads(x)['general'] + 23.55)
 

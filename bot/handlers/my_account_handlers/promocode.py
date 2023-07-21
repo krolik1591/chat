@@ -110,7 +110,8 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
     with manager.pw_database.atomic():
         await db.update_user_balance(call.from_user.id, 'general', balances['promo'])
         await db.update_user_balance(call.from_user.id, 'promo', -balances['promo'])
-        await db.deactivate_user_promo_code(call.from_user.id)
+        await db.deactivate_user_promo_code(call.from_user.id, balance_promo_code.promo_name_id)
+        await db.deactivate_user_promo_code(call.from_user.id, ticket_promo_code.promo_name_id)
 
 
 @router.callback_query(Text("approve_decline_promo_code"))
@@ -121,7 +122,9 @@ async def approve_decline_promo_code(call: types.CallbackQuery, state):
 
 @router.callback_query(Text("decline_promo_code"))
 async def decline_promo_code(call: types.CallbackQuery, state):
-    await db.deactivate_user_promo_code(call.from_user.id)
+    active_promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
+    for code in active_promo_codes:
+        await db.deactivate_user_promo_code(call.from_user.id, code.promo_name_id)
 
     balances = await db.get_user_balances(call.from_user.id)
     promo_balance = balances['promo']

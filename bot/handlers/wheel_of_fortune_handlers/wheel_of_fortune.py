@@ -28,21 +28,24 @@ async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext, i18n: I
         return True
 
     active_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
+    promo_user_tickets = 0
     if active_codes:
         for code in active_codes:
             if code.promocode.type == 'ticket':
                 await state.update_data({StateKeys.ACTIVE_PROMO_NAME: code.promo_name_id})
 
                 promo_tickets = await db.get_available_tickets_count(code.promo_name_id) if code.promo_name_id else 0
+                promo_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all', code.promo_name_id)
                 await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: promo_tickets})
 
     else:
         await state.update_data({StateKeys.ACTIVE_PROMO_NAME: None})
 
     general_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
+
     time_end_text = await get_time_to_spin_text(wof_info.timestamp_end, i18n.current_locale)
 
-    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_end_text, general_user_tickets, wof_reward)
+    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_end_text, general_user_tickets + promo_user_tickets, wof_reward)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

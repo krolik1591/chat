@@ -143,10 +143,9 @@ async def min_wager_condition_accepted(user_id, promo_name):
     )
 
 
-async def deactivate_user_promo_code(user_id):
-    now = time.time()
+async def deactivate_user_promo_code(user_id, promo_name):
     return await UsersPromoCodes.update({UsersPromoCodes.is_active: 0}).where(
-        UsersPromoCodes.user_id == user_id, now < UsersPromoCodes.date_end, UsersPromoCodes.is_active == 1)
+        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name_id == promo_name, UsersPromoCodes.is_active == 1)
 
 
 async def get_available_tickets_count(promo_name):
@@ -169,9 +168,10 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh2')
         # x = await get_all_available_promo_code_for_user(357108179)
 
-        x = await get_available_tickets_count('tickets')
+        x = await deactivate_user_promo_code(357108179, 'tickkket')
+
         # x = await db.get_all_active_user_promo_codes(357108179)
-        print(x)
+        # print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
