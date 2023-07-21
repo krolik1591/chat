@@ -41,14 +41,14 @@ async def get_count_user_tickets(tg_id, type_, promo_name=None):
     return result
 
 
-async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100):
+async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100, promo_name=None):
     if type_ == 'all':
         result = await WoFTickets.select(WoFTickets.ticket_num) \
-            .where(WoFTickets.user_id == tg_id) \
+            .where(WoFTickets.user_id == tg_id, WoFTickets.promo_id == promo_name) \
             .offset(offset).limit(limit)
     else:
         result = await WoFTickets.select(WoFTickets.ticket_num) \
-            .where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_) \
+            .where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_, WoFTickets.promo_id == promo_name) \
             .offset(offset).limit(limit)
 
     tickets = [ticket.ticket_num for ticket in result]
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     import json
     async def test():
         # x = await add_new_ticket(357108179, [159159], 'random', promo='tickets')
-        x = await get_count_user_tickets(357108179, 'random')
+        x = await get_user_ticket_numbers(357108179, 'random')
         print(x)
         # print(json.loads(x)['general'] + 23.55)
 
