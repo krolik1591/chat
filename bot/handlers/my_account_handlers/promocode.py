@@ -58,10 +58,6 @@ async def active_promo_code(call: types.CallbackQuery, state: FSMContext):
         await call.message.edit_text(text, reply_markup=kb)
         return
 
-    if new_promo_info.type == 'ticket':
-        promo_tickets = await create_random_tickets(new_promo_info.bonus)
-        await db.add_new_ticket(357108179, promo_tickets, 'random', is_promo=True)
-
     await db.user_activated_promo_code(call.from_user.id, promo_code_entered)
     await call.answer(_("PROMO_CODE_IS_ACTIVATED").format(promo_code=promo_code_entered), show_alert=True)
 
