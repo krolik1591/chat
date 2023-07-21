@@ -5,10 +5,12 @@ import aiogram.exceptions
 import humanize
 from aiogram import Router, types
 from aiogram.filters import Text
+from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import I18n, gettext as _
 
 from bot.consts.balance import PROMO_FUNDS_ICON, TON_FUNDS_ICON
 from bot.db import db, manager
+from bot.handlers.states import StateKeys
 from bot.menus.main_menus.wheel_of_fortune_menus import what_balance_withdraw_menu, wheel_of_fortune_doesnt_exist_menu, \
     wheel_of_fortune_menu
 
@@ -16,7 +18,7 @@ router = Router()
 
 
 @router.callback_query(Text("wheel_of_fortune"))
-async def wheel_of_fortune(call: types.CallbackQuery, i18n: I18n):
+async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext, i18n: I18n):
     wof_info = await db.get_active_wheel_info()
     wof_reward_json = await db.get_user_wof_win(call.from_user.id)
     wof_reward = json.loads(wof_reward_json)
@@ -25,10 +27,20 @@ async def wheel_of_fortune(call: types.CallbackQuery, i18n: I18n):
         await call.message.edit_text(text, reply_markup=keyboard)
         return True
 
-    user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
+    active_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
+    if active_codes:
+        for code in active_codes:
+            if code.promocode.type == 'ticket':
+                await state.update_data({StateKeys.ACTIVE_PROMO_NAME: code.promo_name_id})
+            else:
+                await state.update_data({StateKeys.ACTIVE_PROMO_NAME: None})
+    else:
+        await state.update_data({StateKeys.ACTIVE_PROMO_NAME: None})
+
+    general_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
     time_end_text = await get_time_to_spin_text(wof_info.timestamp_end, i18n.current_locale)
 
-    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_end_text, user_tickets, wof_reward)
+    text, keyboard = wheel_of_fortune_menu(wof_info.ticket_cost, time_end_text, general_user_tickets, wof_reward)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
