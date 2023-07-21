@@ -40,32 +40,6 @@ class User(manager.Model):
         return f'USER: {self.user_id}; {self.lang=}'
 
 
-class WoFTickets(manager.Model):
-    woftickets_id = BigIntegerField(primary_key=True)
-    user = ForeignKeyField(User, backref='WheelOfFortune')
-
-    ticket_num = BigIntegerField()
-    ticket_type = CharField()
-    buy_timestamp = DateTimeField()
-
-    is_promo = BooleanField(default=False)
-
-
-class WoFSettings(manager.Model):
-    wofsettings_id = BigIntegerField(primary_key=True)
-
-    ticket_cost = BigIntegerField()
-    commission = BigIntegerField()
-    rewards = CharField()
-    winners = CharField(null=True)   # ticket_num: tg_id:reward
-    random_seed = CharField()
-
-    timestamp_start = DateTimeField()
-    timestamp_end = DateTimeField(null=True)
-
-    is_active = BooleanField(default=1)
-
-
 class WithdrawTx(manager.Model):
     withdrawtx_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='WithdrawTx')
@@ -137,3 +111,29 @@ class UsersPromoCodes(manager.Model):
     date_end = BigIntegerField()
     is_active = BooleanField()
     won = BooleanField(default=False)
+
+
+class WoFTickets(manager.Model):
+    woftickets_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='wof_tickets')
+    promo = ForeignKeyField(PromoCodes, backref='wof_tickets', null=True)
+    ticket_num = BigIntegerField()
+    ticket_type = CharField()
+    buy_timestamp = DateTimeField()
+
+    # is_promo = BooleanField(default=False)
+
+
+class WoFSettings(manager.Model):
+    wofsettings_id = BigIntegerField(primary_key=True)
+
+    ticket_cost = BigIntegerField()
+    commission = BigIntegerField()
+    rewards = CharField()
+    winners = CharField(null=True)   # ticket_num: tg_id:reward
+    random_seed = CharField()
+
+    timestamp_start = DateTimeField()
+    timestamp_end = DateTimeField(null=True)
+
+    is_active = BooleanField(default=1)
