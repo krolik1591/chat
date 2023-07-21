@@ -3,7 +3,7 @@ import time
 from peewee import fn
 
 from bot.db.methods import get_active_wheel_info
-from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes
+from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes, WoFTickets
 
 # 1209600 == 2 week
 ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
@@ -47,14 +47,8 @@ async def get_all_available_promo_code_for_user(user_id):
     now = time.time()
     result = []
 
-    wof_info = await get_active_wheel_info()
-    if wof_info:
-        promo_codes = await PromoCodes.select(PromoCodes).where(
-            now < PromoCodes.date_end)
-    else:
-        promo_codes = await PromoCodes.select(PromoCodes).where(
-            now < PromoCodes.date_end,
-            PromoCodes.type == 'balance')
+    promo_codes = await PromoCodes.select(PromoCodes).where(
+        now < PromoCodes.date_end)
 
     for code in promo_codes:
         if code.number_of_users != float("Infinity"):
@@ -155,6 +149,11 @@ async def deactivate_user_promo_code(user_id):
         UsersPromoCodes.user_id == user_id, now < UsersPromoCodes.date_end, UsersPromoCodes.is_active == 1)
 
 
+async def get_used_tickets(promo_name):
+    return await WoFTickets.select(WoFTickets, PromoCodes).where(
+        WoFTickets.promo_id == promo_name).join(PromoCodes, attr='promocode').count()
+
+
 if __name__ == "__main__":
     import asyncio
     from bot.db import db
@@ -166,7 +165,7 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh2')
         # x = await get_all_available_promo_code_for_user(357108179)
 
-        x = await need_a_bonus(357108179)
+        x = await get_used_tickets('tickets')
         # x = await db.get_all_active_user_promo_codes(357108179)
         print(x)
         # await db.add_new_transaction(
