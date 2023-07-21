@@ -8,10 +8,10 @@ async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, random
                                     timestamp_end=date_end, timestamp_start=time.time(), random_seed=random_seed)
 
 
-async def add_new_ticket(user_id, tickets_num, ticket_type, is_promo=False, buy_timestamp=time.time()):
+async def add_new_ticket(user_id, tickets_num, ticket_type, buy_timestamp=time.time(), promo=None):
     ticket_objects = [
         WoFTickets(user_id=user_id, ticket_num=ticket_num, ticket_type=ticket_type,
-                   buy_timestamp=buy_timestamp, is_promo=is_promo)
+                   buy_timestamp=buy_timestamp, promo=promo)
         for ticket_num in tickets_num
     ]
     await WoFTickets.bulk_create(ticket_objects)
@@ -31,11 +31,13 @@ async def get_last_deactivate_wheel_info():
     return result[0]
 
 
-async def get_count_user_tickets(tg_id, type_):
+async def get_count_user_tickets(tg_id, type_, promo_name=None):
     if type_ == 'all':
-        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id).count()
+        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id, WoFTickets.promo_id == promo_name).count()
     else:
-        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_).count()
+        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id,
+                                                 WoFTickets.ticket_type == type_,
+                                                 WoFTickets.promo_id == promo_name).count()
     return result
 
 
@@ -111,9 +113,10 @@ async def change_date_end(date_end):
 if __name__ == '__main__':
     import json
     async def test():
-        # x = await add_new_ticket(357108179, [159159], 'random', True)
-        x = await get_user_wof_win(357108179)
-        print(json.loads(x)['general'] + 23.55)
+        # x = await add_new_ticket(357108179, [159159], 'random', promo='tickets')
+        x = await get_count_user_tickets(357108179, 'random')
+        print(x)
+        # print(json.loads(x)['general'] + 23.55)
 
 
     import asyncio

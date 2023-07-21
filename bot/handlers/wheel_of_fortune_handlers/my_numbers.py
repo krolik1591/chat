@@ -24,6 +24,14 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 
     selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected')
     random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random')
+    promo_selected_tickets_count = 0
+    promo_random_tickets_count = 0
+
+    active_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
+    for code in active_codes:
+        if code.promocode.type == 'ticket':
+            promo_selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', code.promo_name)
+            promo_random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', code.promo_name)
 
     if not await db.get_active_wheel_info():
         wof_reward = await db.get_user_wof_win(call.from_user.id)
@@ -35,7 +43,8 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
         await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
         return
 
-    text, kb = my_numbers_menu(selected_tickets_count, random_tickets_count)
+    text, kb = my_numbers_menu(selected_tickets_count, random_tickets_count,
+                               promo_selected_tickets_count, promo_random_tickets_count)
     await call.message.edit_text(text, reply_markup=kb)
 
 

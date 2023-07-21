@@ -944,11 +944,14 @@ msgstr "Купити білет"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
 msgstr ""
-"Знаєш скіко?\n"
-"\n"
-"Усі білети: {all_tickets}\n"
+"Усі білети: {all_tickets}\n\n"
+"Грошові білети: {all_bought_tickets}\n"
 "Обрані вами: {selected_tickets}\n"
-"Згенеровані: {random_tickets}"
+"Згенеровані: {random_tickets}\n\n"
+"Промо-білети: {all_promo_tickets}\n"
+"Обрані вами: {selected_promo_tickets}\n"
+"Згенеровані: {random_promo_tickets}\n\n"
+
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:100
 msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"

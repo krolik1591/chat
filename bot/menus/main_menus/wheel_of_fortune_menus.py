@@ -92,10 +92,12 @@ def buy_random_num_menu(wof_info, user_balance, user_tickets, ticket_count=10):
     return text, kb
 
 
-def my_numbers_menu(selected_tickets, random_tickets):
-    text = _('WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT').format(selected_tickets=selected_tickets,
-                                                        random_tickets=random_tickets,
-                                                        all_tickets=selected_tickets + random_tickets)
+def my_numbers_menu(selected_tickets, random_tickets, promo_selected_tickets_count, promo_random_tickets_count):
+    text = _('WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT').format(
+        all_tickets=selected_tickets + random_tickets + promo_random_tickets_count + promo_selected_tickets_count,
+        selected_tickets=selected_tickets, random_tickets=random_tickets,
+        all_promo_tickets=promo_selected_tickets_count + promo_random_tickets_count,
+        selected_promo_tickets=promo_selected_tickets_count, random_promo_tickets=promo_random_tickets_count)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED'), callback_data="display_tickets_selected")],
         [InlineKeyboardButton(text=_('WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM'), callback_data="display_tickets_random")],
