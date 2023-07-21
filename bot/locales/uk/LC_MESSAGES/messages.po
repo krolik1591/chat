@@ -900,7 +900,8 @@ msgstr ""
 "Баланс: {user_balance} 💎\n"
 "Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
 "Вартість білету: {ticket_cost} 💎\n"
-"Скіко в мене: {user_tickets} 🎟"
+"Скіко в мене: {user_tickets} 🎟\n\n"
+"Промо-білети: {promo_tickets}"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
 msgid "WOF_BTN_BUY_TICKET_MENU_SELECT_NUM"
@@ -920,7 +921,8 @@ msgstr ""
 "Баланс: {user_balance} 💎\n"
 "Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
 "Вартість білету: {ticket_cost} 💎\n"
-"Скіко в мене: {user_tickets} 🎟"
+"Скіко в мене: {user_tickets} 🎟\n\n"
+"Промо-білети: {promo_tickets}"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:70
 msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"

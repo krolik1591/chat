@@ -21,7 +21,11 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.delete_message)
     wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
 
-    text, keyboard = buy_ticket_menu(wof_info, user_balance, user_tickets)
+    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+    promo_tickets = await db.get_available_tickets_count(promo_name) if promo_name else 0
+    await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: promo_tickets})
+
+    text, keyboard = buy_ticket_menu(wof_info, user_balance, user_tickets, promo_tickets)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
@@ -30,7 +34,9 @@ async def buy_selected_ticket(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.enter_ticket_num)
     wof_info, user_balance, user_tickets = await display_wof_info(call.from_user.id)
 
-    text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets)
+    promo_tickets_count = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
+
+    text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets, promo_tickets=promo_tickets_count)
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
@@ -45,7 +51,9 @@ async def enter_ticket_num(message: types.Message, state: FSMContext):
     if await check_ticket_num(message, ticket_num):
         return
 
-    text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num)
+    promo_tickets_count = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
+
+    text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num, promo_tickets_count)
     try:
         await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=keyboard)
     except exceptions.TelegramBadRequest as e:
@@ -107,10 +115,20 @@ async def enter_tickets_count(message: types.Message, state: FSMContext):
 
 
 @router.callback_query(Text(startswith="buy_ticket_"))
+@router.callback_query(Text(startswith='buy_promo_ticket_'))
 async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
-    buy_ticket_type = call.data.removeprefix("buy_ticket_")
+    if call.data.startswith("buy_ticket_"):
+        buy_ticket_type = call.data.removeprefix("buy_ticket_")
+        is_promo = False
+    else:
+        buy_ticket_type = call.data.removeprefix("buy_promo_ticket_")
+        is_promo = True
+
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
     wof_info = await db.get_active_wheel_info()
+    promo_tickets_count = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
+    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+
     if not wof_info:
         await call.answer(_('WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL'), show_alert=True)
         return
@@ -140,30 +158,43 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
 
         tickets = await create_random_tickets(tickets_count)
 
-    if not tickets:
-        await call.answer(_('WOF_BUY_TICKET_ERR_NO_TICKETS'), show_alert=True)
-        return
+    if not is_promo:
+        if not tickets:
+            await call.answer(_('WOF_BUY_TICKET_ERR_NO_TICKETS'), show_alert=True)
+            return
 
-    if user_balance < wof_info.ticket_cost * len(tickets):
-        await call.answer(_('WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY'), show_alert=True)
-        return
+        if user_balance < wof_info.ticket_cost * len(tickets):
+            await call.answer(_('WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY'), show_alert=True)
+            return
 
-    with manager.pw_database.atomic():
-        await db.add_new_ticket(call.from_user.id, tickets, ticket_type)
-        await db.update_user_balance(call.from_user.id, 'general', -wof_info.ticket_cost * len(tickets))
+        with manager.pw_database.atomic():
+            await db.add_new_ticket(call.from_user.id, tickets, ticket_type)
+            await db.update_user_balance(call.from_user.id, 'general', -wof_info.ticket_cost * len(tickets))
+
+    else:
+        if len(tickets) > promo_tickets_count:
+            await call.answer(_("WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"), show_alert=True)
+            return
+
+        await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: promo_tickets_count - len(tickets)})
+
+        with manager.pw_database.atomic():
+            await db.add_new_ticket(call.from_user.id, tickets, ticket_type, promo=promo_name)
 
     user_balance = await db.get_user_balance(call.from_user.id, 'general')
-    user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
+    general_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all')
+    promo_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all', promo_name)
+    all_tickets = general_user_tickets + promo_user_tickets
 
     if buy_ticket_type == 'selected_num':
         await call.answer(_('WOF_BUY_TICKET_SUCCESS_SELECTED').format(ticket_num=ticket_num.zfill(7)), show_alert=True)
 
-        text, keyboard = buy_selected_num_menu(wof_info, user_balance, user_tickets)
+        text, keyboard = buy_selected_num_menu(wof_info, user_balance, all_tickets)
         await call.message.edit_text(text, reply_markup=keyboard)
     else:
         await call.answer(_('WOF_BUY_TICKET_SUCCESS_RANDOM').format(tickets_count=tickets_count), show_alert=True)
 
-        text, keyboard = buy_random_num_menu(wof_info, user_balance, user_tickets, tickets_count)
+        text, keyboard = buy_random_num_menu(wof_info, user_balance, all_tickets, tickets_count)
         await call.message.edit_text(text, reply_markup=keyboard)
 
 

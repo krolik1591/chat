@@ -44,12 +44,12 @@ def get_user_rewards_text(wof_win):
                f"{str(wof_win['promo']) + ' ' + PROMO_FUNDS_ICON}"
 
 
-def buy_ticket_menu(wof_info, user_balance, user_tickets):
+def buy_ticket_menu(wof_info, user_balance, user_tickets, promo_tickets):
     how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
     ticket_cost = wof_info.ticket_cost
     text = _('WOF_MENU_BUY_TICKET_TEXT').format(how_much_tickets_can_buy=how_much_tickets_can_buy,
                                                 user_balance=user_balance, ticket_cost=ticket_cost,
-                                                user_tickets=user_tickets)
+                                                user_tickets=user_tickets, promo_tickets=promo_tickets)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_('WOF_BTN_BUY_TICKET_MENU_SELECT_NUM'), callback_data="buy_selected_num")],
         [InlineKeyboardButton(text=_('WOF_BTN_BUY_TICKET_MENU_RANDOM_NUM'), callback_data="buy_random_num")],
@@ -59,15 +59,16 @@ def buy_ticket_menu(wof_info, user_balance, user_tickets):
     return text, kb
 
 
-def buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num=''):
+def buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num='', promo_tickets=0):
     how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
     ticket_cost = wof_info.ticket_cost
     text = _('WOF_MENU_BUY_SELECTED_TICKET_TEXT').format(how_much_tickets_can_buy=how_much_tickets_can_buy,
                                                          user_balance=user_balance, ticket_cost=ticket_cost,
-                                                         user_tickets=user_tickets,
+                                                         user_tickets=user_tickets, promo_tickets=promo_tickets,
                                                          ticket_num=ticket_num.zfill(7) if ticket_num else '')
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_ticket_selected_num")]
+        [InlineKeyboardButton(text=_("WOF_BTN_BUY_PROMO_TICKET_SELECTED_NUM"), callback_data="buy_promo_ticket_selected_num"),
+            InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_ticket_selected_num")]
         if ticket_num else [],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
@@ -85,7 +86,8 @@ def buy_random_num_menu(wof_info, user_balance, user_tickets, ticket_count=10):
         [InlineKeyboardButton(text='-', callback_data="change_tickets_count_-"),
          InlineKeyboardButton(text=ticket_count, callback_data="display_count_ticket"),
          InlineKeyboardButton(text='+', callback_data="change_tickets_count_+")],
-        [InlineKeyboardButton(text=_('WOF_BTN_BUY_RANDOM_NUM_MENU'), callback_data="buy_ticket_random_num")],
+        [InlineKeyboardButton(text=_("WOF_BTN_BUY_PROMO_TICKET_RANDOM_NUM"), callback_data="buy_promo_ticket_random_num"),
+         InlineKeyboardButton(text=_('WOF_BTN_BUY_RANDOM_NUM_MENU'), callback_data="buy_ticket_random_num")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
 
@@ -114,7 +116,8 @@ def display_ticket_num_text_menu(tickets_text, page, pages, ticket_type='promo')
         [
             InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE'),
                                  callback_data="ticket_page_previous"),
-            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_TO_PROMO'), callback_data="change_tickets_type_" + ticket_type),
+            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_TO_PROMO'),
+                                 callback_data="change_tickets_type_" + ticket_type),
             InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE'), callback_data="ticket_page_next"),
         ],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="my_numbers")],
@@ -128,9 +131,11 @@ def what_balance_withdraw_menu(wof_rewards):
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [
             InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_GENERAL').format(
-                general_balance=str(wof_rewards['general']) + ' ' + TON_FUNDS_ICON), callback_data="claim_wof_balance_general"),
+                general_balance=str(wof_rewards['general']) + ' ' + TON_FUNDS_ICON),
+                callback_data="claim_wof_balance_general"),
             InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO').format(
-                promo_balance=str(wof_rewards['promo']) + ' ' + PROMO_FUNDS_ICON), callback_data="claim_wof_balance_promo"),
+                promo_balance=str(wof_rewards['promo']) + ' ' + PROMO_FUNDS_ICON),
+                callback_data="claim_wof_balance_promo"),
         ],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="wheel_of_fortune")],
     ])
