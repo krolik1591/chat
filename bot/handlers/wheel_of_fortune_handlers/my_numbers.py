@@ -30,8 +30,8 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
     active_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
     for code in active_codes:
         if code.promocode.type == 'ticket':
-            promo_selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', code.promo_name)
-            promo_random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', code.promo_name)
+            promo_selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', code.promo_name_id)
+            promo_random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random', code.promo_name_id)
 
     if not await db.get_active_wheel_info():
         wof_reward = await db.get_user_wof_win(call.from_user.id)
