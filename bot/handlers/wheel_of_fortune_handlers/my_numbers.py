@@ -24,14 +24,10 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 
     selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected')
     random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random')
-    promo_selected_tickets_count = 0
-    promo_random_tickets_count = 0
 
-    active_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
-    for code in active_codes:
-        if code.promocode.type == 'ticket':
-            promo_selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', code.promo_name_id)
-            promo_random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random', code.promo_name_id)
+    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+    promo_selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', promo_name)
+    promo_random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random', promo_name)
 
     if not await db.get_active_wheel_info():
         wof_reward = await db.get_user_wof_win(call.from_user.id)
@@ -52,12 +48,12 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 async def display_user_tickets(call: types.CallbackQuery, state: FSMContext):
     ticket_type = call.data.removeprefix("display_tickets_")
 
-    all_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type)
-    if all_tickets_count == 0:
+    all_general_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type)
+    if all_general_tickets_count == 0:
         await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
         return
 
-    total_pages = ceil(all_tickets_count / TICKETS_ON_PAGE)
+    total_pages = ceil(all_general_tickets_count / TICKETS_ON_PAGE)
     await state.update_data(**{StateKeys.CURRENT_PAGE: 1,
                                StateKeys.TOTAL_PAGES: total_pages,
                                StateKeys.TICKET_TYPE: ticket_type,
@@ -65,6 +61,32 @@ async def display_user_tickets(call: types.CallbackQuery, state: FSMContext):
 
     tickets_text = await get_tickets_on_page(call.from_user.id, ticket_type, 1)
     text, kb = display_ticket_num_text_menu(tickets_text, 1, total_pages)
+
+    await call.message.edit_text(text, reply_markup=kb)
+    await state.set_state(Menu.enter_pages)
+
+
+@router.callback_query(Text(startswith="change_tickets_type_"))
+async def change_tickets_type(call: types.CallbackQuery, state: FSMContext):
+    type_now = call.data.removeprefix('change_tickets_type_')
+    change_to_ticket_type = 'general' if type_now == 'promo' else 'promo'
+    ticket_type = (await state.get_data()).get(StateKeys.TICKET_TYPE)
+    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+
+    promo_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type, promo_name)
+
+    if promo_tickets_count == 0:
+        await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
+        return
+
+    total_pages = ceil(promo_tickets_count / TICKETS_ON_PAGE)
+    await state.update_data(**{StateKeys.CURRENT_PAGE: 1,
+                               StateKeys.TOTAL_PAGES: total_pages,
+                               StateKeys.TICKET_TYPE: ticket_type,
+                               })
+
+    tickets_text = await get_tickets_on_page(call.from_user.id, ticket_type, 1, promo_name=promo_name)
+    text, kb = display_ticket_num_text_menu(tickets_text, 1, total_pages, change_to_ticket_type)
 
     await call.message.edit_text(text, reply_markup=kb)
     await state.set_state(Menu.enter_pages)
@@ -107,8 +129,8 @@ async def enter_pages(message: types.Message, state: FSMContext):
     await state.bot.edit_message_text(text, message.from_user.id, data[StateKeys.LAST_MSG_ID], reply_markup=kb)
 
 
-async def get_tickets_on_page(user_id, ticket_type, page):
-    page_tickets = await db.get_user_ticket_numbers(user_id, ticket_type, offset=TICKETS_ON_PAGE * (page - 1), limit=TICKETS_ON_PAGE)
+async def get_tickets_on_page(user_id, ticket_type, page, promo_name=None):
+    page_tickets = await db.get_user_ticket_numbers(user_id, ticket_type, offset=TICKETS_ON_PAGE * (page - 1), limit=TICKETS_ON_PAGE, promo_name=promo_name)
     tickets_text = get_display_tickets_num_text(page_tickets)
     return tickets_text
 
