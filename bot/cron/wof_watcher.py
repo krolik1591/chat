@@ -14,7 +14,7 @@ from bot.menus.utils import kb_del_msg_for_spam
 from bot.tokens.token_ton.tx_watcher import set_user_locale_to_i18n
 from bot.utils.rounding import round_down
 
-HOUR = 3600
+HOUR = 120
 
 
 async def start_wof_timer(bot, i18n):
