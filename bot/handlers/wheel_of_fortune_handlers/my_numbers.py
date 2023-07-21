@@ -21,6 +21,7 @@ TICKETS_ON_PAGE = 3 * 20
 @router.callback_query(Text("my_numbers"))
 async def my_numbers(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.delete_message)
+    await state.update_data({StateKeys.PREVIOUS_BALANCE_TYPE: 'general'})
 
     selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected')
     random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random')
@@ -47,49 +48,49 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(startswith="display_tickets_"))
 async def display_user_tickets(call: types.CallbackQuery, state: FSMContext):
     ticket_type = call.data.removeprefix("display_tickets_")
+    text, kb = await display_general_tickets(state, call.from_user.id, ticket_type)
 
-    all_general_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type)
-    if all_general_tickets_count == 0:
-        await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
-        return
+    # if all_general_tickets_count == 0:
+    #     await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
+    #     return
 
-    total_pages = ceil(all_general_tickets_count / TICKETS_ON_PAGE)
+    await call.message.edit_text(text, reply_markup=kb)
+    await state.set_state(Menu.enter_pages)
+
+
+@router.callback_query(Text(startswith="change_tickets_type_balance"))
+async def display_another_tickets(call: types.CallbackQuery, state: FSMContext):
+    previous_balance_type = (await state.get_data()).get(StateKeys.PREVIOUS_BALANCE_TYPE)
+
+    if previous_balance_type == 'general':
+        await state.update_data({StateKeys.PREVIOUS_BALANCE_TYPE: 'promo'})
+        ticket_type = (await state.get_data()).get(StateKeys.TICKET_TYPE)
+        promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+
+        text, kb = await display_general_tickets(state, call.from_user.id, ticket_type, promo_name)
+
+    else:   # previous_balance_type == 'promo'
+        await state.update_data({StateKeys.PREVIOUS_BALANCE_TYPE: 'general'})
+        ticket_type = (await state.get_data()).get(StateKeys.TICKET_TYPE)
+
+        text, kb = await display_general_tickets(state, call.from_user.id, ticket_type)
+
+    await call.message.edit_text(text, reply_markup=kb)
+    await state.set_state(Menu.enter_pages)
+
+
+async def display_general_tickets(state, user_id, ticket_type, promo_name=None):
+    tickets_count = await db.get_count_user_tickets(user_id, ticket_type, promo_name)
+
+    total_pages = ceil(tickets_count / TICKETS_ON_PAGE)
     await state.update_data(**{StateKeys.CURRENT_PAGE: 1,
                                StateKeys.TOTAL_PAGES: total_pages,
                                StateKeys.TICKET_TYPE: ticket_type,
                                })
 
-    tickets_text = await get_tickets_on_page(call.from_user.id, ticket_type, 1)
+    tickets_text = await get_tickets_on_page(user_id, ticket_type, 1, promo_name)
     text, kb = display_ticket_num_text_menu(tickets_text, 1, total_pages)
-
-    await call.message.edit_text(text, reply_markup=kb)
-    await state.set_state(Menu.enter_pages)
-
-
-@router.callback_query(Text(startswith="change_tickets_type_"))
-async def change_tickets_type(call: types.CallbackQuery, state: FSMContext):
-    type_now = call.data.removeprefix('change_tickets_type_')
-    change_to_ticket_type = 'general' if type_now == 'promo' else 'promo'
-    ticket_type = (await state.get_data()).get(StateKeys.TICKET_TYPE)
-    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
-
-    promo_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type, promo_name)
-
-    if promo_tickets_count == 0:
-        await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
-        return
-
-    total_pages = ceil(promo_tickets_count / TICKETS_ON_PAGE)
-    await state.update_data(**{StateKeys.CURRENT_PAGE: 1,
-                               StateKeys.TOTAL_PAGES: total_pages,
-                               StateKeys.TICKET_TYPE: ticket_type,
-                               })
-
-    tickets_text = await get_tickets_on_page(call.from_user.id, ticket_type, 1, promo_name=promo_name)
-    text, kb = display_ticket_num_text_menu(tickets_text, 1, total_pages, change_to_ticket_type)
-
-    await call.message.edit_text(text, reply_markup=kb)
-    await state.set_state(Menu.enter_pages)
+    return text, kb
 
 
 @router.callback_query(Text(startswith="ticket_page_"))
@@ -103,7 +104,11 @@ async def scroll_ticket_pages(call: types.CallbackQuery, state: FSMContext):
         return
 
     await state.update_data(**{StateKeys.CURRENT_PAGE: new_page})
-    tickets_text = await get_tickets_on_page(call.from_user.id, data[StateKeys.TICKET_TYPE], new_page)
+    if data[StateKeys.PREVIOUS_BALANCE_TYPE] == 'promo':
+        promo_name = data[StateKeys.ACTIVE_PROMO_NAME]
+        tickets_text = await get_tickets_on_page(call.from_user.id, data[StateKeys.TICKET_TYPE], new_page, promo_name)
+    else:
+        tickets_text = await get_tickets_on_page(call.from_user.id, data[StateKeys.TICKET_TYPE], new_page)
 
     text, kb = display_ticket_num_text_menu(tickets_text, new_page, data[StateKeys.TOTAL_PAGES])
     await call.message.edit_text(text, reply_markup=kb)

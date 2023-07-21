@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-21 14:05+0300\n"
+"POT-Creation-Date: 2023-07-21 16:17+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -338,78 +338,76 @@ msgstr "Іду"
 msgid "SETTINGS_LANG_CHANGED"
 msgstr "Мову змінено!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:133
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:124
 msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
 msgstr "Колесо фортуни більше не активне!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:141
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:132
 msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
 msgstr "Ви не вказали номер білета!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:145
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:227
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:215
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr "Білет з таким номером вже існує!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:155
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:146
 msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
 msgstr "Ви не можете купити більше {maximum_ticket} білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:163
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:154
 msgid "WOF_BUY_TICKET_ERR_NO_TICKETS"
 msgstr "У вас немає білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:167
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:158
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
 msgstr "У вас недостатньо грошей!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:176
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:167
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"
 msgstr "У вас недостатньо промо-білетів для покупки!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:190
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:178
 msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
 msgstr "✅ Білет номер: {ticket_num} куплено"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:195
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:183
 msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
 msgstr "✅ Ви придбали: {tickets_count} білетів"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:219
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:207
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr "Введіть тільки цифри!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:223
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:211
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr "Введіть не більше 7 цифр!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:39
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:53
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:79
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:40
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr "Нема білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:57
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr "Чекайте!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:63
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:65
 msgid "WOF_CHECK_STATUS_NO_TICKETS"
 msgstr ""
 "Ви ще не берете участь, купіть білет!\n"
 "Наступний спін: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:65
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:67
 msgid "WOF_CHECK_STATUS_TICKETS"
 msgstr ""
 "Ви приймаєте участь, у вас {user_tickets} білетів!\n"
 "Наступний спін: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:73
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:83
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:85
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 "Дата останнього спіна: {date_end}\n"
@@ -417,15 +415,15 @@ msgstr ""
 "Щасливі номери:\n"
 "{text}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:91
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:93
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:124
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:126
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:134
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:136
 msgid "WOF_NO_DATE_END"
 msgstr "скоро буде"
 
@@ -952,7 +950,8 @@ msgstr ""
 "Баланс: {user_balance} 💎\n"
 "Скіко білетів можна купити: {how_much_tickets_can_buy} 🎟\n"
 "Вартість білету: {ticket_cost} 💎\n"
-"Скіко в мене: {user_tickets} 🎟\n\n"
+"Скіко в мене: {user_tickets} 🎟\n"
+"\n"
 "Доступні промо-білети: {promo_tickets}"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:89
@@ -997,8 +996,8 @@ msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr "Попередня сторінка"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:119
-msgid "WHEEL_FORTUNE_BTN_TO_PROMO"
-msgstr ""
+msgid "WHEEL_FORTUNE_BTN_CHANGE_TYPE_TICKET"
+msgstr "Змінити тип"
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:121
 msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
@@ -1268,4 +1267,7 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 
 #~ msgid "PROMO_CODE_CLAIM_REWARD_NOT_ENOUGH_BETS_ERR"
 #~ msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
+
+#~ msgid "WHEEL_FORTUNE_BTN_TO_PROMO"
+#~ msgstr ""
 

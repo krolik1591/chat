@@ -47,6 +47,7 @@ class StateKeys:
     TICKET_TYPE = 'ticket_type'
     CURRENT_PAGE = 'current_page'
     TOTAL_PAGES = 'tickets_to_display'
+    PREVIOUS_BALANCE_TYPE = 'change_balance_type'
     # promo codes
     PROMO_CODE_ENTERED = 'promo_code_entered'
 
