@@ -149,9 +149,13 @@ async def deactivate_user_promo_code(user_id):
         UsersPromoCodes.user_id == user_id, now < UsersPromoCodes.date_end, UsersPromoCodes.is_active == 1)
 
 
-async def get_used_tickets(promo_name):
-    return await WoFTickets.select(WoFTickets, PromoCodes).where(
-        WoFTickets.promo_id == promo_name).join(PromoCodes, attr='promocode').count()
+async def get_available_tickets_count(promo_name):
+    available_tickets = (await get_promo_code_info(promo_name)).bonus
+
+    used_tickets = await WoFTickets.select(WoFTickets).where(
+        WoFTickets.promo_id == promo_name).count()
+
+    return available_tickets - used_tickets
 
 
 if __name__ == "__main__":
@@ -165,7 +169,7 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh2')
         # x = await get_all_available_promo_code_for_user(357108179)
 
-        x = await get_used_tickets('tickets')
+        x = await get_available_tickets_count('tickets')
         # x = await db.get_all_active_user_promo_codes(357108179)
         print(x)
         # await db.add_new_transaction(
