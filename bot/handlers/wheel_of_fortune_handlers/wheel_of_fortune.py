@@ -86,7 +86,7 @@ async def spin_result_answer(call: types.CallbackQuery, i18n: I18n):
 
 
 @router.callback_query(Text("claim_wof_reward"))
-async def claim_reward(call: types.CallbackQuery, i18n: I18n):
+async def claim_reward(call: types.CallbackQuery, state: FSMContext, i18n: I18n):
     wof_rewards_json = await db.get_user_wof_win(call.from_user.id)
     wof_rewards = json.loads(wof_rewards_json)
     if not wof_rewards['general'] and not wof_rewards['promo']:
@@ -95,13 +95,13 @@ async def claim_reward(call: types.CallbackQuery, i18n: I18n):
 
     if not wof_rewards['promo']:
         await process_update_balance(call, wof_rewards, 'general', TON_FUNDS_ICON)
-        await wheel_of_fortune(call, i18n)
+        await wheel_of_fortune(call, state, i18n)
 
     elif not wof_rewards['general']:
         promo_code = await db.get_all_info_user_promo_code(call.from_user.id, 'ticket')
         await db.update_wagers_and_bonus(call.from_user.id, wof_rewards['promo'], promo_code)
         await process_update_balance(call, wof_rewards, 'promo', PROMO_FUNDS_ICON)
-        await wheel_of_fortune(call, i18n)
+        await wheel_of_fortune(call, state, i18n)
 
     else:
         text, kb = what_balance_withdraw_menu(wof_rewards)
@@ -109,7 +109,7 @@ async def claim_reward(call: types.CallbackQuery, i18n: I18n):
 
 
 @router.callback_query(Text(startswith="claim_wof_balance_"))
-async def wof_balance_withdraw(call: types.CallbackQuery, i18n: I18n):
+async def wof_balance_withdraw(call: types.CallbackQuery, state: FSMContext, i18n: I18n):
     balance_type = call.data.removeprefix('claim_wof_balance_')
     wof_rewards_json = await db.get_user_wof_win(call.from_user.id)
     wof_rewards = json.loads(wof_rewards_json)
@@ -119,7 +119,7 @@ async def wof_balance_withdraw(call: types.CallbackQuery, i18n: I18n):
     if balance_type == 'promo':
         await process_update_balance(call, wof_rewards, balance_type, PROMO_FUNDS_ICON)
 
-    await wheel_of_fortune(call, i18n)
+    await wheel_of_fortune(call, state, i18n)
 
 
 async def process_update_balance(call, wof_rewards, balance_type, emoji):
