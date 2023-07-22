@@ -18,6 +18,8 @@ HOUR = 120
 
 
 async def start_wof_timer(bot, i18n):
+    # await spin_wheel_of_fortune(bot, i18n)
+
     while True:
         logging.info("WOF TIMER STARTED")
         wof_info = await db.get_active_wheel_info()
@@ -79,10 +81,20 @@ async def spin_wheel_of_fortune(bot, i18n):
         await db.update_user_wof_win(tg_id, json.dumps(won))
 
     with manager.pw_database.atomic():
+        await deactivate_users_promo_codes()
         await db.update_wof_result(json.dumps(winners_info))
         await db.delete_wof_tickets()
 
     await send_msg_to_wof_participants(bot, winners_info, i18n)
+
+
+async def deactivate_users_promo_codes():
+    unique_promo_codes = await db.get_unique_promocode_from_wof_tickets()
+    for promo_name in unique_promo_codes:
+        unique_users = await db.get_unique_users_by_promo_code(promo_name)
+        for user_id in unique_users:
+            if await db.can_deactivate_ticket_promo(user_id, promo_name):
+                await db.deactivate_user_promo_code(user_id, promo_name)
 
 
 def get_winner_tickets(seed, count=1):
