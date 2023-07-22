@@ -57,6 +57,10 @@ async def get_all_available_promo_code_for_user(user_id):
         now < PromoCodes.date_end)
 
     for code in promo_codes:
+        all_exist_user_promos = await get_all_exist_user_promo_codes(user_id)
+        if code.name in all_exist_user_promos:
+            continue
+
         if code.number_of_users != float("Infinity"):
             times_of_used = await get_times_promo_used(code.name)
             if times_of_used >= code.number_of_users:
@@ -70,6 +74,11 @@ async def get_all_available_promo_code_for_user(user_id):
                 result.append(code.name)
 
     return result
+
+
+async def get_all_exist_user_promo_codes(user_id):
+    return await UsersPromoCodes.select(fn.DISTINCT(UsersPromoCodes.promo_name_id)).where(
+        UsersPromoCodes.user_id == user_id).scalars()
 
 
 async def get_times_promo_used(promo_name):
@@ -204,7 +213,7 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh2')
         # x = await get_all_available_promo_code_for_user(357108179)
 
-        x = await update_available_tickets_count(357108179, 'zalupa', 5)
+        x = await get_all_exist_user_promo_codes(357108179)
 
         # x = await db.get_all_active_user_promo_codes(357108179)
         print(x)
