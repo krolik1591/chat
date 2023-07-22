@@ -127,7 +127,8 @@ async def can_deactivate_ticket_promo(user_id, promo_name):
         UsersPromoCodes.promo_name_id == promo_name,
         UsersPromoCodes.user_id == user_id,
         UsersPromoCodes.available_bonus_tickets == 0,
-        UsersPromoCodes.is_active == 1)
+        UsersPromoCodes.is_active == 1,
+        UsersPromoCodes.won == 0)
 
 
 async def get_sum_bets_and_promo_info(user_id):
@@ -150,9 +151,10 @@ async def get_sum_bets_and_promo_info(user_id):
     return balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager
 
 
-async def min_wager_condition_accepted(user_id, promo_name):
+async def update_won_condition(user_id, promo_name):
     return await UsersPromoCodes.update({UsersPromoCodes.won: True}).where(
-        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name == promo_name
+        UsersPromoCodes.user_id == user_id,
+        UsersPromoCodes.promo_name == promo_name
     )
 
 

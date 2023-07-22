@@ -87,7 +87,7 @@ async def my_promo_codes(call: types.CallbackQuery):
 
     if balance_promo and sum_bets_min_wager:
         if sum_bets_min_wager > balance_promo.promocode.min_wager:
-            await db.min_wager_condition_accepted(call.from_user.id, balance_promo.promo_name_id)
+            await db.update_won_condition(call.from_user.id, balance_promo.promo_name_id)
 
     text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets_wager)
     await call.message.edit_text(text, reply_markup=keyboard)
@@ -104,7 +104,7 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
         return
 
     if bets_sum_min_wager > balance_promo_code.promocode.min_wager:
-        await db.min_wager_condition_accepted(call.from_user.id, balance_promo_code.promo_name_id)
+        await db.update_won_condition(call.from_user.id, balance_promo_code.promo_name_id)
 
     balances = await db.get_user_balances(call.from_user.id)
     with manager.pw_database.atomic():

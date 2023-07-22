@@ -93,5 +93,5 @@ async def can_play_on_promo_balance_and_update_won_status_promo_code(call):
                           .format(missing_bets=round_down(missing_bets, 2)), show_alert=True)
         return False
 
-    await db.min_wager_condition_accepted(call.from_user.id, balance_promo_code.promo_name_id)
+    await db.update_won_condition(call.from_user.id, balance_promo_code.promo_name_id)
     return True

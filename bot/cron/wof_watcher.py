@@ -18,7 +18,7 @@ HOUR = 120
 
 
 async def start_wof_timer(bot, i18n):
-    # await spin_wheel_of_fortune(bot, i18n)
+    await spin_wheel_of_fortune(bot, i18n)
 
     while True:
         logging.info("WOF TIMER STARTED")
@@ -72,9 +72,10 @@ async def spin_wheel_of_fortune(bot, i18n):
         won_json = await db.get_user_wof_win(tg_id)
         won = json.loads(won_json)
 
-        is_promo = await db.ticket_is_promo(winner_num)
-        if is_promo:
+        promo_name = await db.ticket_is_promo(winner_num)
+        if promo_name:
             won['promo'] = won['promo'] + reward
+            await db.update_won_condition(tg_id, promo_name)
         else:
             won['general'] = won['general'] + reward
 
