@@ -23,22 +23,23 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
 
     if context.balance_type == 'promo':
+        promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
         if context.balance < MIN_BET:
-            await db.update_user_balance(call.from_user.id, 'promo', -context.balance)
+            await deactivate_promo_codes(call.from_user.id)
+            await db.update_user_balance(call.from_user.id, 'promo', 0)
             await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"), show_alert=True)
             return
 
-        promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
         for code in promo_codes:
-            if code.promocode.type == 'balance' and not code.won:
-                balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager = \
-                    await db.get_sum_bets_and_promo_info(call.from_user.id)
-
-                err = await can_play_on_promo_balance(balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager)
-                if err:
-                    await call.answer(err, show_alert=True)
-                    return
-                await db.update_won_condition(call.from_user.id, balance_promo_code.promo_name_id)
+            if code.promocode.type == 'balance':
+                if not code.won:
+                    balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager = \
+                        await db.get_sum_bets_and_promo_info(call.from_user.id)
+                    err = await can_play_on_promo_balance(balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager)
+                    if err:
+                        await call.answer(err, show_alert=True)
+                        return
+                    await db.update_won_condition(call.from_user.id, balance_promo_code.promo_name_id)
 
     dice_game: Dice = DICE_GAMES[context.game]
 
@@ -70,6 +71,26 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
     # Send settings menu
     context = await Context.from_fsm_context(call.from_user.id, state)
     await settings_menu(context, msg_id=None)
+
+
+async def deactivate_promo_codes(user_id):
+    balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager = \
+        await db.get_sum_bets_and_promo_info(user_id)
+
+    if ticket_promo_code and balance_promo_code:
+        if ticket_promo_code.won == 1 or ticket_promo_code.available_bonus_tickets != 0:
+            await db.deactivate_user_promo_code(user_id, balance_promo_code.promo_name_id)
+        else:
+            await db.deactivate_user_promo_code(user_id, balance_promo_code.promo_name_id)
+            await db.deactivate_user_promo_code(user_id, ticket_promo_code.promo_name_id)
+        return
+
+    if balance_promo_code:
+        await db.deactivate_user_promo_code(user_id, balance_promo_code.promo_name_id)
+        return
+    if ticket_promo_code:
+        await db.deactivate_user_promo_code(user_id, ticket_promo_code.promo_name_id)
+        return
 
 
 async def can_play_on_promo_balance(balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager):

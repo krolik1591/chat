@@ -6,6 +6,8 @@ from bot.db.methods import get_active_wheel_info
 from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes, WoFTickets
 
 # 1209600 == 2 week
+from bot.utils.rounding import round_down
+
 ACTIVE_PROMO_CODE = 1209600  # default time of activity of the promo code
 
 
@@ -105,10 +107,10 @@ async def need_a_bonus(user_id):
 
 async def update_wagers_and_bonus(user_id, bonus, promo_code):
     return await UsersPromoCodes.update({
-        UsersPromoCodes.deposited_min_wager: UsersPromoCodes.deposited_min_wager + float(
-            promo_code.promocode.min_wager) * bonus,
-        UsersPromoCodes.deposited_wager: UsersPromoCodes.deposited_wager + float(promo_code.promocode.wager) * bonus,
-        UsersPromoCodes.deposited_bonus: UsersPromoCodes.deposited_bonus + bonus}).where(
+        UsersPromoCodes.deposited_min_wager: fn.ROUND(UsersPromoCodes.deposited_min_wager + float(
+            promo_code.promocode.min_wager) * bonus, 2),
+        UsersPromoCodes.deposited_wager: fn.ROUND(UsersPromoCodes.deposited_wager + float(promo_code.promocode.wager) * bonus, 2),
+        UsersPromoCodes.deposited_bonus: fn.ROUND(UsersPromoCodes.deposited_bonus + bonus, 2)}).where(
         UsersPromoCodes.user_id == user_id,
         UsersPromoCodes.promo_name == promo_code.promo_name_id
     )

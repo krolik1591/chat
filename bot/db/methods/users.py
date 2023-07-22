@@ -71,6 +71,9 @@ async def update_user_balance(user_id, balance_type, balance_to_add):
         'general': User.balance_general
     }[balance_type]
 
+    if balance_to_add == 0:
+        return await User.update({field: 0}).where(User.user_id == user_id)
+
     return await User.update({field: fn.ROUND(field + balance_to_add, 5)}).where(User.user_id == user_id)
 
 
