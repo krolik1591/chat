@@ -166,12 +166,21 @@ async def deactivate_user_promo_code(user_id, promo_name):
 
 
 async def get_available_tickets_count(user_id, promo_name):
-    available_tickets = (await get_promo_code_info(promo_name)).bonus
+    result = await UsersPromoCodes.select(UsersPromoCodes).where(
+        UsersPromoCodes.promo_name_id == promo_name,
+        UsersPromoCodes.user_id == user_id,
+        UsersPromoCodes.is_active == 1
+    )
+    return result[0].available_bonus_tickets
 
-    used_tickets = await WoFTickets.select(WoFTickets).where(
-        WoFTickets.promo_id == promo_name, WoFTickets.promo_id == user_id).count()
 
-    return available_tickets - used_tickets
+async def update_available_tickets_count(user_id, promo_name, count):
+    return await UsersPromoCodes.update(
+        {UsersPromoCodes.available_bonus_tickets: UsersPromoCodes.available_bonus_tickets + count}).where(
+        UsersPromoCodes.promo_name_id == promo_name,
+        UsersPromoCodes.user_id == user_id,
+        UsersPromoCodes.is_active == 1
+    )
 
 
 async def get_unique_promocode_from_wof_tickets():
@@ -193,7 +202,7 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh2')
         # x = await get_all_available_promo_code_for_user(357108179)
 
-        x = await can_deactivate_ticket_promo(357108179, 'huickets')
+        x = await update_available_tickets_count(357108179, 'zalupa', 5)
 
         # x = await db.get_all_active_user_promo_codes(357108179)
         print(x)

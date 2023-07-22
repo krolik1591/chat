@@ -167,6 +167,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
             await call.answer(_("WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"), show_alert=True)
             return
 
+        await db.update_available_tickets_count(call.from_user.id, promo_name, -len(tickets))
         await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: remaining_promo_tickets - len(tickets)})
 
         with manager.pw_database.atomic():
@@ -232,7 +233,7 @@ async def check_ticket_count(tickets_count):
 
 async def display_wof_info(user_id, state):
     remaining_promo_tickets = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
-    remaining_promo_tickets = 0 if remaining_promo_tickets == None else remaining_promo_tickets
+    remaining_promo_tickets = 0 if remaining_promo_tickets is None else remaining_promo_tickets
     promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
 
     wof_info = await db.get_active_wheel_info()
