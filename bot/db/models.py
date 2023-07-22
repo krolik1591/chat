@@ -105,6 +105,7 @@ class UsersPromoCodes(manager.Model):
     user = ForeignKeyField(User, backref='userspromocodes')
     promo_name = ForeignKeyField(PromoCodes, backref='userspromocodes')
     deposited_bonus = DecimalField(default=0)
+    available_bonus_tickets = BigIntegerField(null=True)
     deposited_min_wager = DecimalField(default=0)
     deposited_wager = DecimalField(default=0)
     date_activated = BigIntegerField(null=True)
