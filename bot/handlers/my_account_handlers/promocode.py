@@ -167,11 +167,11 @@ def check_promo_claim_reward_err(balance_promo, ticket_promo, bets_sum_min_wager
     if balance_promo and ticket_promo:
         if balance_promo.deposited_bonus != 0:
             if balance_promo.deposited_min_wager > bets_sum_min_wager:
-                return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS").format(min_wager_remainder=balance_promo.deposited_min_wager - bets_sum_min_wager)
+                return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS").format(min_wager_remainder=round(balance_promo.deposited_min_wager - bets_sum_min_wager, 2))
 
         if bets_sum_wager < balance_promo.deposited_wager + ticket_promo.deposited_wager:
             return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS").format(
-                wager_remainder=balance_promo.deposited_wager + ticket_promo.deposited_wager - bets_sum_wager)
+                wager_remainder=round(balance_promo.deposited_wager + ticket_promo.deposited_wager - bets_sum_wager, 2))
 
     if ticket_promo:
         if ticket_promo.deposited_wager < bets_sum_wager:

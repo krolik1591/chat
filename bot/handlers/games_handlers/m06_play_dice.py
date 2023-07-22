@@ -74,17 +74,17 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
 
 async def can_play_on_promo_balance(balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager):
     if ticket_promo_code and balance_promo_code:
-        if ticket_promo_code.deposited_wager and balance_promo_code.deposited_bonus == 0:
+        if ticket_promo_code.deposited_wager != 0 and balance_promo_code.deposited_bonus == 0:
             return False
 
     if not balance_promo_code.deposited_min_wager:
         return _('M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE')
 
     if not bets_sum_min_wager:
-        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=balance_promo_code.deposited_min_wager)
+        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=round(balance_promo_code.deposited_min_wager, 2))
 
     if bets_sum_min_wager < balance_promo_code.deposited_min_wager:
         missing_bets = balance_promo_code.deposited_min_wager - bets_sum_min_wager
-        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=round_down(missing_bets, 2))
+        return _('M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO').format(missing_bets=round(missing_bets, 2))
 
     return False

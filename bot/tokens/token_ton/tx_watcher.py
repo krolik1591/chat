@@ -162,7 +162,7 @@ async def user_deposited(tx, bot, user_id, user_wallet: Wallet):
     promo_code = await db.need_a_bonus(user_id)
     with manager.pw_database.atomic():
         if promo_code:
-            promo_bonus = round_down(amount_gametokens * promo_code.promocode.bonus / 100, 2)
+            promo_bonus = amount_gametokens * promo_code.promocode.bonus / 100
             await db.update_user_balance(user_id, 'promo', promo_bonus)
             await db.update_wagers_and_bonus(user_id, promo_bonus, promo_code)
 
