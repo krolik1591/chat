@@ -8,10 +8,10 @@ async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, random
                                     timestamp_end=date_end, timestamp_start=time.time(), random_seed=random_seed)
 
 
-async def add_new_ticket(user_id, tickets_num, ticket_type, buy_timestamp=time.time(), promo=None):
+async def add_new_ticket(user_id, tickets_num, ticket_type, buy_timestamp=time.time(), promo_name=None):
     ticket_objects = [
         WoFTickets(user_id=user_id, ticket_num=ticket_num, ticket_type=ticket_type,
-                   buy_timestamp=buy_timestamp, promo=promo)
+                   buy_timestamp=buy_timestamp, promo=promo_name)
         for ticket_num in tickets_num
     ]
     await WoFTickets.bulk_create(ticket_objects)
@@ -113,8 +113,8 @@ async def change_date_end(date_end):
 if __name__ == '__main__':
     import json
     async def test():
-        # x = await add_new_ticket(357108179, [159159], 'random', promo='tickets')
-        x = await ticket_is_promo(159159)
+        x = await add_new_ticket(357108179, [55958], 'random', promo_name='huickets')
+        # x = await ticket_is_promo(159159)
         print(x)
         # print(json.loads(x)['general'] + 23.55)
 

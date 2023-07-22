@@ -34,7 +34,8 @@ async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext, i18n: I
             if code.promocode.type == 'ticket':
                 await state.update_data({StateKeys.ACTIVE_PROMO_NAME: code.promo_name_id})
 
-                promo_tickets = await db.get_available_tickets_count(code.promo_name_id) if code.promo_name_id else 0
+                promo_tickets = await db.get_available_tickets_count(call.from_user.id, code.promo_name_id) \
+                    if code.promo_name_id else 0
                 promo_user_tickets = await db.get_count_user_tickets(call.from_user.id, 'all', code.promo_name_id)
                 await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: promo_tickets})
 
@@ -101,7 +102,7 @@ async def claim_reward(call: types.CallbackQuery, state: FSMContext, i18n: I18n)
         await wheel_of_fortune(call, state, i18n)
 
     elif not wof_rewards['general']:
-        promo_code = await db.get_all_info_user_promo_code(call.from_user.id, 'ticket')
+        promo_code = await db.get_all_info_user_promo_code_by_type(call.from_user.id, 'ticket')
         await db.update_wagers_and_bonus(call.from_user.id, wof_rewards['promo'], promo_code)
         await process_update_balance(call, wof_rewards, 'promo', PROMO_FUNDS_ICON)
         await wheel_of_fortune(call, state, i18n)

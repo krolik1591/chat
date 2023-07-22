@@ -170,7 +170,7 @@ async def buy_ticket(call: types.CallbackQuery, state: FSMContext):
         await state.update_data({StateKeys.AVAILABLE_TICKETS_COUNT: remaining_promo_tickets - len(tickets)})
 
         with manager.pw_database.atomic():
-            await db.add_new_ticket(call.from_user.id, tickets, ticket_type, promo=promo_name)
+            await db.add_new_ticket(call.from_user.id, tickets, ticket_type, promo_name=promo_name)
 
     wof_info, user_balance, all_user_tickets, remaining_promo_tickets = await display_wof_info(call.from_user.id, state)
 
