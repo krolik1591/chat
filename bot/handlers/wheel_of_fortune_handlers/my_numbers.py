@@ -48,7 +48,7 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(startswith="display_tickets_"))
 async def display_user_tickets(call: types.CallbackQuery, state: FSMContext):
     ticket_type = call.data.removeprefix("display_tickets_")
-    text, kb = await display_general_tickets(state, call.from_user.id, ticket_type)
+    text, kb = await display_tickets(state, call.from_user.id, ticket_type)
 
     # if all_general_tickets_count == 0:
     #     await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
@@ -67,19 +67,19 @@ async def display_another_tickets(call: types.CallbackQuery, state: FSMContext):
         ticket_type = (await state.get_data()).get(StateKeys.TICKET_TYPE)
         promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
 
-        text, kb = await display_general_tickets(state, call.from_user.id, ticket_type, promo_name)
+        text, kb = await display_tickets(state, call.from_user.id, ticket_type, promo_name)
 
     else:   # previous_balance_type == 'promo'
         await state.update_data({StateKeys.PREVIOUS_BALANCE_TYPE: 'general'})
         ticket_type = (await state.get_data()).get(StateKeys.TICKET_TYPE)
 
-        text, kb = await display_general_tickets(state, call.from_user.id, ticket_type)
+        text, kb = await display_tickets(state, call.from_user.id, ticket_type)
 
     await call.message.edit_text(text, reply_markup=kb)
     await state.set_state(Menu.enter_pages)
 
 
-async def display_general_tickets(state, user_id, ticket_type, promo_name=None):
+async def display_tickets(state, user_id, ticket_type, promo_name=None):
     tickets_count = await db.get_count_user_tickets(user_id, ticket_type, promo_name)
 
     total_pages = ceil(tickets_count / TICKETS_ON_PAGE)
@@ -137,7 +137,12 @@ async def enter_pages(message: types.Message, state: FSMContext):
 async def get_tickets_on_page(user_id, ticket_type, page, promo_name=None):
     page_tickets = await db.get_user_ticket_numbers(user_id, ticket_type, offset=TICKETS_ON_PAGE * (page - 1), limit=TICKETS_ON_PAGE, promo_name=promo_name)
     tickets_text = get_display_tickets_num_text(page_tickets)
-    return tickets_text
+    if promo_name is None:
+        general_or_promo_text = '💎 GENERAL:' + '\n\n'
+    else:
+        general_or_promo_text = '🎁 PROMO:' + '\n\n'
+
+    return general_or_promo_text + tickets_text
 
 
 def get_display_tickets_num_text(tickets_num):
