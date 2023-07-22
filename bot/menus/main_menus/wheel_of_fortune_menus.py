@@ -79,8 +79,6 @@ def buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num='', p
 def buy_random_num_menu(wof_info, user_balance, user_tickets, ticket_count=10, promo_tickets_count=0):
     how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
     ticket_cost = wof_info.ticket_cost
-    ticket_count = promo_tickets_count if ticket_count == 0 else ticket_count
-    ticket_count = 10 if ticket_count > 10 else ticket_count
     text = _('WOF_MENU_BUY_RANDOM_TICKET_TEXT').format(how_much_tickets_can_buy=how_much_tickets_can_buy,
                                                        user_balance=user_balance, ticket_cost=ticket_cost,
                                                        user_tickets=user_tickets, promo_tickets=promo_tickets_count)
