@@ -39,7 +39,7 @@ def my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets
         min_wager = '✅'
         if ticket_promo.deposited_wager == 0:
             wager = _("PROMOCODES_MENU_NEED_WOF_WIN")
-            bonus = str(ticket_promo.promocode.bonus) + ' 🎟'
+            bonus = str(ticket_promo.available_bonus_tickets) + ' 🎟'
         else:
             wager = format_wager(sum_bets_wager, ticket_promo.deposited_wager)
             bonus = ticket_promo.deposited_bonus
@@ -65,7 +65,7 @@ def my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets
         return min_wager, wager, sum_bonus
 
     balance_bonus = balance_promo.deposited_bonus if balance_promo else 0
-    bonus_tickets = ticket_promo.promocode.bonus if ticket_promo else 0
+    bonus_tickets = ticket_promo.available_bonus_tickets if ticket_promo else 0
 
     if balance_promo and ticket_promo:
         if balance_bonus == 0 and ticket_promo.deposited_bonus == 0:
