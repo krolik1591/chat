@@ -22,8 +22,12 @@ async def add_new_promo_code(name, _type, bonus, duration, min_wager=1, wager=10
 
 async def user_activated_promo_code(user_id, promo_name):
     promo_info = await get_promo_code_info(promo_name)
+    if promo_info.type == 'ticket':
+        bonus_tickets = promo_info.bonus
+    else:
+        bonus_tickets = None
     return await UsersPromoCodes.create(
-        user_id=user_id, promo_name=promo_name, is_active=True,
+        user_id=user_id, promo_name=promo_name, is_active=True, available_bonus_tickets=bonus_tickets,
         date_activated=time.time(), date_end=time.time() + promo_info.duration)
 
 
@@ -37,7 +41,7 @@ async def get_users_whose_promo_code_expire(time_gt, time_lt):
         UsersPromoCodes.date_end < time_gt,
         UsersPromoCodes.won == 0,
         UsersPromoCodes.is_active == 1,
-        PromoCodes.type == 'balance'    # wof promo ticket doesn't have end date
+        PromoCodes.type == 'balance'  # wof promo ticket doesn't have end date
     ).scalars()
 
     return result
@@ -85,7 +89,7 @@ async def get_all_active_user_promo_codes(user_id):
 
 
 async def need_a_bonus(user_id):
-    active_promo = await get_all_info_user_promo_code(user_id, 'balance')
+    active_promo = await get_all_info_user_promo_code_by_type(user_id, 'balance')
     if not active_promo:
         return 0
 
@@ -101,7 +105,8 @@ async def need_a_bonus(user_id):
 
 async def update_wagers_and_bonus(user_id, bonus, promo_code):
     return await UsersPromoCodes.update({
-        UsersPromoCodes.deposited_min_wager: UsersPromoCodes.deposited_min_wager + float(promo_code.promocode.min_wager) * bonus,
+        UsersPromoCodes.deposited_min_wager: UsersPromoCodes.deposited_min_wager + float(
+            promo_code.promocode.min_wager) * bonus,
         UsersPromoCodes.deposited_wager: UsersPromoCodes.deposited_wager + float(promo_code.promocode.wager) * bonus,
         UsersPromoCodes.deposited_bonus: UsersPromoCodes.deposited_bonus + bonus}).where(
         UsersPromoCodes.user_id == user_id,
@@ -109,7 +114,7 @@ async def update_wagers_and_bonus(user_id, bonus, promo_code):
     )
 
 
-async def get_all_info_user_promo_code(user_id, promo_type):
+async def get_all_info_user_promo_code_by_type(user_id, promo_type):
     return await UsersPromoCodes.select(PromoCodes, UsersPromoCodes).where(
         UsersPromoCodes.user_id == user_id,
         PromoCodes.type == promo_type,
@@ -117,9 +122,17 @@ async def get_all_info_user_promo_code(user_id, promo_type):
     ).join(PromoCodes, attr='promocode').first()
 
 
+async def can_deactivate_ticket_promo(user_id, promo_name):
+    return await UsersPromoCodes.select().where(
+        UsersPromoCodes.promo_name_id == promo_name,
+        UsersPromoCodes.user_id == user_id,
+        UsersPromoCodes.available_bonus_tickets == 0,
+        UsersPromoCodes.is_active == 1)
+
+
 async def get_sum_bets_and_promo_info(user_id):
-    balance_promo_code = await get_all_info_user_promo_code(user_id, 'balance')
-    ticket_promo_code = await get_all_info_user_promo_code(user_id, 'ticket')
+    balance_promo_code = await get_all_info_user_promo_code_by_type(user_id, 'balance')
+    ticket_promo_code = await get_all_info_user_promo_code_by_type(user_id, 'ticket')
 
     first_activated = min(getattr(balance_promo_code, 'date_activated', float('Infinity')),
                           getattr(ticket_promo_code, 'date_activated', float('Infinity')))
@@ -145,16 +158,26 @@ async def min_wager_condition_accepted(user_id, promo_name):
 
 async def deactivate_user_promo_code(user_id, promo_name):
     return await UsersPromoCodes.update({UsersPromoCodes.is_active: 0}).where(
-        UsersPromoCodes.user_id == user_id, UsersPromoCodes.promo_name_id == promo_name, UsersPromoCodes.is_active == 1)
+        UsersPromoCodes.user_id == user_id,
+        UsersPromoCodes.promo_name_id == promo_name,
+        UsersPromoCodes.is_active == 1)
 
 
-async def get_available_tickets_count(promo_name):
+async def get_available_tickets_count(user_id, promo_name):
     available_tickets = (await get_promo_code_info(promo_name)).bonus
 
     used_tickets = await WoFTickets.select(WoFTickets).where(
-        WoFTickets.promo_id == promo_name).count()
+        WoFTickets.promo_id == promo_name, WoFTickets.promo_id == user_id).count()
 
     return available_tickets - used_tickets
+
+
+async def get_unique_promocode_from_wof_tickets():
+    return await WoFTickets.select(fn.DISTINCT(WoFTickets.promo_id)).scalars()
+
+
+async def get_unique_users_by_promo_code(promo_name):
+    return await WoFTickets.select(fn.DISTINCT(WoFTickets.user_id)).where(WoFTickets.promo_id == promo_name).scalars()
 
 
 if __name__ == "__main__":
@@ -168,10 +191,10 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh2')
         # x = await get_all_available_promo_code_for_user(357108179)
 
-        x = await deactivate_user_promo_code(357108179, 'tickkket')
+        x = await can_deactivate_ticket_promo(357108179, 'huickets')
 
         # x = await db.get_all_active_user_promo_codes(357108179)
-        # print(x)
+        print(x)
         # await db.add_new_transaction(
         #     user_id=357108179,
         #     token_id="ton",
