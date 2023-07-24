@@ -91,7 +91,9 @@ async def my_promo_codes(call: types.CallbackQuery):
         if sum_bets_min_wager > balance_promo.promocode.min_wager:
             await db.update_won_condition(call.from_user.id, balance_promo.promo_name_id)
 
-    text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets_wager)
+    balances = await db.get_user_balances(call.from_user.id)
+
+    text, keyboard = promocodes_menu.my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets_wager, balances['promo'])
     await call.message.edit_text(text, reply_markup=keyboard)
 
 

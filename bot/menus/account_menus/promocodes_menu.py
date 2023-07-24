@@ -23,59 +23,59 @@ def active_promo_code_menu(text):
     return text, kb
 
 
-def my_promo_code_menu(sum_bets_min_wager, balance_promo, ticket_promo, sum_bets_wager):
+def my_promo_code_menu(sum_bets_min_wager, balance_promo_code, ticket_promo_code, sum_bets_wager, promo_balance):
     def format_wager(sum_bets, deposited_wager):
         return f"{round(sum_bets, 2)}/{round(deposited_wager, 2)}" if sum_bets < deposited_wager else "✅"
 
     def format_promo_names():
         r = []
-        if balance_promo:
-            r.append(_("MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE").format(balance_bonus=balance_promo.promo_name_id))
-        if ticket_promo:
-            r.append(_("MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET").format(bonus_tickets=ticket_promo.promo_name_id))
+        if balance_promo_code:
+            r.append(_("MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE").format(balance_bonus=balance_promo_code.promo_name_id))
+        if ticket_promo_code:
+            r.append(_("MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET").format(bonus_tickets=ticket_promo_code.promo_name_id))
         return ' | '.join(r)
 
     def format_wof_promo():
         min_wager = '✅'
-        if ticket_promo.deposited_wager == 0:
+        if ticket_promo_code.deposited_wager == 0:
             wager = _("PROMOCODES_MENU_NEED_WOF_WIN")
-            bonus = str(ticket_promo.available_bonus_tickets) + ' 🎟'
+            bonus = str(ticket_promo_code.available_bonus_tickets) + ' 🎟'
         else:
-            wager = format_wager(sum_bets_wager, ticket_promo.deposited_wager)
-            bonus = round(ticket_promo.deposited_bonus, 2)
+            wager = format_wager(sum_bets_wager, ticket_promo_code.deposited_wager)
+            bonus = round(ticket_promo_code.deposited_bonus, 2)
 
         return min_wager, wager, bonus
 
     def format_balance_promo():
-        if balance_promo.deposited_bonus == 0:
+        if balance_promo_code.deposited_bonus == 0:
             t = _("PROMOCODES_MENU_NEED_DEPOSIT_TEXT")
             return t, t, t
 
-        min_wager = format_wager(sum_bets_min_wager, balance_promo.deposited_min_wager)
-        wager = format_wager(sum_bets_wager, balance_promo.deposited_wager)
-        bonus = round(balance_promo.deposited_bonus, 2)
+        min_wager = format_wager(sum_bets_min_wager, balance_promo_code.deposited_min_wager)
+        wager = format_wager(sum_bets_wager, balance_promo_code.deposited_wager)
+        bonus = round(balance_promo_code.deposited_bonus, 2)
 
         return min_wager, wager, bonus
 
     def format_both_promos():
-        sum_bonus = round(balance_promo.deposited_bonus + ticket_promo.deposited_bonus, 2)
-        min_wager = format_wager(sum_bets_min_wager, balance_promo.deposited_min_wager)
-        wager = format_wager(sum_bets_wager, balance_promo.deposited_wager + ticket_promo.deposited_wager)
+        sum_bonus = round(balance_promo_code.deposited_bonus + ticket_promo_code.deposited_bonus, 2)
+        min_wager = format_wager(sum_bets_min_wager, balance_promo_code.deposited_min_wager)
+        wager = format_wager(sum_bets_wager, balance_promo_code.deposited_wager + ticket_promo_code.deposited_wager)
 
         return min_wager, wager, sum_bonus
 
-    balance_bonus = round(balance_promo.deposited_bonus, 2) if balance_promo else 0
-    bonus_tickets = ticket_promo.available_bonus_tickets if ticket_promo else 0
+    balance_bonus = promo_balance
+    bonus_tickets = ticket_promo_code.available_bonus_tickets if ticket_promo_code else 0
 
-    if balance_promo and ticket_promo:
-        if balance_bonus == 0 and ticket_promo.deposited_bonus == 0:
+    if balance_promo_code and ticket_promo_code:
+        if balance_bonus == 0 and ticket_promo_code.deposited_bonus == 0:
             t = _("PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE")
             min_wager, wager, bonus = t, t, t
         else:
             min_wager, wager, bonus = format_both_promos()
-    elif balance_promo:
+    elif balance_promo_code:
         min_wager, wager, bonus = format_balance_promo()
-    elif ticket_promo:
+    elif ticket_promo_code:
         min_wager, wager, bonus = format_wof_promo()
     else:
         raise Exception("kek")
