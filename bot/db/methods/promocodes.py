@@ -3,7 +3,7 @@ import time
 from peewee import fn
 
 from bot.db.methods import get_active_wheel_info
-from bot.db.models import GameLog, PromoCodes, Transactions, UsersPromoCodes, WoFTickets
+from bot.db.models import GameLog, PromoCodes, Transactions, User, UsersPromoCodes, WoFTickets
 
 # 1209600 == 2 week
 from bot.utils.rounding import round_down
@@ -208,6 +208,10 @@ async def get_unique_users_by_promo_code(promo_name):
     return await WoFTickets.select(fn.DISTINCT(WoFTickets.user_id)).where(WoFTickets.promo_id == promo_name).scalars()
 
 
+async def update_count_deactivation_promos(user_id):
+    return await User.update({User.count_deactivation_promos: User.count_deactivation_promos + 1}).where(User.user_id == user_id)
+
+
 if __name__ == "__main__":
     import asyncio
     from bot.db import db
@@ -219,7 +223,7 @@ if __name__ == "__main__":
         # x = await user_activated_promo_code(357108179, 'putin loh2')
         # x = await get_all_available_promo_code_for_user(357108179)
 
-        x = await get_all_exist_user_promo_codes(357108179)
+        x = await update_count_deactivation_promos(357108179)
 
         # x = await db.get_all_active_user_promo_codes(357108179)
         print(x)

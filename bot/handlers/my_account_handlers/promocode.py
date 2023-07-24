@@ -133,9 +133,8 @@ async def approve_decline_promo_code(call: types.CallbackQuery, state):
 
 @router.callback_query(Text("decline_promo_code"))
 async def decline_promo_code(call: types.CallbackQuery, state):
-    active_promo_codes = await db.get_all_active_user_promo_codes(call.from_user.id)
-    for code in active_promo_codes:
-        await db.deactivate_user_promo_code(call.from_user.id, code.promo_name_id)
+    await db.deactivate_all_user_promo_codes(call.from_user.id)
+    await db.update_count_deactivation_promos(call.from_user.id)
 
     balances = await db.get_user_balances(call.from_user.id)
     promo_balance = balances['promo']
