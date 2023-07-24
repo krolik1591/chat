@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-21 16:17+0300\n"
+"POT-Creation-Date: 2023-07-24 12:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgstr ""
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
 msgstr ""
 
-#: ../../bot/cron/wof_watcher.py:171
+#: ../../bot/cron/wof_watcher.py:184
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
 msgstr ""
 
-#: ../../bot/cron/wof_watcher.py:177
+#: ../../bot/cron/wof_watcher.py:190
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
 msgstr ""
 
@@ -68,7 +68,7 @@ msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/m03_balance.py:44
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:28
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:30
 msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
 msgstr ""
 
@@ -76,17 +76,16 @@ msgstr ""
 msgid "M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:45
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:52
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:74
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:82
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:102
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:86
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:92
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:105
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:109
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
@@ -211,48 +210,49 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:62
-#: ../../bot/handlers/my_account_handlers/promocode.py:70
+#: ../../bot/handlers/my_account_handlers/promocode.py:64
+#: ../../bot/handlers/my_account_handlers/promocode.py:72
 msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:81
-#: ../../bot/handlers/my_account_handlers/promocode.py:85
+#: ../../bot/handlers/my_account_handlers/promocode.py:83
+#: ../../bot/handlers/my_account_handlers/promocode.py:87
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:131
+#: ../../bot/handlers/my_account_handlers/promocode.py:117
+msgid "PROMOCODE_CLAIM_REWARD_IS_DONE"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:141
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:148
+#: ../../bot/handlers/my_account_handlers/promocode.py:158
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:151
+#: ../../bot/handlers/my_account_handlers/promocode.py:161
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:154
+#: ../../bot/handlers/my_account_handlers/promocode.py:164
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:158
+#: ../../bot/handlers/my_account_handlers/promocode.py:168
 msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:167
-#: ../../bot/handlers/my_account_handlers/promocode.py:179
+#: ../../bot/handlers/my_account_handlers/promocode.py:177
+#: ../../bot/handlers/my_account_handlers/promocode.py:189
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:170
-#: ../../bot/handlers/my_account_handlers/promocode.py:175
+#: ../../bot/handlers/my_account_handlers/promocode.py:180
+#: ../../bot/handlers/my_account_handlers/promocode.py:185
+#: ../../bot/handlers/my_account_handlers/promocode.py:193
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:183
-msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS"
 msgstr ""
 
 #: ../../bot/handlers/my_account_handlers/referrals.py:25
@@ -296,7 +296,7 @@ msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
 msgstr ""
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:215
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:216
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr ""
 
@@ -316,19 +316,19 @@ msgstr ""
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:178
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:179
 msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:183
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:184
 msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:207
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:208
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:211
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:212
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr ""
 
@@ -336,35 +336,35 @@ msgstr ""
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:63
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:65
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:69
 msgid "WOF_CHECK_STATUS_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:67
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:71
 msgid "WOF_CHECK_STATUS_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:85
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:89
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:93
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:97
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:126
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:130
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:136
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:140
 msgid "WOF_NO_DATE_END"
 msgstr ""
 

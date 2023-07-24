@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-21 16:17+0300\n"
+"POT-Creation-Date: 2023-07-24 12:23+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -29,14 +29,14 @@ msgstr ""
 msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
 msgstr "Якщо ви не відіграєте ще {min_wager} на основному балансі, то ваш промокод {promo_code_name} через {hours} годин {minutes} хвилин вже зникне!"
 
-#: ../../bot/cron/wof_watcher.py:171
+#: ../../bot/cron/wof_watcher.py:184
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
 msgstr ""
 "🎉 Вітаємо з перемогою в колесі фортуни, ви зайняли {pos} місце! \n"
 "\n"
 "Виграшний білет: {winner_num}, нагорода: {reward}."
 
-#: ../../bot/cron/wof_watcher.py:177
+#: ../../bot/cron/wof_watcher.py:190
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
 msgstr "Не розстраюйся, наступного разу пощастить! ☺️"
 
@@ -80,7 +80,7 @@ msgstr ""
 "{text}"
 
 #: ../../bot/handlers/games_handlers/m03_balance.py:44
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:28
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:30
 msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
 msgstr ""
 "Баланс промо-рахунку менший за мінімальну ставку!\n"
@@ -91,17 +91,16 @@ msgstr ""
 msgid "M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"
 msgstr "Баланс менший за мінімальну ставку!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:45
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:52
 msgid "DICE_ROLL_TEXT"
 msgstr "🍀 Успіхів!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:74
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:82
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:102
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод та поповніть баланс!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:86
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:92
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:105
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:109
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -259,52 +258,53 @@ msgstr "5️⃣ <b>- непарне</b>"
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr "6️⃣ <b>- парне</b>"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:62
-#: ../../bot/handlers/my_account_handlers/promocode.py:70
+#: ../../bot/handlers/my_account_handlers/promocode.py:64
+#: ../../bot/handlers/my_account_handlers/promocode.py:72
 msgid "PROMO_CODE_IS_ACTIVATED"
 msgstr "✅ Промокод {promo_code} активовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:81
-#: ../../bot/handlers/my_account_handlers/promocode.py:85
+#: ../../bot/handlers/my_account_handlers/promocode.py:83
+#: ../../bot/handlers/my_account_handlers/promocode.py:87
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr "Не активовано жодного промокоду!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:131
+#: ../../bot/handlers/my_account_handlers/promocode.py:117
+msgid "PROMOCODE_CLAIM_REWARD_IS_DONE"
+msgstr "✅ Вивід {reward} на основний баланс успішний!"
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:141
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr "Промокоди та бонуси скасовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:148
+#: ../../bot/handlers/my_account_handlers/promocode.py:158
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr "Введіть промокод!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:151
+#: ../../bot/handlers/my_account_handlers/promocode.py:161
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr "Промокод {promo_code} вже активовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:154
+#: ../../bot/handlers/my_account_handlers/promocode.py:164
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr "❌ Такого промокоду не існує!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:158
+#: ../../bot/handlers/my_account_handlers/promocode.py:168
 msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
 msgstr ""
 "Не може бути активно 2 промокоди однакового типу!\n"
 "\n"
 "Деактивуйте попередній промокод, щоб активувати новий :)"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:167
-#: ../../bot/handlers/my_account_handlers/promocode.py:179
+#: ../../bot/handlers/my_account_handlers/promocode.py:177
+#: ../../bot/handlers/my_account_handlers/promocode.py:189
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
 msgstr "Ви ще не відіграли мінімальний вагер! Залишилось зробити спінів на основному балансі на суму {min_wager_remainder} 💎"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:170
-#: ../../bot/handlers/my_account_handlers/promocode.py:175
+#: ../../bot/handlers/my_account_handlers/promocode.py:180
+#: ../../bot/handlers/my_account_handlers/promocode.py:185
+#: ../../bot/handlers/my_account_handlers/promocode.py:193
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
 msgstr "Ви ще не відіграли вагер! Треба зробити спінів на суму {wager_remainder}. Рахуються спіни на основному та на промо балансі!"
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:183
-msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS"
-msgstr ""
 
 #: ../../bot/handlers/my_account_handlers/referrals.py:25
 msgid "REFERRALS_REFRESHED_TEXT"
@@ -347,7 +347,7 @@ msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
 msgstr "Ви не вказали номер білета!"
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:215
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:216
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr "Білет з таким номером вже існує!"
 
@@ -367,19 +367,19 @@ msgstr "У вас недостатньо грошей!"
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"
 msgstr "У вас недостатньо промо-білетів для покупки!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:178
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:179
 msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
 msgstr "✅ Білет номер: {ticket_num} куплено"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:183
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:184
 msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
 msgstr "✅ Ви придбали: {tickets_count} білетів"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:207
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:208
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr "Введіть тільки цифри!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:211
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:212
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr "Введіть не більше 7 цифр!"
 
@@ -387,27 +387,27 @@ msgstr "Введіть не більше 7 цифр!"
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr "Нема білетів!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:63
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr "Чекайте!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:65
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:69
 msgid "WOF_CHECK_STATUS_NO_TICKETS"
 msgstr ""
 "Ви ще не берете участь, купіть білет!\n"
 "Наступний спін: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:67
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:71
 msgid "WOF_CHECK_STATUS_TICKETS"
 msgstr ""
 "Ви приймаєте участь, у вас {user_tickets} білетів!\n"
 "Наступний спін: {date_end}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:75
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:85
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:89
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 "Дата останнього спіна: {date_end}\n"
@@ -415,15 +415,15 @@ msgstr ""
 "Щасливі номери:\n"
 "{text}"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:93
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:97
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr "Усе попереду!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:126
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:130
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr "Ваш виграш {wof_reward} токенів, зарахован на ваш баланс!"
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:136
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:140
 msgid "WOF_NO_DATE_END"
 msgstr "скоро буде"
 
@@ -1269,5 +1269,8 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 #~ msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі, щоб відіграти wager!"
 
 #~ msgid "WHEEL_FORTUNE_BTN_TO_PROMO"
+#~ msgstr ""
+
+#~ msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS"
 #~ msgstr ""
 

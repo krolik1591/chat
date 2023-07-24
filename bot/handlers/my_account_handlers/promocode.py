@@ -5,6 +5,8 @@ from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
 
 from bot.db import db, manager
+from bot.handlers.context import Context
+from bot.handlers.m01_main import send_main_menu
 from bot.handlers.states import Menu, StateKeys
 from bot.handlers.wheel_of_fortune_handlers.buy_ticket import create_random_tickets
 from bot.menus.account_menus import promocodes_menu
@@ -94,7 +96,7 @@ async def my_promo_codes(call: types.CallbackQuery):
 
 
 @router.callback_query(Text("claim_reward"))
-async def promo_code_claim_reward(call: types.CallbackQuery):
+async def promo_code_claim_reward(call: types.CallbackQuery, state):
     balance_promo_code, ticket_promo_code, bets_sum_min_wager, bets_sum_wager = \
         await db.get_sum_bets_and_promo_info(call.from_user.id)
 
@@ -103,15 +105,21 @@ async def promo_code_claim_reward(call: types.CallbackQuery):
         await call.answer(err, show_alert=True)
         return
 
-    if bets_sum_min_wager > balance_promo_code.promocode.min_wager:
-        await db.update_won_condition(call.from_user.id, balance_promo_code.promo_name_id)
+    if balance_promo_code:
+        if bets_sum_min_wager > balance_promo_code.promocode.min_wager:
+            await db.update_won_condition(call.from_user.id, balance_promo_code.promo_name_id)
 
     balances = await db.get_user_balances(call.from_user.id)
     with manager.pw_database.atomic():
         await db.update_user_balance(call.from_user.id, 'general', balances['promo'])
         await db.update_user_balance(call.from_user.id, 'promo', -balances['promo'])
-        await db.deactivate_user_promo_code(call.from_user.id, balance_promo_code.promo_name_id)
-        await db.deactivate_user_promo_code(call.from_user.id, ticket_promo_code.promo_name_id)
+        await db.deactivate_all_user_promo_codes(call.from_user.id)
+
+    await call.answer(_("PROMOCODE_CLAIM_REWARD_IS_DONE").format(reward=balances['promo']), show_alert=True)
+
+    context = await Context.from_fsm_context(call.from_user.id, state)
+    last_msg = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
+    await send_main_menu(context, last_msg)
 
 
 @router.callback_query(Text("approve_decline_promo_code"))
@@ -183,7 +191,7 @@ def check_promo_claim_reward_err(balance_promo, ticket_promo, bets_sum_min_wager
                 min_wager_remainder=balance_promo.deposited_min_wager - bets_sum_min_wager)
 
         if balance_promo.deposited_wager > bets_sum_wager:
-            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS").format(wager=balance_promo.deposited_wager - bets_sum_wager)
+            return _("PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS").format(wager_remainder=balance_promo.deposited_wager - bets_sum_wager)
 
     return None
 

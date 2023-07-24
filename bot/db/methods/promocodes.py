@@ -176,6 +176,12 @@ async def deactivate_user_promo_code(user_id, promo_name):
         UsersPromoCodes.is_active == 1)
 
 
+async def deactivate_all_user_promo_codes(user_id):
+    return await UsersPromoCodes.update({UsersPromoCodes.is_active: 0}).where(
+        UsersPromoCodes.user_id == user_id,
+        UsersPromoCodes.is_active == 1)
+
+
 async def get_available_tickets_count(user_id, promo_name):
     result = await UsersPromoCodes.select(UsersPromoCodes).where(
         UsersPromoCodes.promo_name_id == promo_name,
