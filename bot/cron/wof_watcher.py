@@ -18,7 +18,7 @@ HOUR = 120
 
 
 async def start_wof_timer(bot, i18n):
-    await spin_wheel_of_fortune(bot, i18n)
+    # await spin_wheel_of_fortune(bot, i18n)
 
     while True:
         logging.info("WOF TIMER STARTED")
