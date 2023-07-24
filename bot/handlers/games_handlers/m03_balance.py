@@ -44,7 +44,7 @@ async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
             balance_promo, ticket_promo, x, x = await db.get_sum_bets_and_promo_info(call.from_user.id)
             if balance_promo or ticket_promo:
                 await deactivate_promo_codes(call.from_user.id)
-                await db.update_user_balance(call.from_user.id, 'promo', 0)
+                await db.update_user_balance(call.from_user.id, 'promo', -context.balance)
                 await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"), show_alert=True)
                 return
             else:

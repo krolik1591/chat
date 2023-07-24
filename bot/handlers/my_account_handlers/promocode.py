@@ -115,7 +115,7 @@ async def promo_code_claim_reward(call: types.CallbackQuery, state):
     with manager.pw_database.atomic():
         if balances['promo'] != 0:
             await db.update_user_balance(call.from_user.id, 'general', balances['promo'])
-            await db.update_user_balance(call.from_user.id, 'promo', 0)
+            await db.update_user_balance(call.from_user.id, 'promo', -balances['promo'])
         await db.deactivate_all_user_promo_codes(call.from_user.id)
 
     await call.answer(_("PROMOCODE_CLAIM_REWARD_IS_DONE").format(reward=balances['promo']), show_alert=True)
