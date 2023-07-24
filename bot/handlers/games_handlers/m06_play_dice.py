@@ -81,8 +81,7 @@ async def deactivate_promo_codes(user_id):
         if ticket_promo_code.won == 1 or ticket_promo_code.available_bonus_tickets != 0:
             await db.deactivate_user_promo_code(user_id, balance_promo_code.promo_name_id)
         else:
-            await db.deactivate_user_promo_code(user_id, balance_promo_code.promo_name_id)
-            await db.deactivate_user_promo_code(user_id, ticket_promo_code.promo_name_id)
+            await db.deactivate_all_user_promo_codes(user_id)
         return
 
     if balance_promo_code:

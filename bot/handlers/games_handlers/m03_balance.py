@@ -9,6 +9,7 @@ from bot.consts.const import MIN_BET, START_POINTS
 from bot.handlers.context import Context
 from bot.handlers.games_handlers.m04_game_settings import settings_menu
 from bot.handlers.games_handlers.m05_bets import bet_menu
+from bot.handlers.games_handlers.m06_play_dice import deactivate_promo_codes
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.game_menus import select_balance_menu
 from aiogram.utils.i18n import gettext as _
@@ -39,10 +40,16 @@ async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
 
     context = await Context.from_fsm_context(call.from_user.id, state)
     if balance_type != 'demo' and context.balance < MIN_BET:
-        if context.balance_type == 'promo' and context.balance < MIN_BET and context.balance != 0:
-            await db.update_user_balance(call.from_user.id, 'promo', -context.balance)
-            await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"), show_alert=True)
-            return
+        if context.balance_type == 'promo' and context.balance < MIN_BET:
+            balance_promo, ticket_promo, x, x = await db.get_sum_bets_and_promo_info(call.from_user.id)
+            if balance_promo or ticket_promo:
+                await deactivate_promo_codes(call.from_user.id)
+                await db.update_user_balance(call.from_user.id, 'promo', 0)
+                await call.answer(_("M06_PLAY_GAMES_RESET_PROMO_BALANCE"), show_alert=True)
+                return
+            else:
+                await call.answer(_("M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"), show_alert=True)
+                return
         await call.answer(_("M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"), show_alert=True)
         return
     await settings_menu(context, msg_id=call.message.message_id)
