@@ -38,10 +38,10 @@ async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
     try:
         user_lang = await db.get_user_lang(message.from_user.id)
 
-        # todo only if blocked
-        await db.user_blocked_bot(message.from_user.id, False)
-        await db.set_user_last_active(message.from_user.id)
+        if await db.is_user_blocked_bot(message.from_user.id):
+            await db.user_blocked_bot(message.from_user.id, False)
 
+        await db.set_user_last_active(message.from_user.id)
         await i18n_middleware.set_locale(state, user_lang)
 
     except ValueError:

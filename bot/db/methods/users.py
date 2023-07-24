@@ -44,6 +44,10 @@ async def user_blocked_bot(tg_id, is_blocked=True):
     return await User.update({User.is_blocked: is_blocked}).where(User.user_id == tg_id)
 
 
+async def is_user_blocked_bot(user_id):
+    result = await User.select(User).where(User.user_id == user_id).first()
+    return result.is_blocked
+
 
 # balances
 
