@@ -18,6 +18,8 @@ class Menu(StatesGroup):
     enter_pages = State()
     # promo-codes
     enter_promo_code = State()
+    # crypto bot
+    enter_deposit_amount = State()
 
 
 class StateKeys:
