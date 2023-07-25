@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-25 18:23+0300\n"
+"POT-Creation-Date: 2023-07-25 18:32+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -463,7 +463,8 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:107
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:123
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:140
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:17
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:18
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:27
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -863,24 +864,32 @@ msgstr ""
 msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:7
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:8
 msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:10
 msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:13
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:14
 msgid "CRYPTO_PAY_TON_BTN"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:14
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:15
 msgid "CRYPTO_PAY_BTC_BTN"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:15
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:16
 msgid "CRYPTO_PAY_ETH_BTN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:24
+msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:26
+msgid "CRYPTO_PAY_COIN_ACCEPTED"
 msgstr ""
 
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11

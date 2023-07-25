@@ -52,6 +52,7 @@ class StateKeys:
     PREVIOUS_BALANCE_TYPE = 'change_balance_type'
     # promo codes
     PROMO_CODE_ENTERED = 'promo_code_entered'
+    # crypto bot
     ENTERED_DEPOSIT_AMOUNT = 'entered_deposit_amount'
 
 
