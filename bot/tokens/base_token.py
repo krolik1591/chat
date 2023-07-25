@@ -1,6 +1,8 @@
 import warnings
 from abc import ABC
 
+from bot.consts.const import USDT_TO_GAMETOKENS
+
 
 class InsufficientFunds(Exception):
     pass
@@ -24,13 +26,13 @@ class Token(ABC):
         raise NotImplemented
 
     async def from_gametokens(self, amount: float) -> float:
-        return amount / await self.get_price()
+        return amount / await self.get_price() / USDT_TO_GAMETOKENS
 
     async def to_gametokens(self, amount_ton: float) -> float:
-        return amount_ton * await self.get_price()
+        return amount_ton * await self.get_price() * USDT_TO_GAMETOKENS
 
     async def can_transfer(self, withdraw_amount) -> bool:
-        raise NotImplemented
+        return False
 
     async def transfer(self, withdraw_address, withdraw_amount, msg):
         raise NotImplemented

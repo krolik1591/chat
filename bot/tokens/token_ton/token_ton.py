@@ -1,4 +1,5 @@
 from bot.consts.balance import TON_FUNDS_ICON
+from bot.tokens.CryptoPay import CryptoPay
 from bot.tokens.base_token import InsufficientFunds, Token
 from bot.tokens.token_ton.tonwrapper.tonwrapper import TonWrapper
 
@@ -13,8 +14,7 @@ class TonToken(Token):
         return TON_FUNDS_ICON
 
     async def get_price(self) -> float:
-        # todo calc from usd price
-        return 100
+        return await CryptoPay.INSTANCE.get_price('TON')
 
     async def can_transfer(self, withdraw_amount):
         master_wallet = TonWrapper.INSTANCE.master_wallet
