@@ -14,10 +14,10 @@ router = Router()
 
 
 @router.callback_query(Text("crypto_pay"))
-async def crypro_pay(call: types.CallbackQuery, state: FSMContext, deposit_amount=None):
+async def crypro_pay(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(Menu.enter_deposit_amount)
 
-    text, keyboard = crypto_pay_menu(deposit_amount)
+    text, keyboard = crypto_pay_menu()
     await call.message.edit_text(text, reply_markup=keyboard)
 
 
@@ -30,13 +30,14 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
     deposit_amount = float(deposit_amount)
 
     tokens_ = tokens.TOKENS.values()
-    for token in tokens_:
-        print(token.token_id)
-        print(await token.from_gametokens(deposit_amount))
+    prices = {token.token_id: round(await token.from_gametokens(deposit_amount), 5) for token in tokens_}
 
+    # for token in tokens_:
+    #     print(token.token_id)
+    #     print(await token.from_gametokens(deposit_amount))
 
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
-    text, keyboard = crypto_pay_menu(deposit_amount)
+    text, keyboard = crypto_pay_menu(deposit_amount, prices)
     try:
         await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=keyboard)
     except exceptions.TelegramBadRequest as e:
