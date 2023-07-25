@@ -2,6 +2,7 @@ import asyncio
 import logging
 from pathlib import Path
 
+from aiocryptopay import AioCryptoPay, Networks
 from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
@@ -44,6 +45,9 @@ async def main(bot):
     await set_bot_commands(bot)
 
     await first_start()
+
+    crypto_pay = AioCryptoPay(token='110852:AAdW7LmeecnXfR5vJNlhkSf0ph3fHLBz8dq', network=Networks.MAIN_NET)
+    bot.crypto_pay = crypto_pay
 
     ton_wrapper = await TonWrapper.create_archival(master_wallet_mnemon=config.wallet_seed)
     TonWrapper.INSTANCE = ton_wrapper
