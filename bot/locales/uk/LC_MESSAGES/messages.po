@@ -1023,7 +1023,7 @@ msgstr "{promo_balance}"
 
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:6
 msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
-msgstr "Оберіть спосіб оплати:"
+msgstr "Введіть бажану суму поповнення в наших брюліках!"
 
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:8
 msgid "CRYPTO_PAY_TON_BTN"
