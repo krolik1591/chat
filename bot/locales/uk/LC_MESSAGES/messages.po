@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-25 18:32+0300\n"
+"POT-Creation-Date: 2023-07-25 19:19+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -526,8 +526,8 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:107
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:123
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:140
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:18
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:27
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:32
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:41
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -1021,35 +1021,60 @@ msgstr "{general_balance}"
 msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
 msgstr "{promo_balance}"
 
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:6
+msgid "CRYPTO_PAY_BNB_BTN"
+msgstr "Поповнити BNB: {price}"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:7
+msgid "CRYPTO_PAY_BUSD_BTN"
+msgstr "Поповнити BUSD: {price}"
+
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:8
-msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
-msgstr "Введіть бажану суму поповнення в наших брюліках!"
+msgid "CRYPTO_PAY_USDC_BTN"
+msgstr "Поповнити USDC: {price}"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
+msgid "CRYPTO_PAY_USDT_BTN"
+msgstr "Поповнити USDT: {price}"
 
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:10
-msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
-msgstr "Обирай!"
+msgid "CRYPTO_PAY_TRX_BTN"
+msgstr "Поповнити TRX: {price}"
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:14
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:11
 msgid "CRYPTO_PAY_TON_BTN"
 msgstr "Поповнити TON: {price}"
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:15
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:12
 msgid "CRYPTO_PAY_BTC_BTN"
 msgstr "Поповнити BTC: {price}"
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:16
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:13
 msgid "CRYPTO_PAY_ETH_BTN"
 msgstr "Поповнити ETH: {price}"
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:24
-msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
-msgstr "Інфо про оплату:\n\n"
-"Coin: {coin}\n"
-"Скіко: {price}\n\n"
-"Що я отримаю: {deposit_amount} 💎\n\n"
-"Посилання для оплати: \n{link}"
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:15
+msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
+msgstr "Введіть бажану суму поповнення в наших брюліках!"
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:26
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:17
+msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
+msgstr "Обирай!"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:38
+msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
+msgstr ""
+"Інфо про оплату:\n"
+"\n"
+"Coin: {coin}\n"
+"Скіко: {price}\n"
+"\n"
+"Що я отримаю: {deposit_amount} 💎\n"
+"\n"
+"Посилання для оплати: \n"
+"{link}"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:40
 msgid "CRYPTO_PAY_COIN_ACCEPTED"
 msgstr "Біжу поповнювать!"
 
@@ -1323,4 +1348,13 @@ msgstr "❌ Голова, це тест-нетівська адреса, буд�
 
 #~ msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
 #~ msgstr "Відкрити Tonkeeper"
+
+#~ msgid "CRYPTO_PAY_TON_BTN"
+#~ msgstr "Поповнити TON: {price}"
+
+#~ msgid "CRYPTO_PAY_BTC_BTN"
+#~ msgstr "Поповнити BTC: {price}"
+
+#~ msgid "CRYPTO_PAY_ETH_BTN"
+#~ msgstr "Поповнити ETH: {price}"
 

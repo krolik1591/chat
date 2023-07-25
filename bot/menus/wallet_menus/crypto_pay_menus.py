@@ -13,14 +13,6 @@ def crypto_pay_menu(general_coin_amount=None, prices=None):
             kb_buttons.append([InlineKeyboardButton(text=_(f"CRYPTO_PAY_{coin}_BTN").format(price=round(amount, 5)),
                                                     callback_data=f"crypto_pay_{coin}|{amount}")])
 
-    # if general_coin_amount:
-    #     kb_buttons.append([InlineKeyboardButton(text=_("CRYPTO_PAY_TON_BTN").format(price=prices['ton']),
-    #                                             callback_data=f"crypto_pay_TON|{prices['ton']}")])
-    #     kb_buttons.append([InlineKeyboardButton(text=_("CRYPTO_PAY_BTC_BTN").format(price=prices['btc']),
-    #                                             callback_data=f"crypto_pay_BTC|{prices['btc']}")])
-    #     kb_buttons.append([InlineKeyboardButton(text=_("CRYPTO_PAY_ETH_BTN").format(price=prices['eth']),
-    #                                             callback_data=f"crypto_pay_ETH|{prices['eth']}")])
-
     kb_buttons.append([InlineKeyboardButton(text=_("BTN_BACK"), callback_data="replenish")])
     kb = InlineKeyboardMarkup(inline_keyboard=kb_buttons)
     return text, kb
@@ -34,3 +26,14 @@ def get_link_to_deposit_menu(coin, price, link, deposit_amount):
     ])
 
     return text, kb
+
+
+def tokens():
+    bnb = _("CRYPTO_PAY_BNB_BTN")
+    busd = _("CRYPTO_PAY_BUSD_BTN")
+    usdc = _("CRYPTO_PAY_USDC_BTN")
+    usdt = _("CRYPTO_PAY_USDT_BTN")
+    trx = _("CRYPTO_PAY_TRX_BTN")
+    ton = _("CRYPTO_PAY_TON_BTN")
+    btc = _("CRYPTO_PAY_BTC_BTN")
+    eth = _("CRYPTO_PAY_ETH_BTN")

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-25 18:32+0300\n"
+"POT-Creation-Date: 2023-07-25 19:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -462,8 +462,8 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:107
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:123
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:140
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:18
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:27
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:32
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:41
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -863,31 +863,51 @@ msgstr ""
 msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
 msgstr ""
 
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:6
+msgid "CRYPTO_PAY_BNB_BTN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:7
+msgid "CRYPTO_PAY_BUSD_BTN"
+msgstr ""
+
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:8
-msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
+msgid "CRYPTO_PAY_USDC_BTN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
+msgid "CRYPTO_PAY_USDT_BTN"
 msgstr ""
 
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:10
-msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
+msgid "CRYPTO_PAY_TRX_BTN"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:14
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:11
 msgid "CRYPTO_PAY_TON_BTN"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:15
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:12
 msgid "CRYPTO_PAY_BTC_BTN"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:16
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:13
 msgid "CRYPTO_PAY_ETH_BTN"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:24
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:15
+msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:17
+msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:38
 msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:26
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:40
 msgid "CRYPTO_PAY_COIN_ACCEPTED"
 msgstr ""
 
