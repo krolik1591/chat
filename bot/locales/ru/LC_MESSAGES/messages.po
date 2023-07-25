@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-24 12:23+0300\n"
+"POT-Creation-Date: 2023-07-25 13:21+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -68,12 +68,13 @@ msgstr ""
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m03_balance.py:44
+#: ../../bot/handlers/games_handlers/m03_balance.py:47
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:30
 msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m03_balance.py:46
+#: ../../bot/handlers/games_handlers/m03_balance.py:50
+#: ../../bot/handlers/games_handlers/m03_balance.py:52
 msgid "M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"
 msgstr ""
 
@@ -81,12 +82,12 @@ msgstr ""
 msgid "DICE_ROLL_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:102
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:101
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:105
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:109
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:104
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:108
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
@@ -221,38 +222,38 @@ msgstr ""
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:117
+#: ../../bot/handlers/my_account_handlers/promocode.py:121
 msgid "PROMOCODE_CLAIM_REWARD_IS_DONE"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:141
+#: ../../bot/handlers/my_account_handlers/promocode.py:144
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:158
+#: ../../bot/handlers/my_account_handlers/promocode.py:161
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:161
+#: ../../bot/handlers/my_account_handlers/promocode.py:164
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:164
+#: ../../bot/handlers/my_account_handlers/promocode.py:167
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:168
+#: ../../bot/handlers/my_account_handlers/promocode.py:171
 msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:177
-#: ../../bot/handlers/my_account_handlers/promocode.py:189
+#: ../../bot/handlers/my_account_handlers/promocode.py:180
+#: ../../bot/handlers/my_account_handlers/promocode.py:192
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:180
-#: ../../bot/handlers/my_account_handlers/promocode.py:185
-#: ../../bot/handlers/my_account_handlers/promocode.py:193
+#: ../../bot/handlers/my_account_handlers/promocode.py:183
+#: ../../bot/handlers/my_account_handlers/promocode.py:188
+#: ../../bot/handlers/my_account_handlers/promocode.py:196
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
 msgstr ""
 
@@ -462,7 +463,8 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:107
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:123
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:140
-#: ../../bot/menus/wallet_menus/deposit_menu.py:36
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:11
+#: ../../bot/menus/wallet_menus/deposit_menu.py:37
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:23
@@ -861,6 +863,22 @@ msgstr ""
 msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
 msgstr ""
 
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:6
+msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:8
+msgid "CRYPTO_PAY_TON_BTN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
+msgid "CRYPTO_PAY_BTC_BTN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:10
+msgid "CRYPTO_PAY_ETH_BTN"
+msgstr ""
+
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
 msgstr ""
@@ -881,8 +899,12 @@ msgstr ""
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/deposit_menu.py:34
+#: ../../bot/menus/wallet_menus/deposit_menu.py:35
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:39
+msgid "DEPOSIT_MENU_BTN_OPEN_CRYPTO_PAY"
 msgstr ""
 
 #: ../../bot/menus/wallet_menus/wallet_menu.py:9

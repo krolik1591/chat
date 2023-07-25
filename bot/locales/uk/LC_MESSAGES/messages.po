@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-24 12:23+0300\n"
+"POT-Creation-Date: 2023-07-25 13:21+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -79,7 +79,7 @@ msgstr ""
 "Не отримали повідомлення:\n"
 "{text}"
 
-#: ../../bot/handlers/games_handlers/m03_balance.py:44
+#: ../../bot/handlers/games_handlers/m03_balance.py:47
 #: ../../bot/handlers/games_handlers/m06_play_dice.py:30
 msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
 msgstr ""
@@ -87,7 +87,8 @@ msgstr ""
 "\n"
 "Тому ми турботливо ресетнули твої копійки до нуля 😘"
 
-#: ../../bot/handlers/games_handlers/m03_balance.py:46
+#: ../../bot/handlers/games_handlers/m03_balance.py:50
+#: ../../bot/handlers/games_handlers/m03_balance.py:52
 msgid "M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"
 msgstr "Баланс менший за мінімальну ставку!"
 
@@ -95,12 +96,12 @@ msgstr "Баланс менший за мінімальну ставку!"
 msgid "DICE_ROLL_TEXT"
 msgstr "🍀 Успіхів!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:102
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:101
 msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
 msgstr "Активуйте промокод та поповніть баланс!"
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:105
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:109
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:104
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:108
 msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr "Треба зробити ставок на суму {missing_bets}💎 на основному балансі!"
 
@@ -268,41 +269,41 @@ msgstr "✅ Промокод {promo_code} активовано!"
 msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
 msgstr "Не активовано жодного промокоду!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:117
+#: ../../bot/handlers/my_account_handlers/promocode.py:121
 msgid "PROMOCODE_CLAIM_REWARD_IS_DONE"
 msgstr "✅ Вивід {reward} на основний баланс успішний!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:141
+#: ../../bot/handlers/my_account_handlers/promocode.py:144
 msgid "PROMO_CODE_DECLINE_TEXT"
 msgstr "Промокоди та бонуси скасовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:158
+#: ../../bot/handlers/my_account_handlers/promocode.py:161
 msgid "PROMO_CODE_U_NEED_ENTER_ERR"
 msgstr "Введіть промокод!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:161
+#: ../../bot/handlers/my_account_handlers/promocode.py:164
 msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
 msgstr "Промокод {promo_code} вже активовано!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:164
+#: ../../bot/handlers/my_account_handlers/promocode.py:167
 msgid "PROMO_CODE_DOESNT_EXIST_ERR"
 msgstr "❌ Такого промокоду не існує!"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:168
+#: ../../bot/handlers/my_account_handlers/promocode.py:171
 msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
 msgstr ""
 "Не може бути активно 2 промокоди однакового типу!\n"
 "\n"
 "Деактивуйте попередній промокод, щоб активувати новий :)"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:177
-#: ../../bot/handlers/my_account_handlers/promocode.py:189
+#: ../../bot/handlers/my_account_handlers/promocode.py:180
+#: ../../bot/handlers/my_account_handlers/promocode.py:192
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
 msgstr "Ви ще не відіграли мінімальний вагер! Залишилось зробити спінів на основному балансі на суму {min_wager_remainder} 💎"
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:180
-#: ../../bot/handlers/my_account_handlers/promocode.py:185
-#: ../../bot/handlers/my_account_handlers/promocode.py:193
+#: ../../bot/handlers/my_account_handlers/promocode.py:183
+#: ../../bot/handlers/my_account_handlers/promocode.py:188
+#: ../../bot/handlers/my_account_handlers/promocode.py:196
 msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
 msgstr "Ви ще не відіграли вагер! Треба зробити спінів на суму {wager_remainder}. Рахуються спіни на основному та на промо балансі!"
 
@@ -525,7 +526,8 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:107
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:123
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:140
-#: ../../bot/menus/wallet_menus/deposit_menu.py:36
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:11
+#: ../../bot/menus/wallet_menus/deposit_menu.py:37
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:23
@@ -1018,6 +1020,22 @@ msgstr "{general_balance}"
 msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
 msgstr "{promo_balance}"
 
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:6
+msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
+msgstr "Оберіть спосіб оплати:"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:8
+msgid "CRYPTO_PAY_TON_BTN"
+msgstr "Поповнити TON"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
+msgid "CRYPTO_PAY_BTC_BTN"
+msgstr "Поповнити BTC"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:10
+msgid "CRYPTO_PAY_ETH_BTN"
+msgstr "Поповнити ETH"
+
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
 msgstr ""
@@ -1052,9 +1070,13 @@ msgstr ""
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
 msgstr "Відкрити Tonkeeper"
 
-#: ../../bot/menus/wallet_menus/deposit_menu.py:34
+#: ../../bot/menus/wallet_menus/deposit_menu.py:35
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
 msgstr "Відкрити Tonkeeper"
+
+#: ../../bot/menus/wallet_menus/deposit_menu.py:39
+msgid "DEPOSIT_MENU_BTN_OPEN_CRYPTO_PAY"
+msgstr "Відкрити CryptoPayBot"
 
 #: ../../bot/menus/wallet_menus/wallet_menu.py:9
 msgid "WALLET_MENU_TEXT"
