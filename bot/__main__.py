@@ -14,6 +14,7 @@ from bot.cron.wof_watcher import start_wof_timer
 from bot.db import first_start
 from bot.handlers import routers
 from bot.middlewares.throttling import ThrottlingMiddleware
+from bot.tokens.CryptoPay import CryptoPay
 from bot.tokens.token_ton import TonWrapper, watch_txs
 from bot.tokens.withdraw_timeout_watcher import find_and_reject_lost_tx
 from bot.utils.config_reader import config
@@ -46,8 +47,9 @@ async def main(bot):
 
     await first_start()
 
-    crypto_pay = AioCryptoPay(token='110852:AAdW7LmeecnXfR5vJNlhkSf0ph3fHLBz8dq', network=Networks.MAIN_NET)
-    bot.crypto_pay = crypto_pay
+    crypto_pay = CryptoPay('110852:AAdW7LmeecnXfR5vJNlhkSf0ph3fHLBz8dq')
+    # todo add token to env
+    CryptoPay.INSTANCE = crypto_pay
 
     ton_wrapper = await TonWrapper.create_archival(master_wallet_mnemon=config.wallet_seed)
     TonWrapper.INSTANCE = ton_wrapper
