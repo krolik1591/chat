@@ -32,8 +32,6 @@ def _replenish_menu_keyboard(wallet_address):
     kb = [
         [InlineKeyboardButton(text=_('DEPOSIT_MENU_BTN_OPEN_TONKEEPER'),
                               url=f"https://app.tonkeeper.com/transfer/{wallet_address}")],
-        [InlineKeyboardButton(text=_('DEPOSIT_MENU_BTN_OPEN_TONKEEPER2'),
-                              url=f"https://app.tonkeeper.com/transfer/{wallet_address}")],
         [InlineKeyboardButton(text=_('DEPOSIT_MENU_BTN_OPEN_CRYPTO_PAY'), callback_data="crypto_pay")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="wallet_menu")],
     ]

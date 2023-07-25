@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-25 13:21+0300\n"
+"POT-Creation-Date: 2023-07-25 14:23+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -464,7 +464,8 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:123
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:140
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:11
-#: ../../bot/menus/wallet_menus/deposit_menu.py:37
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:21
+#: ../../bot/menus/wallet_menus/deposit_menu.py:38
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:23
@@ -879,6 +880,14 @@ msgstr ""
 msgid "CRYPTO_PAY_ETH_BTN"
 msgstr ""
 
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:18
+msgid "CRYPTO_PAY_ENTER_AMOUNT_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:20
+msgid "CRYPTO_PAY_COIN_ACCEPTED"
+msgstr ""
+
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
 msgstr ""
@@ -903,7 +912,7 @@ msgstr ""
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/deposit_menu.py:39
+#: ../../bot/menus/wallet_menus/deposit_menu.py:37
 msgid "DEPOSIT_MENU_BTN_OPEN_CRYPTO_PAY"
 msgstr ""
 
@@ -1078,5 +1087,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER BETS"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_ACCEPTED"
 #~ msgstr ""
 
