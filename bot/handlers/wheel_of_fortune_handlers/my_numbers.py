@@ -52,13 +52,21 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
 @router.callback_query(Text(startswith="display_tickets_"))
 async def display_user_tickets(call: types.CallbackQuery, state: FSMContext):
     ticket_type = call.data.removeprefix("display_tickets_")
+
+    promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+    if promo_name is None:
+        promo_tickets_count = 0
+    else:
+        promo_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type, promo_name)
+    general_tickets_count = await db.get_count_user_tickets(call.from_user.id, ticket_type)
+
+    if general_tickets_count + promo_tickets_count == 0:
+        await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"), show_alert=True)
+        return
+
     text, kb = await display_tickets(state, call.from_user.id, ticket_type)
-
-    # if all_general_tickets_count == 0:
-    #     await call.answer(_("WOF_MY_NUMBERS_MENU_NO_TICKETS"))
-    #     return
-
     await call.message.edit_text(text, reply_markup=kb)
+
     await state.set_state(Menu.enter_pages)
 
 

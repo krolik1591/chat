@@ -68,8 +68,9 @@ def buy_selected_num_menu(wof_info, user_balance, user_tickets, ticket_num='', p
                                                          user_tickets=user_tickets, promo_tickets=promo_tickets,
                                                          ticket_num=ticket_num.zfill(7) if ticket_num else '')
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_("WOF_BTN_BUY_PROMO_TICKET_SELECTED_NUM"), callback_data="buy_promo_ticket_selected_num"),
-            InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_ticket_selected_num")]
+        [InlineKeyboardButton(text=_("WOF_BTN_BUY_PROMO_TICKET_SELECTED_NUM"),
+                              callback_data="buy_promo_ticket_selected_num"),
+         InlineKeyboardButton(text=_('WOF_BTN_BUY_SELECTED_NUM_MENU'), callback_data="buy_ticket_selected_num")]
         if ticket_num else [],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
@@ -87,7 +88,8 @@ def buy_random_num_menu(wof_info, user_balance, user_tickets, ticket_count=10, p
         [InlineKeyboardButton(text='-', callback_data="change_tickets_count_-"),
          InlineKeyboardButton(text=ticket_count, callback_data="display_count_ticket"),
          InlineKeyboardButton(text='+', callback_data="change_tickets_count_+")],
-        [InlineKeyboardButton(text=_("WOF_BTN_BUY_PROMO_TICKET_RANDOM_NUM"), callback_data="buy_promo_ticket_random_num"),
+        [InlineKeyboardButton(text=_("WOF_BTN_BUY_PROMO_TICKET_RANDOM_NUM"),
+                              callback_data="buy_promo_ticket_random_num"),
          InlineKeyboardButton(text=_('WOF_BTN_BUY_RANDOM_NUM_MENU'), callback_data="buy_ticket_random_num")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="buy_ticket")],
     ])
@@ -117,10 +119,10 @@ def display_ticket_num_text_menu(tickets_text, page, pages):
         [
             InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE'),
                                  callback_data="ticket_page_previous"),
-            InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CHANGE_TYPE_TICKET'),
-                                 callback_data="change_tickets_type_balance"),
             InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE'), callback_data="ticket_page_next"),
         ],
+        [InlineKeyboardButton(text=_('WHEEL_FORTUNE_BTN_CHANGE_TYPE_TICKET'),
+                              callback_data="change_tickets_type_balance")],
         [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="my_numbers")],
     ])
 
