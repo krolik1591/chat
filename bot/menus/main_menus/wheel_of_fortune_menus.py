@@ -114,6 +114,9 @@ def my_numbers_menu(selected_tickets, random_tickets, promo_selected_tickets_cou
 
 
 def display_ticket_num_text_menu(tickets_text, page, pages):
+    if pages == 0:
+        page = 0
+        pages = 1
     text = _('WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1').format(tickets_text=tickets_text, page=page, pages=pages)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [
