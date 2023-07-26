@@ -9,6 +9,7 @@ from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
 from bot import backend
+from bot.cron.crypto_bot_tx_watcher import crypto_bot_tx_watcher
 from bot.cron.warning_about_end_promo_watcher import warning_about_expiration_promo_code
 from bot.cron.wof_watcher import start_wof_timer
 from bot.db import first_start
@@ -55,6 +56,7 @@ async def main(bot):
     TonWrapper.INSTANCE = ton_wrapper
 
     asyncio.create_task(watch_txs(ton_wrapper, bot, i18n))
+    asyncio.create_task(crypto_bot_tx_watcher())
     asyncio.create_task(find_and_reject_lost_tx(bot, i18n))
     asyncio.create_task(start_wof_timer(bot, i18n))
     asyncio.create_task(warning_about_expiration_promo_code(bot, i18n))
