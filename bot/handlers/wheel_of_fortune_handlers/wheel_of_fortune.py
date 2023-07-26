@@ -51,11 +51,11 @@ async def wheel_of_fortune(call: types.CallbackQuery, state: FSMContext, i18n: I
 
 
 @router.callback_query(Text("check_status"))
-async def check_status_menu(call: types.CallbackQuery, i18n: I18n):
+async def check_status_menu(call: types.CallbackQuery, state, i18n: I18n):
     wof_info = await db.get_active_wheel_info()
 
     try:
-        await wheel_of_fortune(call, i18n)
+        await wheel_of_fortune(call, state, i18n)
     except aiogram.exceptions.TelegramBadRequest as e:
         print('Try send the same msg: ', e)
 
