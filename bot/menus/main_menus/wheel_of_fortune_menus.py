@@ -47,6 +47,7 @@ def get_user_rewards_text(wof_win):
 def buy_ticket_menu(wof_info, user_balance, user_tickets, promo_tickets):
     how_much_tickets_can_buy = user_balance // wof_info.ticket_cost
     ticket_cost = wof_info.ticket_cost
+    promo_tickets = 0 if promo_tickets is None else promo_tickets
     text = _('WOF_MENU_BUY_TICKET_TEXT').format(how_much_tickets_can_buy=how_much_tickets_can_buy,
                                                 user_balance=user_balance, ticket_cost=ticket_cost,
                                                 user_tickets=user_tickets, promo_tickets=promo_tickets)
