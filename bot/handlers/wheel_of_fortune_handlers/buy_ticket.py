@@ -232,8 +232,8 @@ async def check_ticket_count(tickets_count):
 
 
 async def display_wof_info(user_id, state):
-    remaining_promo_tickets = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
-    remaining_promo_tickets = 0 if remaining_promo_tickets is None else remaining_promo_tickets
+    remaining_promo_tickets = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT, 0)
+
     promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
     if promo_name is None:
         promo_user_tickets = 0

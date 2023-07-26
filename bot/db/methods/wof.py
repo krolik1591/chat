@@ -57,7 +57,7 @@ async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100, promo_name=
 
 async def get_user_wof_win(tg_id):
     result = await User.select(User).where(User.user_id == tg_id).first()
-    return result.wof_win  # todo why fetch all and return only first? why first?
+    return result.wof_win
 
 
 async def get_all_sold_tickets_nums():
