@@ -235,11 +235,14 @@ async def display_wof_info(user_id, state):
     remaining_promo_tickets = (await state.get_data()).get(StateKeys.AVAILABLE_TICKETS_COUNT)
     remaining_promo_tickets = 0 if remaining_promo_tickets is None else remaining_promo_tickets
     promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
+    if promo_name is None:
+        promo_user_tickets = 0
+    else:
+        promo_user_tickets = await db.get_count_user_tickets(user_id, 'all', promo_name)
 
     wof_info = await db.get_active_wheel_info()
     user_balance = await db.get_user_balance(user_id, 'general')
     general_user_tickets = await db.get_count_user_tickets(user_id, 'all')
-    promo_user_tickets = await db.get_count_user_tickets(user_id, 'all', promo_name)
 
     all_user_tickets = general_user_tickets + promo_user_tickets
 

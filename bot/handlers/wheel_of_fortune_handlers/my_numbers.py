@@ -27,8 +27,12 @@ async def my_numbers(call: types.CallbackQuery, state: FSMContext):
     random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random')
 
     promo_name = (await state.get_data()).get(StateKeys.ACTIVE_PROMO_NAME)
-    promo_selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', promo_name)
-    promo_random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random', promo_name)
+    if promo_name is None:
+        promo_selected_tickets_count = 0
+        promo_random_tickets_count = 0
+    else:
+        promo_selected_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'selected', promo_name)
+        promo_random_tickets_count = await db.get_count_user_tickets(call.from_user.id, 'random', promo_name)
 
     if not await db.get_active_wheel_info():
         wof_reward = await db.get_user_wof_win(call.from_user.id)
