@@ -33,3 +33,5 @@ THROTTLE_TIME_OTHER = 1  # время искусственной задержк�
 USDT_TO_GAMETOKENS = 100  # 1 USDT == 100 GENERAL
 
 TTL = 30  # second, the time of relevance of the coin rate
+
+DEPOSIT_COMMISSION_CRYPTO_BOT = 5   # %

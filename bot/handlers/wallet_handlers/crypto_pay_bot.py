@@ -4,6 +4,7 @@ from aiogram.filters import StateFilter, Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
+from bot.consts.const import DEPOSIT_COMMISSION_CRYPTO_BOT
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.wallet_menus.crypto_pay_menus import crypto_pay_menu, get_link_to_deposit_menu
 from bot.tokens import tokens
@@ -45,11 +46,12 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
 async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
     coin_price = call.data.removeprefix('crypto_pay_').split('|')
     coin = coin_price[0]
-    price = coin_price[1]
+    price = float(coin_price[1])
     deposit_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
 
     crypto_pay = CryptoPay.INSTANCE.crypto_pay
-    link = (await crypto_pay.create_invoice(asset=coin, amount=float(price), payload=call.from_user.id)).pay_url
+    link = (await crypto_pay.create_invoice(asset=coin, payload=call.from_user.id,
+                                            amount=price + price / 100 * DEPOSIT_COMMISSION_CRYPTO_BOT)).pay_url
 
     text, keyboard = get_link_to_deposit_menu(coin, price, link, deposit_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
