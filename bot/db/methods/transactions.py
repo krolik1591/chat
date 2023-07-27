@@ -1,4 +1,5 @@
 import datetime
+import time
 
 from peewee import fn
 
@@ -38,6 +39,11 @@ async def add_new_transaction(user_id, token_id, amount, tx_type, tx_address, tx
     return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type,
                                      logical_time=logical_time, amount=amount,
                                      tx_address=tx_address, tx_hash=tx_hash, utime=utime, comment=comment)
+
+
+async def add_new_crypto_pay_tx(user_id, token_id, amount, crypto_pay_id, tx_type=1):
+    return await Transactions.create(user_id=user_id, token_id=token_id, tx_type=tx_type, amount=amount,
+                                     utime=time.time(), crypto_pay_id=crypto_pay_id)
 
 
 async def get_last_transaction(tg_id, token_id):
@@ -91,3 +97,15 @@ async def get_last_withdraw_transaction(user_id, token_id):
     )
     return result[0]
 
+
+async def get_crypto_pay_tx_count():
+    return await Transactions.select().where(Transactions.crypto_pay_id != None).count()
+
+
+if __name__=='__main__':
+    import asyncio
+    async def test():
+        x = await get_crypto_pay_tx_count()
+        print(x)
+
+    asyncio.run(test())
