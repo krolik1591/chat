@@ -2,7 +2,7 @@ import asyncio
 import logging
 from pprint import pprint
 
-from bot.consts.const import USDT_TO_GAMETOKENS
+from bot.consts.const import DEPOSIT_COMMISSION_CRYPTO_BOT, USDT_TO_GAMETOKENS
 from bot.db import db, manager
 from bot.tokens.CryptoPay import CryptoPay
 from bot.tokens.token_ton.tx_watcher import send_successful_deposit_msg, set_user_locale_to_i18n
@@ -34,7 +34,7 @@ async def process_invoice(bot, i18n, invoice):
         return
 
     token = TOKENS[token_id]
-    amount_gametokens = await token.to_gametokens(invoice.amount)
+    amount_gametokens = await token.to_gametokens(invoice.amount / (1 + DEPOSIT_COMMISSION_CRYPTO_BOT / 100))
     promo_code = await db.need_a_bonus(user_id)
 
     with manager.pw_database.atomic():
@@ -49,7 +49,7 @@ async def process_invoice(bot, i18n, invoice):
 
     try:
         await set_user_locale_to_i18n(user_id, i18n)
-        await send_successful_deposit_msg(bot, user_id, round_down(amount_gametokens, 2))
+        await send_successful_deposit_msg(bot, user_id, round(amount_gametokens, 2))
     except ValueError:
         print('User from crypto bot tx watcher not found in db')
 
