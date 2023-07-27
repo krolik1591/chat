@@ -48,8 +48,7 @@ async def main(bot):
 
     await first_start()
 
-    crypto_pay = CryptoPay('110852:AAdW7LmeecnXfR5vJNlhkSf0ph3fHLBz8dq')
-    # todo add token to env
+    crypto_pay = CryptoPay(config.crypto_pay_token.get_secret_value())
     CryptoPay.INSTANCE = crypto_pay
 
     ton_wrapper = await TonWrapper.create_archival(master_wallet_mnemon=config.wallet_seed)
