@@ -28,8 +28,8 @@ class Token(ABC):
     async def from_gametokens(self, amount: float) -> float:
         return amount / await self.get_price() / USDT_TO_GAMETOKENS
 
-    async def to_gametokens(self, amount_ton: float) -> float:
-        return amount_ton * await self.get_price() * USDT_TO_GAMETOKENS
+    async def to_gametokens(self, amount: float) -> float:
+        return amount * await self.get_price() * USDT_TO_GAMETOKENS
 
     async def can_transfer(self, withdraw_amount) -> bool:
         return False

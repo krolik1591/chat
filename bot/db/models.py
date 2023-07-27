@@ -62,9 +62,9 @@ class Transactions(manager.Model):
     tx_hash = CharField(null=True)
     logical_time = BigIntegerField(null=True)
     utime = BigIntegerField()
-    amount = BigIntegerField()
+    amount = DecimalField()
     comment = CharField(null=True)
-    crypto_pay_id = CharField(null=True)
+    crypto_pay_id = BigIntegerField(null=True, unique=True)
 
     def __str__(self):
         return f'TRANSACTION: {self.user_id=}, {self.token_id=}, {self.tx_hash=}, {self.amount=}'
