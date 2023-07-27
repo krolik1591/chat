@@ -49,7 +49,7 @@ async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
     deposit_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
 
     crypto_pay = CryptoPay.INSTANCE.crypto_pay
-    link = (await crypto_pay.create_invoice(asset=coin, amount=float(price))).pay_url
+    link = (await crypto_pay.create_invoice(asset=coin, amount=float(price), payload=call.from_user.id)).pay_url
 
     text, keyboard = get_link_to_deposit_menu(coin, price, link, deposit_amount)
     await call.message.edit_text(text, reply_markup=keyboard)

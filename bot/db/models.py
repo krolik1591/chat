@@ -58,12 +58,13 @@ class Transactions(manager.Model):
     user = ForeignKeyField(User, backref='transactions')
     token_id = CharField()
     tx_type = SmallIntegerField()
-    tx_address = CharField()
-    tx_hash = CharField()
-    logical_time = BigIntegerField()
+    tx_address = CharField(null=True)
+    tx_hash = CharField(null=True)
+    logical_time = BigIntegerField(null=True)
     utime = BigIntegerField()
     amount = BigIntegerField()
-    comment = CharField()
+    comment = CharField(null=True)
+    crypto_pay_id = CharField(null=True)
 
     def __str__(self):
         return f'TRANSACTION: {self.user_id=}, {self.token_id=}, {self.tx_hash=}, {self.amount=}'
