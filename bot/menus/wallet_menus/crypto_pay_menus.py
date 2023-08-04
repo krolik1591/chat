@@ -9,11 +9,16 @@ def crypto_pay_menu(general_coin_amount=None, prices=None):
         text = _('PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT')
     kb_buttons = []
     if general_coin_amount:
+        raw = []
         for coin, amount in prices.items():
-            kb_buttons.append([InlineKeyboardButton(text=_(f"CRYPTO_PAY_{coin}_BTN").format(price=round(amount, 5)),
-                                                    callback_data=f"crypto_pay_{coin}|{amount}")])
+            raw.append(InlineKeyboardButton(text=_(f"CRYPTO_PAY_COIN_BTN").format(price=round(amount, 5), coin=coin),
+                                            callback_data=f"crypto_pay_{coin}|{amount}"))
+            if len(raw) == 2:
+                kb_buttons.append(raw)
+                raw = []
 
     kb_buttons.append([InlineKeyboardButton(text=_("BTN_BACK"), callback_data="replenish")])
+    kb_buttons = *kb_buttons,
     kb = InlineKeyboardMarkup(inline_keyboard=kb_buttons)
     return text, kb
 
