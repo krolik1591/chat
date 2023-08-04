@@ -1130,7 +1130,7 @@ msgstr ""
 "\n"
 "{balances} \n"
 "\n"
-"<b>Курс</b>: {token_price}💎 = 1 TON\n"
+"<b>Курс</b>: {general_token}💎 = 1 USDT\n"
 "\n"
 
 #: ../../bot/menus/wallet_menus/wallet_menu.py:19

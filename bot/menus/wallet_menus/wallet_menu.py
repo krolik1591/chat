@@ -5,9 +5,9 @@ from bot.consts.const import TON_INITIALISATION_FEE
 from bot.menus.utils import balances_text
 
 
-def wallet_menu(balances: dict, token_price):
+def wallet_menu(balances: dict, general_token):
     text = _('WALLET_MENU_TEXT').format(balances=balances_text(balances),
-                                        token_price=token_price, init_pay_ton=TON_INITIALISATION_FEE)
+                                        general_token=general_token, init_pay_ton=TON_INITIALISATION_FEE)
     kb = _keyboard()
 
     return text, kb

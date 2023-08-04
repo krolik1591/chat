@@ -32,7 +32,12 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
     await state.update_data({StateKeys.ENTERED_DEPOSIT_AMOUNT: deposit_amount})
 
     tokens_ = tokens.TOKENS.values()
-    prices = {token.token_id.upper(): await token.from_gametokens(deposit_amount) for token in tokens_}
+    prices = {}
+    for token in tokens_:
+        if token.token_id == 'btc':
+            prices['mBTC'] = await ton_token.from_gametokens(deposit_amount) * 10**6    # convert BTC to mBTC
+        else:
+            prices[token.token_id.upper()] = await token.from_gametokens(deposit_amount)
 
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
     text, keyboard = crypto_pay_menu(deposit_amount, prices)
@@ -46,7 +51,11 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
 async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
     coin_price = call.data.removeprefix('crypto_pay_').split('|')
     coin = coin_price[0]
-    price = float(coin_price[1])
+    if coin == 'mBTC':
+        coin = 'BTC'
+        price = float(coin_price[1]) / 10**6
+    else:
+        price = float(coin_price[1])
     deposit_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
 
     crypto_pay = CryptoPay.INSTANCE.crypto_pay
