@@ -2,6 +2,7 @@ from bot.consts.balance import TON_FUNDS_ICON
 from bot.tokens.CryptoPay import CryptoPay
 from bot.tokens.base_token import InsufficientFunds, Token
 from bot.tokens.token_ton.tonwrapper.tonwrapper import TonWrapper
+from bot.consts import crypto_pay_bot_const as consts
 
 
 class TonToken(Token):
@@ -12,6 +13,11 @@ class TonToken(Token):
     @property
     def icon(self) -> str:
         return TON_FUNDS_ICON
+
+    @staticmethod
+    def min_dep(conversion_rate):
+        min_dep_including_fees = (consts.TON_MIN_WITHDDRAW + consts.TON_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
 
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('TON')
