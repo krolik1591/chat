@@ -54,6 +54,7 @@ class StateKeys:
     PROMO_CODE_ENTERED = 'promo_code_entered'
     # crypto bot
     ENTERED_DEPOSIT_AMOUNT = 'entered_deposit_amount'
+    TOKEN_NAME_AND_AMOUNT = 'token_name_and_amount'
 
 
 class Games:
