@@ -37,5 +37,9 @@ class Token(ABC):
     async def transfer(self, withdraw_address, withdraw_amount, msg):
         raise NotImplemented
 
-    def withdraw_commission(self):
+    async def from_gametokens_with_fees(self, gametokens_amount):
         raise NotImplemented
+
+    async def token_min_dep(self):
+        raise NotImplemented
+

@@ -14,7 +14,7 @@ class TonToken(Token):
     def icon(self) -> str:
         return TON_FUNDS_ICON
 
-    async def min_dep(self):
+    async def token_min_dep(self):
         min_dep_including_fees = (consts.TON_MIN_WITHDDRAW + consts.TON_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * (await self.get_price()))
 
@@ -39,8 +39,9 @@ class TonToken(Token):
         await master_wallet.transfer_ton(withdraw_address, withdraw_amount_ton, msg)
         return withdraw_amount_ton  # todo return tx hash or something
 
-    def withdraw_commission(self):
-        return consts.TON_FEE
+    async def from_gametokens_with_fees(self, gametokens_amount):
+        token_price_for_entered_gametokens = await self.from_gametokens(gametokens_amount)
+        return (token_price_for_entered_gametokens + consts.TON_FEE) * (1 + consts.CRYPTO_PAY_COMMISSION)
 
 
 ton_token = TonToken()
