@@ -12,8 +12,8 @@ class BtcToken(Token):
         return await CryptoPay.INSTANCE.get_price('BTC')
 
     @staticmethod
-    def min_dep(conversion_rate):
-        min_dep_including_fees = (consts.BTC_MIN_WITHDDRAW + consts.BTC_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+    def min_dep():
+        return (consts.BTC_MIN_WITHDDRAW + consts.BTC_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
 
 
@@ -26,8 +26,8 @@ class EthToken(Token):
         return await CryptoPay.INSTANCE.get_price('ETH')
 
     @staticmethod
-    def min_dep(conversion_rate):
-        min_dep_including_fees = (consts.ETH_MIN_WITHDDRAW + consts.ETH_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+    def min_dep():
+        return (consts.ETH_MIN_WITHDDRAW + consts.ETH_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
 
 
@@ -40,8 +40,8 @@ class BnbToken(Token):
         return await CryptoPay.INSTANCE.get_price('BNB')
 
     @staticmethod
-    def min_dep(conversion_rate):
-        min_dep_including_fees = (consts.BNB_MIN_WITHDDRAW + consts.BNB_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+    def min_dep():
+        return (consts.BNB_MIN_WITHDDRAW + consts.BNB_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
 
 
@@ -54,8 +54,8 @@ class TrxToken(Token):
         return await CryptoPay.INSTANCE.get_price('TRX')
 
     @staticmethod
-    def min_dep(conversion_rate):
-        min_dep_including_fees = (consts.TRX_MIN_WITHDDRAW + consts.TRX_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+    def min_dep():
+        return (consts.TRX_MIN_WITHDDRAW + consts.TRX_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
 
 

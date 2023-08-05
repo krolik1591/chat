@@ -29,37 +29,40 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
     if not deposit_amount.isdigit():
         return
     deposit_amount = float(deposit_amount)
+
+    previous_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
+    if previous_amount == deposit_amount:
+        return
+
     await state.update_data({StateKeys.ENTERED_DEPOSIT_AMOUNT: deposit_amount})
 
     tokens_ = tokens.TOKENS.values()
-    prices = {}
-    for token in tokens_:
-        if token.token_id == 'btc':
-            prices['mBTC'] = await ton_token.from_gametokens(deposit_amount) * 10**6    # convert BTC to mBTC
-        else:
-            prices[token.token_id.upper()] = await token.from_gametokens(deposit_amount)
+    prices = {token.token_id.upper(): await token.from_gametokens(deposit_amount) for token in tokens_}
 
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
     text, keyboard = crypto_pay_menu(deposit_amount, prices)
-    try:
-        await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=keyboard)
-    except exceptions.TelegramBadRequest as e:
-        print("User enter the same deposit amount", e)
+    await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=keyboard)
 
 
 @router.callback_query(Text(startswith="crypto_pay_"))
 async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
     coin_price = call.data.removeprefix('crypto_pay_').split('|')
     coin = coin_price[0]
-    if coin == 'mBTC':
-        coin = 'BTC'
-        price = float(coin_price[1]) / 10**6
-    else:
-        price = float(coin_price[1])
+    price = float(coin_price[1])
+
     deposit_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
 
+    token = tokens.TOKENS[coin.lower()]
+    STABLE_COINS = ['USDT', 'USDC', 'BUSD']
+    if coin in STABLE_COINS:
+        min_dep = token.min_dep()
+    else:
+        min_dep = token.min_dep()
+
+    payload = str(call.from_user.id) + '|' + str(deposit_amount)
+
     crypto_pay = CryptoPay.INSTANCE.crypto_pay
-    link = (await crypto_pay.create_invoice(asset=coin, payload=call.from_user.id,
+    link = (await crypto_pay.create_invoice(asset=coin, payload=payload,
                                             amount=price + price / 100 * DEPOSIT_COMMISSION_CRYPTO_BOT)).pay_url
 
     text, keyboard = get_link_to_deposit_menu(coin, price, link, deposit_amount)
