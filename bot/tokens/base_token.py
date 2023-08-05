@@ -36,3 +36,6 @@ class Token(ABC):
 
     async def transfer(self, withdraw_address, withdraw_amount, msg):
         raise NotImplemented
+
+    def withdraw_commission(self):
+        raise NotImplemented

@@ -39,5 +39,8 @@ class TonToken(Token):
         await master_wallet.transfer_ton(withdraw_address, withdraw_amount_ton, msg)
         return withdraw_amount_ton  # todo return tx hash or something
 
+    def withdraw_commission(self):
+        return consts.TON_FEE
+
 
 ton_token = TonToken()

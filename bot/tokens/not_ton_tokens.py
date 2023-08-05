@@ -15,6 +15,9 @@ class BtcToken(Token):
         min_dep_including_fees = (consts.BTC_MIN_WITHDDRAW + consts.BTC_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
 
+    def withdraw_commission(self):
+        return consts.BTC_FEE
+
 
 class EthToken(Token):
     @property
@@ -27,6 +30,9 @@ class EthToken(Token):
     async def min_dep(self):
         min_dep_including_fees = (consts.ETH_MIN_WITHDDRAW + consts.ETH_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
+
+    def withdraw_commission(self):
+        return consts.ETH_FEE
 
 
 class BnbToken(Token):
@@ -41,6 +47,9 @@ class BnbToken(Token):
         min_dep_including_fees = (consts.BNB_MIN_WITHDDRAW + consts.BNB_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
 
+    def withdraw_commission(self):
+        return consts.BNB_FEE
+
 
 class TrxToken(Token):
     @property
@@ -53,6 +62,9 @@ class TrxToken(Token):
     async def min_dep(self):
         min_dep_including_fees = (consts.TRX_MIN_WITHDDRAW + consts.TRX_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
+
+    def withdraw_commission(self):
+        return consts.TRX_FEE
 
 
 # STABLE COINS
@@ -69,6 +81,9 @@ class BusdToken(Token):
         min_dep_including_fees = (consts.BUSD_MIN_WITHDDRAW + consts.BUSD_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.FOR_STABLE_COINS)
 
+    def withdraw_commission(self):
+        return consts.BUSD_FEE
+
 
 class UsdcToken(Token):
     @property
@@ -82,6 +97,9 @@ class UsdcToken(Token):
         min_dep_including_fees = (consts.USDC_MIN_WITHDDRAW + consts.USDC_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.FOR_STABLE_COINS)
 
+    def withdraw_commission(self):
+        return consts.USDC_FEE
+
 
 class UsdtToken(Token):
     @property
@@ -94,6 +112,9 @@ class UsdtToken(Token):
     async def min_dep(self):
         min_dep_including_fees = (consts.USDT_MIN_WITHDDRAW + consts.USDT_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.FOR_STABLE_COINS)
+
+    def withdraw_commission(self):
+        return consts.USDT_FEE
 
 
 btc_token = BtcToken()
