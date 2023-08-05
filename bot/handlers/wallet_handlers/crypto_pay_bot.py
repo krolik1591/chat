@@ -4,8 +4,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
 from bot.consts.const import DEPOSIT_COMMISSION_CRYPTO_BOT
+from bot.consts.crypto_pay_bot_const import CRYPTO_PAY_COMMISSION
 from bot.handlers.states import Menu, StateKeys
-from bot.menus.wallet_menus.crypto_pay_menus import crypto_pay_menu, get_link_to_deposit_menu
+from bot.menus.wallet_menus.crypto_pay_menus import crypto_pay_menu, get_link_to_deposit_menu, \
+    warning_about_optimized_buy_gametoken
 from bot.tokens import tokens
 from bot.tokens.CryptoPay import CryptoPay
 from aiogram.utils.i18n import gettext as _
@@ -46,24 +48,31 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
 @router.callback_query(Text(startswith="crypto_pay_"))
 async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
     coin_price = call.data.removeprefix('crypto_pay_').split('|')
-    coin = coin_price[0]
-    price = float(coin_price[1])
+    coin_name = coin_price[0]
+    token_price_for_entered_gametokens = float(coin_price[1])
 
-    deposit_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
+    desired_gametokens_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
 
-    token = tokens.TOKENS[coin.lower()]
+    if coin_name in ['TON', 'BTC', 'USDT']:
+        text, kb = warning_about_optimized_buy_gametoken()
+        await call.message.edit_text(text, reply_markup=kb)
+        return
+
+    token = tokens.TOKENS[coin_name.lower()]
     token_min_dep = await token.min_dep()
     gametoken_min_dep = await token.to_gametokens(token_min_dep)
 
-    if deposit_amount < gametoken_min_dep:
+    if desired_gametokens_amount < gametoken_min_dep:
         await call.answer(_("CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT").format(
-            min_dep=round(token_min_dep, 5), coin=coin, min_dep_token=round(gametoken_min_dep, 2)), show_alert=True)
+            min_dep=round(token_min_dep, 5), coin=coin_name, min_dep_token=round(gametoken_min_dep, 2)), show_alert=True)
         return
 
-    payload = str(call.from_user.id) + '|' + str(deposit_amount)
+    withdraw_commission = token.withdraw_commission()
+    payload = str(call.from_user.id) + '|' + str(desired_gametokens_amount)
     crypto_pay = CryptoPay.INSTANCE.crypto_pay
-    link = (await crypto_pay.create_invoice(asset=coin, payload=payload,
-                                            amount=price + price / 100 * DEPOSIT_COMMISSION_CRYPTO_BOT)).pay_url
+    amount_to_invoice = (token_price_for_entered_gametokens + withdraw_commission) * (1 + CRYPTO_PAY_COMMISSION)
 
-    text, keyboard = get_link_to_deposit_menu(coin, price, link, deposit_amount)
+    link = (await crypto_pay.create_invoice(asset=coin_name, payload=payload, amount=amount_to_invoice)).pay_url
+
+    text, keyboard = get_link_to_deposit_menu(coin_name, amount_to_invoice, link, desired_gametokens_amount)
     await call.message.edit_text(text, reply_markup=keyboard)
