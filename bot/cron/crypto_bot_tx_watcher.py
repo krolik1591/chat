@@ -26,7 +26,9 @@ async def crypto_bot_tx_watcher(bot, i18n):
 
 async def process_invoice(bot, i18n, invoice):
     logging.info(f'Process invoice {invoice.invoice_id} in crypto bot tx watcher start')
-    user_id = int(invoice.payload)
+    payload = invoice.payload.split('|')
+    user_id = int(payload[0])
+    game_tokens_to_deposit = float(payload[1])
     token_id = invoice.asset.lower()
 
     if token_id not in TOKENS:
@@ -34,22 +36,21 @@ async def process_invoice(bot, i18n, invoice):
         return
 
     token = TOKENS[token_id]
-    amount_gametokens = await token.to_gametokens(invoice.amount / (1 + DEPOSIT_COMMISSION_CRYPTO_BOT / 100))
     promo_code = await db.need_a_bonus(user_id)
 
     with manager.pw_database.atomic():
         if promo_code:
-            promo_bonus = amount_gametokens * promo_code.promocode.bonus / 100
+            promo_bonus = game_tokens_to_deposit * promo_code.promocode.bonus / 100
             await db.update_user_balance(user_id, 'promo', promo_bonus)
             await db.update_wagers_and_bonus(user_id, promo_bonus, promo_code)
 
-        await db.update_user_balance(user_id, 'general', round_down(amount_gametokens, 5))
+        await db.update_user_balance(user_id, 'general', round_down(game_tokens_to_deposit, 5))
         await db.add_new_crypto_pay_tx(user_id, token_id, invoice.amount * 10 ** 9, invoice.invoice_id,
                                        invoice.paid_at.timestamp())
 
     try:
         await set_user_locale_to_i18n(user_id, i18n)
-        await send_successful_deposit_msg(bot, user_id, round(amount_gametokens, 2))
+        await send_successful_deposit_msg(bot, user_id, round(game_tokens_to_deposit, 2))
     except ValueError:
         print('User from crypto bot tx watcher not found in db')
 

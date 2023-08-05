@@ -11,10 +11,9 @@ class BtcToken(Token):
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('BTC')
 
-    @staticmethod
-    def min_dep():
-        return (consts.BTC_MIN_WITHDDRAW + consts.BTC_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
-        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
+    async def min_dep(self):
+        min_dep_including_fees = (consts.BTC_MIN_WITHDDRAW + consts.BTC_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
 
 
 class EthToken(Token):
@@ -25,10 +24,9 @@ class EthToken(Token):
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('ETH')
 
-    @staticmethod
-    def min_dep():
-        return (consts.ETH_MIN_WITHDDRAW + consts.ETH_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
-        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
+    async def min_dep(self):
+        min_dep_including_fees = (consts.ETH_MIN_WITHDDRAW + consts.ETH_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
 
 
 class BnbToken(Token):
@@ -39,10 +37,9 @@ class BnbToken(Token):
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('BNB')
 
-    @staticmethod
-    def min_dep():
-        return (consts.BNB_MIN_WITHDDRAW + consts.BNB_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
-        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
+    async def min_dep(self):
+        min_dep_including_fees = (consts.BNB_MIN_WITHDDRAW + consts.BNB_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
 
 
 class TrxToken(Token):
@@ -53,10 +50,9 @@ class TrxToken(Token):
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('TRX')
 
-    @staticmethod
-    def min_dep():
-        return (consts.TRX_MIN_WITHDDRAW + consts.TRX_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
-        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
+    async def min_dep(self):
+        min_dep_including_fees = (consts.TRX_MIN_WITHDDRAW + consts.TRX_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
+        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW / (await self.get_price()))
 
 
 # STABLE COINS
@@ -69,8 +65,7 @@ class BusdToken(Token):
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('BUSD')
 
-    @staticmethod
-    def min_dep():
+    async def min_dep(self):
         min_dep_including_fees = (consts.BUSD_MIN_WITHDDRAW + consts.BUSD_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.FOR_STABLE_COINS)
 
@@ -83,8 +78,7 @@ class UsdcToken(Token):
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('USDC')
 
-    @staticmethod
-    def min_dep():
+    async def min_dep(self):
         min_dep_including_fees = (consts.USDC_MIN_WITHDDRAW + consts.USDC_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.FOR_STABLE_COINS)
 
@@ -97,8 +91,7 @@ class UsdtToken(Token):
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('USDT')
 
-    @staticmethod
-    def min_dep():
+    async def min_dep(self):
         min_dep_including_fees = (consts.USDT_MIN_WITHDDRAW + consts.USDT_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
         return max(min_dep_including_fees, consts.FOR_STABLE_COINS)
 

@@ -52,16 +52,12 @@ async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
     deposit_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
 
     token = tokens.TOKENS[coin.lower()]
-    STABLE_COINS = ['USDT', 'USDC', 'BUSD']
-    if coin in STABLE_COINS:
-        min_dep = token.min_dep()
-    else:
-        min_dep = token.min_dep()
+    token_min_dep = await token.min_dep()
+    gametoken_min_dep = await token.to_gametokens(token_min_dep)
 
-    min_dep_token = await token.to_gametokens(min_dep)
-    if deposit_amount < min_dep_token:
+    if deposit_amount < gametoken_min_dep:
         await call.answer(_("CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT").format(
-            min_dep=min_dep, coin=coin, min_dep_token=round(min_dep_token, 2)), show_alert=True)
+            min_dep=round(token_min_dep, 5), coin=coin, min_dep_token=round(gametoken_min_dep, 2)), show_alert=True)
         return
 
     payload = str(call.from_user.id) + '|' + str(deposit_amount)

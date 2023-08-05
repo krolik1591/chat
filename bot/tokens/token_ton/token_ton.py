@@ -14,10 +14,9 @@ class TonToken(Token):
     def icon(self) -> str:
         return TON_FUNDS_ICON
 
-    @staticmethod
-    def min_dep(conversion_rate):
+    async def min_dep(self):
         min_dep_including_fees = (consts.TON_MIN_WITHDDRAW + consts.TON_FEE) / (1.02 + consts.CRYPTO_PAY_COMMISSION)
-        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * conversion_rate)
+        return max(min_dep_including_fees, consts.CRYPTO_PAY_MIN_WITHDRAW * (await self.get_price()))
 
     async def get_price(self) -> float:
         return await CryptoPay.INSTANCE.get_price('TON')
