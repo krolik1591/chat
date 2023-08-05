@@ -2,11 +2,11 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.i18n import gettext as _
 
 
-def crypto_pay_menu(general_coin_amount=None, prices=None):
+def crypto_pay_menu(general_coin_amount=None, prices=None, enter_amount=0):
     if not general_coin_amount:
         text = _('PROMOCODES_MENU_CRYPRO_PAY_TEXT').format()
     else:
-        text = _('PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT')
+        text = _('PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT').format(enter_amount=enter_amount)
     kb_buttons = []
     if general_coin_amount:
         raw = []

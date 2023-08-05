@@ -39,7 +39,7 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
     prices = {token.token_id.upper(): await token.from_gametokens_with_fees(deposit_amount) for token in tokens_}
 
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
-    text, keyboard = crypto_pay_menu(deposit_amount, prices)
+    text, keyboard = crypto_pay_menu(deposit_amount, prices, deposit_amount)
     await state.bot.edit_message_text(text, message.from_user.id, last_msg_id, reply_markup=keyboard)
 
 

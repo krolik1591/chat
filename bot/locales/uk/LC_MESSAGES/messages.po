@@ -1034,9 +1034,9 @@ msgstr "Введіть бажану суму поповнення в наших 
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
 msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
 msgstr ""
-"Обирай!\n"
+"Ви ввели: {enter_amount} 💎\n"
 "\n"
-"Якщо хочеш ввести свою суму, то введи її!"
+"Якщо бажаєте іншу суму, то введіть її!"
 
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:14
 msgid "CRYPTO_PAY_COIN_BTN"
