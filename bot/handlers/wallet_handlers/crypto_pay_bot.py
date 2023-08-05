@@ -1,5 +1,4 @@
-from aiocryptopay import AioCryptoPay
-from aiogram import Router, exceptions, types
+from aiogram import Router, types
 from aiogram.filters import StateFilter, Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
@@ -9,7 +8,7 @@ from bot.handlers.states import Menu, StateKeys
 from bot.menus.wallet_menus.crypto_pay_menus import crypto_pay_menu, get_link_to_deposit_menu
 from bot.tokens import tokens
 from bot.tokens.CryptoPay import CryptoPay
-from bot.tokens.token_ton import ton_token
+from aiogram.utils.i18n import gettext as _
 
 router = Router()
 
@@ -59,8 +58,13 @@ async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
     else:
         min_dep = token.min_dep()
 
-    payload = str(call.from_user.id) + '|' + str(deposit_amount)
+    min_dep_token = await token.to_gametokens(min_dep)
+    if deposit_amount < min_dep_token:
+        await call.answer(_("CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT").format(
+            min_dep=min_dep, coin=coin, min_dep_token=round(min_dep_token, 2)), show_alert=True)
+        return
 
+    payload = str(call.from_user.id) + '|' + str(deposit_amount)
     crypto_pay = CryptoPay.INSTANCE.crypto_pay
     link = (await crypto_pay.create_invoice(asset=coin, payload=payload,
                                             amount=price + price / 100 * DEPOSIT_COMMISSION_CRYPTO_BOT)).pay_url

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-04 11:36+0300\n"
+"POT-Creation-Date: 2023-08-05 16:44+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -287,6 +287,10 @@ msgstr "GO!"
 
 #: ../../bot/handlers/other_handlers/language.py:26
 msgid "SETTINGS_LANG_CHANGED"
+msgstr ""
+
+#: ../../bot/handlers/wallet_handlers/crypto_pay_bot.py:62
+msgid "CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT"
 msgstr ""
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:124
@@ -885,38 +889,6 @@ msgstr ""
 msgid "CRYPTO_PAY_COIN_ACCEPTED"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:37
-msgid "CRYPTO_PAY_BNB_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:38
-msgid "CRYPTO_PAY_BUSD_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:39
-msgid "CRYPTO_PAY_USDC_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:40
-msgid "CRYPTO_PAY_USDT_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:41
-msgid "CRYPTO_PAY_TRX_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:42
-msgid "CRYPTO_PAY_TON_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:43
-msgid "CRYPTO_PAY_BTC_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:44
-msgid "CRYPTO_PAY_ETH_BTN"
-msgstr ""
-
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"
 msgstr ""
@@ -1133,5 +1105,20 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "CRYPTO_PAY_ETH_BTN"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_BNB_BTN"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_BUSD_BTN"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_USDC_BTN"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_USDT_BTN"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_TRX_BTN"
 #~ msgstr ""
 
