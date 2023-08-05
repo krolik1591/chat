@@ -47,31 +47,46 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
 
 @router.callback_query(Text(startswith="crypto_pay_"))
 async def get_link_to_dep(call: types.CallbackQuery, state: FSMContext):
-    coin_price = call.data.removeprefix('crypto_pay_').split('|')
-    coin_name = coin_price[0]
-    token_price_for_entered_gametokens = float(coin_price[1])
+    coin_name_and_amount = call.data.removeprefix('crypto_pay_').split('|')
+    coin_name = coin_name_and_amount[0]
 
     desired_gametokens_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
 
+    token = tokens.TOKENS[coin_name.lower()]
+    min_dep_token_amount = await token.token_min_dep()
+    gametoken_min_dep = await token.to_gametokens(min_dep_token_amount)
+    token_min_dep_with_fees = await token.from_gametokens_with_fees(gametoken_min_dep)
+
+    if desired_gametokens_amount < gametoken_min_dep:
+        await call.answer(_("CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT").format(
+            min_dep_token_amount=round(token_min_dep_with_fees, 5), coin=coin_name,
+            min_dep_gametoken=round(gametoken_min_dep, 2)), show_alert=True)
+        return
+
     if coin_name in ['TON', 'BTC', 'USDT']:
+        await state.update_data({StateKeys.TOKEN_NAME_AND_AMOUNT: coin_name_and_amount})
         text, kb = warning_about_optimized_buy_gametoken()
         await call.message.edit_text(text, reply_markup=kb)
         return
 
-    token = tokens.TOKENS[coin_name.lower()]
-    token_min_dep = await token.min_dep()
-    gametoken_min_dep = await token.to_gametokens(token_min_dep)
+    await create_and_send_link(call, token, desired_gametokens_amount, coin_name_and_amount)
 
-    if desired_gametokens_amount < gametoken_min_dep:
-        await call.answer(_("CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT").format(
-            min_dep=round(token_min_dep, 5), coin=coin_name, min_dep_token=round(gametoken_min_dep, 2)), show_alert=True)
-        return
 
-    withdraw_commission = token.withdraw_commission()
+@router.callback_query(Text(startswith="dunky_choice_accept"))
+async def are_u_sure(call: types.CallbackQuery, state: FSMContext):
+    coin_name_and_amount = (await state.get_data()).get(StateKeys.TOKEN_NAME_AND_AMOUNT)
+    desired_gametokens_amount = (await state.get_data()).get(StateKeys.ENTERED_DEPOSIT_AMOUNT)
+    token = tokens.TOKENS[coin_name_and_amount[0].lower()]
+
+    await create_and_send_link(call, token, desired_gametokens_amount, coin_name_and_amount)
+
+
+async def create_and_send_link(call, token, desired_gametokens_amount, coin_name_and_amount):
+    coin_name = coin_name_and_amount[0]
+
     payload = str(call.from_user.id) + '|' + str(desired_gametokens_amount)
     crypto_pay = CryptoPay.INSTANCE.crypto_pay
-    amount_to_invoice = (token_price_for_entered_gametokens + withdraw_commission) * (1 + CRYPTO_PAY_COMMISSION)
-
+    amount_to_invoice = await token.from_gametokens_with_fees(desired_gametokens_amount)
     link = (await crypto_pay.create_invoice(asset=coin_name, payload=payload, amount=amount_to_invoice)).pay_url
 
     text, keyboard = get_link_to_deposit_menu(coin_name, amount_to_invoice, link, desired_gametokens_amount)

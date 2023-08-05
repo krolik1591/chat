@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-05 16:44+0300\n"
+"POT-Creation-Date: 2023-08-05 23:52+0300\n"
 "PO-Revision-Date: 2023-05-14 20:36+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -339,9 +339,9 @@ msgstr "Іду"
 msgid "SETTINGS_LANG_CHANGED"
 msgstr "Мову змінено!"
 
-#: ../../bot/handlers/wallet_handlers/crypto_pay_bot.py:62
+#: ../../bot/handlers/wallet_handlers/crypto_pay_bot.py:67
 msgid "CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT"
-msgstr "Мінімальний депозит для {coin} - {min_dep} або {min_dep_token} 💎"
+msgstr "Мінімальний депозит для {coin} - {min_dep_token_amount} або {min_dep_gametoken} 💎"
 
 #: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:124
 msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
@@ -532,7 +532,8 @@ msgstr "⚙️ Налаштування"
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:129
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:146
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:20
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:30
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:32
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:42
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -1054,9 +1055,17 @@ msgstr ""
 "Посилання для оплати: \n"
 "{link}"
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:29
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:31
 msgid "CRYPTO_PAY_COIN_ACCEPTED"
 msgstr "Біжу поповнювать!"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:39
+msgid "CRYPTO_PAY_WARNING_ABOUT_OPTIMIZED_BUY_GAMETOKEN"
+msgstr "Міняйте спосіб оплати і буде вам економія!"
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:41
+msgid "CRYPTO_PAY_DUNKY_CHOICE_BTN"
+msgstr "Мені пох я лох"
 
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
 msgid "DEPOSIT_ACCOUNT_INITIATED"

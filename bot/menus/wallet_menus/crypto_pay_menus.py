@@ -38,7 +38,7 @@ def get_link_to_deposit_menu(coin_name, amount_to_invoice, link, desired_gametok
 def warning_about_optimized_buy_gametoken():
     text = _('CRYPTO_PAY_WARNING_ABOUT_OPTIMIZED_BUY_GAMETOKEN').format()
     kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=_("CRYPTO_PAY_COIN_ACCEPTED"), callback_data='dunky_choice_accept')],
+        [InlineKeyboardButton(text=_("CRYPTO_PAY_DUNKY_CHOICE_BTN"), callback_data='dunky_choice_accept')],
         [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="replenish")]
     ])
 

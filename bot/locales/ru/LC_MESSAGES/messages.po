@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-05 16:44+0300\n"
+"POT-Creation-Date: 2023-08-05 23:52+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -289,7 +289,7 @@ msgstr ""
 msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
-#: ../../bot/handlers/wallet_handlers/crypto_pay_bot.py:62
+#: ../../bot/handlers/wallet_handlers/crypto_pay_bot.py:67
 msgid "CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT"
 msgstr ""
 
@@ -469,7 +469,8 @@ msgstr ""
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:129
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:146
 #: ../../bot/menus/wallet_menus/crypto_pay_menus.py:20
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:30
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:32
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:42
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
@@ -885,8 +886,16 @@ msgstr ""
 msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:29
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:31
 msgid "CRYPTO_PAY_COIN_ACCEPTED"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:39
+msgid "CRYPTO_PAY_WARNING_ABOUT_OPTIMIZED_BUY_GAMETOKEN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:41
+msgid "CRYPTO_PAY_DUNKY_CHOICE_BTN"
 msgstr ""
 
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
