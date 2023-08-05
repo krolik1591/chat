@@ -23,10 +23,22 @@ def crypto_pay_menu(general_coin_amount=None, prices=None):
     return text, kb
 
 
-def get_link_to_deposit_menu(coin, price, link, deposit_amount):
-    text = _('CRYPTO_PAY_GET_LINK_TO_DEP_TEXT').format(coin=coin, price=price, link=link, deposit_amount=deposit_amount)
+def get_link_to_deposit_menu(coin_name, amount_to_invoice, link, desired_gametokens_amount):
+    text = _('CRYPTO_PAY_GET_LINK_TO_DEP_TEXT').format(link=link, coin_name=coin_name,
+                                                       amount_to_invoice=amount_to_invoice,
+                                                       desired_gametokens_amount=desired_gametokens_amount)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text=_("CRYPTO_PAY_COIN_ACCEPTED"), url=link)],
+        [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="replenish")]
+    ])
+
+    return text, kb
+
+
+def warning_about_optimized_buy_gametoken():
+    text = _('CRYPTO_PAY_WARNING_ABOUT_OPTIMIZED_BUY_GAMETOKEN').format()
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=_("CRYPTO_PAY_COIN_ACCEPTED"), callback_data='dunky_choice_accept')],
         [InlineKeyboardButton(text=_("BTN_BACK"), callback_data="replenish")]
     ])
 
