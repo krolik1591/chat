@@ -2,15 +2,13 @@ from aiogram import Router, types
 from aiogram.filters import StateFilter, Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
+from aiogram.utils.i18n import gettext as _
 
-from bot.consts.const import DEPOSIT_COMMISSION_CRYPTO_BOT
-from bot.consts.crypto_pay_bot_const import CRYPTO_PAY_COMMISSION
 from bot.handlers.states import Menu, StateKeys
 from bot.menus.wallet_menus.crypto_pay_menus import crypto_pay_menu, get_link_to_deposit_menu, \
     warning_about_optimized_buy_gametoken
 from bot.tokens import tokens
 from bot.tokens.CryptoPay import CryptoPay
-from aiogram.utils.i18n import gettext as _
 
 router = Router()
 
@@ -38,7 +36,7 @@ async def enter_deposit_amount(message: Message, state: FSMContext):
     await state.update_data({StateKeys.ENTERED_DEPOSIT_AMOUNT: deposit_amount})
 
     tokens_ = tokens.TOKENS.values()
-    prices = {token.token_id.upper(): await token.from_gametokens(deposit_amount) for token in tokens_}
+    prices = {token.token_id.upper(): await token.from_gametokens_with_fees(deposit_amount) for token in tokens_}
 
     last_msg_id = (await state.get_data()).get(StateKeys.LAST_MSG_ID)
     text, keyboard = crypto_pay_menu(deposit_amount, prices)
