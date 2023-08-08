@@ -16,13 +16,17 @@ flags = {"throttling_key": "default"}
 router = Router()
 
 
-async def send_main_menu(context: Context, msg_id=None):
+async def send_main_menu(context: Context, msg_id=None, chat_id=None):
     balances = await db.get_user_balances(context.user_id)
     lang = await db.get_user_lang(context.user_id)
     text, keyboard = main_menu(balances, lang)
 
-    msg = await context.fsm_context.bot.send_message(msg_id, text, reply_markup=keyboard)
-    await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
+    if msg_id is None:
+        msg = await context.fsm_context.bot.send_message(chat_id, text, reply_markup=keyboard)
+        await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
+    else:
+        await context.fsm_context.bot.edit_message_text(
+            chat_id=chat_id, message_id=msg_id, text=text, reply_markup=keyboard)
     # if msg_id is None:
     #     msg = await context.fsm_context.bot.send_message(context.user_id, text, reply_markup=keyboard)
     #     await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
@@ -33,7 +37,6 @@ async def send_main_menu(context: Context, msg_id=None):
     await context.fsm_context.set_state(Menu.delete_message)
 
 
-#F.chat.type == "private",
 @router.message(Command("start"), flags=flags)
 async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
     print(message.chat.id)
@@ -66,10 +69,10 @@ async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
         await db.create_new_user(message.from_user.id, message.from_user.username, invite_sender, START_POINTS)
 
     context = await Context.from_fsm_context(message.from_user.id, state)
-    await send_main_menu(context, msg_id=message.chat.id)
+    await send_main_menu(context, chat_id=message.chat.id)
 
 
 @router.callback_query(Text("main_menu"))
 async def back_to_main(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await send_main_menu(context, msg_id=call.message.message_id)
+    await send_main_menu(context, msg_id=call.message.message_id, chat_id=call.message.chat.id)
