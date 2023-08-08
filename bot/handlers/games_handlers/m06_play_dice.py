@@ -70,7 +70,7 @@ async def games_play(call: types.CallbackQuery, state: FSMContext):
 
     # Send settings menu
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await settings_menu(context, msg_id=None)
+    await settings_menu(context, msg_id=None, chat_id=call.message.chat.id)
 
 
 async def deactivate_promo_codes(user_id):

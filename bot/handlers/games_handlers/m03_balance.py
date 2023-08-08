@@ -18,19 +18,19 @@ from aiogram.utils.i18n import gettext as _
 router = Router()
 
 
-async def balances_menu(context: Context, msg_id):
+async def balances_menu(context: Context, msg_id, chat_id):
     balances = await db.get_user_balances(context.user_id)
     text, keyboard = select_balance_menu(balances)
 
     await context.fsm_context.bot.edit_message_text(
-        chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
+        chat_id=chat_id, message_id=msg_id, text=text, reply_markup=keyboard)
     await context.fsm_context.set_state(Menu.delete_message)
 
 
 @router.callback_query(Text("select_balance_type"))
 async def balance_type_show(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await balances_menu(context, msg_id=call.message.message_id)
+    await balances_menu(context, msg_id=call.message.message_id, chat_id=call.message.chat.id)
 
 
 @router.callback_query(Text(startswith='set_balance_type_'))
@@ -51,7 +51,7 @@ async def set_balance_type(call: types.CallbackQuery, state: FSMContext):
                 return
         await call.answer(_("M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"), show_alert=True)
         return
-    await settings_menu(context, msg_id=call.message.message_id)
+    await settings_menu(context, msg_id=call.message.message_id, chat_id=call.message.chat.id)
 
 
 # only for DEMO balance_type
@@ -67,4 +67,4 @@ async def replenish_demo_balance(call: types.CallbackQuery, state: FSMContext):
 
     # context with updated balance
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await bet_menu(context, msg_id=call.message.message_id)
+    await bet_menu(context, msg_id=call.message.message_id, chat_id=call.message.chat.id)

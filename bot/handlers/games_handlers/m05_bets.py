@@ -12,15 +12,16 @@ from bot.utils.rounding import round_down
 router = Router()
 
 
-async def bet_menu(context: Context, msg_id=None):
+async def bet_menu(context: Context, msg_id=None, chat_id=None):
     text, keyboard = bet_menu_(context.bet, context.balance, context.balance_type, context.game)
+
     if msg_id is None:
         bet_msg = await context.fsm_context.bot.send_message(
-            chat_id=context.user_id, text=text, reply_markup=keyboard)
+            chat_id=chat_id, text=text, reply_markup=keyboard)
         await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: bet_msg.message_id})
     else:
         await context.fsm_context.bot.edit_message_text(
-            chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
+            chat_id=chat_id, message_id=msg_id, text=text, reply_markup=keyboard)
 
     await context.fsm_context.set_state(Menu.bet)
 
@@ -28,7 +29,7 @@ async def bet_menu(context: Context, msg_id=None):
 @router.callback_query(Text("bet"))
 async def bet_show(call: types.CallbackQuery, state: FSMContext):
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await bet_menu(context, msg_id=call.message.message_id)
+    await bet_menu(context, msg_id=call.message.message_id, chat_id=call.message.chat.id)
 
 
 @router.callback_query(Text(["bet_minus", "bet_plus", "bet_min", "bet_max", "bet_x2"]))
@@ -59,7 +60,7 @@ async def bet_change(call: types.CallbackQuery, state: FSMContext):
     await state.update_data(**{StateKeys.BET: new_user_bet})
 
     context = await Context.from_fsm_context(call.from_user.id, state)
-    await bet_menu(context, msg_id=call.message.message_id)
+    await bet_menu(context, msg_id=call.message.message_id, chat_id=call.message.chat.id)
 
 
 @router.message(StateFilter(Menu.bet))
@@ -68,7 +69,7 @@ async def bet_change_text(message: Message, state: FSMContext):
         return
 
     context = await Context.from_fsm_context(message.from_user.id, state)
-    await bet_menu(context, msg_id=context.last_msg_id)
+    await bet_menu(context, msg_id=context.last_msg_id, chat_id=message.chat.id)
 
 
 async def bet_change_state(message: Message, state: FSMContext):
