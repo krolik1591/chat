@@ -8,16 +8,9 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
-from bot import backend
-from bot.cron.crypto_bot_tx_watcher import crypto_bot_tx_watcher
-from bot.cron.warning_about_end_promo_watcher import warning_about_expiration_promo_code
-from bot.cron.wof_watcher import start_wof_timer
 from bot.db import first_start
 from bot.handlers import routers
 from bot.middlewares.throttling import ThrottlingMiddleware
-from bot.tokens.CryptoPay import CryptoPay
-from bot.tokens.token_ton import TonWrapper, watch_txs
-from bot.tokens.withdraw_timeout_watcher import find_and_reject_lost_tx
 from bot.utils.config_reader import config
 
 
@@ -48,18 +41,6 @@ async def main(bot):
 
     await first_start()
 
-    crypto_pay = CryptoPay(config.crypto_pay_token.get_secret_value())
-    CryptoPay.INSTANCE = crypto_pay
-
-    ton_wrapper = await TonWrapper.create_archival(master_wallet_mnemon=config.wallet_seed)
-    TonWrapper.INSTANCE = ton_wrapper
-
-    asyncio.create_task(watch_txs(ton_wrapper, bot, i18n))
-    asyncio.create_task(crypto_bot_tx_watcher(bot, i18n))
-    asyncio.create_task(find_and_reject_lost_tx(bot, i18n))
-    asyncio.create_task(start_wof_timer(bot, i18n))
-    asyncio.create_task(warning_about_expiration_promo_code(bot, i18n))
-
     try:
         print("me:", await bot.me())
         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
@@ -77,6 +58,5 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
 
     bot = Bot(config.bot_token.get_secret_value(), parse_mode="HTML")
-
-    loop.create_task(main(bot))
-    backend.run(loop=loop, bot=bot)
+    asyncio.run(main(bot))
+    # loop.create_task(main(bot))

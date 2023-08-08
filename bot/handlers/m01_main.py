@@ -11,7 +11,6 @@ from bot.handlers.context import Context
 from bot.handlers.states import Menu, StateKeys
 from bot.menus import main_menu
 from bot.menus.utils import kb_del_msg
-from bot.tokens.token_ton import TonWrapper
 
 flags = {"throttling_key": "default"}
 router = Router()
@@ -22,19 +21,22 @@ async def send_main_menu(context: Context, msg_id=None):
     lang = await db.get_user_lang(context.user_id)
     text, keyboard = main_menu(balances, lang)
 
-    if msg_id is None:
-        msg = await context.fsm_context.bot.send_message(context.user_id, text, reply_markup=keyboard)
-        await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
-    else:
-        await context.fsm_context.bot.edit_message_text(
-            chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
+    msg = await context.fsm_context.bot.send_message(msg_id, text, reply_markup=keyboard)
+    await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
+    # if msg_id is None:
+    #     msg = await context.fsm_context.bot.send_message(context.user_id, text, reply_markup=keyboard)
+    #     await context.fsm_context.update_data(**{StateKeys.LAST_MSG_ID: msg.message_id})
+    # else:
+    #     await context.fsm_context.bot.edit_message_text(
+    #         chat_id=context.user_id, message_id=msg_id, text=text, reply_markup=keyboard)
 
     await context.fsm_context.set_state(Menu.delete_message)
 
 
-@router.message(F.chat.type == "private", Command("start"), flags=flags)
+#F.chat.type == "private",
+@router.message(Command("start"), flags=flags)
 async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
-
+    print(message.chat.id)
     try:
         user_lang = await db.get_user_lang(message.from_user.id)
 
@@ -58,17 +60,13 @@ async def cmd_start(message: Message, state: FSMContext, i18n_middleware):
             await i18n_middleware.set_locale(state, user_lang)
             kb = kb_del_msg()
             await state.bot.send_message(invite_sender, _('CHECK_REF_APPROVE_TEXT').
-                                         format(id=message.from_user.id, name=message.from_user.first_name),
+                                         format(id=message.chat.id, name=message.from_user.first_name),
                                          reply_markup=kb)
 
         await db.create_new_user(message.from_user.id, message.from_user.username, invite_sender, START_POINTS)
 
-        new_wallet = Wallet(provider=TonWrapper.INSTANCE)
-        mnemonics = ','.join(new_wallet.mnemonics)
-        await db.create_user_wallet(message.from_user.id, new_wallet.address, mnemonics)
-
     context = await Context.from_fsm_context(message.from_user.id, state)
-    await send_main_menu(context)
+    await send_main_menu(context, msg_id=message.chat.id)
 
 
 @router.callback_query(Text("main_menu"))
