@@ -16,6 +16,10 @@ class Menu(StatesGroup):
     enter_ticket_num = State()
     enter_tickets_count = State()
     enter_pages = State()
+    # promo-codes
+    enter_promo_code = State()
+    # crypto bot
+    enter_deposit_amount = State()
 
 
 class StateKeys:
@@ -39,10 +43,18 @@ class StateKeys:
     # WheelOfFortune
     TICKET_NUM = 'ticket_num'
     RANDOM_TICKETS_COUNT = 'random_tickets_count'
+    ACTIVE_PROMO_NAME = 'active_promo_name'
+    AVAILABLE_TICKETS_COUNT = 'available_tickets_count'
     # WheelOfFortune display my tickets
     TICKET_TYPE = 'ticket_type'
     CURRENT_PAGE = 'current_page'
     TOTAL_PAGES = 'tickets_to_display'
+    PREVIOUS_BALANCE_TYPE = 'change_balance_type'
+    # promo codes
+    PROMO_CODE_ENTERED = 'promo_code_entered'
+    # crypto bot
+    ENTERED_DEPOSIT_AMOUNT = 'entered_deposit_amount'
+    TOKEN_NAME_AND_AMOUNT = 'token_name_and_amount'
 
 
 class Games:

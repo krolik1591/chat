@@ -8,10 +8,10 @@ async def add_wheel_of_fortune_settings(ticket_cost, commission, rewards, random
                                     timestamp_end=date_end, timestamp_start=time.time(), random_seed=random_seed)
 
 
-async def add_new_ticket(user_id, tickets_num, ticket_type, buy_timestamp=time.time()):
+async def add_new_ticket(user_id, tickets_num, ticket_type, buy_timestamp=time.time(), promo_name=None):
     ticket_objects = [
         WoFTickets(user_id=user_id, ticket_num=ticket_num, ticket_type=ticket_type,
-                   buy_timestamp=buy_timestamp)
+                   buy_timestamp=buy_timestamp, promo=promo_name)
         for ticket_num in tickets_num
     ]
     await WoFTickets.bulk_create(ticket_objects)
@@ -31,22 +31,24 @@ async def get_last_deactivate_wheel_info():
     return result[0]
 
 
-async def get_count_user_tickets(tg_id, type_):
+async def get_count_user_tickets(tg_id, type_, promo_name=None):
     if type_ == 'all':
-        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id).count()
+        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id, WoFTickets.promo_id == promo_name).count()
     else:
-        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_).count()
+        result = await WoFTickets.select().where(WoFTickets.user_id == tg_id,
+                                                 WoFTickets.ticket_type == type_,
+                                                 WoFTickets.promo_id == promo_name).count()
     return result
 
 
-async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100):
+async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100, promo_name=None):
     if type_ == 'all':
         result = await WoFTickets.select(WoFTickets.ticket_num) \
-            .where(WoFTickets.user_id == tg_id) \
+            .where(WoFTickets.user_id == tg_id, WoFTickets.promo_id == promo_name) \
             .offset(offset).limit(limit)
     else:
         result = await WoFTickets.select(WoFTickets.ticket_num) \
-            .where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_) \
+            .where(WoFTickets.user_id == tg_id, WoFTickets.ticket_type == type_, WoFTickets.promo_id == promo_name) \
             .offset(offset).limit(limit)
 
     tickets = [ticket.ticket_num for ticket in result]
@@ -54,8 +56,8 @@ async def get_user_ticket_numbers(tg_id, type_, offset=0, limit=100):
 
 
 async def get_user_wof_win(tg_id):
-    result = await User.select(User.wof_win).where(User.user_id == tg_id)
-    return result[0].wof_win  # todo why fetch all and return only first? why first?
+    result = await User.select(User).where(User.user_id == tg_id).first()
+    return result.wof_win
 
 
 async def get_all_sold_tickets_nums():
@@ -66,6 +68,11 @@ async def get_all_sold_tickets_nums():
 async def get_user_id_wof_participants():
     result = await WoFTickets.select(WoFTickets.user_id).distinct()
     return set(user.user_id for user in result)
+
+
+async def ticket_is_promo(ticket_tum):
+    result = await WoFTickets.select(WoFTickets).where(WoFTickets.ticket_num == ticket_tum).first()
+    return result.promo_id
 
 
 async def get_all_tickets():
@@ -82,7 +89,7 @@ async def check_ticket_in_db(ticket_num):
 async def update_user_wof_win(tg_id, win):
     if win == 0:
         return await User.update({User.wof_win: 0}).where(User.user_id == tg_id)
-    return await User.update({User.wof_win: User.wof_win + win}).where(User.user_id == tg_id)
+    return await User.update({User.wof_win: win}).where(User.user_id == tg_id)
 
 
 async def whose_ticket(ticket_num):
@@ -104,9 +111,12 @@ async def change_date_end(date_end):
 
 
 if __name__ == '__main__':
+    import json
     async def test():
-        x = await get_user_id_wof_participants()
+        x = await add_new_ticket(357108179, [55958], 'random', promo_name='huickets')
+        # x = await ticket_is_promo(159159)
         print(x)
+        # print(json.loads(x)['general'] + 23.55)
 
 
     import asyncio

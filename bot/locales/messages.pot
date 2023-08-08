@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-04 11:45+0300\n"
+"POT-Creation-Date: 2023-08-05 23:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../../bot/cron/wof_watcher.py:88
+#: ../../bot/cron/warning_about_end_promo_watcher.py:31
+msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
+msgstr ""
+
+#: ../../bot/cron/warning_about_end_promo_watcher.py:34
+msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
+msgstr ""
+
+#: ../../bot/cron/wof_watcher.py:184
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
 msgstr ""
 
-#: ../../bot/cron/wof_watcher.py:93
+#: ../../bot/cron/wof_watcher.py:190
 msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
 msgstr ""
 
@@ -59,8 +67,27 @@ msgstr ""
 msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
-#: ../../bot/handlers/games_handlers/m06_play_dice.py:33
+#: ../../bot/handlers/games_handlers/m03_balance.py:47
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:30
+msgid "M06_PLAY_GAMES_RESET_PROMO_BALANCE"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m03_balance.py:50
+#: ../../bot/handlers/games_handlers/m03_balance.py:52
+msgid "M03_BALANCE_ERR_BALANCE_LOWER_MIN_BET"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:52
 msgid "DICE_ROLL_TEXT"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:101
+msgid "M06_PLAY_DICE_NOT_EXIST_PROMO_BALANCE"
+msgstr ""
+
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:104
+#: ../../bot/handlers/games_handlers/m06_play_dice.py:108
+msgid "M06_PLAY_DICE_NOT_ENOUGH_BETS_TO_PLAY_PROMO"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/dice_games/base_dice_game.py:29
@@ -184,6 +211,51 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
+#: ../../bot/handlers/my_account_handlers/promocode.py:64
+#: ../../bot/handlers/my_account_handlers/promocode.py:72
+msgid "PROMO_CODE_IS_ACTIVATED"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:83
+#: ../../bot/handlers/my_account_handlers/promocode.py:87
+msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:121
+msgid "PROMOCODE_CLAIM_REWARD_IS_DONE"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:144
+msgid "PROMO_CODE_DECLINE_TEXT"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:161
+msgid "PROMO_CODE_U_NEED_ENTER_ERR"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:164
+msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:167
+msgid "PROMO_CODE_DOESNT_EXIST_ERR"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:171
+msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:180
+#: ../../bot/handlers/my_account_handlers/promocode.py:192
+msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
+msgstr ""
+
+#: ../../bot/handlers/my_account_handlers/promocode.py:183
+#: ../../bot/handlers/my_account_handlers/promocode.py:188
+#: ../../bot/handlers/my_account_handlers/promocode.py:196
+msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
+msgstr ""
+
 #: ../../bot/handlers/my_account_handlers/referrals.py:25
 msgid "REFERRALS_REFRESHED_TEXT"
 msgstr ""
@@ -216,81 +288,89 @@ msgstr ""
 msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:115
+#: ../../bot/handlers/wallet_handlers/crypto_pay_bot.py:67
+msgid "CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:124
 msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:123
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:132
 msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:127
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:196
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:216
 msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:137
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:146
 msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:144
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:154
 msgid "WOF_BUY_TICKET_ERR_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:148
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:158
 msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:159
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:167
+msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"
+msgstr ""
+
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:179
 msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:164
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:184
 msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:188
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:208
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:192
+#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:212
 msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:35
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:48
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:44
+#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:64
 msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:43
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:63
 msgid "WOF_CHECK_STATUS_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:49
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:69
 msgid "WOF_CHECK_STATUS_NO_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:51
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:71
 msgid "WOF_CHECK_STATUS_TICKETS"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:59
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
 msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:69
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:89
 msgid "WOF_SPIN_RESULT_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:76
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:97
 msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:130
 msgid "WOF_CLAIM_REWARD_ANSWER"
 msgstr ""
 
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:90
+#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:140
 msgid "WOF_NO_DATE_END"
 msgstr ""
 
@@ -365,6 +445,11 @@ msgid "ACCOUNT_MENU_SETTINGS"
 msgstr ""
 
 #: ../../bot/menus/account_menus/account_menu.py:30
+#: ../../bot/menus/account_menus/promocodes_menu.py:11
+#: ../../bot/menus/account_menus/promocodes_menu.py:20
+#: ../../bot/menus/account_menus/promocodes_menu.py:92
+#: ../../bot/menus/account_menus/promocodes_menu.py:102
+#: ../../bot/menus/account_menus/promocodes_menu.py:114
 #: ../../bot/menus/account_menus/referrals_menu.py:51
 #: ../../bot/menus/admin_menus/spam_menus.py:12
 #: ../../bot/menus/admin_menus/spam_menus.py:45
@@ -374,19 +459,91 @@ msgstr ""
 #: ../../bot/menus/game_menus/select_game.py:43
 #: ../../bot/menus/main_menus/guides_menus.py:34
 #: ../../bot/menus/main_menus/language_menu.py:28
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:14
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:25
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:40
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:56
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:73
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:86
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:100
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:18
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:31
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:57
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:75
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:110
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:129
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:146
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:20
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:32
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:42
 #: ../../bot/menus/wallet_menus/deposit_menu.py:36
 #: ../../bot/menus/wallet_menus/wallet_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:14
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:23
 #: ../../bot/menus/wallet_menus/withdraw_menu.py:36
 msgid "BTN_BACK"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:6
+msgid "PROMOCODES_MENU_PROMO_CODES_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:8
+msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:9
+msgid "ACCOUNT_MENU_MY_PROMO_CODE_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:10
+msgid "ACCOUNT_MENU_PROMO_CODES_AVAILABLE_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:18
+msgid "PROMOCODES_MENU_ACTIVE_PROMO_CODES_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:33
+msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:35
+msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:41
+msgid "PROMOCODES_MENU_NEED_WOF_WIN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:51
+msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:72
+msgid "PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:84
+msgid "PROMOCODES_MENU_MY_PROMO_CODES_2_CODES_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:90
+msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:91
+msgid "PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:99
+msgid "PROMOCODES_MENU_APPROVE_DECLINE_PROMO_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:101
+msgid "PROMOCODES_MENU_APPROVE_DECLINE_PROMO_BTN"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:109
+msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_TEXT"
+msgstr ""
+
+#: ../../bot/menus/account_menus/promocodes_menu.py:112
+msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_BTN"
 msgstr ""
 
 #: ../../bot/menus/account_menus/referrals_menu.py:11
@@ -606,86 +763,138 @@ msgstr ""
 msgid "LANGUAGE_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:6
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:10
 msgid "WHEEL_OF_FORTUNE_TEXT_MENU"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:9
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:13
 msgid "WHEEL_FORTUNE_BTN_BUY_TICKET"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:10
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:14
 msgid "WHEEL_FORTUNE_BTN_MY_NUMBERS"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:11
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:15
 msgid "WHEEL_FORTUNE_BTN_BUY_TICKET_CHECK_MY_STATUS"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:12
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:23
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:16
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:29
 msgid "WHEEL_FORTUNE_BTN_SPIN_RESULT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:13
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:24
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:17
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:30
 msgid "WHEEL_FORTUNE_BTN_CLAIM_WIN"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:21
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:27
 msgid "WHEEL_OF_FORTUNE_DOESNT_EXIST_TEXT_MENU"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:34
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:51
 msgid "WOF_MENU_BUY_TICKET_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:38
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:55
 msgid "WOF_BTN_BUY_TICKET_MENU_SELECT_NUM"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:39
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:56
 msgid "WOF_BTN_BUY_TICKET_MENU_RANDOM_NUM"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:49
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:66
 msgid "WOF_MENU_BUY_SELECTED_TICKET_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:54
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:71
+msgid "WOF_BTN_BUY_PROMO_TICKET_SELECTED_NUM"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:73
 msgid "WOF_BTN_BUY_SELECTED_NUM_MENU"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:65
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
 msgid "WOF_MENU_BUY_RANDOM_TICKET_TEXT"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:72
-msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
-msgstr ""
-
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:80
-msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
-msgstr ""
-
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:84
-msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"
-msgstr ""
-
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:85
-msgid "WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM"
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:91
+msgid "WOF_BTN_BUY_PROMO_TICKET_RANDOM_NUM"
 msgstr ""
 
 #: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:93
+msgid "WOF_BTN_BUY_RANDOM_NUM_MENU"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:101
+msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:108
+msgid "WOF_MY_NUMBERS_BTN_DISPLAY_SELECTED"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:109
+msgid "WOF_MY_NUMBERS_BTN_DISPLAY_RANDOM"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:120
 msgid "WHEEL_OF_FORTUNE_MY_NUMBERS_TEXT_1"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:96
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:123
 msgid "WHEEL_FORTUNE_BTN_PREVIOUS_TICKET_PAGE"
 msgstr ""
 
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:98
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:125
 msgid "WHEEL_FORTUNE_BTN_NEXT_TICKET_PAGE"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:127
+msgid "WHEEL_FORTUNE_BTN_CHANGE_TYPE_TICKET"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:136
+msgid "WHEEL_OF_FORTUNE_WHAT_BALANCE_WITHDRAW_TEXT"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:139
+msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_GENERAL"
+msgstr ""
+
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:142
+msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:7
+msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
+msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:14
+msgid "CRYPTO_PAY_COIN_BTN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:27
+msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:31
+msgid "CRYPTO_PAY_COIN_ACCEPTED"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:39
+msgid "CRYPTO_PAY_WARNING_ABOUT_OPTIMIZED_BUY_GAMETOKEN"
+msgstr ""
+
+#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:41
+msgid "CRYPTO_PAY_DUNKY_CHOICE_BTN"
 msgstr ""
 
 #: ../../bot/menus/wallet_menus/deposit_menu.py:11
@@ -708,8 +917,8 @@ msgstr ""
 msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/deposit_menu.py:34
-msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER2"
+#: ../../bot/menus/wallet_menus/deposit_menu.py:35
+msgid "DEPOSIT_MENU_BTN_OPEN_CRYPTO_PAY"
 msgstr ""
 
 #: ../../bot/menus/wallet_menus/wallet_menu.py:9

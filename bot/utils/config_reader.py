@@ -6,6 +6,7 @@ from pydantic import BaseSettings, validator, SecretStr, RedisDsn
 
 class Settings(BaseSettings):
     bot_token: SecretStr
+    crypto_pay_token: SecretStr
     fsm_mode: str
     redis: Optional[RedisDsn]
     wallet_seed: str

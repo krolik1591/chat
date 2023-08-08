@@ -24,11 +24,13 @@ class User(manager.Model):
     lang = CharField(default='en')
     referrer = BigIntegerField(null=True)
     total_ref_withdraw = DecimalField(default=0)
-    wof_win = DecimalField(default=0)
+    wof_win = CharField(default='{"general": 0, "promo": 0}')
 
     balance_general = DecimalField(default=0)
     balance_demo = DecimalField(default=0)
     balance_promo = DecimalField(default=0)
+
+    count_deactivation_promos = BigIntegerField(default=0)
 
     is_blocked = BooleanField(default=0)
 
@@ -38,30 +40,6 @@ class User(manager.Model):
 
     def __str__(self):
         return f'USER: {self.user_id}; {self.lang=}'
-
-
-class WoFTickets(manager.Model):
-    woftickets_id = BigIntegerField(primary_key=True)
-    user = ForeignKeyField(User, backref='WheelOfFortune')
-
-    ticket_num = BigIntegerField()
-    ticket_type = CharField()
-    buy_timestamp = DateTimeField()
-
-
-class WoFSettings(manager.Model):
-    wofsettings_id = BigIntegerField(primary_key=True)
-
-    ticket_cost = BigIntegerField()
-    commission = BigIntegerField()
-    rewards = CharField()
-    winners = CharField(null=True)   # ticket_num: tg_id:reward
-    random_seed = CharField()
-
-    timestamp_start = DateTimeField()
-    timestamp_end = DateTimeField(null=True)
-
-    is_active = BooleanField(default=1)
 
 
 class WithdrawTx(manager.Model):
@@ -80,12 +58,13 @@ class Transactions(manager.Model):
     user = ForeignKeyField(User, backref='transactions')
     token_id = CharField()
     tx_type = SmallIntegerField()
-    tx_address = CharField()
-    tx_hash = CharField()
-    logical_time = BigIntegerField()
+    tx_address = CharField(null=True)
+    tx_hash = CharField(null=True)
+    logical_time = BigIntegerField(null=True)
     utime = BigIntegerField()
-    amount = BigIntegerField()
-    comment = CharField()
+    amount = DecimalField()
+    comment = CharField(null=True)
+    crypto_pay_id = BigIntegerField(null=True, unique=True)
 
     def __str__(self):
         return f'TRANSACTION: {self.user_id=}, {self.token_id=}, {self.tx_hash=}, {self.amount=}'
@@ -114,16 +93,51 @@ class PromoCodes(manager.Model):
     name = CharField(primary_key=True)
     type = CharField()
     bonus = BigIntegerField()
-    wager = BigIntegerField()
     number_of_users = DecimalField()
-    number_of_uses = BigIntegerField()
-    status = BooleanField(default=True)
-    date_end = BigIntegerField(null=True)
+    max_deposits = BigIntegerField()
+    date_start = BigIntegerField()
+    date_end = BigIntegerField()
+    duration = IntegerField()
+    min_wager = DecimalField()
+    wager = DecimalField()
+    special_users = CharField(null=True)
 
 
 class UsersPromoCodes(manager.Model):
     userspromocodes_id = BigIntegerField(primary_key=True)
     user = ForeignKeyField(User, backref='userspromocodes')
-    promo_name = CharField()
-    date_of_using = BigIntegerField()
-    date_end = BigIntegerField(null=True)
+    promo_name = ForeignKeyField(PromoCodes, backref='userspromocodes')
+    deposited_bonus = DecimalField(default=0)
+    available_bonus_tickets = BigIntegerField(null=True)
+    deposited_min_wager = DecimalField(default=0)
+    deposited_wager = DecimalField(default=0)
+    date_activated = BigIntegerField(null=True)
+    date_end = BigIntegerField()
+    is_active = BooleanField()
+    won = BooleanField(default=False)
+
+
+class WoFTickets(manager.Model):
+    woftickets_id = BigIntegerField(primary_key=True)
+    user = ForeignKeyField(User, backref='wof_tickets')
+    promo = ForeignKeyField(PromoCodes, backref='wof_tickets', null=True)
+    ticket_num = BigIntegerField()
+    ticket_type = CharField()
+    buy_timestamp = DateTimeField()
+
+    # is_promo = BooleanField(default=False)
+
+
+class WoFSettings(manager.Model):
+    wofsettings_id = BigIntegerField(primary_key=True)
+
+    ticket_cost = BigIntegerField()
+    commission = BigIntegerField()
+    rewards = CharField()
+    winners = CharField(null=True)   # ticket_num: tg_id:reward
+    random_seed = CharField()
+
+    timestamp_start = DateTimeField()
+    timestamp_end = DateTimeField(null=True)
+
+    is_active = BooleanField(default=1)
