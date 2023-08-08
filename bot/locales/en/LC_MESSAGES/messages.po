@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-08-05 23:52+0300\n"
+"POT-Creation-Date: 2023-08-08 14:04+0300\n"
 "PO-Revision-Date: 2023-05-14 22:53+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,54 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../../bot/cron/warning_about_end_promo_watcher.py:31
-msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
-msgstr ""
-
-#: ../../bot/cron/warning_about_end_promo_watcher.py:34
-msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
-msgstr ""
-
-#: ../../bot/cron/wof_watcher.py:184
-msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
-msgstr "Ur win"
-
-#: ../../bot/cron/wof_watcher.py:190
-msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
-msgstr ""
-
-#: ../../bot/handlers/m01_main.py:54
+#: ../../bot/handlers/m01_main.py:59
 msgid "CHECK_REF_DENIED_TEXT"
 msgstr ""
 
-#: ../../bot/handlers/m01_main.py:60
+#: ../../bot/handlers/m01_main.py:65
 msgid "CHECK_REF_APPROVE_TEXT"
-msgstr ""
-
-#: ../../bot/handlers/admin_handlers/spam.py:40
-msgid "ADMIN_SPAM_TEXT_ENTER_RECEIVER_ID)"
-msgstr ""
-
-#: ../../bot/handlers/admin_handlers/spam.py:43
-#: ../../bot/handlers/admin_handlers/spam.py:89
-#: ../../bot/handlers/admin_handlers/spam.py:95
-msgid "ADMIN_SPAM_TEXT_ENTER_UR_MSG"
-msgstr ""
-
-#: ../../bot/handlers/admin_handlers/spam.py:72
-msgid "ADMIN_SPAM_TEXT_NO_USER_FOUND_ID_IN_BD"
-msgstr ""
-
-#: ../../bot/handlers/admin_handlers/spam.py:104
-msgid "ADMIN_SPAM_TEXT_TEMPLATE"
-msgstr ""
-
-#: ../../bot/handlers/admin_handlers/spam.py:130
-msgid "ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"
-msgstr ""
-
-#: ../../bot/handlers/admin_handlers/spam.py:141
-msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
 msgstr ""
 
 #: ../../bot/handlers/games_handlers/m03_balance.py:47
@@ -212,170 +170,10 @@ msgstr ""
 msgid "DICE_GAMES_NUMBERS_CUBE_EMOJI_6"
 msgstr ""
 
-#: ../../bot/handlers/my_account_handlers/promocode.py:64
-#: ../../bot/handlers/my_account_handlers/promocode.py:72
-msgid "PROMO_CODE_IS_ACTIVATED"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:83
-#: ../../bot/handlers/my_account_handlers/promocode.py:87
-msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:121
-msgid "PROMOCODE_CLAIM_REWARD_IS_DONE"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:144
-msgid "PROMO_CODE_DECLINE_TEXT"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:161
-msgid "PROMO_CODE_U_NEED_ENTER_ERR"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:164
-msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:167
-msgid "PROMO_CODE_DOESNT_EXIST_ERR"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:171
-msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:180
-#: ../../bot/handlers/my_account_handlers/promocode.py:192
-msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/promocode.py:183
-#: ../../bot/handlers/my_account_handlers/promocode.py:188
-#: ../../bot/handlers/my_account_handlers/promocode.py:196
-msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/referrals.py:25
-msgid "REFERRALS_REFRESHED_TEXT"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/referrals.py:36
-msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/referrals.py:43
-msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
-msgstr ""
-
-#: ../../bot/handlers/my_account_handlers/referrals.py:68
-msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
-msgstr "HI!"
-
-#: ../../bot/handlers/my_account_handlers/referrals.py:68
-msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
-msgstr "HI, BRO!"
-
-#: ../../bot/handlers/my_account_handlers/referrals.py:70
-msgid "REFERRALS_SEND_INVITATION_TEXT"
-msgstr "HI, BRO, CMON PLAY WITH ME!"
-
-#: ../../bot/handlers/my_account_handlers/referrals.py:72
-msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
-msgstr "GO!"
-
 #: ../../bot/handlers/other_handlers/language.py:26
 msgid "SETTINGS_LANG_CHANGED"
 msgstr ""
 
-#: ../../bot/handlers/wallet_handlers/crypto_pay_bot.py:67
-msgid "CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:124
-msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:132
-msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:136
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:216
-msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:146
-msgid "WOF_BUY_TICKET_ERR_TOO_MUCH_TICKETS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:154
-msgid "WOF_BUY_TICKET_ERR_NO_TICKETS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:158
-msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:167
-msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:179
-msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:184
-msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:208
-msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/buy_ticket.py:212
-msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:44
-#: ../../bot/handlers/wheel_of_fortune_handlers/my_numbers.py:64
-msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:63
-msgid "WOF_CHECK_STATUS_ANSWER"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:69
-msgid "WOF_CHECK_STATUS_NO_TICKETS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:71
-msgid "WOF_CHECK_STATUS_TICKETS"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:79
-msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:89
-msgid "WOF_SPIN_RESULT_ANSWER"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:97
-msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:130
-msgid "WOF_CLAIM_REWARD_ANSWER"
-msgstr ""
-
-#: ../../bot/handlers/wheel_of_fortune_handlers/wheel_of_fortune.py:140
-msgid "WOF_NO_DATE_END"
-msgstr ""
-
-#: ../../bot/menus/account_menus/account_menu.py:8
 #: ../../bot/menus/game_menus/select_balance.py:10
 #: ../../bot/menus/game_menus/select_game.py:9 ../../bot/menus/main_menu.py:8
 msgid "MENU_TEXT"
@@ -425,220 +223,6 @@ msgstr ""
 msgid "SELECT_BALANCE_BTN_GENERAL"
 msgstr ""
 
-#: ../../bot/menus/account_menus/account_menu.py:17
-msgid "ACCOUNT_MENU_BTN_REFERRALS"
-msgstr ""
-
-#: ../../bot/menus/account_menus/account_menu.py:20
-msgid "ACCOUNT_MENU_BTN_PROMO_CODES"
-msgstr ""
-
-#: ../../bot/menus/account_menus/account_menu.py:23
-msgid "ACCOUNT_MENU_BTN_TROPHIES"
-msgstr ""
-
-#: ../../bot/menus/account_menus/account_menu.py:26
-msgid "ACCOUNT_MENU_BTN_SEND_GIFT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/account_menu.py:27
-msgid "ACCOUNT_MENU_SETTINGS"
-msgstr ""
-
-#: ../../bot/menus/account_menus/account_menu.py:30
-#: ../../bot/menus/account_menus/promocodes_menu.py:11
-#: ../../bot/menus/account_menus/promocodes_menu.py:20
-#: ../../bot/menus/account_menus/promocodes_menu.py:92
-#: ../../bot/menus/account_menus/promocodes_menu.py:102
-#: ../../bot/menus/account_menus/promocodes_menu.py:114
-#: ../../bot/menus/account_menus/referrals_menu.py:51
-#: ../../bot/menus/admin_menus/spam_menus.py:12
-#: ../../bot/menus/admin_menus/spam_menus.py:45
-#: ../../bot/menus/game_menus/bet_menus.py:56
-#: ../../bot/menus/game_menus/cube_settings.py:55
-#: ../../bot/menus/game_menus/select_balance.py:25
-#: ../../bot/menus/game_menus/select_game.py:43
-#: ../../bot/menus/main_menus/guides_menus.py:34
-#: ../../bot/menus/main_menus/language_menu.py:28
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:18
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:31
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:57
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:75
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:110
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:129
-#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:146
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:20
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:32
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:42
-#: ../../bot/menus/wallet_menus/deposit_menu.py:36
-#: ../../bot/menus/wallet_menus/wallet_menu.py:23
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:14
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:23
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:36
-msgid "BTN_BACK"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:6
-msgid "PROMOCODES_MENU_PROMO_CODES_TEXT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:8
-msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:9
-msgid "ACCOUNT_MENU_MY_PROMO_CODE_BTN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:10
-msgid "ACCOUNT_MENU_PROMO_CODES_AVAILABLE_BTN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:18
-msgid "PROMOCODES_MENU_ACTIVE_PROMO_CODES_TEXT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:33
-msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:35
-msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:41
-msgid "PROMOCODES_MENU_NEED_WOF_WIN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:51
-msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:72
-msgid "PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:84
-msgid "PROMOCODES_MENU_MY_PROMO_CODES_2_CODES_TEXT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:90
-msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:91
-msgid "PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:99
-msgid "PROMOCODES_MENU_APPROVE_DECLINE_PROMO_TEXT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:101
-msgid "PROMOCODES_MENU_APPROVE_DECLINE_PROMO_BTN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:109
-msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_TEXT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/promocodes_menu.py:112
-msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_BTN"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:11
-msgid "REF_LVL_1_ADEPT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:12
-msgid "REF_LVL_2_EXPERIENCED"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:13
-msgid "REF_LVL_3_CONNOISSEUR"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:14
-msgid "REF_LVL_4_EXPERT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:15
-msgid "REF_LVL_5_MAESTRO"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:28
-msgid "REFERRAL_MENU_TEXT"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:39
-msgid "REFERRALS_MENU_SEND_INVITE"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:42
-msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:45
-msgid "REFERRALS_MENU_BTN_REFRESH_REF_INFO"
-msgstr ""
-
-#: ../../bot/menus/account_menus/referrals_menu.py:48
-msgid "REFERRALS_MENU_HOW_IT_WORKS"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/admin_menu.py:6
-msgid "ADMIN_MENU_TEXT"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/admin_menu.py:15
-msgid "ADMIN_MENU_BTN_SPAM"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/admin_menu.py:18
-msgid "ADMIN_MENU_BTN_STATISTIC"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:8
-msgid "ADMIN_SPAM_TYPE_MENU_TEXT"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:10
-msgid "ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:11
-msgid "ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:19
-msgid "ADMIN_SPAM_CONFIRM_MENU_TEXT"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:22
-msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:23
-msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:31
-msgid "ADMIN_SPAM_LANGUAGE_MENU_TEXT"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:52
-msgid "ADMIN_SPAM_TEXT_WHICH_USER_DOESNT_EXIST"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:55
-msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_BACK"
-msgstr ""
-
-#: ../../bot/menus/admin_menus/spam_menus.py:56
-msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_GO_NEXT"
-msgstr ""
-
 #: ../../bot/menus/game_menus/bet_menus.py:14
 msgid "SLOTS_PLAY_TEXT"
 msgstr ""
@@ -670,6 +254,23 @@ msgstr ""
 
 #: ../../bot/menus/game_menus/bet_menus.py:53
 msgid "BET_MENUS_BTN_MAXIMUM"
+msgstr ""
+
+#: ../../bot/menus/game_menus/bet_menus.py:56
+#: ../../bot/menus/game_menus/cube_settings.py:55
+#: ../../bot/menus/game_menus/select_balance.py:25
+#: ../../bot/menus/game_menus/select_game.py:43
+#: ../../bot/menus/main_menus/guides_menus.py:34
+#: ../../bot/menus/main_menus/language_menu.py:28
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:18
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:31
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:57
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:75
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:94
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:110
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:129
+#: ../../bot/menus/main_menus/wheel_of_fortune_menus.py:146
+msgid "BTN_BACK"
 msgstr ""
 
 #: ../../bot/menus/game_menus/bet_menus.py:65
@@ -870,150 +471,6 @@ msgstr ""
 msgid "WHEEL_FORTUNE_BTN_WHAT_BALANCE_PROMO"
 msgstr ""
 
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:7
-msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:9
-msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:14
-msgid "CRYPTO_PAY_COIN_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:27
-msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:31
-msgid "CRYPTO_PAY_COIN_ACCEPTED"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:39
-msgid "CRYPTO_PAY_WARNING_ABOUT_OPTIMIZED_BUY_GAMETOKEN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/crypto_pay_menus.py:41
-msgid "CRYPTO_PAY_DUNKY_CHOICE_BTN"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/deposit_menu.py:11
-msgid "DEPOSIT_ACCOUNT_INITIATED"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/deposit_menu.py:13
-msgid "DEPOSIT_INITIATION_ERROR"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/deposit_menu.py:20
-msgid "DEPOSIT_SUCCESSFUL"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/deposit_menu.py:25
-msgid "DEPOSIT_MENU_TEXT"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/deposit_menu.py:33
-msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/deposit_menu.py:35
-msgid "DEPOSIT_MENU_BTN_OPEN_CRYPTO_PAY"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/wallet_menu.py:9
-msgid "WALLET_MENU_TEXT"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/wallet_menu.py:19
-msgid "WALLET_MENU_BTN_DEPOSIT"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/wallet_menu.py:20
-msgid "WALLET_MENU_BTN_WITHDRAW"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/wallet_menu.py:22
-msgid "WALLET_MENU_BTN_HOW_TO_BUY"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:11
-msgid "WITHDRAW_MENU_TEXT1"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:21
-msgid "WITHDRAW_MENU_TEXT2"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:30
-msgid "WITHDRAW_MENU_TEXT3"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:35
-msgid "WITHDRAW_MENU_BTN_STEP_3_APPROVE"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:43
-msgid "WITHDRAW_APPROVE"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:46
-msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:66
-msgid "ADMIN_APPROVE_TX"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:71
-msgid "ADMIN_REJECT_TX"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:78
-msgid "PAYMENT_CONFIRMED"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:80
-msgid "PAYMENT_DENIED"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu.py:88
-msgid "PAYMENT_LOST"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:9
-msgid "PREVIOUS_WITHDRAW_IN_PROCESS"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:14
-msgid "REACHED_DAILY_LIMIT"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:18
-msgid "WITHDRAW_TOO_BIG"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:23
-msgid "AMOUNT_TOO_SMALL"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:27
-msgid "INSUFFICIENT_FUNDS_MASTER"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:31
-msgid "INSUFFICIENT_FUNDS"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:35
-msgid "WRONG_ADDRESS"
-msgstr ""
-
-#: ../../bot/menus/wallet_menus/withdraw_menu_err.py:39
-msgid "TON_TESTNET_ADDRESS"
-msgstr ""
-
 #~ msgid "MAIN_MENU_BTN_CABINET"
 #~ msgstr ""
 
@@ -1129,5 +586,386 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "CRYPTO_PAY_TRX_BTN"
+#~ msgstr ""
+
+#~ msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT_WITHOUT_DEPOSIT"
+#~ msgstr ""
+
+#~ msgid "DEACTIVATE_PROMO_WATCHER_MSG_TEXT"
+#~ msgstr ""
+
+#~ msgid "WOF_WATCHER_SEND_MSG_TO_WOF_WINNERS"
+#~ msgstr "Ur win"
+
+#~ msgid "WOF_WATCHER_SEND_MSG_TO_WOF_LOOSERS"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TEXT_ENTER_RECEIVER_ID)"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TEXT_ENTER_UR_MSG"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TEXT_NO_USER_FOUND_ID_IN_BD"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TEXT_TEMPLATE"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_ANSWER_USERS_NOT_FOUND"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_WHO_DOESNT_RECEIVE_SPAM"
+#~ msgstr ""
+
+#~ msgid "PROMO_CODE_IS_ACTIVATED"
+#~ msgstr ""
+
+#~ msgid "MY_PROMO_CODES_ACTIVE_PROMO_NOT_FOUND_ERR"
+#~ msgstr ""
+
+#~ msgid "PROMOCODE_CLAIM_REWARD_IS_DONE"
+#~ msgstr ""
+
+#~ msgid "PROMO_CODE_DECLINE_TEXT"
+#~ msgstr ""
+
+#~ msgid "PROMO_CODE_U_NEED_ENTER_ERR"
+#~ msgstr ""
+
+#~ msgid "PROMO_CODE_IS_ALREADY_ACTIVATED"
+#~ msgstr ""
+
+#~ msgid "PROMO_CODE_DOESNT_EXIST_ERR"
+#~ msgstr ""
+
+#~ msgid "PROMO_CODE_CANT_BE_TWO_PROMOCODES_SAME_TYPE"
+#~ msgstr ""
+
+#~ msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_MIN_WAGER_BETS"
+#~ msgstr ""
+
+#~ msgid "PROMOCODE_CLAIM_ERR_NOT_ENOUGH_WAGER_BETS"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_REFRESHED_TEXT"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_PROMO_TO_GENERAL_NO_MORE_MONEY"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_PROMO_TO_GENERAL_SUCCESS"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_SEND_INVITATION_TITLE_TEXT"
+#~ msgstr "HI!"
+
+#~ msgid "REFERRALS_SEND_INVITATION_DESC_TEXT"
+#~ msgstr "HI, BRO!"
+
+#~ msgid "REFERRALS_SEND_INVITATION_TEXT"
+#~ msgstr "HI, BRO, CMON PLAY WITH ME!"
+
+#~ msgid "REFERRALS_SEND_INVITATION_BTN_TEXT"
+#~ msgstr "GO!"
+
+#~ msgid "CRYPTO_PAY_BOT_REPLENISH_ERR_MIN_DEPOSIT"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_NO_ACTIVE_WHEEL"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_NO_TICKET_NUM"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_THIS_TICKET_ALREADY_EXISTS"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_NO_TICKETS"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_MONEY"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_NOT_ENOUGH_PROMO_TICKETS"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_SUCCESS_SELECTED"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_SUCCESS_RANDOM"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_NUMBERS"
+#~ msgstr ""
+
+#~ msgid "WOF_BUY_TICKET_ERR_ENTER_ONLY_7_SYMBOL"
+#~ msgstr ""
+
+#~ msgid "WOF_MY_NUMBERS_MENU_NO_TICKETS"
+#~ msgstr ""
+
+#~ msgid "WOF_CHECK_STATUS_ANSWER"
+#~ msgstr ""
+
+#~ msgid "WOF_CHECK_STATUS_NO_TICKETS"
+#~ msgstr ""
+
+#~ msgid "WOF_CHECK_STATUS_TICKETS"
+#~ msgstr ""
+
+#~ msgid "WOF_SPIN_RESULT_ANSWER_ERROR"
+#~ msgstr ""
+
+#~ msgid "WOF_SPIN_RESULT_ANSWER"
+#~ msgstr ""
+
+#~ msgid "WOF_CLAIM_REWARD_ANSWER_ERROR"
+#~ msgstr ""
+
+#~ msgid "WOF_CLAIM_REWARD_ANSWER"
+#~ msgstr ""
+
+#~ msgid "WOF_NO_DATE_END"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_BTN_REFERRALS"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_BTN_PROMO_CODES"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_BTN_TROPHIES"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_BTN_SEND_GIFT"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_SETTINGS"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_PROMO_CODES_TEXT"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_ACTIVE_PROMO_CODE_BTN"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_MY_PROMO_CODE_BTN"
+#~ msgstr ""
+
+#~ msgid "ACCOUNT_MENU_PROMO_CODES_AVAILABLE_BTN"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_ACTIVE_PROMO_CODES_TEXT"
+#~ msgstr ""
+
+#~ msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_BALANCE"
+#~ msgstr ""
+
+#~ msgid "MY_PROMO_CODE_MENU_ACTIVE_PROMO_TICKET"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_NEED_WOF_WIN"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_NEED_DEPOSIT_TEXT"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_WAIT_FOR_WOF_OR_REPLENISH_BALANCE"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_MY_PROMO_CODES_2_CODES_TEXT"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_CLAIM_REWARD_BTN"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_DECLINE_PROMO_CODE_BTN"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_APPROVE_DECLINE_PROMO_TEXT"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_APPROVE_DECLINE_PROMO_BTN"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_TEXT"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_APPROVE_ACTIVATE_BALANCE_PROMO_BTN"
+#~ msgstr ""
+
+#~ msgid "REF_LVL_1_ADEPT"
+#~ msgstr ""
+
+#~ msgid "REF_LVL_2_EXPERIENCED"
+#~ msgstr ""
+
+#~ msgid "REF_LVL_3_CONNOISSEUR"
+#~ msgstr ""
+
+#~ msgid "REF_LVL_4_EXPERT"
+#~ msgstr ""
+
+#~ msgid "REF_LVL_5_MAESTRO"
+#~ msgstr ""
+
+#~ msgid "REFERRAL_MENU_TEXT"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_MENU_SEND_INVITE"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_MENU_SEND_PROMO_TO_GENERAL"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_MENU_BTN_REFRESH_REF_INFO"
+#~ msgstr ""
+
+#~ msgid "REFERRALS_MENU_HOW_IT_WORKS"
+#~ msgstr ""
+
+#~ msgid "ADMIN_MENU_TEXT"
+#~ msgstr ""
+
+#~ msgid "ADMIN_MENU_BTN_SPAM"
+#~ msgstr ""
+
+#~ msgid "ADMIN_MENU_BTN_STATISTIC"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TYPE_MENU_TEXT"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TYPE_MENU_BTN_ALL_USERS"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TYPE_MENU_BTN_FOR_ID"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_CONFIRM_MENU_TEXT"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_APPROVE"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_CONFIRM_MENU_BTN_DENIED"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_LANGUAGE_MENU_TEXT"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_TEXT_WHICH_USER_DOESNT_EXIST"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_BACK"
+#~ msgstr ""
+
+#~ msgid "ADMIN_SPAM_INCORRECT_USER_MENU_BTN_GO_NEXT"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_CRYPRO_PAY_TEXT"
+#~ msgstr ""
+
+#~ msgid "PROMOCODES_MENU_CRYPTO_PAY_PRICE_TEXT"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_COIN_BTN"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_GET_LINK_TO_DEP_TEXT"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_WARNING_ABOUT_OPTIMIZED_BUY_GAMETOKEN"
+#~ msgstr ""
+
+#~ msgid "CRYPTO_PAY_DUNKY_CHOICE_BTN"
+#~ msgstr ""
+
+#~ msgid "DEPOSIT_ACCOUNT_INITIATED"
+#~ msgstr ""
+
+#~ msgid "DEPOSIT_INITIATION_ERROR"
+#~ msgstr ""
+
+#~ msgid "DEPOSIT_SUCCESSFUL"
+#~ msgstr ""
+
+#~ msgid "DEPOSIT_MENU_TEXT"
+#~ msgstr ""
+
+#~ msgid "DEPOSIT_MENU_BTN_OPEN_TONKEEPER"
+#~ msgstr ""
+
+#~ msgid "DEPOSIT_MENU_BTN_OPEN_CRYPTO_PAY"
+#~ msgstr ""
+
+#~ msgid "WALLET_MENU_TEXT"
+#~ msgstr ""
+
+#~ msgid "WALLET_MENU_BTN_DEPOSIT"
+#~ msgstr ""
+
+#~ msgid "WALLET_MENU_BTN_WITHDRAW"
+#~ msgstr ""
+
+#~ msgid "WALLET_MENU_BTN_HOW_TO_BUY"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_MENU_TEXT1"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_MENU_TEXT2"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_MENU_TEXT3"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_MENU_BTN_STEP_3_APPROVE"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_APPROVE"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_MENU_BTN_STEP_4_TO_MENU"
+#~ msgstr ""
+
+#~ msgid "ADMIN_APPROVE_TX"
+#~ msgstr ""
+
+#~ msgid "ADMIN_REJECT_TX"
+#~ msgstr ""
+
+#~ msgid "PAYMENT_CONFIRMED"
+#~ msgstr ""
+
+#~ msgid "PAYMENT_DENIED"
+#~ msgstr ""
+
+#~ msgid "PAYMENT_LOST"
+#~ msgstr ""
+
+#~ msgid "PREVIOUS_WITHDRAW_IN_PROCESS"
+#~ msgstr ""
+
+#~ msgid "REACHED_DAILY_LIMIT"
+#~ msgstr ""
+
+#~ msgid "WITHDRAW_TOO_BIG"
+#~ msgstr ""
+
+#~ msgid "AMOUNT_TOO_SMALL"
+#~ msgstr ""
+
+#~ msgid "INSUFFICIENT_FUNDS_MASTER"
+#~ msgstr ""
+
+#~ msgid "INSUFFICIENT_FUNDS"
+#~ msgstr ""
+
+#~ msgid "WRONG_ADDRESS"
+#~ msgstr ""
+
+#~ msgid "TON_TESTNET_ADDRESS"
 #~ msgstr ""
 
