@@ -1,12 +1,12 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.utils.i18n import gettext as _
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from bot.consts import texts
 from bot.handlers.states import Games
 from bot.menus.utils import balances_text
 
 
 def select_game_menu(balances: dict):
-    text = _('MENU_TEXT').format(balances=balances_text(balances))
+    text = texts.MENU_TEXT.format(balances=balances_text(balances))
     kb = _keyboard()
 
     return text, kb
@@ -23,14 +23,14 @@ GAMES = [
 
 def _keyboard():
     GAME_NAMES = {
-        Games.CASINO: _("SELECT_GAME_BTN_CASINO"),
-        Games.CUBE: _("SELECT_GAME_BTN_CUBE"),
-        Games.BASKET: _("SELECT_GAME_BTN_BASKET"),
-        Games.DARTS: _("SELECT_GAME_BTN_DARTS"),
-        Games.BOWLING: _("SELECT_GAME_BTN_BOWLING"),
-        Games.FOOTBALL: _("SELECT_GAME_BTN_FOOTBALL"),
-        Games.MINES: _("SELECT_GAME_BTN_MINES"),
-        Games.CUEFA: _("SELECT_GAME_BTN_CUEFA"),
+        Games.CASINO: texts.SELECT_GAME_BTN_CASINO,
+        Games.CUBE: texts.SELECT_GAME_BTN_CUBE,
+        Games.BASKET: texts.SELECT_GAME_BTN_BASKET,
+        Games.DARTS: texts.SELECT_GAME_BTN_DARTS,
+        Games.BOWLING: texts.SELECT_GAME_BTN_BOWLING,
+        Games.FOOTBALL: texts.SELECT_GAME_BTN_FOOTBALL,
+        Games.MINES: texts.SELECT_GAME_BTN_MINES,
+        Games.CUEFA: texts.SELECT_GAME_BTN_CUEFA,
     }
 
     games = [[
@@ -40,7 +40,7 @@ def _keyboard():
 
     kb = [
         *games,
-        [InlineKeyboardButton(text=_('BTN_BACK'), callback_data="main_menu")]
+        [InlineKeyboardButton(text=texts.BTN_BACK, callback_data="main_menu")]
     ]
 
     return InlineKeyboardMarkup(inline_keyboard=kb)
