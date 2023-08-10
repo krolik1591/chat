@@ -22,8 +22,13 @@ async def add_game_result(user_id, game, result):
 
 
 # promocodes
-async def create_new_promo(promo_name):
-    return await Promocodes.create(promo_name=promo_name)
+
+async def create_new_promo(admin_id, promo_name):
+    return await Promocodes.create(promo_name=promo_name, who_create=admin_id, timestamp_registered=time.time())
+
+
+async def is_promo_in_db(promo_name):
+    return await Promocodes.select().where(Promocodes.promo_name == promo_name).exists()
 
 
 if __name__ == "__main__":

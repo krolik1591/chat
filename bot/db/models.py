@@ -23,7 +23,6 @@ class GameLog(manager.Model):
 
 
 class Promocodes(manager.Model):
-    user = ForeignKeyField(User, backref='promocodes')
     promo_name = CharField()
     who_create = BigIntegerField()
     timestamp_registered = IntegerField()
