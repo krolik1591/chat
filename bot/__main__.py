@@ -28,9 +28,6 @@ async def main(bot):
     for router in routers:
         dp.include_router(router)
 
-    i18n_path = Path(__file__).parent / 'locales'
-    i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
-
     # dp.message.middleware(ThrottlingMiddleware())
     # dp.callback_query.middleware(ThrottlingMiddleware())
 
@@ -48,6 +45,7 @@ async def main(bot):
 async def set_bot_commands(bot: Bot):
     await bot.set_my_commands(commands=[
         types.BotCommand(command="start", description="Перезапустить казино"),
+        types.BotCommand(command="add_promo", description="Додати промо"),
     ], scope=types.BotCommandScopeAllPrivateChats())
 
 

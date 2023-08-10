@@ -6,22 +6,14 @@ from pydantic import BaseSettings, validator, SecretStr, RedisDsn
 
 class Settings(BaseSettings):
     bot_token: SecretStr
-    crypto_pay_token: SecretStr
     fsm_mode: str
     redis: Optional[RedisDsn]
-    wallet_seed: str
     admin_chat_id: int
     admin_ids: str
 
     @validator("admin_ids")
     def is_admin(cls, v: str):
         return v.split(',')
-
-    @validator("wallet_seed")
-    def wallet_seed_check(cls, v: str):
-        if v.count(' ') != 23:
-            raise ValueError("Incorrect wallet_seed. Need 24 words.")
-        return v
 
     @validator("fsm_mode")
     def fsm_type_check(cls, v):

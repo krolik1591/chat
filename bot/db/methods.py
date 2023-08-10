@@ -2,7 +2,7 @@ import time
 
 from peewee import fn
 
-from bot.db.models import GameLog, User
+from bot.db.models import GameLog, Promocodes, User
 
 
 # users
@@ -19,6 +19,11 @@ async def is_user_exists(user_id):
 
 async def add_game_result(user_id, game, result):
     return await GameLog.create(user_id=user_id, game=game, result=result, timestamp=time.time())
+
+
+# promocodes
+async def create_new_promo(promo_name):
+    return await Promocodes.create(promo_name=promo_name)
 
 
 if __name__ == "__main__":

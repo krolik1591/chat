@@ -1,4 +1,4 @@
-from .models import User, GameLog, manager
+from .models import Promocodes, User, GameLog, manager
 
 async def first_start():
     if User.table_exists():
@@ -6,4 +6,4 @@ async def first_start():
 
     print("First start, creating tables...")
 
-    await manager.create_tables(User, GameLog)
+    await manager.create_tables(User, GameLog, Promocodes)

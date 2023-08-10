@@ -10,7 +10,8 @@ manager = Manager(f'aiosqlite:////{path}')
 
 class User(manager.Model):
     user_id = BigIntegerField(primary_key=True)
-    username = CharField(default='', null=True)
+    username = CharField()
+    active_promos = CharField(null=True)
 
 
 class GameLog(manager.Model):
@@ -19,3 +20,10 @@ class GameLog(manager.Model):
     game = CharField()
     result = IntegerField()
     timestamp = DateTimeField()
+
+
+class Promocodes(manager.Model):
+    user = ForeignKeyField(User, backref='promocodes')
+    promo_name = CharField()
+    who_create = BigIntegerField()
+    timestamp_registered = IntegerField()
