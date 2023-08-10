@@ -1,3 +1,4 @@
+import json
 import time
 
 from peewee import fn
@@ -27,15 +28,40 @@ async def create_new_promo(admin_id, promo_name):
     return await Promocodes.create(promo_name=promo_name, who_create=admin_id, timestamp_registered=time.time())
 
 
+async def add_new_promo_to_user(user_id, promo_name):
+    active_promos = await get_user_promos(user_id)
+    if active_promos is None:
+        active_promos = []
+    else:
+        active_promos = json.loads(active_promos)
+
+    active_promos.append(promo_name)
+    json_promos = json.dumps(active_promos)
+
+    return await User.update(active_promos=json_promos).where(User.user_id == user_id)
+
+
 async def is_promo_in_db(promo_name):
     return await Promocodes.select().where(Promocodes.promo_name == promo_name).exists()
+
+
+async def get_all_promos():
+    return await Promocodes.select(Promocodes.promo_name).scalars()
+
+
+async def get_user_promos(user_id):
+    result = await User.select(User.active_promos).where(User.user_id == user_id).scalars()
+    if result[0] is None:
+        return None
+    return result[0]
 
 
 if __name__ == "__main__":
     import asyncio
 
     async def test():
-        x = await is_user_exists(3571028179)
-        print(x)
+        # x = await get_user_promos(357108179)
+        x = await add_new_promo_to_user(357108179, ' 152')
+        print(x, type(x))
 
     asyncio.run(test())

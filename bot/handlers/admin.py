@@ -23,5 +23,5 @@ async def add_promo(message: types.Message):
         await message.answer(f'Промо з назвою {promo_name} вже існує!')
         return
 
-    await create_new_promo(message.from_user.id, promo_name)
+    await create_new_promo(message.from_user.id, promo_name.lstrip())
     await message.answer(f'Промокод <code>{promo_name}</code> створено!')
