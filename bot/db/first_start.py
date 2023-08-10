@@ -1,6 +1,4 @@
-from .models import WithdrawTx, User, Transactions, GameLog, Wallets_key, manager, WoFTickets, Settings, WoFSettings, \
-    PromoCodes, UsersPromoCodes
-
+from .models import User, GameLog, manager
 
 async def first_start():
     if User.table_exists():
@@ -8,5 +6,4 @@ async def first_start():
 
     print("First start, creating tables...")
 
-    await manager.create_tables(Wallets_key, User, Transactions, WithdrawTx, GameLog, WoFTickets, Settings, WoFSettings,
-                                PromoCodes, UsersPromoCodes)
+    await manager.create_tables(User, GameLog)
