@@ -46,6 +46,7 @@ async def set_bot_commands(bot: Bot):
     await bot.set_my_commands(commands=[
         types.BotCommand(command="start", description="Перезапустить казино"),
         types.BotCommand(command="add_promo", description="Додати промо"),
+        types.BotCommand(command="my_promos", description="Мої промокоди"),
     ], scope=types.BotCommandScopeAllPrivateChats())
 
 

@@ -39,7 +39,6 @@ async def casino(message: types.Message):
 
 @router.message()
 async def play(message: types.Message):
-    print('from play')
     try:
         dice_value = message.dice.value
         emoji = message.dice.emoji
