@@ -2,31 +2,30 @@ import time
 
 from peewee import fn
 
-from bot.db.models import User
+from bot.db.models import GameLog, User
 
 
 # users
 
-
-async def create_new_user(tg_id, username, referrer, start_points):
-    return await User.create(user_id=tg_id, username=username, timestamp_registered=time.time(),
-                             timestamp_last_active=time.time(), referrer=referrer, balance_demo=start_points)
+async def add_new_user(user_id, username=None):
+    return await User.create(user_id=user_id, timestamp_registered=time.time(), username=username)
 
 
-async def update_username(tg_id, username):
-    return await User.update({User.username: username}).where(User.user_id == tg_id)
+async def is_user_exists(user_id):
+    return await User.select().where(User.user_id == user_id).exists()
 
 
-async def get_user_lang(tg_id):
-    user_lang = await User.select(User.lang).where(User.user_id == tg_id)
-    if not user_lang:
-        raise ValueError
-    return user_lang[0].lang
+# games
+
+async def add_game_result(user_id, game, result):
+    return await GameLog.create(user_id=user_id, game=game, result=result, timestamp=time.time())
 
 
-async def set_user_lang(tg_id, new_lang):
-    return await User.update({User.lang: new_lang}).where(User.user_id == tg_id)
+if __name__ == "__main__":
+    import asyncio
 
+    async def test():
+        x = await is_user_exists(3571028179)
+        print(x)
 
-async def set_user_last_active(tg_id):
-    return await User.update({User.timestamp_last_active: time.time()}).where(User.user_id == tg_id)
+    asyncio.run(test())

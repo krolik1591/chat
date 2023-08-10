@@ -10,7 +10,6 @@ from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
 from bot.db import first_start
 from bot.handlers import routers
-from bot.middlewares.throttling import ThrottlingMiddleware
 from bot.utils.config_reader import config
 
 
@@ -32,10 +31,8 @@ async def main(bot):
     i18n_path = Path(__file__).parent / 'locales'
     i18n = I18n(path=i18n_path, default_locale="uk", domain="messages")
 
-    dp.message.middleware(ThrottlingMiddleware())
-    dp.callback_query.middleware(ThrottlingMiddleware())  # todo check if it works
-
-    dp.update.middleware(FSMI18nMiddleware(i18n))
+    # dp.message.middleware(ThrottlingMiddleware())
+    # dp.callback_query.middleware(ThrottlingMiddleware())
 
     await set_bot_commands(bot)
 
