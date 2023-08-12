@@ -2,8 +2,7 @@ import random
 from pprint import pprint
 
 from aiogram import F, Router, types
-from aiogram.filters import IS_MEMBER, IS_NOT_MEMBER, Text
-from aiogram.types import ChatMemberUpdated
+from aiogram.filters import Text
 
 from bot.db.methods import add_game_result, add_new_promo_to_user, add_new_user, get_all_promos, get_user_promos, \
     is_user_exists
