@@ -1,12 +1,22 @@
 import random
+from pprint import pprint
 
 from aiogram import F, Router, types
-from aiogram.filters import Text
+from aiogram.filters import IS_MEMBER, IS_NOT_MEMBER, Text
+from aiogram.types import ChatMemberUpdated
 
 from bot.db.methods import add_game_result, add_new_promo_to_user, add_new_user, get_all_promos, get_user_promos, \
     is_user_exists
 
 router = Router()
+
+
+@router.message(F.chat.type.in_(['group', 'supergroup']))
+async def on_user_join(message: types.Message):
+    x = message.new_chat_members
+    inviter_user_id = message.from_user.id
+    pprint(x[0].__dict__)
+    print(inviter_user_id)
 
 
 @router.message(Text(startswith="/casino"))
@@ -18,7 +28,7 @@ async def casino(message: types.Message):
     try:
         user_num = int(user_num)
     except ValueError:
-        await message.answer("Ви маєте ввести /casino <number>")
+        await message.answer("Ви маєте ввести /casino 'number' (де number - ціле число)")
         return
 
     random_num = random.randint(0, 100)
