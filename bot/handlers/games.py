@@ -1,13 +1,11 @@
 import random
-from pprint import pprint
 
 from aiogram import F, Router, types
 from aiogram.dispatcher.event.bases import SkipHandler
-from aiogram.filters import Command, Text
+from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
-from bot.db.methods import add_game_result, add_new_promo_to_user, add_new_user, get_all_promos, get_user_promos, \
-    is_user_exists
+from bot.db import methods as db
 from bot.utils.config_reader import config
 
 router = Router()
@@ -34,8 +32,8 @@ async def on_user_join(message: types.Message, state: FSMContext):
 
 @router.message(Command("casino"))
 async def casino(message: types.Message):
-    if not await is_user_exists(message.from_user.id):
-        await add_new_user(message.from_user.id, message.from_user.username)
+    if not await db.is_user_exists(message.from_user.id):
+        await db.add_new_user(message.from_user.id, message.from_user.username)
 
     user_num = message.text.removeprefix("/casino")
     try:
@@ -49,20 +47,17 @@ async def casino(message: types.Message):
         await message.answer(f"Ви програли, число було {random_num}")
         return
 
-    exist_promos = await get_all_promos()
-    active_user_promos = await get_user_promos(message.from_user.id)
-    available_promo = list(set(exist_promos).difference(active_user_promos))
+    available_promo = await db.get_available_user_promo(message.from_user.id)
     if not available_promo:
         await message.answer("Ви виграли, але всі промокоди вже використані!")
         return
 
-    await add_new_promo_to_user(message.from_user.id, available_promo[0])
+    await db.add_new_promo_to_user(message.from_user.id, available_promo[0])
     await message.answer(f"Ви отримали промокод {available_promo[0]}")
 
 
-@router.message(Text(startswith="/roll_"))
+@router.message(lambda message: message.chat.type in ['group', 'supergroup'])
 async def play(message: types.Message):
-
     print('play')
     try:
         dice_value = message.dice.value
@@ -70,7 +65,7 @@ async def play(message: types.Message):
     except AttributeError:
         return
 
-    if not await is_user_exists(message.from_user.id):
-        await add_new_user(message.from_user.id, message.from_user.username)
+    if not await db.is_user_exists(message.from_user.id):
+        await db.add_new_user(message.from_user.id, message.from_user.username)
 
-    await add_game_result(message.from_user.id, emoji, dice_value)
+    await db.add_game_result(message.from_user.id, emoji, dice_value)
