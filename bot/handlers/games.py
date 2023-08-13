@@ -2,7 +2,7 @@ import random
 
 from aiogram import F, Router, types
 from aiogram.dispatcher.event.bases import SkipHandler
-from aiogram.filters import Command
+from aiogram.filters import Command, Text
 from aiogram.fsm.context import FSMContext
 
 from bot.db import methods as db
@@ -35,28 +35,9 @@ async def casino(message: types.Message):
     if not await db.is_user_exists(message.from_user.id):
         await db.add_new_user(message.from_user.id, message.from_user.username)
 
-    user_num = message.text.removeprefix("/casino")
-    try:
-        user_num = int(user_num)
-    except ValueError:
-        await message.answer("Ви маєте ввести /casino 'number' (де number - ціле число)")
-        return
 
-    random_num = random.randint(0, 100)
-    if user_num != random_num:
-        await message.answer(f"Ви програли, число було {random_num}")
-        return
-
-    available_promo = await db.get_available_user_promo(message.from_user.id)
-    if not available_promo:
-        await message.answer("Ви виграли, але всі промокоди вже використані!")
-        return
-
-    await db.add_new_promo_to_user(message.from_user.id, available_promo[0])
-    await message.answer(f"Ви отримали промокод {available_promo[0]}")
-
-
-@router.message(lambda message: message.chat.type in ['group', 'supergroup'])
+@router.message((F.chat.type.in_(['group', 'supergroup'])) and
+                (lambda message: message.dice.emoji in ['🎲', '🎯', '🏀', '⚽️', '🎰', '🎳', '🎯']))
 async def play(message: types.Message):
     print('play')
     try:
