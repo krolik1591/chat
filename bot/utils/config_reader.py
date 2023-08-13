@@ -8,7 +8,6 @@ class Settings(BaseSettings):
     bot_token: SecretStr
     fsm_mode: str
     redis: Optional[RedisDsn]
-    admin_chat_id: int
     admin_ids: str
 
     @validator("admin_ids")
