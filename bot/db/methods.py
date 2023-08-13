@@ -56,6 +56,13 @@ async def get_user_promos(user_id):
     return result[0]
 
 
+async def get_available_user_promo(user_id):
+    exist_promos = await get_all_promos()
+    active_user_promos = await get_user_promos(user_id)
+    available_promo = list(set(exist_promos).difference(active_user_promos))
+    return available_promo
+
+
 if __name__ == "__main__":
     import asyncio
 
