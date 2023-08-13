@@ -1,7 +1,7 @@
 import json
 
-from aiogram import Router, types
-from aiogram.filters import Text
+from aiogram import F, Router, types
+from aiogram.filters import Command, Text
 
 from bot.db.methods import create_new_promo, get_user_promos, is_promo_in_db
 from bot.utils.config_reader import config
@@ -9,7 +9,7 @@ from bot.utils.config_reader import config
 router = Router()
 
 
-@router.message(Text(startswith="/add_promo"))
+@router.message(F.chat.type == "private", Command("add_promo"))
 async def add_promo(message: types.Message):
     admins = config.admin_ids
     if str(message.from_user.id) not in admins:
@@ -28,7 +28,7 @@ async def add_promo(message: types.Message):
     await message.answer(f'Промокод <code>{promo_name}</code> створено!')
 
 
-@router.message(Text(startswith="/my_promos"))
+@router.message(F.chat.type == "private", Command("my_promos"))
 async def my_promos(message: types.Message):
     active_promos = json.loads(await get_user_promos(message.from_user.id))
     text = '\n'.join(active_promos)
