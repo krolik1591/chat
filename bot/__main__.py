@@ -23,8 +23,6 @@ async def main(bot):
 
     dp = Dispatcher(storage=storage)
 
-    # dp.message.filter(F.chat.type == "private")  # only private chats allowed
-
     for router in routers:
         dp.include_router(router)
 
@@ -45,9 +43,7 @@ async def main(bot):
 
 async def set_chat_commands(bot: Bot):
     await bot.set_my_commands(commands=[
-        types.BotCommand(command="roll_casino", description="Casino"),
-        types.BotCommand(command="roll_cube", description="Cube"),
-        types.BotCommand(command="roll_huube", description="HUI"),
+        types.BotCommand(command="casino", description="/casino 'number"),
     ], scope=types.BotCommandScopeAllGroupChats())
 
 
