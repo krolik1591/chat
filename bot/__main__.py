@@ -31,7 +31,8 @@ async def main(bot):
     # dp.message.middleware(ThrottlingMiddleware())
     # dp.callback_query.middleware(ThrottlingMiddleware())
 
-    await set_bot_commands(bot)
+    await set_private_commands(bot)
+    await set_chat_commands(bot)
 
     await first_start()
 
@@ -42,11 +43,18 @@ async def main(bot):
         await bot.session.close()
 
 
-async def set_bot_commands(bot: Bot):
+async def set_chat_commands(bot: Bot):
     await bot.set_my_commands(commands=[
-        types.BotCommand(command="start", description="Перезапустить казино"),
-        types.BotCommand(command="add_promo", description="Додати промо"),
+        types.BotCommand(command="roll_casino", description="Casino"),
+        types.BotCommand(command="roll_cube", description="Cube"),
+        types.BotCommand(command="roll_huube", description="HUI"),
+    ], scope=types.BotCommandScopeAllGroupChats())
+
+
+async def set_private_commands(bot: Bot):
+    await bot.set_my_commands(commands=[
         types.BotCommand(command="my_promos", description="Мої промокоди"),
+        types.BotCommand(command="add_promo", description="Додати промо"),
     ], scope=types.BotCommandScopeAllPrivateChats())
 
 
