@@ -13,7 +13,6 @@ router = Router()
 
 @router.message(F.chat.type.in_(['group', 'supergroup']))
 async def on_user_join(message: types.Message, state: FSMContext):
-    print('on user join')
     try:
         new_chat_member_id = message.new_chat_members[0].id
     except TypeError:
@@ -21,6 +20,7 @@ async def on_user_join(message: types.Message, state: FSMContext):
 
     bot_id = state.bot.id
     if new_chat_member_id == bot_id:
+        print("bot added to chat")
         inviter_user_id = message.from_user.id
         admins = config.admin_ids
         if str(inviter_user_id) not in admins:
@@ -35,9 +35,29 @@ async def casino(message: types.Message):
     if not await db.is_user_exists(message.from_user.id):
         await db.add_new_user(message.from_user.id, message.from_user.username)
 
+    user_num = message.text.removeprefix("/casino")
+    try:
+        user_num = int(user_num)
+    except ValueError:
+        await message.answer("Ви маєте ввести /casino 'number' (де number - ціле число)")
+        return
 
-@router.message((F.chat.type.in_(['group', 'supergroup'])) and
-                (lambda message: message.dice.emoji in ['🎲', '🎯', '🏀', '⚽️', '🎰', '🎳', '🎯']))
+    random_num = random.randint(0, 100)
+    if user_num != random_num:
+        await message.answer(f"Ви програли, число було {random_num}")
+        return
+
+    available_promo = db.get_available_user_promo(message.from_user.id)
+    if not available_promo:
+        await message.answer("Ви виграли, але всі промокоди вже використані!")
+        return
+
+    await db.add_new_promo_to_user(message.from_user.id, available_promo[0])
+    await message.answer(f"Ви отримали промокод {available_promo[0]}")
+
+
+# available emoji for dice: 🎲, 🎯, 🏀, ⚽️, 🎰, 🎳, 🎯
+@router.message((F.chat.type.in_(['group', 'supergroup'])) and (lambda message: message.dice is not None))
 async def play(message: types.Message):
     print('play')
     try:
