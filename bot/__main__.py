@@ -16,10 +16,7 @@ from bot.utils.config_reader import config
 async def main(bot):
     logging.basicConfig(level=logging.WARNING)
 
-    if config.fsm_mode == "redis":
-        storage = RedisStorage.from_url(url=config.redis, connection_kwargs={"decode_responses": True})
-    else:
-        storage = MemoryStorage()
+    storage = MemoryStorage()
 
     dp = Dispatcher(storage=storage)
 

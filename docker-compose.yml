@@ -13,12 +13,3 @@ services:
             - redis
         ports:
             - "8080:8080"
-    redis:
-        image: redis:7
-        restart: "always"
-        volumes:
-            # Путь к каталогу с redis.conf
-            - "./redis/config:/usr/local/etc/redis"
-            # Путь к каталогу, где будет лежать дамп базы Redis
-            - "./redis/data:/data"
-        command: "redis-server /usr/local/etc/redis/redis.conf"
