@@ -1,4 +1,5 @@
 import random
+from pprint import pprint
 
 from aiogram import F, Router, types
 from aiogram.dispatcher.event.bases import SkipHandler
@@ -11,23 +12,16 @@ from bot.utils.config_reader import config
 router = Router()
 
 
-@router.message(F.chat.type.in_(['group', 'supergroup']))
-async def on_user_join(message: types.Message, state: FSMContext):
-    try:
-        new_chat_member_id = message.new_chat_members[0].id
-    except TypeError:
-        raise SkipHandler
-
+@router.my_chat_member(lambda member: member.new_chat_member.status == 'member')
+async def on_user_join(chat_member: types.ChatMemberUpdated, state: FSMContext):
     bot_id = state.bot.id
-    if new_chat_member_id == bot_id:
-        print("bot added to chat")
-        inviter_user_id = message.from_user.id
+    if chat_member.new_chat_member.user.id == bot_id:
+        inviter_user_id = chat_member.from_user.id
         admins = config.admin_ids
         if str(inviter_user_id) not in admins:
-            await message.answer("Тільки адмін може додавати бота в чат!")
-            await state.bot.leave_chat(message.chat.id)
+            await state.bot.send_message(chat_member.chat.id, "Тільки адмін може додавати бота!")
+            await state.bot.leave_chat(chat_member.chat.id)
             return
-    raise SkipHandler
 
 
 @router.message(Command("casino"))
