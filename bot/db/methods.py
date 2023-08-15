@@ -60,12 +60,22 @@ async def get_available_user_promo(user_id):
     return available_promo
 
 
+async def get_user_stats(user_id):
+    result = await GameLog.select(GameLog.game, fn.GROUP_CONCAT(GameLog.result).alias('results'))\
+        .where(GameLog.user_id == user_id)\
+        .group_by(GameLog.game).dicts()
+    return {i["game"]: str(i["results"]) for i in result}
+
+
 if __name__ == "__main__":
     import asyncio
 
     async def test():
         # x = await get_user_promos(357108179)
-        x = await add_new_promo_to_user(357108179, ' 152')
-        print(x, type(x))
+        # x = await add_new_promo_to_user(357108179, ' 152')
+        x = await get_user_stats(357108179)
+        text = f"Забито голів: {sum(1 for char in x['🎯'] if char in '345')}\n"
+
+        print(text, x)
 
     asyncio.run(test())

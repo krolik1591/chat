@@ -41,6 +41,7 @@ async def main(bot):
 async def set_chat_commands(bot: Bot):
     await bot.set_my_commands(commands=[
         types.BotCommand(command="casino", description="/casino 'number"),
+        types.BotCommand(command="stats", description="Cтатистика"),
     ], scope=types.BotCommandScopeAllGroupChats())
 
 
@@ -48,6 +49,7 @@ async def set_private_commands(bot: Bot):
     await bot.set_my_commands(commands=[
         types.BotCommand(command="my_promos", description="Мої промокоди"),
         types.BotCommand(command="add_promo", description="Додати промо"),
+        types.BotCommand(command="stats", description="Cтатистика"),
     ], scope=types.BotCommandScopeAllPrivateChats())
 
 
