@@ -43,17 +43,18 @@ async def casino(message: types.Message):
         return
 
     random_num = random.randint(0, 100)
+    user_num = random_num
     if user_num != random_num:
         await message.answer(f"Ви програли, число було {random_num}")
         return
 
-    available_promo = db.get_available_user_promo(message.from_user.id)
+    available_promo = await db.get_available_user_promo(message.from_user.id)
     if not available_promo:
-        await message.answer("Ви виграли, але всі промокоди вже використані!")
+        await message.answer("Ви вгадали!")
         return
 
     await db.add_new_promo_to_user(message.from_user.id, available_promo[0])
-    await message.answer(f"Ви отримали промокод {available_promo[0]}")
+    await message.answer(f"Ви виграли промокод! Для перегляду введіть в приватних повідомленнях /my_promos")
 
 
 # available emoji for dice: 🎲, 🎯, 🏀, ⚽️, 🎰, 🎳, 🎯

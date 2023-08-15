@@ -30,10 +30,7 @@ async def create_new_promo(admin_id, promo_name):
 
 async def add_new_promo_to_user(user_id, promo_name):
     active_promos = await get_user_promos(user_id)
-    if active_promos is None:
-        active_promos = []
-    else:
-        active_promos = json.loads(active_promos)
+    active_promos = json.loads(active_promos)
 
     active_promos.append(promo_name)
     json_promos = json.dumps(active_promos)
@@ -52,13 +49,13 @@ async def get_all_promos():
 async def get_user_promos(user_id):
     result = await User.select(User.active_promos).where(User.user_id == user_id).scalars()
     if result[0] is None:
-        return None
+        return json.dumps([])
     return result[0]
 
 
 async def get_available_user_promo(user_id):
     exist_promos = await get_all_promos()
-    active_user_promos = await get_user_promos(user_id)
+    active_user_promos = json.loads(await get_user_promos(user_id))
     available_promo = list(set(exist_promos).difference(active_user_promos))
     return available_promo
 

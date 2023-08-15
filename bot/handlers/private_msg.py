@@ -25,11 +25,14 @@ async def add_promo(message: types.Message):
         return
 
     await create_new_promo(message.from_user.id, promo_name.lstrip())
-    await message.answer(f'Промокод <code>{promo_name}</code> створено!')
+    await message.answer(f'Промокод<code>{promo_name}</code> створено!')
 
 
 @router.message(F.chat.type == "private", Command("my_promos"))
 async def my_promos(message: types.Message):
     active_promos = json.loads(await get_user_promos(message.from_user.id))
+    if not active_promos:
+        await message.answer('У вас немає промокодів!')
+        return
     text = '\n'.join(active_promos)
     await message.answer(f'Ваші промокоди:\n{text}')
