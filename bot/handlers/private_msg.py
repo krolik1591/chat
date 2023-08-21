@@ -9,7 +9,7 @@ from bot.utils.config_reader import config
 router = Router()
 
 
-@router.message(F.chat.type == "private", Command("add_promo"))
+@router.message(Command("add_promo"))
 async def add_promo(message: types.Message):
     admins = config.admin_ids
     if str(message.from_user.id) not in admins:
