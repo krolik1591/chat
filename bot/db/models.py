@@ -24,5 +24,5 @@ class GameLog(manager.Model):
 
 class Promocodes(manager.Model):
     promo_name = CharField()
-    who_create = BigIntegerField()
+    number_of_uses = BigIntegerField()
     timestamp_registered = IntegerField()

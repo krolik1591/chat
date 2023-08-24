@@ -15,17 +15,29 @@ async def add_promo(message: types.Message):
     if str(message.from_user.id) not in admins:
         return
 
-    promo_name = message.text.removeprefix('/add_promo')
-    if not promo_name:
+    promos_info = message.text.removeprefix('/add_promo').split(',')
+    if not promos_info:
         await message.answer("Введіть промо!")
         return
 
-    if await is_promo_in_db(promo_name):
-        await message.answer(f'Промо з назвою {promo_name} вже існує!')
-        return
+    for promo in promos_info:
+        promo_info = promo.lstrip().split(' ')
+        promo_name = promo_info[0]
+        try:
+            number_of_uses = int(promo_info[1])
+        except IndexError:
+            await message.answer("Формат введення: \n/add_promo promo_name1 number_of_uses1, promo_name2 number_of_uses2, ...")
+            return
+        except ValueError:
+            await message.answer("К-сть використань має бути цілим числом!")
+            return
 
-    await create_new_promo(message.from_user.id, promo_name.lstrip())
-    await message.answer(f'Промокод<code>{promo_name}</code> створено!')
+        if await is_promo_in_db(promo_name):
+            await message.answer(f'Промо з назвою {promo_name} вже існує!')
+            continue
+
+        await create_new_promo(promo_name, number_of_uses)
+        await message.answer(f'Промокод <code>{promo_name}</code> створено! К-сть використань: {number_of_uses}')
 
 
 @router.message(F.chat.type == "private", Command("my_promos"))

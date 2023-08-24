@@ -42,8 +42,8 @@ async def add_game_result(user_id, game, result):
 
 # promocodes
 
-async def create_new_promo(admin_id, promo_name):
-    return await Promocodes.create(promo_name=promo_name, who_create=admin_id, timestamp_registered=time.time())
+async def create_new_promo(promo_name, number_of_uses=1):
+    return await Promocodes.create(promo_name=promo_name, number_of_uses=number_of_uses, timestamp_registered=time.time())
 
 
 async def add_new_promo_to_user(user_id, promo_name):
