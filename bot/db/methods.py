@@ -1,5 +1,6 @@
 import json
 import time
+from collections import Counter
 
 from peewee import fn
 
@@ -47,9 +48,7 @@ async def create_new_promo(promo_name, number_of_uses=1):
 
 
 async def add_new_promo_to_user(user_id, promo_name):
-    active_promos = await get_user_promos(user_id)
-    active_promos = json.loads(active_promos)
-
+    active_promos = json.loads(await get_user_promos(user_id))
     active_promos.append(promo_name)
     json_promos = json.dumps(active_promos)
 
@@ -60,22 +59,27 @@ async def is_promo_in_db(promo_name):
     return await Promocodes.select().where(Promocodes.promo_name == promo_name).exists()
 
 
-async def get_all_promos():
-    return await Promocodes.select(Promocodes.promo_name).scalars()
+async def get_all_promos_and_num_of_uses():
+    promos = await Promocodes.select(Promocodes)
+    result = {promo.promo_name: promo.number_of_uses for promo in promos}
+    return result
 
 
 async def get_user_promos(user_id):
     result = await User.select(User.active_promos).where(User.user_id == user_id).scalars()
-    if result[0] is None:
+    if not result or result[0] is None:
         return json.dumps([])
     return result[0]
 
 
 async def get_available_user_promo(user_id):
-    exist_promos = await get_all_promos()
+    all_promos_and_uses = await get_all_promos_and_num_of_uses()
     active_user_promos = json.loads(await get_user_promos(user_id))
-    available_promo = list(set(exist_promos).difference(active_user_promos))
-    return available_promo
+    promos_count = Counter(active_user_promos)
+    for promo_name, count in promos_count.items():
+        if count >= all_promos_and_uses[promo_name]:
+            all_promos_and_uses.pop(promo_name)
+    return [promo_name for promo_name in all_promos_and_uses.keys()]
 
 
 async def get_user_stats(user_id):
@@ -91,8 +95,9 @@ if __name__ == "__main__":
     async def test():
         # x = await get_user_promos(357108179)
         # x = await add_new_promo_to_user(357108179, ' 152')
-        x = await get_username_by_id(357108179)
-
+        x = await add_new_promo_to_user(357108179, 'fewfger')
         print(x)
+        print(await get_available_user_promo(357108179))
+
 
     asyncio.run(test())

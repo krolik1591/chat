@@ -49,8 +49,8 @@ async def casino(message: types.Message):
     if not available_promo:
         await message.answer("Ви вгадали!")
         return
-
-    await db.add_new_promo_to_user(message.from_user.id, available_promo[0])
+    new_promo_name = random.choice(available_promo)
+    await db.add_new_promo_to_user(message.from_user.id, new_promo_name)
     await message.answer(f"Ви виграли промокод! Для перегляду введіть в приватних повідомленнях /my_promos")
 
 
