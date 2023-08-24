@@ -1,4 +1,5 @@
 import json
+from collections import Counter
 
 from aiogram import F, Router, types
 from aiogram.filters import Command, Text
@@ -46,5 +47,8 @@ async def my_promos(message: types.Message):
     if not active_promos:
         await message.answer('У вас немає промокодів!')
         return
-    text = '\n'.join(active_promos)
-    await message.answer(f'Ваші промокоди:\n{text}')
+
+    count_promos = Counter(active_promos)
+
+    text = '\n'.join([f'{promo_name}: {promo_count}' for promo_name, promo_count in count_promos.items()])
+    await message.answer(f'Ваші промокоди:\n\n{text}')

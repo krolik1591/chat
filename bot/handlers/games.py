@@ -81,9 +81,6 @@ async def stats(message: types.Message):
             player_lvl = name
             break
 
-    username = message.from_user.username if message.from_user.username is not None else \
-        await db.get_username_by_id(message.from_user.id)
-
     user_link = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
     text = f"{user_link} Твій результат:\n" \
            f"⚽ Забито голів: {football_point}\n" \
