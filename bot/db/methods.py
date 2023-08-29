@@ -89,15 +89,21 @@ async def get_user_stats(user_id):
     return {i["game"]: str(i["results"]) for i in result}
 
 
+async def get_user_casino_point(user_id):
+    result = await GameLog.select(fn.SUM(GameLog.result).alias('points'))\
+        .where(GameLog.user_id == user_id)\
+        .dicts()
+    return result[0]["points"] or 0
+
+
 if __name__ == "__main__":
     import asyncio
 
     async def test():
         # x = await get_user_promos(357108179)
         # x = await add_new_promo_to_user(357108179, ' 152')
-        x = await add_new_promo_to_user(357108179, 'fewfger')
+        x = await get_user_casino_point(357108179)
         print(x)
-        print(await get_available_user_promo(357108179))
 
 
     asyncio.run(test())

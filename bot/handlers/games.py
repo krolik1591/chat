@@ -54,26 +54,11 @@ async def casino(message: types.Message):
     await message.answer(f"Ви виграли промокод! Для перегляду введіть в приватних повідомленнях /my_promos")
 
 
-# available emoji for dice: 🎲, 🎯, 🏀, ⚽️, 🎰, 🎳
-@router.message((F.chat.type.in_(['group', 'supergroup'])) and (lambda message: message.dice is not None))
-async def play(message: types.Message):
-    print('play')
-    try:
-        dice_value = message.dice.value
-        emoji = message.dice.emoji
-    except AttributeError:
-        return
-    await message.answer('Тут буде текст')
-
-    await add_user_to_db(message.from_user.id, message.from_user.username)
-
-    await db.add_game_result(message.from_user.id, emoji, dice_value)
-
-
 @router.message(Command("stats"))
 async def stats(message: types.Message):
     await db.update_username(message.from_user.id, message.from_user.username)
-    bowling_point, football_point, basket_point, points_sum, bowling_strike = await get_user_stats(message.from_user.id)
+    bowling_point, football_point, basket_point, points_sum, bowling_strike, casino_point = await get_user_stats(
+        message.from_user.id)
 
     player_lvl = ''
     for point, name in PLAYER_LVLS.items():
@@ -83,6 +68,7 @@ async def stats(message: types.Message):
 
     user_link = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
     text = f"{user_link} Твій результат:\n" \
+           f"🎰 Виграно поінтів в казино: {casino_point}\n" \
            f"⚽ Забито голів: {football_point}\n" \
            f"🏀 Закинуто м'ячів: {basket_point}\n" \
            f"🎳 Збито кеглів: {bowling_point}\n" \
@@ -103,7 +89,7 @@ async def admin_stats(message: types.Message):
 
     user_ids = await db.get_unique_users()
     for user_id in user_ids:
-        _, _, _, points_sum, _ = await get_user_stats(user_id)
+        _, _, _, points_sum, _, _ = await get_user_stats(user_id)
         result[user_id] = points_sum
 
     sorted_result = dict(sorted(result.items(), key=lambda item: item[1], reverse=True))
@@ -128,10 +114,14 @@ async def roll_command(message: types.Message, state: FSMContext):
     msg = await message.answer_dice(emoji=game_emoji)
     await asyncio.sleep(DELAY_BEFORE_SEND_RESULT)
 
-    await db.add_game_result(message.from_user.id, game_emoji, msg.dice.value)
+    text, value = get_dice_text(game_emoji, msg.dice.value)
 
-    text = get_dice_text(game_emoji, msg.dice.value)
-    await message.answer(text)
+    if game_emoji == '🎰':
+        await db.add_game_result(message.from_user.id, game_emoji, value)
+    else:
+        await db.add_game_result(message.from_user.id, game_emoji, msg.dice.value)
+
+    await message.reply(text)
 
 
 @router.callback_query(Text(startswith="roll_"))
@@ -146,10 +136,14 @@ async def roll_btn(call: types.CallbackQuery, state: FSMContext):
     msg = await call.message.answer_dice(emoji=game_emoji)
     await asyncio.sleep(DELAY_BEFORE_SEND_RESULT)
 
-    await db.add_game_result(call.from_user.id, game_emoji, msg.dice.value)
+    text, value = get_dice_text(game_emoji, msg.dice.value)
 
-    text = get_dice_text(game_emoji, msg.dice.value)
-    await call.message.answer(text)
+    if game_emoji == '🎰':
+        await db.add_game_result(call.from_user.id, game_emoji, value)
+    else:
+        await db.add_game_result(call.from_user.id, game_emoji, msg.dice.value)
+
+    await call.message.reply(text)
 
 
 @router.message(Command("games"))
@@ -170,6 +164,7 @@ async def games(message: types.Message):
 
 async def get_user_stats(user_id):
     all_stats = await db.get_user_stats(user_id)
+    casino_point = await db.get_user_casino_point(user_id)
 
     bowling_stat = all_stats.get('🎳', '')
     bowling_strike = bowling_stat.count('6')
@@ -180,9 +175,9 @@ async def get_user_stats(user_id):
                     bowling_stat.count('6') * 6
     football_point = sum(1 for char in all_stats.get('⚽', '') if char in '345')
     basket_point = sum(1 for char in all_stats.get('🏀', '') if char in '45')
-    points_sum = bowling_point + football_point + basket_point
+    points_sum = bowling_point + football_point + basket_point + casino_point
 
-    return bowling_point, football_point, basket_point, points_sum, bowling_strike
+    return bowling_point, football_point, basket_point, points_sum, bowling_strike, casino_point
 
 
 async def add_user_to_db(user_id, username):

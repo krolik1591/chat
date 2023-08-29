@@ -1,9 +1,9 @@
-from bot.consts.casino_check import get_casino_text
+from bot.consts.casino_check import get_casino_result
 
 
 def get_dice_text(emoji, dice_value):
     if emoji == '🎰':
-        return get_casino_text(dice_value)
+        return get_casino_result(dice_value)
 
     GAMES_TEXTS = {
         '🎳': BOWLING_TEXTS,
