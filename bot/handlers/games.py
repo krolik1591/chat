@@ -9,12 +9,22 @@ from aiogram.filters import Command, Text
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+from bot.consts.casino_check import get_casino_result
 from bot.consts.dice_texts import get_dice_text
 from bot.consts.const import DELAY_BEFORE_SEND_RESULT, GAMES_LIST, PLAYER_LVLS
 from bot.db import methods as db
 from bot.utils.config_reader import config
 
 router = Router()
+
+KB_GAMES = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text='🎲', callback_data="roll_cube"),
+     InlineKeyboardButton(text='🎯', callback_data="roll_darts"),
+     InlineKeyboardButton(text='🏀', callback_data="roll_basket")],
+    [InlineKeyboardButton(text='⚽', callback_data="roll_football"),
+     InlineKeyboardButton(text='🎳', callback_data="roll_bowling"),
+     InlineKeyboardButton(text='🎰', callback_data="roll_casino")],
+])
 
 
 @router.my_chat_member(lambda member: member.new_chat_member.status == 'member')
@@ -36,11 +46,13 @@ async def casino(message: types.Message):
     user_num = message.text.removeprefix("/casino")
     try:
         user_num = int(user_num)
+        if not 1 <= user_num <= 100:
+            raise ValueError
     except ValueError:
-        await message.answer("Ви маєте ввести /casino 'number' (де number - ціле число)")
+        await message.answer("Ви маєте ввести /casino 'number' (де number - ціле число від 1 до 100)")
         return
 
-    random_num = random.randint(0, 100)
+    random_num = random.randint(1, 100)
     if user_num != random_num:
         await message.answer(f"Ви програли, число було {random_num}")
         return
@@ -110,18 +122,7 @@ async def roll_command(message: types.Message, state: FSMContext):
     bot_username = '@' + (await state.bot.me()).username
     game = message.text.removeprefix("/roll_").removesuffix(bot_username)
 
-    game_emoji = GAMES_LIST[game]
-    msg = await message.answer_dice(emoji=game_emoji)
-    await asyncio.sleep(DELAY_BEFORE_SEND_RESULT)
-
-    text, value = get_dice_text(game_emoji, msg.dice.value)
-
-    if game_emoji == '🎰':
-        await db.add_game_result(message.from_user.id, game_emoji, value)
-    else:
-        await db.add_game_result(message.from_user.id, game_emoji, msg.dice.value)
-
-    await message.reply(text)
+    await do_game(game, message, message.from_user)
 
 
 @router.callback_query(Text(startswith="roll_"))
@@ -131,35 +132,32 @@ async def roll_btn(call: types.CallbackQuery, state: FSMContext):
     await add_user_to_db(call.from_user.id, call.from_user.username)
 
     game = call.data.removeprefix("roll_")
+    await do_game(game, call.message, call.from_user)
 
+
+async def do_game(game, message: types.Message, user: types.User):
     game_emoji = GAMES_LIST[game]
-    msg = await call.message.answer_dice(emoji=game_emoji)
+    msg = await message.answer_dice(emoji=game_emoji)
     await asyncio.sleep(DELAY_BEFORE_SEND_RESULT)
 
-    text, value = get_dice_text(game_emoji, msg.dice.value)
-
     if game_emoji == '🎰':
-        await db.add_game_result(call.from_user.id, game_emoji, value)
+        text, value = get_casino_result(msg.dice.value)
+        await db.add_game_result(user.id, game_emoji, value)
     else:
-        await db.add_game_result(call.from_user.id, game_emoji, msg.dice.value)
+        text = get_dice_text(game_emoji, msg.dice.value)
+        await db.add_game_result(user.id, game_emoji, msg.dice.value)
 
-    await call.message.reply(text)
+    link = f'<a href="tg://user?id={user.id}">{user.first_name}</a>\n'
+    await msg.reply(link+text, reply_markup=KB_GAMES)
+
+
+
 
 
 @router.message(Command("games"))
 async def games(message: types.Message):
     text = 'Список доступних ігор:'
-    kb = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text='🎲', callback_data="roll_cube"),
-         InlineKeyboardButton(text='🎯', callback_data="roll_darts"),
-         InlineKeyboardButton(text='🏀', callback_data="roll_basket")],
-        [InlineKeyboardButton(text='⚽', callback_data="roll_football"),
-         InlineKeyboardButton(text='🎳', callback_data="roll_bowling"),
-         InlineKeyboardButton(text='🎰', callback_data="roll_casino")],
-
-    ])
-
-    await message.answer(text, reply_markup=kb)
+    await message.answer(text, reply_markup=KB_GAMES)
 
 
 async def get_user_stats(user_id):
